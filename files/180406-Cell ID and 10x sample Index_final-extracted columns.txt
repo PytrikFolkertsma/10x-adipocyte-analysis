@@ -1,0 +1,15 @@
+Sample name (Single Cell ID)	Subject ID	Cell ID	Diff 	UCP1 ctrl 	UCP1 NE 	BMI	SEX	AGE	 10X sample index
+Supra_1	Tyr04	12 AG	20%	medium 	High	21,6	F	48	F2
+Supra_2	Tyr32	56 Ag	25%	medium 	High	24,2	F	51	F4
+Supra_3	Tyr36	75 AG	55%	medium 	High 	19,7	F	62	F11
+Subq_1	Tyr04	11 AG	85%	low	low	21,6	F	47	F1
+Subq_2	Tyr32	55 Ag	35%	low	low 	24,2	F	51	F3
+Subq_3	Tyr36	76 Ag	80%	low	low	19,7	F	62	F12
+Peri_1	20 AF	20 AF	70%	low	medium 	27,7	F	44	F5
+Peri_2	72 AF	72 AF	60%	low	medium 	22,3	F	60	F7
+Peri_3	94 F	95 F	40%	low	medium 	24,8	F	57	F9
+Visce_1	34B	34B	15%	low	low	< 25	F	34	F8
+Visce_2	29B	29B	20%	low	low	< 25	F	29	F6
+Visce_3	58B	58B	15%	low	low	< 25	F	41	F10
+Supra_4 (BAT8)	BAT7	BAT8	80%	medium 	high	26	F	43	 SI-GA-C3
+Subq_4 (44BSAT)	44B	44B	80%	low	low	21	F	60	SI-GA-C4
