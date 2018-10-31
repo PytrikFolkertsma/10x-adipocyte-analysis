@@ -1,0 +1,147 @@
+During startup - Warning message:
+Setting LC_CTYPE failed, using "C" 
+Loading required package: ggplot2
+Loading required package: cowplot
+
+Attaching package: 'cowplot'
+
+The following object is masked from 'package:ggplot2':
+
+    ggsave
+
+Loading required package: Matrix
+[1] "LOADING DATA"
+[1] ">>>SPLITTING DATASET ON GIVEN COLUMN NAME"
+[1] "Subsets:"
+ [1] Supra_4 Subq_4  Supra_1 Supra_2 Supra_3 Subq_1  Subq_2  Subq_3  Peri_1 
+[10] Peri_2  Peri_3  Visce_1 Visce_2 Visce_3
+14 Levels: Peri_1 Peri_2 Peri_3 Subq_1 Subq_2 Subq_3 Subq_4 Supra_1 ... Visce_3
+[1] "1 - splitting data and finding variable genes for Supra_4"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "2 - splitting data and finding variable genes for Subq_4"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "3 - splitting data and finding variable genes for Supra_1"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "4 - splitting data and finding variable genes for Supra_2"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "5 - splitting data and finding variable genes for Supra_3"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "6 - splitting data and finding variable genes for Subq_1"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "7 - splitting data and finding variable genes for Subq_2"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "8 - splitting data and finding variable genes for Subq_3"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "9 - splitting data and finding variable genes for Peri_1"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "10 - splitting data and finding variable genes for Peri_2"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "11 - splitting data and finding variable genes for Peri_3"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "12 - splitting data and finding variable genes for Visce_1"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "13 - splitting data and finding variable genes for Visce_2"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "14 - splitting data and finding variable genes for Visce_3"
+Calculating gene means
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating gene variance to mean ratios
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+[1] "Nr of variable genes: 3973"
+[1] ">>>RUNNING MULTICCA"
+[1] "Computing CC 1"

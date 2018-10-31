@@ -1,6 +1,6 @@
 ################################################################################
 #
-# Regresses out the effects of cell cycle of a given Seurat object. 
+# Regresses out the effects of cell cycle of a given Seurat object.
 # object. Saves the regressed out data as filename-ccregout'.
 #
 ################################################################################
@@ -31,16 +31,16 @@ print('Regressing out cell cycle effects...')
 data <- ScaleData(data, vars.to.regress = c("S.Score", "G2M.Score", "nUMI", "percent.mito"))
 
 print('Running PCA...')
-data <- RunPCA(data, pcs.compute=n.pcs)
+data <- RunPCA(data, pcs.compute=30)
 
 print('Running clustering...')
 for (res in resolutions){
-  seurobj <- FindClusters(seurobj, reduction.type = "pca", dims.use = 1:opt$npcs, resolution = res, print.output = 0, save.SNN = TRUE)
+  data <- FindClusters(data, reduction.type = "pca", dims.use = 1:opt$npcs, resolution = res, print.output = 0, save.SNN = TRUE)
 }
 
 print('Running tSNE...')
 data <- RunTSNE(data, reduction.use='pca', dims.use=1:opt$npcs)
 
-print(paste('Saving dataset: ../output/', opt$file, '-ccregout', sep=''))
-saveRDS(data, paste('../output/', opt$file, '-ccregout', sep=''))
+print(paste('Saving dataset: ', opt$file, '-ccregout', sep=''))
+saveRDS(data, paste(opt$file, '-ccregout', sep=''))
 
