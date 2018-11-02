@@ -11,7 +11,8 @@ navbar:
       href: license.html
   right:
     - icon: fa-github
-      href: https://github.com/jdblischak/workflowr
+      text: "Source"
+      href: https://github.com/PytrikFolkertsma/10x-adipocyte-analysis
 output:
   workflowr::wflow_html:
     toc: true
