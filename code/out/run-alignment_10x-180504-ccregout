@@ -145,3 +145,523 @@ Calculating gene variance to mean ratios
 [1] "Nr of variable genes: 3973"
 [1] ">>>RUNNING MULTICCA"
 [1] "Computing CC 1"
+[1] "Computing CC 2"
+[1] "Computing CC 3"
+[1] "Computing CC 4"
+[1] "Computing CC 5"
+[1] "Computing CC 6"
+[1] "Computing CC 7"
+[1] "Computing CC 8"
+[1] "Computing CC 9"
+[1] "Computing CC 10"
+[1] "Computing CC 11"
+[1] "Computing CC 12"
+[1] "Computing CC 13"
+[1] "Computing CC 14"
+[1] "Computing CC 15"
+[1] "Computing CC 16"
+[1] "Computing CC 17"
+[1] "Computing CC 18"
+[1] "Computing CC 19"
+[1] "Computing CC 20"
+[1] "Computing CC 21"
+[1] "Computing CC 22"
+[1] "Computing CC 23"
+[1] "Computing CC 24"
+[1] "Computing CC 25"
+[1] "Computing CC 26"
+[1] "Computing CC 27"
+[1] "Computing CC 28"
+[1] "Computing CC 29"
+[1] "Computing CC 30"
+Performing log-normalization
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   4%  |                                                                              |======                                                                |   8%  |                                                                              |========                                                              |  12%  |                                                                              |===========                                                           |  16%  |                                                                              |==============                                                        |  20%  |                                                                              |=================                                                     |  24%  |                                                                              |====================                                                  |  28%  |                                                                              |======================                                                |  32%  |                                                                              |=========================                                             |  36%  |                                                                              |============================                                          |  40%  |                                                                              |===============================                                       |  44%  |                                                                              |==================================                                    |  48%  |                                                                              |====================================                                  |  52%  |                                                                              |=======================================                               |  56%  |                                                                              |==========================================                            |  60%  |                                                                              |=============================================                         |  64%  |                                                                              |================================================                      |  68%  |                                                                              |==================================================                    |  72%  |                                                                              |=====================================================                 |  76%  |                                                                              |========================================================              |  80%  |                                                                              |===========================================================           |  84%  |                                                                              |==============================================================        |  88%  |                                                                              |================================================================      |  92%  |                                                                              |===================================================================   |  96%  |                                                                              |======================================================================| 100%
+[1] ">>>ALIGNING SUBSPACES"
+[1] "Discarding cells whose expression profile cannot be well explained by low-dim CCA compared to low-dim PCA..."
+Calculating for Supra_4 
+	 Separating Supra_4 cells
+	 Running Dimensional Reduction 
+Calculating for Subq_4 
+	 Separating Subq_4 cells
+	 Running Dimensional Reduction 
+Calculating for Supra_1 
+	 Separating Supra_1 cells
+	 Running Dimensional Reduction 
+Calculating for Supra_2 
+	 Separating Supra_2 cells
+	 Running Dimensional Reduction 
+Calculating for Supra_3 
+	 Separating Supra_3 cells
+	 Running Dimensional Reduction 
+Calculating for Subq_1 
+	 Separating Subq_1 cells
+	 Running Dimensional Reduction 
+Calculating for Subq_2 
+	 Separating Subq_2 cells
+	 Running Dimensional Reduction 
+Calculating for Subq_3 
+	 Separating Subq_3 cells
+	 Running Dimensional Reduction 
+Calculating for Peri_1 
+	 Separating Peri_1 cells
+	 Running Dimensional Reduction 
+Calculating for Peri_2 
+	 Separating Peri_2 cells
+	 Running Dimensional Reduction 
+Calculating for Peri_3 
+	 Separating Peri_3 cells
+	 Running Dimensional Reduction 
+Calculating for Visce_1 
+	 Separating Visce_1 cells
+	 Running Dimensional Reduction 
+Calculating for Visce_2 
+	 Separating Visce_2 cells
+	 Running Dimensional Reduction 
+Calculating for Visce_3 
+	 Separating Visce_3 cells
+	 Running Dimensional Reduction 
+There were 14 warnings (use warnings() to see them)
+[1] "Saving object discarded cells in output folder as ../output/10x-180504-ccregout-cca-discardedcells"
+[1] "Aligning subspaces on 30 CCs..."
+Rescaling group 1
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   4%  |                                                                              |======                                                                |   8%  |                                                                              |========                                                              |  12%  |                                                                              |===========                                                           |  16%  |                                                                              |==============                                                        |  20%  |                                                                              |=================                                                     |  24%  |                                                                              |====================                                                  |  28%  |                                                                              |======================                                                |  32%  |                                                                              |=========================                                             |  36%  |                                                                              |============================                                          |  40%  |                                                                              |===============================                                       |  44%  |                                                                              |==================================                                    |  48%  |                                                                              |====================================                                  |  52%  |                                                                              |=======================================                               |  56%  |                                                                              |==========================================                            |  60%  |                                                                              |=============================================                         |  64%  |                                                                              |================================================                      |  68%  |                                                                              |==================================================                    |  72%  |                                                                              |=====================================================                 |  76%  |                                                                              |========================================================              |  80%  |                                                                              |===========================================================           |  84%  |                                                                              |==============================================================        |  88%  |                                                                              |================================================================      |  92%  |                                                                              |===================================================================   |  96%  |                                                                              |======================================================================| 100%
+Rescaling group 2
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   4%  |                                                                              |======                                                                |   8%  |                                                                              |========                                                              |  12%  |                                                                              |===========                                                           |  16%  |                                                                              |==============                                                        |  20%  |                                                                              |=================                                                     |  24%  |                                                                              |====================                                                  |  28%  |                                                                              |======================                                                |  32%  |                                                                              |=========================                                             |  36%  |                                                                              |============================                                          |  40%  |                                                                              |===============================                                       |  44%  |                                                                              |==================================                                    |  48%  |                                                                              |====================================                                  |  52%  |                                                                              |=======================================                               |  56%  |                                                                              |==========================================                            |  60%  |                                                                              |=============================================                         |  64%  |                                                                              |================================================                      |  68%  |                                                                              |==================================================                    |  72%  |                                                                              |=====================================================                 |  76%  |                                                                              |========================================================              |  80%  |                                                                              |===========================================================           |  84%  |                                                                              |==============================================================        |  88%  |                                                                              |================================================================      |  92%  |                                                                              |===================================================================   |  96%  |                                                                              |======================================================================| 100%
+Rescaling group 3
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   4%  |                                                                              |======                                                                |   8%  |                                                                              |========                                                              |  12%  |                                                                              |===========                                                           |  16%  |                                                                              |==============                                                        |  20%  |                                                                              |=================                                                     |  24%  |                                                                              |====================                                                  |  28%  |                                                                              |======================                                                |  32%  |                                                                              |=========================                                             |  36%  |                                                                              |============================                                          |  40%  |                                                                              |===============================                                       |  44%  |                                                                              |==================================                                    |  48%  |                                                                              |====================================                                  |  52%  |                                                                              |=======================================                               |  56%  |                                                                              |==========================================                            |  60%  |                                                                              |=============================================                         |  64%  |                                                                              |================================================                      |  68%  |                                                                              |==================================================                    |  72%  |                                                                              |=====================================================                 |  76%  |                                                                              |========================================================              |  80%  |                                                                              |===========================================================           |  84%  |                                                                              |==============================================================        |  88%  |                                                                              |================================================================      |  92%  |                                                                              |===================================================================   |  96%  |                                                                              |======================================================================| 100%
+Rescaling group 4
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   4%  |                                                                              |======                                                                |   8%  |                                                                              |========                                                              |  12%  |                                                                              |===========                                                           |  16%  |                                                                              |==============                                                        |  20%  |                                                                              |=================                                                     |  24%  |                                                                              |====================                                                  |  28%  |                                                                              |======================                                                |  32%  |                                                                              |=========================                                             |  36%  |                                                                              |============================                                          |  40%  |                                                                              |===============================                                       |  44%  |                                                                              |==================================                                    |  48%  |                                                                              |====================================                                  |  52%  |                                                                              |=======================================                               |  56%  |                                                                              |==========================================                            |  60%  |                                                                              |=============================================                         |  64%  |                                                                              |================================================                      |  68%  |                                                                              |==================================================                    |  72%  |                                                                              |=====================================================                 |  76%  |                                                                              |========================================================              |  80%  |                                                                              |===========================================================           |  84%  |                                                                              |==============================================================        |  88%  |                                                                              |================================================================      |  92%  |                                                                              |===================================================================   |  96%  |                                                                              |======================================================================| 100%
+Rescaling group 5
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   4%  |                                                                              |======                                                                |   8%  |                                                                              |========                                                              |  12%  |                                                                              |===========                                                           |  16%  |                                                                              |==============                                                        |  20%  |                                                                              |=================                                                     |  24%  |                                                                              |====================                                                  |  28%  |                                                                              |======================                                                |  32%  |                                                                              |=========================                                             |  36%  |                                                                              |============================                                          |  40%  |                                                                              |===============================                                       |  44%  |                                                                              |==================================                                    |  48%  |                                                                              |====================================                                  |  52%  |                                                                              |=======================================                               |  56%  |                                                                              |==========================================                            |  60%  |                                                                              |=============================================                         |  64%  |                                                                              |================================================                      |  68%  |                                                                              |==================================================                    |  72%  |                                                                              |=====================================================                 |  76%  |                                                                              |========================================================              |  80%  |                                                                              |===========================================================           |  84%  |                                                                              |==============================================================        |  88%  |                                                                              |================================================================      |  92%  |                                                                              |===================================================================   |  96%  |                                                                              |======================================================================| 100%
+Rescaling group 6
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+Rescaling group 7
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+Rescaling group 8
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+Rescaling group 9
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+Rescaling group 10
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+Rescaling group 11
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+Rescaling group 12
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+Rescaling group 13
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+Rescaling group 14
+Scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 1
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 2
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 3
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 4
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 5
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 6
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 7
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 8
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 9
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 10
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 11
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 12
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 13
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 14
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 15
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 16
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 17
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 18
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 19
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 20
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 21
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 22
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 23
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 24
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 25
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 26
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 27
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 28
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 29
+Aligning dimension 30
+Aligning dimension 30
+Aligning dimension 30
+Aligning dimension 30
+Aligning dimension 30
+Aligning dimension 30
+Aligning dimension 30
+Aligning dimension 30
+Aligning dimension 30
+Aligning dimension 30
+Aligning dimension 30
+Aligning dimension 30
+Aligning dimension 30
+[1] ">>>RUNNING TSNE"
+ - point 10000 of 46829
+ - point 20000 of 46829
+ - point 30000 of 46829
+ - point 40000 of 46829
+[1] ">>>SAVING SEURAT OBJECT"

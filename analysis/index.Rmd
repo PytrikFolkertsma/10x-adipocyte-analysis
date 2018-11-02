@@ -8,4 +8,9 @@ output:
 
 Welcome to my research website.
 
-Click on this [link](10x-180504-general-analysis.html) to see my results.
+Notebooks:
+<ol>
+<li>[10x-180504-general-analysis.html](10x-180504-general-analysis.html)</li>
+<li>[10x-180504-alignment.html](10x-180504-alignment.html)</li>
+</ol>
+

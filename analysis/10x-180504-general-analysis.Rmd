@@ -14,7 +14,9 @@ Analysis of the 10x samples: &nbsp;
 - PCA &nbsp;
 - Alignment &nbsp;
 - Marker gene expression &nbsp;
-- tSNE colored on metadata
+- tSNE colored on metadata &nbsp;&nbsp;
+
+Loading the required packages and datasets. 
 
 ```{r}
 library(Seurat)
@@ -23,8 +25,6 @@ library(dplyr)
 
 all10x <- readRDS('output/10x-180504')
 all10x.ccregout <- readRDS('output/10x-180504-ccregout')
-#all10x.aligned <- readRDS('../output/10x-180504-aligned')
-#all10x.aligned.ccregout <- readRDS('../output/10x-180504-ccregout-aligned')
 ```
 
 #QC Plots
@@ -46,7 +46,7 @@ GenePlot(all10x, 'nUMI', 'nGene')
 ```
 
 
-#TSNE
+#TSNE 
 
 Below are several tSNE plots of the 10x-180504 data. tSNE was performed on the first 15 principal components of the log-normalized scaled (nUMI and percent.mito regressed out) data.
 
@@ -105,10 +105,6 @@ res=1
 TSNEPlot(all10x, pt.size=0.1, group.by='res.1', do.label=T)
 ```
 
-```{r}
-TSNEPlot(all10x, pt.size=0.1, group.by='sample_name', do.label=T)
-```
-
 
 #Cell cycle regression
 
@@ -143,7 +139,6 @@ plot_grid(t1, t2, t3, t4)
 TSNEPlot(all10x.ccregout, pt.size=0.1, group.by='depot')
 ```
 
-
 #PCA
 
 Some PCA plots. PC1 seems to capture cell cycle effects, and PC2 seems to capture some of the sample variability. 
@@ -164,41 +159,6 @@ PCAPlot(all10x.ccregout, group.by='Phase', pt.size=0.1)
 
 ```{r}
 PCAPlot(all10x.ccregout, group.by='sample_name', pt.size=0.1)
-```
-
-#Alignment
-
-Alignment of the data with and without cell cycle effects regressed out. Both were aligned on 30 subspaces, tSNE was performed on the first 15 CCs. 
-
-tSNE of the aligned data.
-
-```{r}
-#TSNEPlot(all10x.aligned, group.by='sample_name', pt.size=0.1)
-```
-
-tSNE of the aligned data coloured on cell cycle phase.
-
-```{r}
-#TSNEPlot(all10x.aligned, group.by='Phase', pt.size=0.1)
-```
-
-
-tSNE of the aligned data with cell cycle effects regressed out.
-
-```{r}
-#TSNEPlot(all10x.aligned.ccregout, group.by='sample_name', pt.size=0.1)
-```
-
-tSNE of the aligned data with cell cycle effects regressed out, colored by phase.
-
-```{r}
-#TSNEPlot(all10x.aligned.ccregout, group.by='Phase', pt.size=0.1)
-```
-
-tSNE of the aligned data with cell cycle effects regressed out, colored by subtissue
-
-```{r}
-#TSNEPlot(all10x.aligned.ccregout, group.by='sample_name2', pt.size=0.1)
 ```
 
 
@@ -281,14 +241,14 @@ rotate_x((cluster12@meta.data %>% count(sample_name))[,2], 'n', as.vector(unlist
 
 #Figures for report
 
-```{r echo=T, results='hide', include=FALSE}
+```{r echo=T, results='hide', include=F}
 fig1 <- plot_grid(
   PCAPlot(all10x, group.by='Phase', pt.size=0.1),
   TSNEPlot(all10x, group.by='sample_name', pt.size=0.1),
   TSNEPlot(all10x, group.by='Phase', pt.size=0.1),
   TSNEPlot(all10x.ccregout, group.by='sample_name', pt.size=0.1),
   labels = c('a', 'b', 'c', 'd'), nrow = 2)
-save_plot("plots/fig1_180504.pdf", fig1, base_width=12, base_height = 9)
+save_plot("plots/180504_pca_tsne.pdf", fig1, base_width=12, base_height = 9)
 ```
 
 
@@ -304,7 +264,13 @@ sfig1 <- plot_grid(
   VlnPlot(all10x, group.by='sample_name', features.plot=c('percent.mito'), point.size.use = -1, x.lab.rot=T, size.x.use=8), 
   labels=c('a', 'b', 'c'), nrow=1
 )
-save_plot("plots/sfig1_180504_qcplots.pdf", sfig1, base_width=12, base_height=3)
+save_plot("plots/supplementary_figures/sfig_180504_qcplots.pdf", sfig1, base_width=12, base_height=3)
 sfig1
+```
+
+```{r}
+sfig2 <- plot_grid(PCElbowPlot(all10x, num.pc=50))
+save_plot("plots/supplementary_figures/sfig_180504_pcelbow.pdf", sfig2, base_width=8, base_height=5)
+sfig2
 ```
 

@@ -319,12 +319,11 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-10-30</p>
+<p><strong>Last updated:</strong> 2018-11-02</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </details>
 </li>
 <li>
@@ -343,19 +342,20 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/f7080f1532d8fb8c8acb22d5e540da898cd2336a" target="_blank">f7080f1</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/d8102650a6c4e16b7cd3578d201fd4718a44424e" target="_blank">d810265</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
-Ignored files:
-    Ignored:    docs/figure/
-
 Untracked files:
-    Untracked:  code/out/
-    Untracked:  code/run-alignment.R
-    Untracked:  plots/
+    Untracked:  analysis/10x-180504-alignment.Rmd
+    Untracked:  plots/180504_pca_tsne.pdf
+    Untracked:  plots/supplementary_figures/
 
 Unstaged changes:
-    Modified:   code/regressout-cellcycle.R
+    Modified:   analysis/10x-180504-general-analysis.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   code/out/run-alignment_10x-180504-ccregout
+    Deleted:    plots/fig1_180504.pdf
+    Deleted:    plots/sfig1_180504_qcplots.pdf
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -386,6 +386,23 @@ Message
 <tbody>
 <tr>
 <td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/10x-180504-general-analysis.html" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 Rmd
 </td>
 <td style="text-align:left;">
@@ -406,7 +423,8 @@ wflow_publish(c(“analysis/10x-180504-general-analysis.Rmd”,
 </ul>
 <p></details></p>
 <hr />
-<p>Analysis of the 10x samples:   - tSNE plots   - Cell cycle regression   - PCA   - Alignment   - Marker gene expression   - tSNE colored on metadata</p>
+<p>Analysis of the 10x samples:   - tSNE plots   - Cell cycle regression   - PCA   - Alignment   - Marker gene expression   - tSNE colored on metadata   </p>
+<p>Loading the required packages and datasets.</p>
 <pre class="r"><code>library(Seurat)</code></pre>
 <pre><code>Loading required package: ggplot2</code></pre>
 <pre><code>Loading required package: cowplot</code></pre>
@@ -427,19 +445,137 @@ Attaching package: &#39;dplyr&#39;</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>all10x &lt;- readRDS(&#39;output/10x-180504&#39;)
-all10x.ccregout &lt;- readRDS(&#39;output/10x-180504-ccregout&#39;)
-#all10x.aligned &lt;- readRDS(&#39;../output/10x-180504-aligned&#39;)
-#all10x.aligned.ccregout &lt;- readRDS(&#39;../output/10x-180504-ccregout-aligned&#39;)</code></pre>
+all10x.ccregout &lt;- readRDS(&#39;output/10x-180504-ccregout&#39;)</code></pre>
 <div id="qc-plots" class="section level1">
 <h1>QC Plots</h1>
 <pre class="r"><code>VlnPlot(all10x, features.plot=&#39;nGene&#39;, group.by=&#39;sample_name&#39;, point.size.use=-1, x.lab.rot=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-2-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>VlnPlot(all10x, features.plot=&#39;nUMI&#39;, group.by=&#39;sample_name&#39;, point.size.use=-1, x.lab.rot=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-3-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-3-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>VlnPlot(all10x, features.plot=&#39;percent.mito&#39;, group.by=&#39;sample_name&#39;, point.size.use=-1, x.lab.rot=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-4-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>GenePlot(all10x, &#39;nUMI&#39;, &#39;nGene&#39;)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-5-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="tsne" class="section level1">
 <h1>TSNE</h1>
@@ -447,103 +583,747 @@ all10x.ccregout &lt;- readRDS(&#39;output/10x-180504-ccregout&#39;)
 <p>Visceral and perirenal seem a bit mixed, and supraclavicular and subcutaneous too.</p>
 <pre class="r"><code>TSNEPlot(all10x, pt.size=0.1, group.by=&#39;sample_name&#39;, do.label=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-6-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-6-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>tSNE plots of samples within their depot. Peri2 and Peri3 seem to overlap really well, as well as Supra1 and Supra2, and Visce1 and Visce3.</p>
 <pre class="r"><code>plot_grid(t1, t2, t3, t4)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-8-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-8-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>tSNE colored on subtissue.</p>
 <pre class="r"><code>TSNEPlot(all10x, group.by=&#39;depot&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-9-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-9-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>tSNE colored by cell cycle phase.</p>
 <pre class="r"><code>TSNEPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-10-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="clusters" class="section level1">
 <h1>Clusters</h1>
 <p>Some clustering with different resolutions. res=0.5</p>
 <pre class="r"><code>TSNEPlot(all10x, pt.size=0.1, group.by=&#39;res.0.5&#39;, do.label=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-11-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-11-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>res=0.7</p>
 <pre class="r"><code>TSNEPlot(all10x, pt.size=0.1, group.by=&#39;res.0.7&#39;, do.label=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-12-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-12-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>res=1</p>
 <pre class="r"><code>TSNEPlot(all10x, pt.size=0.1, group.by=&#39;res.1&#39;, do.label=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>TSNEPlot(all10x, pt.size=0.1, group.by=&#39;sample_name&#39;, do.label=T)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-13-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-13-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="cell-cycle-regression" class="section level1">
 <h1>Cell cycle regression</h1>
 <p>T-SNE of the data with cell cycle effects regressed out. There does not seem to be a lot of structure within clusters now.</p>
 <pre class="r"><code>TSNEPlot(all10x.ccregout, pt.size=0.1, group.by=&#39;sample_name&#39;)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-14-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-14-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>No cell cycle effect anymore.</p>
 <pre class="r"><code>TSNEPlot(all10x.ccregout, pt.size=0.1, group.by=&#39;Phase&#39;)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-15-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-15-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Subtissues</p>
 <pre class="r"><code>plot_grid(t1, t2, t3, t4)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-17-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-17-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>TSNEPlot(all10x.ccregout, pt.size=0.1, group.by=&#39;depot&#39;)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-18-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-18-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="pca" class="section level1">
 <h1>PCA</h1>
 <p>Some PCA plots. PC1 seems to capture cell cycle effects, and PC2 seems to capture some of the sample variability.</p>
 <pre class="r"><code>PCAPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-19-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-19-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>PCAPlot(all10x, group.by=&#39;sample_name&#39;, pt.size=0.1)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-20-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-20-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>PCA plot of the cell cycle regressed out data. There is no cell cycle effect anymore.</p>
 <pre class="r"><code>PCAPlot(all10x.ccregout, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-21-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-21-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>PCAPlot(all10x.ccregout, group.by=&#39;sample_name&#39;, pt.size=0.1)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="alignment" class="section level1">
-<h1>Alignment</h1>
-<p>Alignment of the data with and without cell cycle effects regressed out. Both were aligned on 30 subspaces, tSNE was performed on the first 15 CCs.</p>
-<p>tSNE of the aligned data.</p>
-<pre class="r"><code>#TSNEPlot(all10x.aligned, group.by=&#39;sample_name&#39;, pt.size=0.1)</code></pre>
-<p>tSNE of the aligned data coloured on cell cycle phase.</p>
-<pre class="r"><code>#TSNEPlot(all10x.aligned, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
-<p>tSNE of the aligned data with cell cycle effects regressed out.</p>
-<pre class="r"><code>#TSNEPlot(all10x.aligned.ccregout, group.by=&#39;sample_name&#39;, pt.size=0.1)</code></pre>
-<p>tSNE of the aligned data with cell cycle effects regressed out, colored by phase.</p>
-<pre class="r"><code>#TSNEPlot(all10x.aligned.ccregout, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
-<p>tSNE of the aligned data with cell cycle effects regressed out, colored by subtissue</p>
-<pre class="r"><code>#TSNEPlot(all10x.aligned.ccregout, group.by=&#39;sample_name2&#39;, pt.size=0.1)</code></pre>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-22-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-22-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="metadata-plots" class="section level1">
 <h1>Metadata plots</h1>
 <pre class="r"><code>FeaturePlot(all10x, c(&quot;nGene&quot;), cols.use = c(&quot;grey&quot;,&quot;blue&quot;), no.legend=F)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-23-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-23-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>FeaturePlot(all10x, c(&quot;percent.mito&quot;), cols.use = c(&quot;grey&quot;,&quot;blue&quot;), no.legend=F)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>FeaturePlot(all10x, c(&quot;nUMI&quot;), cols.use = c(&quot;grey&quot;,&quot;blue&quot;), no.legend=F)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Diff</p>
 <pre class="r"><code>TSNEPlot(all10x, group.by=&#39;diff&#39;, pt.size=0.1)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>all10x@meta.data[&#39;diff_int&#39;] &lt;- unlist(lapply(as.vector(unlist(all10x@meta.data$diff)), function(x){return(strtoi(strsplit(x, &#39;%&#39;)))}))
 FeaturePlot(all10x, features.plot=&#39;diff_int&#39;, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>ucp1.ctrl</p>
 <pre class="r"><code>TSNEPlot(all10x, group.by=&#39;ucp1.ctrl&#39;, pt.size=0.1)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>ucp1.ne</p>
 <pre class="r"><code>TSNEPlot(all10x, group.by=&#39;ucp1.ne&#39;, pt.size=0.1)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-35-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-29-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-29-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>bmi</p>
 <pre class="r"><code>TSNEPlot(all10x, group.by=&#39;bmi&#39;, pt.size=0.1)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-30-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-30-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>age</p>
 <pre class="r"><code>TSNEPlot(all10x, group.by=&#39;age&#39;, pt.size=0.1)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-31-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-31-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>VlnPlot(all10x, group.by=&#39;sample_name&#39;, features.plot=c(&#39;nGene&#39;), point.size.use = -1, x.lab.rot=T)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-38-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-32-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-32-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>VlnPlot(all10x, group.by=&#39;sample_name&#39;, features.plot=c(&#39;nUMI&#39;), point.size.use = -1, x.lab.rot=T)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-33-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-33-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>VlnPlot(all10x, group.by=&#39;sample_name&#39;, features.plot=c(&#39;percent.mito&#39;), point.size.use = -1, x.lab.rot=T)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-34-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-34-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="mixture-cluster-12" class="section level1">
 <h1>Mixture cluster 12</h1>
@@ -554,12 +1334,72 @@ rotate_x &lt;- function(data, column_to_plot, labels_vec, rot_angle) {
      text(plt, par(&quot;usr&quot;)[3], labels = labels_vec, srt = rot_angle, adj = c(1.1,1.1), xpd = TRUE, cex=1)
 }
 rotate_x((cluster12@meta.data %&gt;% count(sample_name))[,2], &#39;n&#39;, as.vector(unlist((cluster12@meta.data %&gt;% count(sample_name))[,1])), 45)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-41-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-35-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-35-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-35-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figures-for-report" class="section level1">
 <h1>Figures for report</h1>
 <pre class="r"><code>fig1</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/fig1-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/fig1-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>#Supplementary figures
 sfig1 &lt;- plot_grid(
   VlnPlot(all10x, group.by=&#39;sample_name&#39;, features.plot=c(&#39;nGene&#39;), point.size.use = -1, x.lab.rot=T, size.x.use=8),
@@ -567,9 +1407,73 @@ sfig1 &lt;- plot_grid(
   VlnPlot(all10x, group.by=&#39;sample_name&#39;, features.plot=c(&#39;percent.mito&#39;), point.size.use = -1, x.lab.rot=T, size.x.use=8), 
   labels=c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;), nrow=1
 )
-save_plot(&quot;plots/sfig1_180504_qcplots.pdf&quot;, sfig1, base_width=12, base_height=3)
+save_plot(&quot;plots/supplementary_figures/sfig_180504_qcplots.pdf&quot;, sfig1, base_width=12, base_height=3)
 sfig1</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/fig2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/fig2-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<pre class="r"><code>sfig2 &lt;- plot_grid(PCElbowPlot(all10x, num.pc=50))
+save_plot(&quot;plots/supplementary_figures/sfig_180504_pcelbow.pdf&quot;, sfig2, base_width=8, base_height=5)
+sfig2</code></pre>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-37-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-37-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
