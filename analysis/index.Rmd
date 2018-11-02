@@ -6,7 +6,8 @@ output:
     toc: false
 ---
 
-Notebooks for 180504 analysis:  <br />
-1. [General analysis](10x-180504-general-analysis.html)  <br />
-2. [Alignment](10x-180504-alignment.html)  <br />
+Notebooks for 180504 analysis:<ol>
+<li>[General analysis](10x-180504-general-analysis.html)</li>
+<li>[Alignment](10x-180504-alignment.html)</li>
+</ol>
 
