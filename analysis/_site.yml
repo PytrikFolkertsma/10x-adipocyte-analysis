@@ -12,7 +12,7 @@ navbar:
   right:
     - icon: fa-github
       text: "Source"
-      href: https://github.com/PytrikFolkertsma/10x-adipocyte-analysis
+      href: http://github.com/PytrikFolkertsma/10x-adipocyte-analysis
 output:
   workflowr::wflow_html:
     toc: true
