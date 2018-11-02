@@ -106,14 +106,14 @@ p_discarded.ccregout
 
 #Figures for report
 
-```{r echo=T, results='hide'}
+```{r echo=T, results='hide', include=F}
 fig1 <- plot_grid(
   TSNEPlot(all10x.aligned, group.by='sample_name', pt.size=0.1),
   TSNEPlot(all10x.aligned, group.by='Phase', pt.size=0.1),
   TSNEPlot(all10x.aligned.ccregout, group.by='depot', pt.size=0.1),
   labels=c('a', 'b', 'c'), nrow=3
 )
-save_plot("plots/180504_alignment", fig1, base_width=6, base_height=12)
+save_plot("plots/180504_alignment.pdf", fig1, base_width=6, base_height=12)
 ```
 
 ```{r fig1, fig.height = 12, fig.width = 6, fig.align = "center"}
