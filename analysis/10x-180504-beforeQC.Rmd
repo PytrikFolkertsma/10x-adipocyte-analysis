@@ -18,14 +18,17 @@ all10x <- readRDS('output/10x-180504')
 
 ```{r}
 pm <- VlnPlot(all10x.beforeqc, features.plot='percent.mito', group.by='sample_name', point.size.use = -1, do.return=T, x.lab.rot=T, size.x.use=8) + geom_hline(yintercept=0.08, linetype="dashed", color = "red")
+pm
 ```
 
 ```{r}
 numi <- VlnPlot(all10x.beforeqc, features.plot='nUMI', group.by='sample_name', point.size.use = -1, do.return=T, x.lab.rot=T, size.x.use=8) + geom_hline(yintercept=110000, linetype="dashed", color = "red")
+numi
 ```
 
 ```{r}
 ngene <- VlnPlot(all10x.beforeqc, features.plot='nGene', group.by='sample_name', point.size.use = -1, do.return=T, x.lab.rot=T, size.x.use=8) + geom_hline(yintercept=200, linetype="dashed", color = "red") + geom_hline(yintercept=9000, linetype="dashed", color = "red")
+ngene
 ```
 
 ```{r}

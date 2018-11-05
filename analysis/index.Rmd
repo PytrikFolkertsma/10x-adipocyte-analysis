@@ -7,6 +7,7 @@ output:
 ---
 
 Notebooks for 180504 analysis:<ol>
+<li>[Before QC](10x-180504-beforeQC.html)
 <li>[General analysis](10x-180504-general-analysis.html)</li>
 <li>[Alignment](10x-180504-alignment.html)</li>
 </ol>
