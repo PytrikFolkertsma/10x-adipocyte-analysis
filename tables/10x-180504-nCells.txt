@@ -1,0 +1,15 @@
+sample_name	n.before	n.after
+Peri_1	3973	3934
+Peri_2	2889	2852
+Peri_3	1346	1273
+Subq_1	3087	3007
+Subq_2	2071	2002
+Subq_3	8661	8619
+Subq_4	5022	4885
+Supra_1	3056	3047
+Supra_2	3664	3570
+Supra_3	1035	880
+Supra_4	3014	2785
+Visce_1	4624	4539
+Visce_2	4956	4893
+Visce_3	10121	10085

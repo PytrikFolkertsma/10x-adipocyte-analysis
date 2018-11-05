@@ -14,7 +14,6 @@ Loading the required packages and datasets.
 
 ```{r}
 library(Seurat)
-library(ggplot2)
 library(dplyr)
 
 all10x <- readRDS('output/10x-180504')

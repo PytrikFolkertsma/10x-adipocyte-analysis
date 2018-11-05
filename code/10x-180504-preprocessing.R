@@ -3,35 +3,46 @@
 #
 # Creates a Seurat object of the 10x-180504 samples. Executes the following steps:
 # - Adds all metadata
-# - Filters, normalizes and scales data (filters genes 200-9000, 
+# - Filters, normalizes and scales data (filters genes 200-9000,
 #   percent.mito < 0.08, nUMI < 110000, regresses out nUMI and percent.mito)
-# - Computes clusters (using 15 PC's based on elbow plot) of several resolutions 
+# - Computes clusters (using 15 PC's based on elbow plot) of several resolutions
 #   and adds them to metadata
 # - Calculates cell cycle scores and adds them to metadata
 # - Performs tSNE (15 PC's (determined before from elbow plot), default perplexity)
 #
 ################################################################################
 
+#Load required libraries
+
 library(Seurat)
 library(magrittr)
 library(dplyr)
 library(optparse)
 
-n.pcs <- 15 
+################################################################################
+
+#Set variables
+
+cellranger_folder <- "/data/sc-10x/data-runs/171120-scheele-adipose/agg-180504-unnormalized/outs/filtered_gene_bc_matrices_mex/hg19"
+metadata_sheet <- "../files/180406-Cell ID and 10x sample Index_final-extracted columns.txt"
+cellcycle_genes <- "../files/regev_lab_cell_cycle_genes.txt"
+output <- "../output/10x-180504"
+
+n.pcs <- 15
 resolutions <- c(0.5, 0.7, 1, 1.5)
 
 ################################################################################
 
 print('>>>LOADING DATA')
 
-df.10x <- Read10X("/data/sc-10x/data-runs/171120-scheele-adipose/agg-180504-unnormalized/outs/filtered_gene_bc_matrices_mex/hg19")
+df.10x <- Read10X(cellranger_folder)
 seurobj <- CreateSeuratObject(df.10x, min.cells = 3, min.genes = 200, is.expr = 0)
 
 ################################################################################
 
 print('>>>ADDING METADATA')
 
-samples_info <- read.table('../files/180406-Cell ID and 10x sample Index_final-extracted columns.txt', sep='\t', header=T, stringsAsFactors=F)
+samples_info <- read.table(metadata_sheet, sep='\t', header=T, stringsAsFactors=F)
 samples_info.ordered <- rbind(samples_info[13:14,], samples_info[1:12,])
 
 #get the metadata
@@ -78,6 +89,9 @@ mito.genes <- grep(pattern = "^MT-", x = rownames(seurobj@data), value = TRUE, i
 percent.mito <- Matrix::colSums(seurobj@raw.data[mito.genes, ])/Matrix::colSums(seurobj@raw.data)
 seurobj <- AddMetaData(seurobj, metadata=percent.mito, col.name="percent.mito")
 
+print('Saving object before QC')
+saveRDS(seurobj, '../output/10x-180504-beforeQC')
+
 print('Filtering cells...')
 seurobj <- FilterCells(seurobj, subset.names=c("nGene", "percent.mito", "nUMI"), low.thresholds = c(200, -Inf, -Inf), high.thresholds = c(9000, 0.08, 110000))
 
@@ -108,7 +122,7 @@ for (res in resolutions){
 
 print('>>>CALCULATING CELL CYCLE SCORES')
 
-cc.genes <- readLines('../files/regev_lab_cell_cycle_genes.txt')
+cc.genes <- readLines(cellcycle_genes)
 s.genes <- cc.genes[1:43]
 g2m.genes <- cc.genes[44:97]
 seurobj <- CellCycleScoring(seurobj, s.genes = s.genes, g2m.genes = g2m.genes, set.ident = TRUE)
@@ -122,5 +136,5 @@ seurobj <- RunTSNE(seurobj, reduction.use='pca', dims.use=1:n.pcs)
 ################################################################################
 
 print('>>>SAVING DATASET')
-print('Saving dataset: ../output/10x-180504')
-saveRDS(seurobj, '../output/10x-180504')
+print(paste('Saving dataset:', output))
+saveRDS(seurobj, output)
