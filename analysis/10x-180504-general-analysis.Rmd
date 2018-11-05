@@ -262,12 +262,12 @@ save_plot("plots/supplementary_figures/sfig_180504_qcplots.pdf", sfig1, base_wid
 sfig1
 ```
 
-```{r fig3, fig.height = 3, fig.width = 12, fig.align = "center"}
+```{r fig3, fig.height = 4, fig.width = 12, fig.align = "center"}
 sfig2 <- plot_grid(
   PCElbowPlot(all10x, num.pc=30),
   PCElbowPlot(all10x.ccregout, num.pc=30),
   labels="auto", nrow=1)
-save_plot("plots/supplementary_figures/sfig_180504_pcelbow.pdf", sfig2, base_width=12, base_height=5)
+save_plot("plots/supplementary_figures/sfig_180504_pcelbow.pdf", sfig2, base_width=12, base_height=4)
 sfig2
 ```
 
