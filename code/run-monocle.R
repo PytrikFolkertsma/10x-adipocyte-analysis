@@ -1,5 +1,3 @@
-r.seed <- 11
-
 library(optparse)
 
 option_list <- list(
