@@ -7,14 +7,15 @@ output:
 
 Notebook for alignment analsyis of the 180504 data.
 
-```{r}
+```{r results='hide', message=FALSE, warning=FALSE}
 library(Seurat)
 library(ggplot2)
 ```
 
+Lading the datasets.
 
 ```{r}
-load('output/10x-180504-aligned-metageneplot')
+load('output/10x-180504-aligned-metageneplot') #contains biweight midcorrelation plots: p1 and p2
 all10x.aligned <- readRDS('output/10x-180504-aligned')
 all10x.aligned.ccregout <- readRDS('output/10x-180504-ccregout-aligned')
 all10x.aligned.discardedcells <- readRDS('output/10x-180504-cca-discardedcells')

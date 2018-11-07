@@ -12,7 +12,7 @@ Analysis of the 10x-180504 samples.
 
 Loading the required packages and datasets. 
 
-```{r}
+```{r results='hide', message=FALSE, warning=FALSE}
 library(Seurat)
 library(dplyr)
 
@@ -234,7 +234,7 @@ rotate_x((cluster12@meta.data %>% count(sample_name))[,2], 'n', as.vector(unlist
 
 #Figures for report
 
-```{r echo=T, results='hide', include=F}
+```{r echo=T, results='hide'}
 fig1 <- plot_grid(
   PCAPlot(all10x, group.by='Phase', pt.size=0.1),
   TSNEPlot(all10x, group.by='sample_name', pt.size=0.1),

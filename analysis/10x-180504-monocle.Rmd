@@ -9,7 +9,6 @@ Notebook for Monocle trajectories of the 180504 dataset.
 
 To investigate the robustness of the trajectories, the dataset was randomly downsampled on 1000 cells per sample. 4 different types of regressions were used when running the DDRTree algorithm.
 
-
 ```{r results='hide', message=FALSE, warning=FALSE}
 library(Seurat)
 library(monocle)
@@ -41,7 +40,7 @@ cds.pm.umi.cc.53 <- readRDS('output/monocle/180504/10x-180504-monocle-pm-umi-cc-
 
 #Trajectories of one subset
 
-Trajectories of one subset, coloured by sample and cell cycle phase. Topleft: no regression. Topright: cell cycle regression. Bottom left: percent.mito + nUMI regression. Bottom right: percent.mito + nUMI + cell cycle regression.
+Trajectories of one subset, coloured by depot and cell cycle phase. Topleft: no regression. Topright: cell cycle regression. Bottom left: percent.mito + nUMI regression. Bottom right: percent.mito + nUMI + cell cycle regression.
 
 ```{r fig1, fig.height = 8, fig.width = 10, fig.align = "center"}
 plot_grid(
@@ -136,9 +135,12 @@ plot_grid(
   nrow=2)
 ```
 
-#Figures for report
+#Conclusions
 
-a = trajectory without regressions, coloured on cell cycle phase. b = trajectory with cell cycle effects regressed out, coloured on depot. 
+- Differences between depots or fat type were not captured by Monocle. The preadipocytes are at this timepoint likely very similar too each other. 
+- Regressions affect the resulting trajectories a lot. 
+
+#Figures for report
 
 ```{r fig9, fig.height = 5, fig.width = 12, fig.align = "center"}
 fig <- plot_grid(
@@ -149,7 +151,6 @@ save_plot("plots/180504_monocle_noreg-ccreg.pdf", fig, base_width=12, base_heigh
 fig
 ```
 
-Supplementary figures
 
 ```{r fig10, fig.height = 12, fig.width = 12, fig.align = "center"}
 noreg <- plot_grid(

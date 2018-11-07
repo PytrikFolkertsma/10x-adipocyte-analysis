@@ -5,13 +5,12 @@ output: html_notebook
 
 Plots of 10x-180504 before quality control.
 
-```{r}
+Loading libraries and datasets. 
+
+```{r results='hide', message=FALSE, warning=FALSE}
 library(Seurat)
 library(dplyr)
-```
 
-
-```{r}
 all10x.beforeqc <- readRDS('output/10x-180504-beforeQC')
 all10x <- readRDS('output/10x-180504')
 ```
