@@ -320,7 +320,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-11-02</p>
+<p><strong>Last updated:</strong> 2018-11-07</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -344,10 +344,12 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/97fa200aba1ada933a9b52c97c1bfbede5c824b5" target="_blank">97fa200</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/1c178af9944fff1307ffd32484c5752e20e7c745" target="_blank">1c178af</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
-working directory clean
+Ignored files:
+    Ignored:    output/monocle/
+
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
@@ -375,6 +377,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1c178af9944fff1307ffd32484c5752e20e7c745/analysis/10x-180504-alignment.Rmd" target="_blank">1c178af</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“analysis/10x-180504-alignment.Rmd”, “analysis/10x-180504-beforeQC.Rmd”,
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/9e51a0ad7b292f9cef2eacb3717bb650bde7d63a/docs/10x-180504-alignment.html" target="_blank">9e51a0a</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-02
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -432,17 +468,10 @@ general analysis + alignment
 <p></details></p>
 <hr />
 <p>Notebook for alignment analsyis of the 180504 data.</p>
-<pre class="r"><code>library(Seurat)</code></pre>
-<pre><code>Loading required package: ggplot2</code></pre>
-<pre><code>Loading required package: cowplot</code></pre>
-<pre><code>
-Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
-
-    ggsave</code></pre>
-<pre><code>Loading required package: Matrix</code></pre>
-<pre class="r"><code>library(ggplot2)</code></pre>
-<pre class="r"><code>load(&#39;output/10x-180504-aligned-metageneplot&#39;)
+<pre class="r"><code>library(Seurat)
+library(ggplot2)</code></pre>
+<p>Lading the datasets.</p>
+<pre class="r"><code>load(&#39;output/10x-180504-aligned-metageneplot&#39;) #contains biweight midcorrelation plots: p1 and p2
 all10x.aligned &lt;- readRDS(&#39;output/10x-180504-aligned&#39;)
 all10x.aligned.ccregout &lt;- readRDS(&#39;output/10x-180504-ccregout-aligned&#39;)
 all10x.aligned.discardedcells &lt;- readRDS(&#39;output/10x-180504-cca-discardedcells&#39;)
@@ -948,13 +977,13 @@ loaded via a namespace (and not attached):
  [88] htmlwidgets_1.2     bit_1.1-14          tidyselect_0.2.4   
  [91] plyr_1.8.4          magrittr_1.5        R6_2.2.2           
  [94] snow_0.4-2          gplots_3.0.1        Hmisc_4.1-1        
- [97] pillar_1.3.0        whisker_0.3-2       foreign_0.8-70     
+ [97] pillar_1.3.0        whisker_0.3-2       foreign_0.8-71     
 [100] withr_2.1.2         fitdistrplus_1.0-9  mixtools_1.1.0     
 [103] survival_2.42-6     nnet_7.3-12         tsne_0.1-3         
 [106] tibble_1.4.2        crayon_1.3.4        hdf5r_1.0.0        
 [109] KernSmooth_2.23-15  rmarkdown_1.10      grid_3.4.3         
 [112] data.table_1.11.4   git2r_0.23.0        metap_1.0          
-[115] digest_0.6.15       diptest_0.75-7      tidyr_0.8.1        
+[115] digest_0.6.16       diptest_0.75-7      tidyr_0.8.1        
 [118] R.utils_2.7.0       stats4_3.4.3        munsell_0.5.0      </code></pre>
 </div>
 </div>

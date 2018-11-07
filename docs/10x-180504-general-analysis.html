@@ -320,7 +320,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-11-05</p>
+<p><strong>Last updated:</strong> 2018-11-07</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -344,16 +344,18 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/673b520a6c364819e2a68bd82a41839bae8d12c2" target="_blank">673b520</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/1c178af9944fff1307ffd32484c5752e20e7c745" target="_blank">1c178af</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
-Untracked files:
-    Untracked:  analysis/10x-180504-beforeQC.Rmd
+Ignored files:
+    Ignored:    output/monocle/
 
 Unstaged changes:
-    Modified:   code/10x-180504-preprocessing.R
-    Modified:   plots/180504_pca_tsne.pdf
-    Modified:   plots/supplementary_figures/sfig_180504_pcelbow.pdf
+    Modified:   plots/180504_alignment.pdf
+    Modified:   plots/180504_monocle_noreg-ccreg.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_alignment-discardedcells.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_biweightplots.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_monocle.pdf
     Modified:   plots/supplementary_figures/sfig_180504_qcplots.pdf
 
 </code></pre>
@@ -383,6 +385,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1c178af9944fff1307ffd32484c5752e20e7c745/analysis/10x-180504-general-analysis.Rmd" target="_blank">1c178af</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“analysis/10x-180504-alignment.Rmd”, “analysis/10x-180504-beforeQC.Rmd”,
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/9ef503f48f0d1876050b591290b3f10645b76140/analysis/10x-180504-general-analysis.Rmd" target="_blank">9ef503f</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-05
+</td>
+<td style="text-align:left;">
+before QC analysis
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/19b3950a9e7daa54beb25aa11dac39852cf6600b/docs/10x-180504-general-analysis.html" target="_blank">19b3950</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-05
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -543,26 +596,10 @@ wflow_publish(c(“analysis/10x-180504-general-analysis.Rmd”,
 <hr />
 <p>Analysis of the 10x-180504 samples.</p>
 <p>Loading the required packages and datasets.</p>
-<pre class="r"><code>library(Seurat)</code></pre>
-<pre><code>Loading required package: ggplot2</code></pre>
-<pre><code>Loading required package: cowplot</code></pre>
-<pre><code>
-Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
+<pre class="r"><code>library(Seurat)
+library(dplyr)
 
-    ggsave</code></pre>
-<pre><code>Loading required package: Matrix</code></pre>
-<pre class="r"><code>library(ggplot2)
-library(dplyr)</code></pre>
-<pre><code>
-Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
-
-    filter, lag</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>all10x &lt;- readRDS(&#39;output/10x-180504&#39;)
+all10x &lt;- readRDS(&#39;output/10x-180504&#39;)
 all10x.ccregout &lt;- readRDS(&#39;output/10x-180504-ccregout&#39;)</code></pre>
 <div id="qc-plots" class="section level1">
 <h1>QC Plots</h1>
@@ -1812,6 +1849,145 @@ PytrikFolkertsma
 </div>
 <div id="figures-for-report" class="section level1">
 <h1>Figures for report</h1>
+<pre class="r"><code>fig1 &lt;- plot_grid(
+  PCAPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1),
+  TSNEPlot(all10x, group.by=&#39;sample_name&#39;, pt.size=0.1),
+  TSNEPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1),
+  TSNEPlot(all10x.ccregout, group.by=&#39;sample_name&#39;, pt.size=0.1),
+  labels = &quot;auto&quot;, nrow = 2)</code></pre>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-36-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/120215c0f41d0235238a1f0c88c4425c526fc15e/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-1.png" target="_blank">120215c</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-02
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-36-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/120215c0f41d0235238a1f0c88c4425c526fc15e/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-2.png" target="_blank">120215c</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-02
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-3.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-36-3.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/120215c0f41d0235238a1f0c88c4425c526fc15e/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-3.png" target="_blank">120215c</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-02
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-4.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-36-4.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/120215c0f41d0235238a1f0c88c4425c526fc15e/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-4.png" target="_blank">120215c</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-02
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<pre class="r"><code>save_plot(&quot;plots/180504_pca_tsne.pdf&quot;, fig1, base_width=12, base_height = 9)</code></pre>
 <pre class="r"><code>fig1</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/fig1-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of fig1-1.png:</em></summary>
@@ -1909,6 +2085,17 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/19b3950a9e7daa54beb25aa11dac39852cf6600b/docs/figure/10x-180504-general-analysis.Rmd/fig3-1.png" target="_blank">19b3950</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/661156c28341cb6f55be25a5cfa10d3c7678faf7/docs/figure/10x-180504-general-analysis.Rmd/fig3-1.png" target="_blank">661156c</a>
 </td>
 <td style="text-align:left;">
@@ -1979,12 +2166,12 @@ loaded via a namespace (and not attached):
  [88] tidyselect_0.2.4    plyr_1.8.4          magrittr_1.5       
  [91] R6_2.2.2            snow_0.4-2          gplots_3.0.1       
  [94] Hmisc_4.1-1         pillar_1.3.0        whisker_0.3-2      
- [97] foreign_0.8-70      withr_2.1.2         fitdistrplus_1.0-9 
+ [97] foreign_0.8-71      withr_2.1.2         fitdistrplus_1.0-9 
 [100] mixtools_1.1.0      survival_2.42-6     nnet_7.3-12        
 [103] tsne_0.1-3          tibble_1.4.2        crayon_1.3.4       
 [106] hdf5r_1.0.0         KernSmooth_2.23-15  rmarkdown_1.10     
 [109] grid_3.4.3          data.table_1.11.4   git2r_0.23.0       
-[112] metap_1.0           digest_0.6.15       diptest_0.75-7     
+[112] metap_1.0           digest_0.6.16       diptest_0.75-7     
 [115] tidyr_0.8.1         R.utils_2.7.0       stats4_3.4.3       
 [118] munsell_0.5.0      </code></pre>
 </div>

@@ -344,20 +344,17 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/4db96e3a7b31bda4663b76c3e9f90823d134dfa2" target="_blank">4db96e3</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/1c178af9944fff1307ffd32484c5752e20e7c745" target="_blank">1c178af</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    output/monocle/
 
-Untracked files:
-    Untracked:  plots/180504_monocle_noreg-ccreg.pdf
-    Untracked:  plots/supplementary_figures/sfig_180504_monocle.pdf
-
 Unstaged changes:
-    Modified:   analysis/about.Rmd
-    Modified:   analysis/index.Rmd
-    Modified:   code/run-monocle.R
+    Modified:   plots/180504_alignment.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_alignment-discardedcells.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_biweightplots.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_qcplots.pdf
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -386,6 +383,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1c178af9944fff1307ffd32484c5752e20e7c745/analysis/10x-180504-monocle.Rmd" target="_blank">1c178af</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“analysis/10x-180504-alignment.Rmd”, “analysis/10x-180504-beforeQC.Rmd”,
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/3b4a19ec4d1de6b4917f38d357fa0b27c805c3fd/docs/10x-180504-monocle.html" target="_blank">3b4a19e</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -434,7 +465,7 @@ cds.pm.umi.53 &lt;- readRDS(&#39;output/monocle/180504/10x-180504-monocle-pm-umi
 cds.pm.umi.cc.53 &lt;- readRDS(&#39;output/monocle/180504/10x-180504-monocle-pm-umi-cc-53&#39;)</code></pre>
 <div id="trajectories-of-one-subset" class="section level1">
 <h1>Trajectories of one subset</h1>
-<p>Trajectories of one subset, coloured by sample and cell cycle phase. Topleft: no regression. Topright: cell cycle regression. Bottom left: percent.mito + nUMI regression. Bottom right: percent.mito + nUMI + cell cycle regression.</p>
+<p>Trajectories of one subset, coloured by depot and cell cycle phase. Topleft: no regression. Topright: cell cycle regression. Bottom left: percent.mito + nUMI regression. Bottom right: percent.mito + nUMI + cell cycle regression.</p>
 <pre class="r"><code>plot_grid(
   plot_cell_trajectory(cds.11, color_by=&#39;depot&#39;),
   plot_cell_trajectory(cds.cc.11, color_by=&#39;depot&#39;),
@@ -442,6 +473,36 @@ cds.pm.umi.cc.53 &lt;- readRDS(&#39;output/monocle/180504/10x-180504-monocle-pm-
   plot_cell_trajectory(cds.pm.umi.cc.11, color_by=&#39;depot&#39;),
   nrow=2)</code></pre>
 <p><img src="figure/10x-180504-monocle.Rmd/fig1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/3b4a19ec4d1de6b4917f38d357fa0b27c805c3fd/docs/figure/10x-180504-monocle.Rmd/fig1-1.png" target="_blank">3b4a19e</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>plot_grid(
   plot_cell_trajectory(cds.11, color_by=&#39;Phase&#39;),
   plot_cell_trajectory(cds.cc.11, color_by=&#39;Phase&#39;),
@@ -449,6 +510,36 @@ cds.pm.umi.cc.53 &lt;- readRDS(&#39;output/monocle/180504/10x-180504-monocle-pm-
   plot_cell_trajectory(cds.pm.umi.cc.11, color_by=&#39;Phase&#39;),
   nrow=2)</code></pre>
 <p><img src="figure/10x-180504-monocle.Rmd/fig2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/3b4a19ec4d1de6b4917f38d357fa0b27c805c3fd/docs/figure/10x-180504-monocle.Rmd/fig2-1.png" target="_blank">3b4a19e</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="trajectories-no-regression" class="section level1">
 <h1>Trajectories, no regression</h1>
@@ -460,6 +551,36 @@ cds.pm.umi.cc.53 &lt;- readRDS(&#39;output/monocle/180504/10x-180504-monocle-pm-
   plot_cell_trajectory(cds.53, color_by=&#39;Phase&#39;),
   nrow=2)</code></pre>
 <p><img src="figure/10x-180504-monocle.Rmd/fig3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig3-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/3b4a19ec4d1de6b4917f38d357fa0b27c805c3fd/docs/figure/10x-180504-monocle.Rmd/fig3-1.png" target="_blank">3b4a19e</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Does the branch split discriminate between depots?</p>
 <pre class="r"><code>plot_grid(
   plot_cell_trajectory(cds.11, color_by=&#39;depot&#39;),
@@ -468,6 +589,36 @@ cds.pm.umi.cc.53 &lt;- readRDS(&#39;output/monocle/180504/10x-180504-monocle-pm-
   plot_cell_trajectory(cds.53, color_by=&#39;depot&#39;),
   nrow=2)</code></pre>
 <p><img src="figure/10x-180504-monocle.Rmd/fig4-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig4-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/3b4a19ec4d1de6b4917f38d357fa0b27c805c3fd/docs/figure/10x-180504-monocle.Rmd/fig4-1.png" target="_blank">3b4a19e</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="trajectories-cell-cycle-regression" class="section level1">
 <h1>Trajectories, cell cycle regression</h1>
@@ -479,6 +630,36 @@ cds.pm.umi.cc.53 &lt;- readRDS(&#39;output/monocle/180504/10x-180504-monocle-pm-
   plot_cell_trajectory(cds.cc.53, color_by=&#39;Phase&#39;),
   nrow=2)</code></pre>
 <p><img src="figure/10x-180504-monocle.Rmd/fig5-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/3b4a19ec4d1de6b4917f38d357fa0b27c805c3fd/docs/figure/10x-180504-monocle.Rmd/fig5-1.png" target="_blank">3b4a19e</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Coloured on depot. Branches do not</p>
 <pre class="r"><code>plot_grid(
   plot_cell_trajectory(cds.cc.11, color_by=&#39;depot&#39;),
@@ -487,6 +668,36 @@ cds.pm.umi.cc.53 &lt;- readRDS(&#39;output/monocle/180504/10x-180504-monocle-pm-
   plot_cell_trajectory(cds.cc.53, color_by=&#39;depot&#39;),
   nrow=2)</code></pre>
 <p><img src="figure/10x-180504-monocle.Rmd/fig6-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig6-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/3b4a19ec4d1de6b4917f38d357fa0b27c805c3fd/docs/figure/10x-180504-monocle.Rmd/fig6-1.png" target="_blank">3b4a19e</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="trajectories-percent.mito-numi-regression" class="section level1">
 <h1>Trajectories, percent.mito + nUMI regression</h1>
@@ -498,6 +709,36 @@ cds.pm.umi.cc.53 &lt;- readRDS(&#39;output/monocle/180504/10x-180504-monocle-pm-
   plot_cell_trajectory(cds.pm.umi.53, color_by=&#39;Phase&#39;),
   nrow=2)</code></pre>
 <p><img src="figure/10x-180504-monocle.Rmd/fig7-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig7-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/3b4a19ec4d1de6b4917f38d357fa0b27c805c3fd/docs/figure/10x-180504-monocle.Rmd/fig7-1.png" target="_blank">3b4a19e</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="trajectories-percent.mito-numi-cell-cycle-regression" class="section level1">
 <h1>Trajectories, percent.mito + nUMI + cell cycle regression</h1>
@@ -509,10 +750,46 @@ cds.pm.umi.cc.53 &lt;- readRDS(&#39;output/monocle/180504/10x-180504-monocle-pm-
   plot_cell_trajectory(cds.pm.umi.cc.53, color_by=&#39;depot&#39;),
   nrow=2)</code></pre>
 <p><img src="figure/10x-180504-monocle.Rmd/fig8-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig8-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/3b4a19ec4d1de6b4917f38d357fa0b27c805c3fd/docs/figure/10x-180504-monocle.Rmd/fig8-1.png" target="_blank">3b4a19e</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="conclusions" class="section level1">
+<h1>Conclusions</h1>
+<ul>
+<li>Differences between depots or fat type were not captured by Monocle. The preadipocytes are at this timepoint likely very similar too each other.</li>
+<li>Regressions affect the resulting trajectories a lot.</li>
+</ul>
 </div>
 <div id="figures-for-report" class="section level1">
 <h1>Figures for report</h1>
-<p>a = trajectory without regressions, coloured on cell cycle phase. b = trajectory with cell cycle effects regressed out, coloured on depot.</p>
 <pre class="r"><code>fig &lt;- plot_grid(
   plot_cell_trajectory(cds.11, color_by=&#39;Phase&#39;),
   plot_cell_trajectory(cds.cc.11, color_by=&#39;depot&#39;),
@@ -520,7 +797,36 @@ cds.pm.umi.cc.53 &lt;- readRDS(&#39;output/monocle/180504/10x-180504-monocle-pm-
 save_plot(&quot;plots/180504_monocle_noreg-ccreg.pdf&quot;, fig, base_width=12, base_height=5)
 fig</code></pre>
 <p><img src="figure/10x-180504-monocle.Rmd/fig9-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>Supplementary figures</p>
+<details> <summary><em>Expand here to see past versions of fig9-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/3b4a19ec4d1de6b4917f38d357fa0b27c805c3fd/docs/figure/10x-180504-monocle.Rmd/fig9-1.png" target="_blank">3b4a19e</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>noreg &lt;- plot_grid(
   plot_cell_trajectory(cds.11, color_by=&#39;Phase&#39;, cell_size = 0.5),
   plot_cell_trajectory(cds.27, color_by=&#39;Phase&#39;, cell_size = 0.5),
@@ -560,6 +866,36 @@ sfig &lt;- plot_grid(
 save_plot(&quot;plots/supplementary_figures/sfig_180504_monocle.pdf&quot;, sfig, base_width=12, base_height=12)
 sfig</code></pre>
 <p><img src="figure/10x-180504-monocle.Rmd/fig10-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig10-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/3b4a19ec4d1de6b4917f38d357fa0b27c805c3fd/docs/figure/10x-180504-monocle.Rmd/fig10-1.png" target="_blank">3b4a19e</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>

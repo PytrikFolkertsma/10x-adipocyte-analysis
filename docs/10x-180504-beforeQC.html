@@ -320,7 +320,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-11-05</p>
+<p><strong>Last updated:</strong> 2018-11-07</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -344,18 +344,16 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/f6e90779fe702c10aff4eb4529c525c7f91a4297" target="_blank">f6e9077</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/1c178af9944fff1307ffd32484c5752e20e7c745" target="_blank">1c178af</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
-Untracked files:
-    Untracked:  tables/
+Ignored files:
+    Ignored:    output/monocle/
 
 Unstaged changes:
-    Modified:   analysis/10x-180504-general-analysis.Rmd
-    Modified:   code/10x-180504-preprocessing.R
-    Modified:   plots/180504_pca_tsne.pdf
-    Modified:   plots/supplementary_figures/sfig_180504_pcelbow.pdf
-    Modified:   plots/supplementary_figures/sfig_180504_qcplots.pdf
+    Modified:   plots/180504_alignment.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_alignment-discardedcells.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_biweightplots.pdf
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -384,6 +382,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1c178af9944fff1307ffd32484c5752e20e7c745/analysis/10x-180504-beforeQC.Rmd" target="_blank">1c178af</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“analysis/10x-180504-alignment.Rmd”, “analysis/10x-180504-beforeQC.Rmd”,
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/4b12f4312170082f2357d1ec010bc7b02c03d834/docs/10x-180504-beforeQC.html" target="_blank">4b12f43</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-05
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -441,48 +473,19 @@ wflow_publish(c(“analysis/10x-180504-beforeQC.Rmd”))
 <p></details></p>
 <hr />
 <p>Plots of 10x-180504 before quality control.</p>
-<pre class="r"><code>library(Seurat)</code></pre>
-<pre><code>Loading required package: ggplot2</code></pre>
-<pre><code>Loading required package: cowplot</code></pre>
-<pre><code>
-Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
+<p>Loading libraries and datasets.</p>
+<pre class="r"><code>library(Seurat)
+library(dplyr)
 
-    ggsave</code></pre>
-<pre><code>Loading required package: Matrix</code></pre>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>
-Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
-
-    filter, lag</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>all10x.beforeqc &lt;- readRDS(&#39;output/10x-180504-beforeQC&#39;)
+all10x.beforeqc &lt;- readRDS(&#39;output/10x-180504-beforeQC&#39;)
 all10x &lt;- readRDS(&#39;output/10x-180504&#39;)</code></pre>
 <pre class="r"><code>pm &lt;- VlnPlot(all10x.beforeqc, features.plot=&#39;percent.mito&#39;, group.by=&#39;sample_name&#39;, point.size.use = -1, do.return=T, x.lab.rot=T, size.x.use=8) + geom_hline(yintercept=0.08, linetype=&quot;dashed&quot;, color = &quot;red&quot;)
 pm</code></pre>
-<p><img src="figure/10x-180504-beforeQC.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-beforeQC.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>numi &lt;- VlnPlot(all10x.beforeqc, features.plot=&#39;nUMI&#39;, group.by=&#39;sample_name&#39;, point.size.use = -1, do.return=T, x.lab.rot=T, size.x.use=8) + geom_hline(yintercept=110000, linetype=&quot;dashed&quot;, color = &quot;red&quot;)
 numi</code></pre>
-<p><img src="figure/10x-180504-beforeQC.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ngene &lt;- VlnPlot(all10x.beforeqc, features.plot=&#39;nGene&#39;, group.by=&#39;sample_name&#39;, point.size.use = -1, do.return=T, x.lab.rot=T, size.x.use=8) + geom_hline(yintercept=200, linetype=&quot;dashed&quot;, color = &quot;red&quot;) + geom_hline(yintercept=9000, linetype=&quot;dashed&quot;, color = &quot;red&quot;)
-ngene</code></pre>
-<pre><code>Warning: Removed 1 rows containing missing values (geom_hline).</code></pre>
-<p><img src="figure/10x-180504-beforeQC.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>GenePlot(all10x.beforeqc, &#39;nUMI&#39;, &#39;nGene&#39;, cex.use = 0.2, do.return=T)</code></pre>
-<pre><code>Warning in plot.window(...): &quot;do.return&quot; is not a graphical parameter</code></pre>
-<pre><code>Warning in plot.xy(xy, type, ...): &quot;do.return&quot; is not a graphical parameter</code></pre>
-<pre><code>Warning in axis(side = side, at = at, labels = labels, ...): &quot;do.return&quot; is
-not a graphical parameter
-
-Warning in axis(side = side, at = at, labels = labels, ...): &quot;do.return&quot; is
-not a graphical parameter</code></pre>
-<pre><code>Warning in box(...): &quot;do.return&quot; is not a graphical parameter</code></pre>
-<pre><code>Warning in title(...): &quot;do.return&quot; is not a graphical parameter</code></pre>
-<p><img src="figure/10x-180504-beforeQC.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-6-1.png:</em></summary>
+<p><img src="figure/10x-180504-beforeQC.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-3-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
 <thead>
 <tr>
@@ -500,7 +503,82 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/8641eaa9e90b8ff23e3ad974f5b6e7e60804791e/docs/figure/10x-180504-beforeQC.Rmd/unnamed-chunk-6-1.png" target="_blank">8641eaa</a>
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/4b12f4312170082f2357d1ec010bc7b02c03d834/docs/figure/10x-180504-beforeQC.Rmd/unnamed-chunk-3-1.png" target="_blank">4b12f43</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<pre class="r"><code>ngene &lt;- VlnPlot(all10x.beforeqc, features.plot=&#39;nGene&#39;, group.by=&#39;sample_name&#39;, point.size.use = -1, do.return=T, x.lab.rot=T, size.x.use=8) + geom_hline(yintercept=200, linetype=&quot;dashed&quot;, color = &quot;red&quot;) + geom_hline(yintercept=9000, linetype=&quot;dashed&quot;, color = &quot;red&quot;)
+ngene</code></pre>
+<pre><code>Warning: Removed 1 rows containing missing values (geom_hline).</code></pre>
+<p><img src="figure/10x-180504-beforeQC.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/4b12f4312170082f2357d1ec010bc7b02c03d834/docs/figure/10x-180504-beforeQC.Rmd/unnamed-chunk-4-1.png" target="_blank">4b12f43</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<pre class="r"><code>GenePlot(all10x.beforeqc, &#39;nUMI&#39;, &#39;nGene&#39;, cex.use = 0.2, do.return=T)</code></pre>
+<pre><code>Warning in plot.window(...): &quot;do.return&quot; is not a graphical parameter</code></pre>
+<pre><code>Warning in plot.xy(xy, type, ...): &quot;do.return&quot; is not a graphical parameter</code></pre>
+<pre><code>Warning in axis(side = side, at = at, labels = labels, ...): &quot;do.return&quot; is
+not a graphical parameter
+
+Warning in axis(side = side, at = at, labels = labels, ...): &quot;do.return&quot; is
+not a graphical parameter</code></pre>
+<pre><code>Warning in box(...): &quot;do.return&quot; is not a graphical parameter</code></pre>
+<pre><code>Warning in title(...): &quot;do.return&quot; is not a graphical parameter</code></pre>
+<p><img src="figure/10x-180504-beforeQC.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/4b12f4312170082f2357d1ec010bc7b02c03d834/docs/figure/10x-180504-beforeQC.Rmd/unnamed-chunk-5-1.png" target="_blank">4b12f43</a>
 </td>
 <td style="text-align:left;">
 PytrikFolkertsma
@@ -632,12 +710,12 @@ loaded via a namespace (and not attached):
  [88] bit_1.1-14          tidyselect_0.2.4    plyr_1.8.4         
  [91] magrittr_1.5        R6_2.2.2            snow_0.4-2         
  [94] gplots_3.0.1        Hmisc_4.1-1         pillar_1.3.0       
- [97] whisker_0.3-2       foreign_0.8-70      withr_2.1.2        
+ [97] whisker_0.3-2       foreign_0.8-71      withr_2.1.2        
 [100] fitdistrplus_1.0-9  mixtools_1.1.0      survival_2.42-6    
 [103] nnet_7.3-12         tsne_0.1-3          tibble_1.4.2       
 [106] crayon_1.3.4        hdf5r_1.0.0         KernSmooth_2.23-15 
 [109] rmarkdown_1.10      grid_3.4.3          data.table_1.11.4  
-[112] git2r_0.23.0        metap_1.0           digest_0.6.15      
+[112] git2r_0.23.0        metap_1.0           digest_0.6.16      
 [115] diptest_0.75-7      tidyr_0.8.1         R.utils_2.7.0      
 [118] stats4_3.4.3        munsell_0.5.0      </code></pre>
 </div>
