@@ -1,19 +1,194 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+Notebook for Monocle trajectories of the 180504 dataset.
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+To investigate the robustness of the trajectories, the dataset was randomly downsampled on 1000 cells per sample. 4 different types of regressions were used when running the DDRTree algorithm.
 
-```{r}
-plot(cars)
+
+```{r results='hide', message=FALSE, warning=FALSE}
+library(Seurat)
+library(monocle)
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+Loading all datasets.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+```{r}
+cds.11 <- readRDS('output/monocle/180504/10x-180504-monocle-11')
+cds.cc.11 <- readRDS('output/monocle/180504/10x-180504-monocle-cc-11')
+cds.pm.umi.11 <- readRDS('output/monocle/180504/10x-180504-monocle-pm-umi-11')
+cds.pm.umi.cc.11 <- readRDS('output/monocle/180504/10x-180504-monocle-pm-umi-cc-11')
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+cds.27 <- readRDS('output/monocle/180504/10x-180504-monocle-27')
+cds.cc.27 <- readRDS('output/monocle/180504/10x-180504-monocle-cc-27')
+cds.pm.umi.27 <- readRDS('output/monocle/180504/10x-180504-monocle-pm-umi-27')
+cds.pm.umi.cc.27 <- readRDS('output/monocle/180504/10x-180504-monocle-pm-umi-cc-27')
+
+cds.33 <- readRDS('output/monocle/180504/10x-180504-monocle-33')
+cds.cc.33 <- readRDS('output/monocle/180504/10x-180504-monocle-cc-33')
+cds.pm.umi.33 <- readRDS('output/monocle/180504/10x-180504-monocle-pm-umi-33')
+cds.pm.umi.cc.33 <- readRDS('output/monocle/180504/10x-180504-monocle-pm-umi-cc-33')
+
+cds.53 <- readRDS('output/monocle/180504/10x-180504-monocle-53')
+cds.cc.53 <- readRDS('output/monocle/180504/10x-180504-monocle-cc-53')
+cds.pm.umi.53 <- readRDS('output/monocle/180504/10x-180504-monocle-pm-umi-53')
+cds.pm.umi.cc.53 <- readRDS('output/monocle/180504/10x-180504-monocle-pm-umi-cc-53')
+```
+
+#Trajectories of one subset
+
+Trajectories of one subset, coloured by sample and cell cycle phase. Topleft: no regression. Topright: cell cycle regression. Bottom left: percent.mito + nUMI regression. Bottom right: percent.mito + nUMI + cell cycle regression.
+
+```{r fig1, fig.height = 8, fig.width = 10, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds.11, color_by='depot'),
+  plot_cell_trajectory(cds.cc.11, color_by='depot'),
+  plot_cell_trajectory(cds.pm.umi.11, color_by='depot'),
+  plot_cell_trajectory(cds.pm.umi.cc.11, color_by='depot'),
+  nrow=2)
+```
+
+```{r fig2, fig.height = 8, fig.width = 10, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds.11, color_by='Phase'),
+  plot_cell_trajectory(cds.cc.11, color_by='Phase'),
+  plot_cell_trajectory(cds.pm.umi.11, color_by='Phase'),
+  plot_cell_trajectory(cds.pm.umi.cc.11, color_by='Phase'),
+  nrow=2)
+```
+
+
+#Trajectories, no regression
+
+Trajectories of the 4 subsets with no variables regressed out. The ordering of the cells seems to be influenced by the cell cycle state (though not completely). Interestingly in three of the trajectories there is a branch split. 
+
+```{r fig3, fig.height = 8, fig.width = 10, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds.11, color_by='Phase'),
+  plot_cell_trajectory(cds.27, color_by='Phase'),
+  plot_cell_trajectory(cds.33, color_by='Phase'),
+  plot_cell_trajectory(cds.53, color_by='Phase'),
+  nrow=2)
+```
+
+Does the branch split discriminate between depots?
+
+```{r fig4, fig.height = 8, fig.width = 10, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds.11, color_by='depot'),
+  plot_cell_trajectory(cds.27, color_by='depot'),
+  plot_cell_trajectory(cds.33, color_by='depot'),
+  plot_cell_trajectory(cds.53, color_by='depot'),
+  nrow=2)
+```
+
+#Trajectories, cell cycle regression
+
+Trajectories of the 4 subsets with cell cycle effects regressed out. Topleft, bottom left and bottom right look similar but all have different number of branching points. 
+
+```{r fig5, fig.height = 8, fig.width = 10, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds.cc.11, color_by='Phase'),
+  plot_cell_trajectory(cds.cc.27, color_by='Phase'),
+  plot_cell_trajectory(cds.cc.33, color_by='Phase'),
+  plot_cell_trajectory(cds.cc.53, color_by='Phase'),
+  nrow=2)
+```
+
+Coloured on depot. Branches do not 
+
+```{r fig6, fig.height = 8, fig.width = 10, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds.cc.11, color_by='depot'),
+  plot_cell_trajectory(cds.cc.27, color_by='depot'),
+  plot_cell_trajectory(cds.cc.33, color_by='depot'),
+  plot_cell_trajectory(cds.cc.53, color_by='depot'),
+  nrow=2)
+```
+
+#Trajectories, percent.mito + nUMI regression
+
+In general all cells seem to follow one direction, and the general shape of the trajectories are similar. The branch splits in the trajectories above (no regression and cell cycle regression) could be the effects of differences in percent.mito and nUMI, and that's why we don't see that here. 
+
+```{r fig7, fig.height = 8, fig.width = 10, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds.pm.umi.11, color_by='Phase'),
+  plot_cell_trajectory(cds.pm.umi.27, color_by='Phase'),
+  plot_cell_trajectory(cds.pm.umi.33, color_by='Phase'),
+  plot_cell_trajectory(cds.pm.umi.53, color_by='Phase'),
+  nrow=2)
+```
+
+#Trajectories, percent.mito + nUMI + cell cycle regression
+
+Trajectories with percent.mito, nUMI and cell cycle effects regressed out. Doesn't look very convincing. 
+
+```{r fig8, fig.height = 8, fig.width = 10, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds.pm.umi.cc.11, color_by='depot'),
+  plot_cell_trajectory(cds.pm.umi.cc.27, color_by='depot'),
+  plot_cell_trajectory(cds.pm.umi.cc.33, color_by='depot'),
+  plot_cell_trajectory(cds.pm.umi.cc.53, color_by='depot'),
+  nrow=2)
+```
+
+#Figures for report
+
+a = trajectory without regressions, coloured on cell cycle phase. b = trajectory with cell cycle effects regressed out, coloured on depot. 
+
+```{r fig9, fig.height = 5, fig.width = 12, fig.align = "center"}
+fig <- plot_grid(
+  plot_cell_trajectory(cds.11, color_by='Phase'),
+  plot_cell_trajectory(cds.cc.11, color_by='depot'),
+  nrow=1, labels='auto')
+save_plot("plots/180504_monocle_noreg-ccreg.pdf", fig, base_width=12, base_height=5)
+fig
+```
+
+Supplementary figures
+
+```{r fig10, fig.height = 12, fig.width = 12, fig.align = "center"}
+noreg <- plot_grid(
+  plot_cell_trajectory(cds.11, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.27, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.33, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.53, color_by='Phase', cell_size = 0.5),
+  nrow=1)
+
+ccreg <- plot_grid(
+  plot_cell_trajectory(cds.cc.11, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.cc.27, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.cc.33, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.cc.53, color_by='Phase', cell_size = 0.5),
+  nrow=1)
+
+pmumireg <- plot_grid(
+  plot_cell_trajectory(cds.pm.umi.11, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.pm.umi.27, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.pm.umi.33, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.pm.umi.53, color_by='Phase', cell_size = 0.5),
+  nrow=1)
+
+pmumiccreg <- plot_grid(
+  plot_cell_trajectory(cds.pm.umi.cc.11, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.pm.umi.cc.27, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.pm.umi.cc.33, color_by='Phase', cell_size = 0.5),
+  plot_cell_trajectory(cds.pm.umi.cc.53, color_by='Phase', cell_size = 0.5),
+  nrow=1)
+
+sfig <- plot_grid(
+  noreg,
+  ccreg,
+  pmumireg,
+  pmumiccreg,
+  labels='auto', nrow=4
+)
+
+save_plot("plots/supplementary_figures/sfig_180504_monocle.pdf", sfig, base_width=12, base_height=12)
+sfig
+```
 
