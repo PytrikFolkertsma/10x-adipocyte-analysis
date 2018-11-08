@@ -5,7 +5,7 @@ output: html_notebook
 
 ```{r results='hide', message=FALSE, warning=FALSE}
 library(Seurat)
-data <- readRDS('output/10x-180831')
+data <- readRDS('output/10x-180831-notcleaned')
 ```
 
 TSNE plots of the data.
