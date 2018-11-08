@@ -344,24 +344,11 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/f9da1a08569ab78c6dc4601be241167d2804cac9" target="_blank">f9da1a0</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/92ef2783b535aadf08d24a75f0b1e67b518bbaa0" target="_blank">92ef278</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
-    Ignored:    analysis/figure/
     Ignored:    output/monocle/
-
-Untracked files:
-    Untracked:  code/10x-180504-config.R
-    Untracked:  code/10x-180831-config.R
-    Untracked:  code/preprocess-10x-180504.R
-    Untracked:  code/preprocess-10x-180831.R
-    Untracked:  code/preprocess-data.R
-    Untracked:  plots/supplementary_figures/sfig_180831_bad-quality-cluster.pdf
-
-Unstaged changes:
-    Modified:   analysis/index.Rmd
-    Deleted:    code/10x-180504-preprocessing.R
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -395,6 +382,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/92ef2783b535aadf08d24a75f0b1e67b518bbaa0/analysis/10x-180831-first-inspection.Rmd" target="_blank">92ef278</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“analysis/10x-180831-first-inspection.Rmd”))
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/c8f6254690a5ab76cb3209b5af8717ab14bf0989/docs/10x-180831-first-inspection.html" target="_blank">c8f6254</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/f9da1a08569ab78c6dc4601be241167d2804cac9/analysis/10x-180831-first-inspection.Rmd" target="_blank">f9da1a0</a>
 </td>
 <td style="text-align:left;">
@@ -413,21 +434,171 @@ wflow_publish(c(“analysis/10x-180831-first-inspection.Rmd”))
 <p></details></p>
 <hr />
 <pre class="r"><code>library(Seurat)
-data &lt;- readRDS(&#39;output/10x-180831&#39;)</code></pre>
+data &lt;- readRDS(&#39;output/10x-180831-notcleaned&#39;)</code></pre>
 <p>TSNE plots of the data.</p>
 <pre class="r"><code>t1 &lt;- TSNEPlot(data, group.by=&#39;timepoint&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180831-first-inspection.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/c8f6254690a5ab76cb3209b5af8717ab14bf0989/docs/figure/10x-180831-first-inspection.Rmd/unnamed-chunk-2-1.png" target="_blank">c8f6254</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>t2 &lt;- TSNEPlot(data, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180831-first-inspection.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-3-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/c8f6254690a5ab76cb3209b5af8717ab14bf0989/docs/figure/10x-180831-first-inspection.Rmd/unnamed-chunk-3-1.png" target="_blank">c8f6254</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>t3 &lt;- FeaturePlot(data, features.plot=c(&#39;nGene&#39;), cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend = F)</code></pre>
 <p><img src="figure/10x-180831-first-inspection.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/c8f6254690a5ab76cb3209b5af8717ab14bf0989/docs/figure/10x-180831-first-inspection.Rmd/unnamed-chunk-4-1.png" target="_blank">c8f6254</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>#t4 &lt;- DimPlot(data, reduction.use=&#39;tsne&#39;, cells.highlight = rownames(data@meta.data)[data@meta.data$res.0.5 == 1], cols.highlight = &#39;blue&#39;, cols.use=&#39;gray&#39;)</code></pre>
 <pre class="r"><code>TSNEPlot(data, group.by=&#39;res.0.5&#39;, pt.size=0.1, do.label=T)</code></pre>
 <p><img src="figure/10x-180831-first-inspection.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-6-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/c8f6254690a5ab76cb3209b5af8717ab14bf0989/docs/figure/10x-180831-first-inspection.Rmd/unnamed-chunk-6-1.png" target="_blank">c8f6254</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Remove bad quality cluster 1 from the data.</p>
 <pre class="r"><code>data_cleaned &lt;- SubsetData(data, cells.use=rownames(data@meta.data)[data@meta.data$res.0.5 != 1])</code></pre>
 <pre class="r"><code>TSNEPlot(data_cleaned, group.by=&#39;res.0.5&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180831-first-inspection.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-8-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/c8f6254690a5ab76cb3209b5af8717ab14bf0989/docs/figure/10x-180831-first-inspection.Rmd/unnamed-chunk-8-1.png" target="_blank">c8f6254</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Save the cleaned up Seurat object to run preprocessing again (new PCA, clustering and tSNE).</p>
 <pre class="r"><code>#saveRDS(data_cleaned, &#39;output/10x-180831&#39;)</code></pre>
 <p>Save the data with the bad quality cluster in case it is needed for other plots.</p>
