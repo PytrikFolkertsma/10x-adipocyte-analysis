@@ -6,10 +6,13 @@ output:
     toc: false
 ---
 
-Notebooks for 180504 analysis:<ol>
+Notebooks for 10x-180504 analysis:<ol>
 <li>[Before QC](10x-180504-beforeQC.html)
 <li>[General analysis](10x-180504-general-analysis.html)</li>
 <li>[Alignment](10x-180504-alignment.html)</li>
 <li>[Monocle analysis](10x-180504-monocle.html)</li>
 </ol>
 
+Notebooks for 10x-180831 analysis: <ol>
+<li>[First data inspection](10x-180831-first-inspection.html)</li>
+</ol>
