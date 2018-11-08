@@ -1,7 +1,7 @@
 
 ################################################################################
 #
-# Creates a Seurat object of the 10x-180504 samples. Executes the following steps:
+# Creates a Seurat object of the 10x-180504 dataset Executes the following steps:
 # - Adds all metadata
 # - Filters, normalizes and scales data (filters genes 200-9000,
 #   percent.mito < 0.08, nUMI < 110000, regresses out nUMI and percent.mito)
