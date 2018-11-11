@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>R Notebook</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">10x-adipocyte-analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="http://github.com/PytrikFolkertsma/10x-adipocyte-analysis">
+    <span class="fa fa-github"></span>
+     
+    Source
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Notebook</h1>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-11-11</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20181026)</code> </summary></p>
+<p>The command <code>set.seed(20181026)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/dc4a8cafbba1e65e15a764f377b2c5fc43fdf5f5" target="_blank">dc4a8ca</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    output/monocle/
+
+Untracked files:
+    Untracked:  files/171219-van_den_Brink2017-genes_affected_by_dissociation.csv
+
+Unstaged changes:
+    Modified:   code/10x-180831-config.R
+    Modified:   code/preprocess-data.R
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/dc4a8cafbba1e65e15a764f377b2c5fc43fdf5f5/analysis/10x-180831-general-analysis.Rmd" target="_blank">dc4a8ca</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-11
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“analysis/10x-180831-general-analysis.Rmd”))
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<p>This is an <a href="http://rmarkdown.rstudio.com">R Markdown</a> Notebook. When you execute code within the notebook, the results appear beneath the code.</p>
+<p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Cmd+Shift+Enter</em>.</p>
+<pre class="r"><code>library(Seurat)</code></pre>
+<pre><code>Loading required package: ggplot2</code></pre>
+<pre><code>Loading required package: cowplot</code></pre>
+<pre><code>
+Attaching package: &#39;cowplot&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
+
+    ggsave</code></pre>
+<pre><code>Loading required package: Matrix</code></pre>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>
+Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>seurobj &lt;- readRDS(&#39;output/10x-180831&#39;)</code></pre>
+<div id="quality-control-plots" class="section level1">
+<h1>Quality control plots</h1>
+<p>For now the data was only filtered on 0.1 percent.mito. The subcluster from T1 with low UMI and gene counts was removed.</p>
+<pre class="r"><code>VlnPlot(seurobj, c(&quot;nGene&quot;, &quot;percent.mito&quot;, &quot;nUMI&quot;), group.by=&#39;timepoint&#39;, nCol = 1, point.size.use=-1, size.x.use = 10)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/fig1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>GenePlot(seurobj, &#39;nUMI&#39;, &#39;nGene&#39;, cex.use = 0.5)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>PCElbowPlot(seurobj, num.pc=50) #TSNE+clustering run on 21 PC&#39;s.</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="pca" class="section level1">
+<h1>PCA</h1>
+<p>Interesting to see: T4 and T5 contain a lot more variation than T1, T2 and T3, and PC2 seems to split T4 and T5. Could the split in PC2 describe the cells developing into white or brown?</p>
+<pre class="r"><code>PCAPlot(seurobj, group.by=&#39;timepoint&#39;, pt.size=0.1)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>A few clusters in the data have much higher expression of ‘ADIPOQ’, ‘SCD’, ‘RBP4’, ‘G0S2’, ‘PLIN4’, ‘FABP5’. This seems to be captured by PC2.</p>
+<pre class="r"><code>FeaturePlot(seurobj, reduction.use=&#39;pca&#39;, features.plot=c(&#39;ADIPOQ&#39;, &#39;SCD&#39;, &#39;RBP4&#39;, &#39;G0S2&#39;, &#39;PLIN4&#39;, &#39;FABP5&#39;), pt.size=1, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F, nCol=2)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/fig2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>FeaturePlot(seurobj, reduction.use=&#39;pca&#39;, features.plot=c(&#39;PLA2G2A&#39;, &#39;MT1X&#39;, &#39;APOD&#39;, &#39;DPT&#39;, &#39;PTGDS&#39;, &#39;IGF2&#39;), pt.size=1, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F, nCol=2)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/fig3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>PLA2G2A: <a href="http://www.jlr.org/content/early/2017/06/29/jlr.M076141" class="uri">http://www.jlr.org/content/early/2017/06/29/jlr.M076141</a> “…suggesting that PLA2G2A activates mitochondrial uncoupling in brown adipose tissue.”</p>
+<p>PDGFRα/PDGFRβ signaling balance modulates progenitor cell differentiation into white and beige adipocytes. Based on PDGFRα or PDGFRβ deletion and ectopic expression experiments, we conclude that the PDGFRα/PDGFRβ signaling balance determines progenitor commitment to beige (PDGFRα) or white (PDGFRβ) adipogenesis. Our study suggests that adipocyte lineage specification and metabolism can be modulated through PDGFR signaling. <a href="http://dev.biologists.org/content/145/1/dev155861.long" class="uri">http://dev.biologists.org/content/145/1/dev155861.long</a></p>
+<pre class="r"><code>FeaturePlot(seurobj, reduction.use=&#39;pca&#39;, features.plot=c(&#39;PDGFRA&#39;, &#39;PDGFRB&#39;), pt.size=1, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F, nCol=2)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/fig4-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="tsne" class="section level1">
+<h1>TSNE</h1>
+<pre class="r"><code>TSNEPlot(seurobj, group.by=&#39;timepoint&#39;, pt.size=0.1)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>TSNEPlot(seurobj, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Cluster 11 = mixture cluster.</p>
+<pre class="r"><code>TSNEPlot(seurobj, group.by=&#39;res.0.5&#39;, pt.size=0.1, do.label=T)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>VlnPlot(seurobj, group.by=&#39;res.0.5&#39;, features.plot=c(&#39;MALAT1&#39;, &#39;NEAT1&#39;), point.size.use=-1)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/fig5-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="metadata-feature-plots" class="section level1">
+<h1>Metadata feature plots</h1>
+<pre class="r"><code>FeaturePlot(seurobj, reduction.use=&#39;tsne&#39;, features.plot = &#39;nUMI&#39;, cols.use=c(&#39;grey&#39;, &#39;blue&#39;), no.legend=F)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>FeaturePlot(seurobj, features.plot = &#39;percent.mito&#39;, cols.use=c(&#39;grey&#39;, &#39;blue&#39;), no.legend = F)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>FeaturePlot(seurobj, reduction.use=&#39;tsne&#39;, features.plot = &#39;nGene&#39;, cols.use=c(&#39;grey&#39;, &#39;blue&#39;), no.legend = F)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="markergene-expression" class="section level1">
+<h1>Markergene expression</h1>
+<pre class="r"><code>FeaturePlot(seurobj, reduction.use=&#39;tsne&#39;, features.plot = &#39;EBF2&#39;, cols.use=c(&#39;grey&#39;, &#39;blue&#39;), no.legend = F)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>FeaturePlot(seurobj, reduction.use=&#39;tsne&#39;, features.plot = &#39;TM4SF1&#39;, cols.use=c(&#39;grey&#39;, &#39;blue&#39;), no.legend = F)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>FeaturePlot(seurobj, reduction.use=&#39;tsne&#39;, features.plot = &#39;LY6K&#39;, cols.use=c(&#39;grey&#39;, &#39;blue&#39;), no.legend = F)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>FeaturePlot(seurobj, reduction.use=&#39;tsne&#39;, features.plot = &#39;PDGFRA&#39;, cols.use=c(&#39;grey&#39;, &#39;blue&#39;), no.legend = F)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="markers-literature" class="section level1">
+<h1>Markers literature</h1>
+<p>Marker genes for mature brown/beige compared to white mentioned by Seale 2016: UCP1, DIO2, CIDEA, PPARGC1A, PPARA, COX7A1, COX8B, PRDM16, EBF2. \</p>
+<pre class="r"><code>VlnPlot(seurobj, features.plot=c(&#39;UCP1&#39;, &#39;DIO2&#39;, &#39;CIDEA&#39;, &#39;PPARGC1A&#39;, &#39;PPARA&#39;, &#39;COX7A1&#39;, &#39;PRDM16&#39;, &#39;EBF2&#39;), group.by=&#39;timepoint&#39;, point.size.use = -1, nCol=2)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/fig6-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Based on PDGFRα or PDGFRβ deletion and ectopic expression experiments, we conclude that the PDGFRα/PDGFRβ signaling balance determines progenitor commitment to beige (PDGFRα) or white (PDGFRβ) adipogenesis. Our study suggests that adipocyte lineage specification and metabolism can be modulated through PDGFR signaling. <a href="http://dev.biologists.org/content/145/1/dev155861.long" class="uri">http://dev.biologists.org/content/145/1/dev155861.long</a></p>
+<pre class="r"><code>FeaturePlot(seurobj, reduction.use=&#39;pca&#39;, features.plot=c(&#39;PDGFRA&#39;, &#39;PDGFRB&#39;), pt.size=1, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F, nCol=2)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/fig7-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>FeaturePlot(seurobj, reduction.use=&#39;tsne&#39;, features.plot=c(&#39;PDGFRA&#39;, &#39;PDGFRB&#39;), pt.size=1, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F, nCol=2)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/fig8-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>GenePlot(SetAllIdent(seurobj, id=&#39;timepoint&#39;), gene1=&#39;PDGFRA&#39;, gene2=&#39;PDGFRB&#39;, cex.use=0.5)</code></pre>
+<p><img src="figure/10x-180831-general-analysis.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.4.3 (2017-11-30)
+Platform: x86_64-redhat-linux-gnu (64-bit)
+Running under: Red Hat Enterprise Linux
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib64/R/lib/libRblas.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] bindrcpp_0.2.2 dplyr_0.7.6    Seurat_2.3.4   Matrix_1.2-14 
+[5] cowplot_0.9.3  ggplot2_3.0.0 
+
+loaded via a namespace (and not attached):
+  [1] Rtsne_0.13          colorspace_1.3-2    class_7.3-14       
+  [4] modeltools_0.2-22   ggridges_0.5.0      mclust_5.4.1       
+  [7] rprojroot_1.3-2     htmlTable_1.12      base64enc_0.1-3    
+ [10] rstudioapi_0.7      proxy_0.4-22        flexmix_2.3-14     
+ [13] bit64_0.9-7         mvtnorm_1.0-8       codetools_0.2-15   
+ [16] splines_3.4.3       R.methodsS3_1.7.1   robustbase_0.93-2  
+ [19] knitr_1.20          Formula_1.2-3       jsonlite_1.5       
+ [22] workflowr_1.1.1     ica_1.0-2           cluster_2.0.7-1    
+ [25] kernlab_0.9-27      png_0.1-7           R.oo_1.22.0        
+ [28] compiler_3.4.3      httr_1.3.1          backports_1.1.2    
+ [31] assertthat_0.2.0    lazyeval_0.2.1      lars_1.2           
+ [34] acepack_1.4.1       htmltools_0.3.6     tools_3.4.3        
+ [37] igraph_1.2.2        gtable_0.2.0        glue_1.3.0         
+ [40] RANN_2.6            reshape2_1.4.3      Rcpp_0.12.18       
+ [43] trimcluster_0.1-2.1 gdata_2.18.0        ape_5.1            
+ [46] nlme_3.1-137        iterators_1.0.10    fpc_2.1-11.1       
+ [49] gbRd_0.4-11         lmtest_0.9-36       stringr_1.3.1      
+ [52] irlba_2.3.2         gtools_3.8.1        DEoptimR_1.0-8     
+ [55] MASS_7.3-50         zoo_1.8-3           scales_1.0.0       
+ [58] doSNOW_1.0.16       parallel_3.4.3      RColorBrewer_1.1-2 
+ [61] yaml_2.2.0          reticulate_1.10     pbapply_1.3-4      
+ [64] gridExtra_2.3       rpart_4.1-13        segmented_0.5-3.0  
+ [67] latticeExtra_0.6-28 stringi_1.2.4       foreach_1.4.4      
+ [70] checkmate_1.8.5     caTools_1.17.1.1    bibtex_0.4.2       
+ [73] Rdpack_0.9-0        SDMTools_1.1-221    rlang_0.2.2        
+ [76] pkgconfig_2.0.2     dtw_1.20-1          prabclus_2.2-6     
+ [79] bitops_1.0-6        evaluate_0.11       lattice_0.20-35    
+ [82] ROCR_1.0-7          purrr_0.2.5         bindr_0.1.1        
+ [85] labeling_0.3        htmlwidgets_1.2     bit_1.1-14         
+ [88] tidyselect_0.2.4    plyr_1.8.4          magrittr_1.5       
+ [91] R6_2.2.2            snow_0.4-2          gplots_3.0.1       
+ [94] Hmisc_4.1-1         pillar_1.3.0        whisker_0.3-2      
+ [97] foreign_0.8-70      withr_2.1.2         fitdistrplus_1.0-9 
+[100] mixtools_1.1.0      survival_2.42-6     nnet_7.3-12        
+[103] tsne_0.1-3          tibble_1.4.2        crayon_1.3.4       
+[106] hdf5r_1.0.0         KernSmooth_2.23-15  rmarkdown_1.10     
+[109] grid_3.4.3          data.table_1.11.4   git2r_0.23.0       
+[112] metap_1.0           digest_0.6.15       diptest_0.75-7     
+[115] tidyr_0.8.1         R.utils_2.7.0       stats4_3.4.3       
+[118] munsell_0.5.0      </code></pre>
+</div>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
