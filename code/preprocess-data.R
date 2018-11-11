@@ -74,13 +74,10 @@ if(is.null(opt$file)){
   } else {
     seurobj <- ScaleData(seurobj, vars.to.regress = vars.to.regress, do.par=T, num.cores=10)
   }
+  force_snn_recalc = F
 } else {
   seurobj <- readRDS(opt$file)
-  #remove clustering columns
-  cols_to_remove <- grep('res', names(seurobj@meta.data), value=T)
-  for (c in cols_to_remove){
-    seurobj@meta.data[c] <- NULL
-  }
+  force_snn_recalc = T
 }
 
 print('>>>CLUSTERING')
@@ -90,10 +87,9 @@ print(paste('Nr. of variable genes:', length(seurobj@var.genes)))
 print('Running PCA...')
 seurobj <- RunPCA(seurobj, pcs.compute=50, do.print=F)
 print('Running clustering...')
-force_recalc = T
+
 for (res in resolutions){
-  seurobj <- FindClusters(seurobj, reduction.type = "pca", dims.use = 1:n.pcs, resolution = res, print.output = 0, save.SNN = TRUE, force.recalc = force_recalc)
-  force_recalc = F
+  seurobj <- FindClusters(seurobj, reduction.type = "pca", dims.use = 1:n.pcs, resolution = res, print.output = 0, save.SNN = TRUE, force.recalc = force_snn_recalc)
 }
 
 print('>>>CALCULATING CC SCORES')
