@@ -71,6 +71,13 @@ tSNE colored on subtissue.
 TSNEPlot(all10x, group.by='depot', pt.size=0.1)
 ```
 
+tSNE colored by type.
+
+```{r}
+TSNEPlot(all10x, group.by='type', pt.size=0.1, colors.use=c('#964B00', '#F7E7CE'))
+```
+
+
 tSNE colored by cell cycle phase. 
 
 ```{r}
@@ -130,6 +137,10 @@ plot_grid(t1, t2, t3, t4)
 
 ```{r}
 TSNEPlot(all10x.ccregout, pt.size=0.1, group.by='depot')
+```
+
+```{r}
+TSNEPlot(all10x.ccregout, group.by='type', pt.size=0.1, colors.use=c('#964B00', '#F7E7CE'))
 ```
 
 #PCA
@@ -231,6 +242,16 @@ rotate_x <- function(data, column_to_plot, labels_vec, rot_angle) {
 }
 rotate_x((cluster12@meta.data %>% count(sample_name))[,2], 'n', as.vector(unlist((cluster12@meta.data %>% count(sample_name))[,1])), 45)
 ```
+
+```{r}
+cluster12 <- SubsetData(all10x, cells.use=rownames(all10x@meta.data)[which(all10x@meta.data$res.0.5 %in% 12)])
+rotate_x <- function(data, column_to_plot, labels_vec, rot_angle) {
+     plt <- barplot(data[[column_to_plot]], col='steelblue', xaxt="n")
+     text(plt, par("usr")[3], labels = labels_vec, srt = rot_angle, adj = c(1.1,1.1), xpd = TRUE, cex=1)
+}
+rotate_x((cluster12@meta.data %>% count(sample_name))[,2], 'n', as.vector(unlist((cluster12@meta.data %>% count(sample_name))[,1])), 90)
+```
+
 
 #Figures for report
 
