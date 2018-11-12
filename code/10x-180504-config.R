@@ -28,12 +28,22 @@ get_metadata_df <- function(seurobj){
     return(substring(x, 0, nchar(x)-2))
   }))
 
+  #get type labeling (brown or white)
+  type <- unlist(lapply(seurobj@meta.data$depot, function(x){
+    if (x == 'Supra' || x == 'Peri'){
+      return('brown')
+    } else {
+      return('white')
+    }
+  }))
+
   #extract the indices from the cellnames
   sample_agg_idx <- as.numeric(sapply(strsplit(seurobj@cell.names, split = "-"), '[[', 2))
 
   #create metadata df
   df.metadata <- data.frame(row.names=seurobj@cell.names,
                             depot=depots[sample_agg_idx],
+                            type=type[sample_agg_idx],
                             sample_name=sample_names[sample_agg_idx],
                             diff=diff[sample_agg_idx],
                             ucp1.ctrl=ucp1.ctrl[sample_agg_idx],
