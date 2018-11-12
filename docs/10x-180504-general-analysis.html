@@ -320,7 +320,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-11-07</p>
+<p><strong>Last updated:</strong> 2018-11-12</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -344,19 +344,17 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/1c178af9944fff1307ffd32484c5752e20e7c745" target="_blank">1c178af</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/ea6b42e5b18750e14045202ccbddce0b26e58f7c" target="_blank">ea6b42e</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    analysis/figure/
     Ignored:    output/monocle/
 
 Unstaged changes:
-    Modified:   plots/180504_alignment.pdf
-    Modified:   plots/180504_monocle_noreg-ccreg.pdf
-    Modified:   plots/supplementary_figures/sfig_180504_alignment-discardedcells.pdf
-    Modified:   plots/supplementary_figures/sfig_180504_biweightplots.pdf
-    Modified:   plots/supplementary_figures/sfig_180504_monocle.pdf
-    Modified:   plots/supplementary_figures/sfig_180504_qcplots.pdf
+    Modified:   code/10x-180504-config.R
+    Deleted:    code/preprocess-10x-180504.R
+    Deleted:    code/preprocess-10x-180831.R
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -385,6 +383,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/6e36947e6e9022fc8baba3f58e9b49869723d321/docs/10x-180504-general-analysis.html" target="_blank">6e36947</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -834,8 +849,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<p>tSNE colored by cell cycle phase.</p>
-<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
+<p>tSNE colored by type.</p>
+<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;type&#39;, pt.size=0.1, colors.use=c(&#39;#964B00&#39;, &#39;#F7E7CE&#39;))</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-10-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -867,11 +882,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-</div>
-<div id="clusters" class="section level1">
-<h1>Clusters</h1>
-<p>Some clustering with different resolutions. res=0.5</p>
-<pre class="r"><code>TSNEPlot(all10x, pt.size=0.1, group.by=&#39;res.0.5&#39;, do.label=T)</code></pre>
+<p>tSNE colored by cell cycle phase.</p>
+<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-11-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -903,8 +915,11 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<p>res=0.7</p>
-<pre class="r"><code>TSNEPlot(all10x, pt.size=0.1, group.by=&#39;res.0.7&#39;, do.label=T)</code></pre>
+</div>
+<div id="clusters" class="section level1">
+<h1>Clusters</h1>
+<p>Some clustering with different resolutions. res=0.5</p>
+<pre class="r"><code>TSNEPlot(all10x, pt.size=0.1, group.by=&#39;res.0.5&#39;, do.label=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-12-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -936,8 +951,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<p>res=1</p>
-<pre class="r"><code>TSNEPlot(all10x, pt.size=0.1, group.by=&#39;res.1&#39;, do.label=T)</code></pre>
+<p>res=0.7</p>
+<pre class="r"><code>TSNEPlot(all10x, pt.size=0.1, group.by=&#39;res.0.7&#39;, do.label=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-13-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -969,11 +984,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-</div>
-<div id="cell-cycle-regression" class="section level1">
-<h1>Cell cycle regression</h1>
-<p>T-SNE of the data with cell cycle effects regressed out. There does not seem to be a lot of structure within clusters now.</p>
-<pre class="r"><code>TSNEPlot(all10x.ccregout, pt.size=0.1, group.by=&#39;sample_name&#39;)</code></pre>
+<p>res=1</p>
+<pre class="r"><code>TSNEPlot(all10x, pt.size=0.1, group.by=&#39;res.1&#39;, do.label=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-14-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1016,8 +1028,11 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<p>No cell cycle effect anymore.</p>
-<pre class="r"><code>TSNEPlot(all10x.ccregout, pt.size=0.1, group.by=&#39;Phase&#39;)</code></pre>
+</div>
+<div id="cell-cycle-regression" class="section level1">
+<h1>Cell cycle regression</h1>
+<p>T-SNE of the data with cell cycle effects regressed out. There does not seem to be a lot of structure within clusters now.</p>
+<pre class="r"><code>TSNEPlot(all10x.ccregout, pt.size=0.1, group.by=&#39;sample_name&#39;)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-15-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1060,10 +1075,10 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<p>Subtissues</p>
-<pre class="r"><code>plot_grid(t1, t2, t3, t4)</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-17-1.png:</em></summary>
+<p>No cell cycle effect anymore.</p>
+<pre class="r"><code>TSNEPlot(all10x.ccregout, pt.size=0.1, group.by=&#39;Phase&#39;)</code></pre>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-16-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
 <thead>
 <tr>
@@ -1081,7 +1096,7 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/120215c0f41d0235238a1f0c88c4425c526fc15e/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-17-1.png" target="_blank">120215c</a>
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/120215c0f41d0235238a1f0c88c4425c526fc15e/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-16-1.png" target="_blank">120215c</a>
 </td>
 <td style="text-align:left;">
 PytrikFolkertsma
@@ -1092,7 +1107,7 @@ PytrikFolkertsma
 </tr>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-17-1.png" target="_blank">1f7e0da</a>
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-16-1.png" target="_blank">1f7e0da</a>
 </td>
 <td style="text-align:left;">
 PytrikFolkertsma
@@ -1104,7 +1119,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>TSNEPlot(all10x.ccregout, pt.size=0.1, group.by=&#39;depot&#39;)</code></pre>
+<p>Subtissues</p>
+<pre class="r"><code>plot_grid(t1, t2, t3, t4)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-18-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1147,11 +1163,7 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-</div>
-<div id="pca" class="section level1">
-<h1>PCA</h1>
-<p>Some PCA plots. PC1 seems to capture cell cycle effects, and PC2 seems to capture some of the sample variability.</p>
-<pre class="r"><code>PCAPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
+<pre class="r"><code>TSNEPlot(all10x.ccregout, pt.size=0.1, group.by=&#39;depot&#39;)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-19-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1194,7 +1206,7 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>PCAPlot(all10x, group.by=&#39;sample_name&#39;, pt.size=0.1)</code></pre>
+<pre class="r"><code>TSNEPlot(all10x.ccregout, group.by=&#39;type&#39;, pt.size=0.1, colors.use=c(&#39;#964B00&#39;, &#39;#F7E7CE&#39;))</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-20-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1237,8 +1249,11 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<p>PCA plot of the cell cycle regressed out data. There is no cell cycle effect anymore.</p>
-<pre class="r"><code>PCAPlot(all10x.ccregout, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
+</div>
+<div id="pca" class="section level1">
+<h1>PCA</h1>
+<p>Some PCA plots. PC1 seems to capture cell cycle effects, and PC2 seems to capture some of the sample variability.</p>
+<pre class="r"><code>PCAPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-21-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1281,7 +1296,7 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>PCAPlot(all10x.ccregout, group.by=&#39;sample_name&#39;, pt.size=0.1)</code></pre>
+<pre class="r"><code>PCAPlot(all10x, group.by=&#39;sample_name&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-22-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1324,10 +1339,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-</div>
-<div id="metadata-plots" class="section level1">
-<h1>Metadata plots</h1>
-<pre class="r"><code>FeaturePlot(all10x, c(&quot;nGene&quot;), cols.use = c(&quot;grey&quot;,&quot;blue&quot;), no.legend=F)</code></pre>
+<p>PCA plot of the cell cycle regressed out data. There is no cell cycle effect anymore.</p>
+<pre class="r"><code>PCAPlot(all10x.ccregout, group.by=&#39;Phase&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-23-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1370,7 +1383,7 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>FeaturePlot(all10x, c(&quot;percent.mito&quot;), cols.use = c(&quot;grey&quot;,&quot;blue&quot;), no.legend=F)</code></pre>
+<pre class="r"><code>PCAPlot(all10x.ccregout, group.by=&#39;sample_name&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-24-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1402,7 +1415,10 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>FeaturePlot(all10x, c(&quot;nUMI&quot;), cols.use = c(&quot;grey&quot;,&quot;blue&quot;), no.legend=F)</code></pre>
+</div>
+<div id="metadata-plots" class="section level1">
+<h1>Metadata plots</h1>
+<pre class="r"><code>FeaturePlot(all10x, c(&quot;nGene&quot;), cols.use = c(&quot;grey&quot;,&quot;blue&quot;), no.legend=F)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-25-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1434,8 +1450,7 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<p>Diff</p>
-<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;diff&#39;, pt.size=0.1)</code></pre>
+<pre class="r"><code>FeaturePlot(all10x, c(&quot;percent.mito&quot;), cols.use = c(&quot;grey&quot;,&quot;blue&quot;), no.legend=F)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-26-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1467,8 +1482,7 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>all10x@meta.data[&#39;diff_int&#39;] &lt;- unlist(lapply(as.vector(unlist(all10x@meta.data$diff)), function(x){return(strtoi(strsplit(x, &#39;%&#39;)))}))
-FeaturePlot(all10x, features.plot=&#39;diff_int&#39;, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F)</code></pre>
+<pre class="r"><code>FeaturePlot(all10x, c(&quot;nUMI&quot;), cols.use = c(&quot;grey&quot;,&quot;blue&quot;), no.legend=F)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-27-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1500,8 +1514,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<p>ucp1.ctrl</p>
-<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;ucp1.ctrl&#39;, pt.size=0.1)</code></pre>
+<p>Diff</p>
+<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;diff&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-28-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1533,8 +1547,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<p>ucp1.ne</p>
-<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;ucp1.ne&#39;, pt.size=0.1)</code></pre>
+<pre class="r"><code>all10x@meta.data[&#39;diff_int&#39;] &lt;- unlist(lapply(as.vector(unlist(all10x@meta.data$diff)), function(x){return(strtoi(strsplit(x, &#39;%&#39;)))}))
+FeaturePlot(all10x, features.plot=&#39;diff_int&#39;, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-29-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1577,8 +1591,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<p>bmi</p>
-<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;bmi&#39;, pt.size=0.1)</code></pre>
+<p>ucp1.ctrl</p>
+<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;ucp1.ctrl&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-30-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1621,8 +1635,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<p>age</p>
-<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;age&#39;, pt.size=0.1)</code></pre>
+<p>ucp1.ne</p>
+<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;ucp1.ne&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-31-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1665,7 +1679,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>VlnPlot(all10x, group.by=&#39;sample_name&#39;, features.plot=c(&#39;nGene&#39;), point.size.use = -1, x.lab.rot=T)</code></pre>
+<p>bmi</p>
+<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;bmi&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-32-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1708,7 +1723,8 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>VlnPlot(all10x, group.by=&#39;sample_name&#39;, features.plot=c(&#39;nUMI&#39;), point.size.use = -1, x.lab.rot=T)</code></pre>
+<p>age</p>
+<pre class="r"><code>TSNEPlot(all10x, group.by=&#39;age&#39;, pt.size=0.1)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-33-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1751,7 +1767,7 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>VlnPlot(all10x, group.by=&#39;sample_name&#39;, features.plot=c(&#39;percent.mito&#39;), point.size.use = -1, x.lab.rot=T)</code></pre>
+<pre class="r"><code>VlnPlot(all10x, group.by=&#39;sample_name&#39;, features.plot=c(&#39;nGene&#39;), point.size.use = -1, x.lab.rot=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-34-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1794,16 +1810,7 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-</div>
-<div id="mixture-cluster-12" class="section level1">
-<h1>Mixture cluster 12</h1>
-<p>Sample composition in cluster 12.</p>
-<pre class="r"><code>cluster12 &lt;- SubsetData(all10x, cells.use=rownames(all10x@meta.data)[which(all10x@meta.data$res.0.5 %in% 12)])
-rotate_x &lt;- function(data, column_to_plot, labels_vec, rot_angle) {
-     plt &lt;- barplot(data[[column_to_plot]], col=&#39;steelblue&#39;, xaxt=&quot;n&quot;)
-     text(plt, par(&quot;usr&quot;)[3], labels = labels_vec, srt = rot_angle, adj = c(1.1,1.1), xpd = TRUE, cex=1)
-}
-rotate_x((cluster12@meta.data %&gt;% count(sample_name))[,2], &#39;n&#39;, as.vector(unlist((cluster12@meta.data %&gt;% count(sample_name))[,1])), 45)</code></pre>
+<pre class="r"><code>VlnPlot(all10x, group.by=&#39;sample_name&#39;, features.plot=c(&#39;nUMI&#39;), point.size.use = -1, x.lab.rot=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-35-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-35-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1846,15 +1853,7 @@ PytrikFolkertsma
 </tbody>
 </table>
 <p></details></p>
-</div>
-<div id="figures-for-report" class="section level1">
-<h1>Figures for report</h1>
-<pre class="r"><code>fig1 &lt;- plot_grid(
-  PCAPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1),
-  TSNEPlot(all10x, group.by=&#39;sample_name&#39;, pt.size=0.1),
-  TSNEPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1),
-  TSNEPlot(all10x.ccregout, group.by=&#39;sample_name&#39;, pt.size=0.1),
-  labels = &quot;auto&quot;, nrow = 2)</code></pre>
+<pre class="r"><code>VlnPlot(all10x, group.by=&#39;sample_name&#39;, features.plot=c(&#39;percent.mito&#39;), point.size.use = -1, x.lab.rot=T)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of unnamed-chunk-36-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1896,8 +1895,19 @@ PytrikFolkertsma
 </tr>
 </tbody>
 </table>
-<p></details> <img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-2.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-36-2.png:</em></summary>
+<p></details></p>
+</div>
+<div id="mixture-cluster-12" class="section level1">
+<h1>Mixture cluster 12</h1>
+<p>Sample composition in cluster 12.</p>
+<pre class="r"><code>cluster12 &lt;- SubsetData(all10x, cells.use=rownames(all10x@meta.data)[which(all10x@meta.data$res.0.5 %in% 12)])
+rotate_x &lt;- function(data, column_to_plot, labels_vec, rot_angle) {
+     plt &lt;- barplot(data[[column_to_plot]], col=&#39;steelblue&#39;, xaxt=&quot;n&quot;)
+     text(plt, par(&quot;usr&quot;)[3], labels = labels_vec, srt = rot_angle, adj = c(1.1,1.1), xpd = TRUE, cex=1)
+}
+rotate_x((cluster12@meta.data %&gt;% count(sample_name))[,2], &#39;n&#39;, as.vector(unlist((cluster12@meta.data %&gt;% count(sample_name))[,1])), 45)</code></pre>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-37-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
 <thead>
 <tr>
@@ -1915,7 +1925,7 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/120215c0f41d0235238a1f0c88c4425c526fc15e/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-2.png" target="_blank">120215c</a>
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/120215c0f41d0235238a1f0c88c4425c526fc15e/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-37-1.png" target="_blank">120215c</a>
 </td>
 <td style="text-align:left;">
 PytrikFolkertsma
@@ -1924,69 +1934,97 @@ PytrikFolkertsma
 2018-11-02
 </td>
 </tr>
-</tbody>
-</table>
-<p></details> <img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-3.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-36-3.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td style="text-align:left;">
-<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/120215c0f41d0235238a1f0c88c4425c526fc15e/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-3.png" target="_blank">120215c</a>
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-37-1.png" target="_blank">1f7e0da</a>
 </td>
 <td style="text-align:left;">
 PytrikFolkertsma
 </td>
 <td style="text-align:left;">
-2018-11-02
-</td>
-</tr>
-</tbody>
-</table>
-<p></details> <img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-4.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-36-4.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/120215c0f41d0235238a1f0c88c4425c526fc15e/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-36-4.png" target="_blank">120215c</a>
-</td>
-<td style="text-align:left;">
-PytrikFolkertsma
-</td>
-<td style="text-align:left;">
-2018-11-02
+2018-10-30
 </td>
 </tr>
 </tbody>
 </table>
 <p></details></p>
+<pre class="r"><code>cluster12 &lt;- SubsetData(all10x, cells.use=rownames(all10x@meta.data)[which(all10x@meta.data$res.0.5 %in% 12)])
+rotate_x &lt;- function(data, column_to_plot, labels_vec, rot_angle) {
+     plt &lt;- barplot(data[[column_to_plot]], col=&#39;steelblue&#39;, xaxt=&quot;n&quot;)
+     text(plt, par(&quot;usr&quot;)[3], labels = labels_vec, srt = rot_angle, adj = c(1.1,1.1), xpd = TRUE, cex=1)
+}
+rotate_x((cluster12@meta.data %&gt;% count(sample_name))[,2], &#39;n&#39;, as.vector(unlist((cluster12@meta.data %&gt;% count(sample_name))[,1])), 90)</code></pre>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-38-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-38-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-38-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="figures-for-report" class="section level1">
+<h1>Figures for report</h1>
+<pre class="r"><code>fig1 &lt;- plot_grid(
+  PCAPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1),
+  TSNEPlot(all10x, group.by=&#39;sample_name&#39;, pt.size=0.1),
+  TSNEPlot(all10x, group.by=&#39;Phase&#39;, pt.size=0.1),
+  TSNEPlot(all10x.ccregout, group.by=&#39;sample_name&#39;, pt.size=0.1),
+  labels = &quot;auto&quot;, nrow = 2)</code></pre>
+<p><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-39-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/figure/10x-180504-general-analysis.Rmd/unnamed-chunk-39-1.png" target="_blank">1f7e0da</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-10-30
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-39-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-39-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/10x-180504-general-analysis.Rmd/unnamed-chunk-39-4.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>save_plot(&quot;plots/180504_pca_tsne.pdf&quot;, fig1, base_width=12, base_height = 9)</code></pre>
 <pre class="r"><code>fig1</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/fig1-1.png" width="1152" style="display: block; margin: auto;" /></p>
@@ -2166,12 +2204,12 @@ loaded via a namespace (and not attached):
  [88] tidyselect_0.2.4    plyr_1.8.4          magrittr_1.5       
  [91] R6_2.2.2            snow_0.4-2          gplots_3.0.1       
  [94] Hmisc_4.1-1         pillar_1.3.0        whisker_0.3-2      
- [97] foreign_0.8-71      withr_2.1.2         fitdistrplus_1.0-9 
+ [97] foreign_0.8-70      withr_2.1.2         fitdistrplus_1.0-9 
 [100] mixtools_1.1.0      survival_2.42-6     nnet_7.3-12        
 [103] tsne_0.1-3          tibble_1.4.2        crayon_1.3.4       
 [106] hdf5r_1.0.0         KernSmooth_2.23-15  rmarkdown_1.10     
 [109] grid_3.4.3          data.table_1.11.4   git2r_0.23.0       
-[112] metap_1.0           digest_0.6.16       diptest_0.75-7     
+[112] metap_1.0           digest_0.6.15       diptest_0.75-7     
 [115] tidyr_0.8.1         R.utils_2.7.0       stats4_3.4.3       
 [118] munsell_0.5.0      </code></pre>
 </div>
