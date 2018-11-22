@@ -1,0 +1,117 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(gplots) 
+library(Seurat)
+all10x <- readRDS('output/10x-180504')
+```
+
+```{r}
+brown_markers <- read.table('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/data/markergenes/180504/markers_10x-180504_brown', header=T)
+brown_markers <- brown_markers[brown_markers$p_val_adj < 0.05,]
+brown_markers_pos <- brown_markers[brown_markers$avg_logFC > 0.25,]
+brown_markers_neg <- brown_markers[brown_markers$avg_logFC < -0.25,]
+
+white_markers <- read.table('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/data/markergenes/180504/markers_10x-180504_white', header=T)
+white_markers <- white_markers[white_markers$p_val_adj < 0.05,]
+white_markers_pos <- white_markers[white_markers$avg_logFC > 0.25,]
+white_markers_neg <- white_markers[white_markers$avg_logFC < -0.25,]
+
+getIntersectingGenes <- function(df, depot){
+  samples <- as.character(unique(all10x@meta.data$sample_name[all10x@meta.data$depot == depot]))
+  genes <- df[df$sample_name == samples[1], 'gene']
+  for (sample in samples[2:length(samples)]){
+    genes <- intersect(genes, df[df$sample_name == sample, 'gene'])
+  }
+  print(paste('Nr of genes for ', depot, ': ', length(genes), sep=''))
+  return(genes)
+}
+```
+
+
+```{r}
+#Peri 
+peri_pos <- getIntersectingGenes(brown_markers_pos, 'Peri') #12
+peri_neg <- getIntersectingGenes(brown_markers_neg, 'Peri') #9
+
+#Supra
+supra_pos <- getIntersectingGenes(brown_markers_pos, 'Supra') #4
+supra_neg <- getIntersectingGenes(brown_markers_neg, 'Supra') #3
+
+#Visce
+visce_pos <- getIntersectingGenes(white_markers_pos, 'Visce') #1
+visce_neg <- getIntersectingGenes(white_markers_neg, 'Visce') #25
+
+#Subq
+subq_pos <- getIntersectingGenes(white_markers_pos, 'Subq') #4
+subq_neg <- getIntersectingGenes(white_markers_neg, 'Subq') #7
+```
+
+#Perirenal
+
+```{r fig1, fig.height = 18, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, features.plot=peri_pos, group.by='sample_name', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
+```
+
+```{r fig2, fig.height = 15, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, features.plot=peri_neg, group.by='sample_name', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
+```
+
+#Supraclavicular
+
+```{r fig3, fig.height = 6, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, features.plot=supra_pos, group.by='sample_name', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
+```
+
+```{r fig4, fig.height = 6, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, features.plot=supra_neg, group.by='sample_name', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
+```
+
+#Visceral
+
+```{r fig5, fig.height = 3, fig.width = 5, fig.align = "center"}
+VlnPlot(all10x, features.plot=visce_pos, group.by='sample_name', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
+```
+
+```{r fig6, fig.height = 39, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, features.plot=visce_neg, group.by='sample_name', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
+```
+
+#Subcutaneous
+
+```{r fig7, fig.height = 6, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, features.plot=subq_pos, group.by='sample_name', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
+```
+
+```{r fig8, fig.height = 12, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, features.plot=subq_neg, group.by='sample_name', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
+```
+
+#Check markers in new data
+
+```{r}
+data <- readRDS('output/10x-180831')
+```
+
+TM4SF1: pos for peri \\
+LINC01116: pos for peri/neg for visce \\
+TIMP3: neg for peri \\
+THBS1: neg for peri/pos for subq \\
+HOXB7: neg for supra \\
+BARX1: pos for visce. Not found for all visceral samples however.\\
+PPAP2B
+THBS1: pos for subq
+DKK1: pos for subq
+
+```{r fig9, fig.height = 20, fig.width = 10, fig.align = "center"}
+FeaturePlot(data, features.plot=c('TM4SF1', 'LINC01116', 'TIMP3', 'THBS1', 'HOXB7', 'BARX1', 'PPAP2B', 'THBS1', 'DKK1'), cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
+```
