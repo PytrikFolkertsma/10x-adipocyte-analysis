@@ -62,10 +62,11 @@ run_monocle_workflow <- function(data){
   #     - Select genes with high dispersion across cells.
   #     - Use known marker genes.
 
+  print('Estimating size factors and dispersions...')
+  cds <- estimateSizeFactors(cds)
+  cds <- estimateDispersions(cds)
+
   if (is.null(opt$genelist)){
-    print('Estimating size factors and dispersions...')
-    cds <- estimateSizeFactors(cds)
-    cds <- estimateDispersions(cds)
     print('Selecting genes for ordering with high dispersion...')
     disp_table <- dispersionTable(cds)
     ordering_genes <- subset(disp_table, mean_expression >= 0.5 & dispersion_empirical >= 1 * dispersion_fit)$gene_id
