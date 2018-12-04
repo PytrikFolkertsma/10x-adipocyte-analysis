@@ -102,16 +102,19 @@ VlnPlot(all10x, features.plot=subq_neg, group.by='sample_name', point.size.use=-
 data <- readRDS('output/10x-180831')
 ```
 
-TM4SF1: pos for peri \\
-LINC01116: pos for peri/neg for visce \\
-TIMP3: neg for peri \\
-THBS1: neg for peri/pos for subq \\
-HOXB7: neg for supra \\
-BARX1: pos for visce. Not found for all visceral samples however.\\
-PPAP2B
-THBS1: pos for subq
-DKK1: pos for subq
+Old data
 
-```{r fig9, fig.height = 20, fig.width = 10, fig.align = "center"}
-FeaturePlot(data, features.plot=c('TM4SF1', 'LINC01116', 'TIMP3', 'THBS1', 'HOXB7', 'BARX1', 'PPAP2B', 'THBS1', 'DKK1'), cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
+```{r fig9, fig.height = 6, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, features.plot=c('TM4SF1', 'LINC01116', 'HOXB7', 'BARX1'), group.by='sample_name', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
 ```
+
+New data
+
+```{r fig10, fig.height = 8, fig.width = 10, fig.align = "center"}
+FeaturePlot(data, features.plot=c('TM4SF1', 'LINC01116', 'HOXB7', 'BARX1'), cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
+```
+
+```{r}
+
+```
+

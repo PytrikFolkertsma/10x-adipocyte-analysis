@@ -18,6 +18,7 @@ if (is.null(opt$file) || is.null(opt$outdir)){
   quit()
 }
 
+
 if (!(opt$regressout == 'none')){
   if (!(opt$regressout == 'pm-umi' || opt$regressout == 'cc' || opt$regressout == 'pm-umi-cc')){
     print("For regressout (-r) choose from 'pm-umi', 'pm-umi-cc' or 'cc'.")
