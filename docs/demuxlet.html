@@ -320,12 +320,11 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-12-03</p>
+<p><strong>Last updated:</strong> 2018-12-04</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </details>
 </li>
 <li>
@@ -344,19 +343,15 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/18b27e4be2a50a5d8b797ecef721745176883ccc" target="_blank">18b27e4</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/860f7cd969b7a08dc168761ff40f32d448652926" target="_blank">860f7cd</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    output/markergenes/
     Ignored:    output/monocle/
 
-Untracked files:
-    Untracked:  code/get-genes-monocle-180831.R
-
 Unstaged changes:
-    Modified:   code/find-markers.R
-    Modified:   code/run-monocle.R
+    Modified:   analysis/demuxlet.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -385,6 +380,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/e50ea80bb2f39bbae91166c35248090f188c62d1/docs/demuxlet.html" target="_blank">e50ea80</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-03
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -419,8 +431,7 @@ Attaching package: &#39;cowplot&#39;</code></pre>
 <pre class="r"><code>data &lt;- readRDS(&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/10x-180831&#39;)</code></pre>
 <pre class="r"><code>getDemuxletForSample &lt;- function(i, outputdir){
   demuxlet &lt;- read.table(paste(&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/data/demuxlet/demuxlet_out/&#39;, outputdir, &#39;/180831_10x_s&#39;, i, &#39;.best&#39;, sep=&#39;&#39;), header=T)
-
-  demuxlet$correct_barcode &lt;- paste(unlist(sapply(strsplit(as.character(demuxlet$BARCODE), &#39;-&#39;), &#39;[[&#39;, 1)), &#39;-&#39;, i, sep=&#39;&#39;)
+  demuxlet$correct_barcode &lt;- paste(unlist(sapply(strsplit(as.character(demuxlet$BARCODE), &#39;-&#39;), &#39;[[&#39;, 1)), &#39;-&#39;, i, sep=&#39;&#39;) 
   rownames(demuxlet) &lt;- demuxlet$correct_barcode
   cells &lt;- rownames(data@meta.data)[data@meta.data$timepoint == paste(&#39;T&#39;, i, sep=&#39;&#39;)]
   demuxlet_filtered &lt;- demuxlet[demuxlet$correct_barcode %in% cells, ]
@@ -432,7 +443,7 @@ Attaching package: &#39;cowplot&#39;</code></pre>
   return(demuxlet_filtered)
 }
 
-getAllDemuxletResults &lt;- function(outdir){
+getAllDemuxletResults &lt;- function(outdir, tutorialvcf=F){
   demuxlet_list &lt;- list()
   for (i in 1:5){
     demuxlet &lt;- getDemuxletForSample(i, outdir)
@@ -443,10 +454,11 @@ getAllDemuxletResults &lt;- function(outdir){
   demuxlet_all$label[startsWith(demuxlet_all$label, &#39;DBL&#39;)] &lt;- &#39;NA&#39;
   demuxlet_all$label[startsWith(demuxlet_all$label, &#39;AMB&#39;)] &lt;- &#39;NA&#39;
 
-  data &lt;- AddMetaData(data, demuxlet_all[&#39;label&#39;], col.name=&#39;label&#39;)
+  data &lt;- AddMetaData(data, demuxlet_all[&#39;label&#39;])
 
   print(dim(demuxlet_all))
   
+  if (!tutorialvcf){
   plot_grid(
     DimPlot(data, cells.highlight = rownames(data@meta.data)[grep(&#39;44B&#39;, data@meta.data$label)], reduction.use=&#39;tsne&#39;, cols.use=&#39;gray&#39;, cols.highlight = &#39;blue&#39;),
     DimPlot(data, cells.highlight = rownames(data@meta.data)[grep(&#39;BAT14&#39;, data@meta.data$label)], reduction.use=&#39;tsne&#39;, cols.use=&#39;gray&#39;, cols.highlight = &#39;blue&#39;),
@@ -454,7 +466,16 @@ getAllDemuxletResults &lt;- function(outdir){
     DimPlot(data, cells.highlight = rownames(data@meta.data)[grep(&#39;13a&#39;, data@meta.data$label)], reduction.use=&#39;tsne&#39;, cols.use=&#39;gray&#39;, cols.highlight = &#39;blue&#39;),
     labels=c(&#39;44B&#39;, &#39;BAT14&#39;, &#39;1AF&#39;, &#39;13a&#39;)
   )
+  } else{
+    plot_grid(
+      DimPlot(data, cells.highlight = rownames(data@meta.data)[grep(&#39;293T&#39;, data@meta.data$label)], reduction.use=&#39;tsne&#39;, cols.use=&#39;gray&#39;, cols.highlight = &#39;blue&#39;),
+      DimPlot(data, cells.highlight = rownames(data@meta.data)[grep(&#39;jurkat&#39;, data@meta.data$label)], reduction.use=&#39;tsne&#39;, cols.use=&#39;gray&#39;, cols.highlight = &#39;blue&#39;),
+      labels=c(&#39;239T&#39;, &#39;jurkat&#39;)
+    )
+  }
 }</code></pre>
+<div id="demuxlet-with-qced-vcf-file" class="section level1">
+<h1>Demuxlet with QCed VCF file</h1>
 <pre class="r"><code>getAllDemuxletResults(&#39;demuxlet_vcf_plink_bed-updated_sorted&#39;)</code></pre>
 <pre><code>[1] &quot;SAMPLE 1&quot;
 num_sng_dbl
@@ -477,8 +498,161 @@ num_sng_dbl
  AMB  DBL  SNG 
  156 6093 1116 
 [1] 26872    24</code></pre>
-<p><img src="figure/demuxlet.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-4-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-4-5.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>getAllDemuxletResults(&#39;demuxlet_vcf-imputed-genotypes&#39;)</code></pre>
+<p><img src="figure/demuxlet.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e50ea80bb2f39bbae91166c35248090f188c62d1/docs/figure/demuxlet.Rmd/unnamed-chunk-4-1.png" target="_blank">e50ea80</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-03
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/demuxlet.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e50ea80bb2f39bbae91166c35248090f188c62d1/docs/figure/demuxlet.Rmd/unnamed-chunk-4-2.png" target="_blank">e50ea80</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-03
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/demuxlet.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-3.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e50ea80bb2f39bbae91166c35248090f188c62d1/docs/figure/demuxlet.Rmd/unnamed-chunk-4-3.png" target="_blank">e50ea80</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-03
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/demuxlet.Rmd/unnamed-chunk-4-4.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-4.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e50ea80bb2f39bbae91166c35248090f188c62d1/docs/figure/demuxlet.Rmd/unnamed-chunk-4-4.png" target="_blank">e50ea80</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-03
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/demuxlet.Rmd/unnamed-chunk-4-5.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-4-5.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e50ea80bb2f39bbae91166c35248090f188c62d1/docs/figure/demuxlet.Rmd/unnamed-chunk-4-5.png" target="_blank">e50ea80</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-03
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="demuxlet-with-qced-vcf-file-imputed-snps-not-cleaned" class="section level1">
+<h1>Demuxlet with QCed VCF file + imputed SNPS (NOT CLEANED)</h1>
+<pre class="r"><code>getAllDemuxletResults(&#39;demuxlet_vcf-imputed-genotypes-NOTCLEANED&#39;)</code></pre>
 <pre><code>[1] &quot;SAMPLE 1&quot;
 num_sng_dbl
  AMB  DBL  SNG 
@@ -500,7 +674,229 @@ num_sng_dbl
  AMB  DBL  SNG 
    1 7278   86 
 [1] 26872    24</code></pre>
-<p><img src="figure/demuxlet.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-5-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-5-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/demuxlet.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e50ea80bb2f39bbae91166c35248090f188c62d1/docs/figure/demuxlet.Rmd/unnamed-chunk-5-1.png" target="_blank">e50ea80</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-03
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/demuxlet.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e50ea80bb2f39bbae91166c35248090f188c62d1/docs/figure/demuxlet.Rmd/unnamed-chunk-5-2.png" target="_blank">e50ea80</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-03
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/demuxlet.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-3.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e50ea80bb2f39bbae91166c35248090f188c62d1/docs/figure/demuxlet.Rmd/unnamed-chunk-5-3.png" target="_blank">e50ea80</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-03
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/demuxlet.Rmd/unnamed-chunk-5-4.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-4.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e50ea80bb2f39bbae91166c35248090f188c62d1/docs/figure/demuxlet.Rmd/unnamed-chunk-5-4.png" target="_blank">e50ea80</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-03
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/demuxlet.Rmd/unnamed-chunk-5-5.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-5.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e50ea80bb2f39bbae91166c35248090f188c62d1/docs/figure/demuxlet.Rmd/unnamed-chunk-5-5.png" target="_blank">e50ea80</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-03
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="demuxlet-with-qced-vcf-file-imputed-snps-not-cleaned-alpha-0-alpha-0.5" class="section level1">
+<h1>Demuxlet with QCed VCF file + imputed SNPS (NOT CLEANED), alpha 0 alpha 0.5</h1>
+<p>Only did this for 3 samples. Same number of AMB, DBL and SNG as when running with default alpha settings.</p>
+<pre class="r"><code>d1 &lt;- getDemuxletForSample(1, &#39;demuxlet_vcf-imputed-genotypes-alpha0.1-0.5-NOTCLEANED&#39;)</code></pre>
+<pre><code>[1] &quot;SAMPLE 1&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+   1 3423    9 </code></pre>
+<pre class="r"><code>d2 &lt;- getDemuxletForSample(2, &#39;demuxlet_vcf-imputed-genotypes-alpha0.1-0.5-NOTCLEANED&#39;)</code></pre>
+<pre><code>[1] &quot;SAMPLE 2&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+   3 5514   14 </code></pre>
+<pre class="r"><code>d3 &lt;- getDemuxletForSample(3, &#39;demuxlet_vcf-imputed-genotypes-alpha0.1-0.5-NOTCLEANED&#39;)</code></pre>
+<pre><code>[1] &quot;SAMPLE 3&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+   5 6034   11 </code></pre>
+</div>
+<div id="demuxlet-with-qced-vcf-file-imputed-snps-cleaned-alpha-0-alpha-0.5" class="section level1">
+<h1>Demuxlet with QCed VCF file + imputed SNPs, CLEANED, alpha 0 alpha 0.5</h1>
+<p>Ran with cleaned up imputed VCF file (693,165 SNPs)</p>
+<pre class="r"><code>getAllDemuxletResults(&#39;demuxlet_vcf-imputed-genotypes&#39;)</code></pre>
+<pre><code>[1] &quot;SAMPLE 1&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+  37 2963  431 
+[1] &quot;SAMPLE 2&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+  53 4688  788 
+[1] &quot;SAMPLE 3&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+  56 5361  630 
+[1] &quot;SAMPLE 4&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+   1 4454   37 
+[1] &quot;SAMPLE 5&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+  91 6000 1272 
+[1] 26862    24</code></pre>
+<p><img src="figure/demuxlet.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-7-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-7-5.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="demuxlet-with-tutorial-vcf-file" class="section level1">
+<h1>Demuxlet with tutorial VCF file</h1>
+<pre class="r"><code>getAllDemuxletResults(&#39;demuxlet_vcf_tutorial&#39;, tutorialvcf=T)</code></pre>
+<pre><code>[1] &quot;SAMPLE 1&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+ 129  612 2692 
+[1] &quot;SAMPLE 2&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+ 287  654 4590 
+[1] &quot;SAMPLE 3&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+ 287  558 5205 
+[1] &quot;SAMPLE 4&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+ 250  475 3768 
+[1] &quot;SAMPLE 5&quot;
+num_sng_dbl
+ AMB  DBL  SNG 
+ 432 1884 5049 
+[1] 26872    24</code></pre>
+<p><img src="figure/demuxlet.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/demuxlet.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
@@ -558,14 +954,15 @@ loaded via a namespace (and not attached):
  [88] htmlwidgets_1.2     bit_1.1-14          tidyselect_0.2.4   
  [91] plyr_1.8.4          magrittr_1.5        R6_2.2.2           
  [94] snow_0.4-2          gplots_3.0.1        Hmisc_4.1-1        
- [97] pillar_1.3.0        whisker_0.3-2       foreign_0.8-70     
+ [97] pillar_1.3.0        whisker_0.3-2       foreign_0.8-71     
 [100] withr_2.1.2         fitdistrplus_1.0-9  mixtools_1.1.0     
 [103] survival_2.42-6     nnet_7.3-12         tsne_0.1-3         
 [106] tibble_1.4.2        crayon_1.3.4        hdf5r_1.0.0        
 [109] KernSmooth_2.23-15  rmarkdown_1.10      grid_3.4.3         
 [112] data.table_1.11.4   git2r_0.23.0        metap_1.0          
-[115] digest_0.6.15       diptest_0.75-7      tidyr_0.8.1        
+[115] digest_0.6.16       diptest_0.75-7      tidyr_0.8.1        
 [118] R.utils_2.7.0       stats4_3.4.3        munsell_0.5.0      </code></pre>
+</div>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using

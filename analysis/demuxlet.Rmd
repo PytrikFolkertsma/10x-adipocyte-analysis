@@ -3,6 +3,9 @@ title: "R Notebook"
 output:
   html_document:
     df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
 ---
 
 
@@ -18,8 +21,7 @@ data <- readRDS('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-
 ```{r}
 getDemuxletForSample <- function(i, outputdir){
   demuxlet <- read.table(paste('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/data/demuxlet/demuxlet_out/', outputdir, '/180831_10x_s', i, '.best', sep=''), header=T)
-
-  demuxlet$correct_barcode <- paste(unlist(sapply(strsplit(as.character(demuxlet$BARCODE), '-'), '[[', 1)), '-', i, sep='')
+  demuxlet$correct_barcode <- paste(unlist(sapply(strsplit(as.character(demuxlet$BARCODE), '-'), '[[', 1)), '-', i, sep='') 
   rownames(demuxlet) <- demuxlet$correct_barcode
   cells <- rownames(data@meta.data)[data@meta.data$timepoint == paste('T', i, sep='')]
   demuxlet_filtered <- demuxlet[demuxlet$correct_barcode %in% cells, ]
@@ -31,7 +33,7 @@ getDemuxletForSample <- function(i, outputdir){
   return(demuxlet_filtered)
 }
 
-getAllDemuxletResults <- function(outdir){
+getAllDemuxletResults <- function(outdir, tutorialvcf=F){
   demuxlet_list <- list()
   for (i in 1:5){
     demuxlet <- getDemuxletForSample(i, outdir)
@@ -42,10 +44,11 @@ getAllDemuxletResults <- function(outdir){
   demuxlet_all$label[startsWith(demuxlet_all$label, 'DBL')] <- 'NA'
   demuxlet_all$label[startsWith(demuxlet_all$label, 'AMB')] <- 'NA'
 
-  data <- AddMetaData(data, demuxlet_all['label'], col.name='label')
+  data <- AddMetaData(data, demuxlet_all['label'])
 
   print(dim(demuxlet_all))
   
+  if (!tutorialvcf){
   plot_grid(
     DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('44B', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
     DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('BAT14', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
@@ -53,17 +56,50 @@ getAllDemuxletResults <- function(outdir){
     DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('13a', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
     labels=c('44B', 'BAT14', '1AF', '13a')
   )
+  } else{
+    plot_grid(
+      DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('293T', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+      DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('jurkat', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+      labels=c('239T', 'jurkat')
+    )
+  }
 }
 
 ```
 
+#Demuxlet with QCed VCF file
 
 ```{r}
 getAllDemuxletResults('demuxlet_vcf_plink_bed-updated_sorted')
 ```
+
+#Demuxlet with QCed VCF file + imputed SNPS (NOT CLEANED)
+
+```{r}
+getAllDemuxletResults('demuxlet_vcf-imputed-genotypes-NOTCLEANED')
+```
+
+#Demuxlet with QCed VCF file + imputed SNPS (NOT CLEANED), alpha 0 alpha 0.5
+
+Only did this for 3 samples. Same number of AMB, DBL and SNG as when running with default alpha settings. 
+
+```{r}
+d1 <- getDemuxletForSample(1, 'demuxlet_vcf-imputed-genotypes-alpha0.1-0.5-NOTCLEANED')
+d2 <- getDemuxletForSample(2, 'demuxlet_vcf-imputed-genotypes-alpha0.1-0.5-NOTCLEANED')
+d3 <- getDemuxletForSample(3, 'demuxlet_vcf-imputed-genotypes-alpha0.1-0.5-NOTCLEANED')
+```
+
+#Demuxlet with QCed VCF file + imputed SNPs, CLEANED, alpha 0 alpha 0.5
+
+Ran with cleaned up imputed VCF file (693,165 SNPs)
 
 ```{r}
 getAllDemuxletResults('demuxlet_vcf-imputed-genotypes')
 ```
 
 
+#Demuxlet with tutorial VCF file
+
+```{r}
+getAllDemuxletResults('demuxlet_vcf_tutorial', tutorialvcf=T)
+```
