@@ -344,7 +344,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/02cc2fe62ff18aafd0853ad3fc5e61862e51d4bb" target="_blank">02cc2fe</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/807a1cb0d88ddd7cea8e44ad617f9ee0dab8cfbf" target="_blank">807a1cb</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -378,6 +378,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/807a1cb0d88ddd7cea8e44ad617f9ee0dab8cfbf/analysis/10x-180504-general-analysis.Rmd" target="_blank">807a1cb</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-05
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“analysis/10x-180504-general-analysis.Rmd”))
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/2b73a7496a0c205224c929316c4dfd7944f86231/docs/10x-180504-general-analysis.html" target="_blank">2b73a74</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-05
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -2304,6 +2338,36 @@ PytrikFolkertsma
 <pre class="r"><code>all10x@meta.data$mixture &lt;- ifelse(all10x@meta.data$res.0.5==12, &quot;mixture&quot;, &quot;rest&quot;)
 VlnPlot(all10x, features.plot=c(&#39;nGene&#39;, &#39;MALAT1&#39;, &#39;NEAT1&#39;, &#39;FN1&#39;, &#39;ITGB1&#39;, &#39;COL1A1&#39;, &#39;COL1A2&#39;, &#39;percent.mito&#39;), group.by=&#39;mixture&#39;, point.size.use=-1, nCol=4)</code></pre>
 <p><img src="figure/10x-180504-general-analysis.Rmd/fig4-1.png" width="864" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig4-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2b73a7496a0c205224c929316c4dfd7944f86231/docs/figure/10x-180504-general-analysis.Rmd/fig4-1.png" target="_blank">2b73a74</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figures-for-report" class="section level1">
 <h1>Figures for report</h1>
@@ -2576,7 +2640,67 @@ fig2_first_row &lt;- plot_grid(
   DimPlot(all10x, reduction.use=&#39;tsne&#39;, cells.highlight = rownames(all10x@meta.data)[all10x@meta.data$res.0.5 == 12], cols.highlight=&#39;blue&#39;, cols.use=&#39;gray&#39;, pt.size=0.1),
   labels=c(&#39;a&#39;, &#39;b&#39;)
 )</code></pre>
-<p><img src="figure/10x-180504-general-analysis.Rmd/fig5-1.png" width="1152" style="display: block; margin: auto;" /><img src="figure/10x-180504-general-analysis.Rmd/fig5-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180504-general-analysis.Rmd/fig5-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2b73a7496a0c205224c929316c4dfd7944f86231/docs/figure/10x-180504-general-analysis.Rmd/fig5-1.png" target="_blank">2b73a74</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details> <img src="figure/10x-180504-general-analysis.Rmd/fig5-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig5-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2b73a7496a0c205224c929316c4dfd7944f86231/docs/figure/10x-180504-general-analysis.Rmd/fig5-2.png" target="_blank">2b73a74</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-05
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>fig2_violin &lt;- plot_grid(
   get_violin_plot(&#39;nGene&#39;),
   get_violin_plot(&#39;MALAT1&#39;),
@@ -2603,7 +2727,9 @@ fig2 &lt;- plot_grid(
   nrow=2
 )
 
-save_plot(&quot;plots/180504_mixture.pdf&quot;, fig2, base_width=12, base_height=10)</code></pre>
+fig2</code></pre>
+<p><img src="figure/10x-180504-general-analysis.Rmd/fig5-3.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>save_plot(&quot;plots/180504_mixture.pdf&quot;, fig2, base_width=12, base_height=10)</code></pre>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
