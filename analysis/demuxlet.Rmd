@@ -27,9 +27,9 @@ getDemuxletForSample <- function(i, outputdir){
   demuxlet_filtered <- demuxlet[demuxlet$correct_barcode %in% cells, ]
   
   num_sng_dbl <- sapply(strsplit(as.character(demuxlet_filtered$BEST), '-'), '[[', 1)
-
   print(paste('SAMPLE', i))
   print(table(num_sng_dbl))
+  
   return(demuxlet_filtered)
 }
 
@@ -43,10 +43,13 @@ getAllDemuxletResults <- function(outdir, tutorialvcf=F){
   demuxlet_all$label <- as.character(demuxlet_all$BEST)
   demuxlet_all$label[startsWith(demuxlet_all$label, 'DBL')] <- 'NA'
   demuxlet_all$label[startsWith(demuxlet_all$label, 'AMB')] <- 'NA'
+  
+  hist(demuxlet_all$N.SNP)
 
   data <- AddMetaData(data, demuxlet_all['label'])
 
-  print(dim(demuxlet_all))
+  print(paste('Average number of N.SNP:', mean(demuxlet_all$N.SNP)))
+  print(paste('Number of cells: ', dim(demuxlet_all)[1]))
   
   if (!tutorialvcf){
   plot_grid(
