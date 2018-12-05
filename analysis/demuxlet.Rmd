@@ -44,7 +44,7 @@ getAllDemuxletResults <- function(outdir, tutorialvcf=F){
   demuxlet_all$label[startsWith(demuxlet_all$label, 'DBL')] <- 'NA'
   demuxlet_all$label[startsWith(demuxlet_all$label, 'AMB')] <- 'NA'
   
-  hist(demuxlet_all$N.SNP)
+  print(hist(demuxlet_all$N.SNP))
 
   data <- AddMetaData(data, demuxlet_all['label'])
 
