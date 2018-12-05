@@ -338,6 +338,8 @@ fig2 <- plot_grid(
   nrow=2
 )
 
+fig2
+
 save_plot("plots/180504_mixture.pdf", fig2, base_width=12, base_height=10)
 
 ```
