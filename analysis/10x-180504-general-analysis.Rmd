@@ -20,7 +20,13 @@ all10x <- readRDS('output/10x-180504')
 all10x.ccregout <- readRDS('output/10x-180504-ccregout')
 ```
 
-#QC Plots
+#QC
+
+Number of cells and genes
+
+```{r}
+all10x
+```
 
 ```{r}
 VlnPlot(all10x, features.plot='nGene', group.by='sample_name', point.size.use=-1, x.lab.rot=T)
