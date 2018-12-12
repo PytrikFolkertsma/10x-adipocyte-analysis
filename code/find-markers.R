@@ -15,6 +15,10 @@ find_markers <- function(data, colname, test='negbinom', num_nodes=8){
   list_of_dfs.all_markers <- lapply(list_of_dfs.all_markers, function(x) cbind(x,gene=rownames(x)))
   names(list_of_dfs.all_markers) <- cluster_ids
   df.cluster_markers <- bind_rows(list_of_dfs.all_markers, .id="cluster")
+  print('NAMES')
+  print(names(df.cluster_markers))
+  print(head(df.cluster_markers))
+  df.cluster_markers <- df.cluster_markers[df.cluster_markers$p_val_adj < 0.05, ]
   return(df.cluster_markers)
 }
 

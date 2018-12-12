@@ -73,7 +73,7 @@ run_monocle_workflow <- function(data){
     ordering_genes <- subset(disp_table, mean_expression >= 0.5 & dispersion_empirical >= 1 * dispersion_fit)$gene_id
   } else {
     print('Using genes from given genelist for ordering...')
-    ordering_genes <- read.table(opt$genelist)$V1
+    ordering_genes <- unique(read.table(opt$genelist)$V1)
   }
 
   print(paste('Nr of genes:', length(ordering_genes)))

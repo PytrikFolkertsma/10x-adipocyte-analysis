@@ -30,7 +30,7 @@ if (is.null(opt$config)){
 
 ################################################################################
 
-library(Seurat)
+library(Seurat, lib.loc='/home/cbmr/pytrik/libraries/')
 library(magrittr)
 library(dplyr)
 
@@ -102,5 +102,11 @@ print('>>>RUNNING TSNE')
 seurobj <- RunTSNE(seurobj, reduction.use='pca', dims.use=1:n.pcs)
 
 print('>>>SAVING DATASET')
-print(paste('Saving dataset:', output))
-saveRDS(seurobj, output)
+if(is.null(opt$file)){
+  print(paste('Saving dataset:', output))
+  saveRDS(seurobj, output)
+} else {
+  print(paste('Saving dataset:', opt$file))
+  saveRDS(seurobj, opt$file)
+}
+
