@@ -44,14 +44,9 @@ TSNEPlot(data_cleaned, group.by='res.0.5', pt.size=0.1)
 Save the cleaned up Seurat object to run preprocessing again (new PCA, clustering and tSNE).
 
 ```{r}
-#saveRDS(data_cleaned, 'output/10x-180831')
+saveRDS(data_cleaned, 'output/10x-180831')
 ```
 
-Save the data with the bad quality cluster in case it is needed for other plots.
-
-```{r}
-#saveRDS(data, 'output/10x-180831-notcleaned')
-```
 
 #Figures for report
 
