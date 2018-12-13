@@ -320,7 +320,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-11-07</p>
+<p><strong>Last updated:</strong> 2018-12-13</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -344,16 +344,34 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/1c178af9944fff1307ffd32484c5752e20e7c745" target="_blank">1c178af</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/d3d0ecfd9bef1093b3d9f75d0a69da1606006a2c" target="_blank">d3d0ecf</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    analysis/figure/
+    Ignored:    output/10x-180504
+    Ignored:    output/10x-180504-aligned
+    Ignored:    output/10x-180504-aligned-metageneplot
+    Ignored:    output/10x-180504-beforeQC
+    Ignored:    output/10x-180504-beforeqc
+    Ignored:    output/10x-180504-cca-discardedcells
+    Ignored:    output/10x-180504-ccregout
+    Ignored:    output/10x-180504-ccregout-aligned
+    Ignored:    output/10x-180504-ccregout-cca-discardedcells
+    Ignored:    output/10x-180831
+    Ignored:    output/10x-180831-T1T2T3
+    Ignored:    output/10x-180831-T4T5
+    Ignored:    output/10x-180831-beforeqc
+    Ignored:    output/10x-180831-notcleaned
     Ignored:    output/monocle/
 
 Unstaged changes:
-    Modified:   plots/180504_alignment.pdf
-    Modified:   plots/supplementary_figures/sfig_180504_alignment-discardedcells.pdf
-    Modified:   plots/supplementary_figures/sfig_180504_biweightplots.pdf
+    Modified:   analysis/10x-180504-DEGs-depots.Rmd
+    Modified:   plots/180504_depot_markers.pdf
+    Modified:   plots/180504_mixture.pdf
+    Modified:   plots/180504_pca_tsne.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_pcelbow.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_qcplots.pdf
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -382,6 +400,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/d3d0ecfd9bef1093b3d9f75d0a69da1606006a2c/analysis/10x-180504-beforeQC.Rmd" target="_blank">d3d0ecf</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-13
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“analysis/10x-180504-beforeQC.Rmd”))
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/6e36947e6e9022fc8baba3f58e9b49869723d321/docs/10x-180504-beforeQC.html" target="_blank">6e36947</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -482,6 +534,36 @@ all10x &lt;- readRDS(&#39;output/10x-180504&#39;)</code></pre>
 <pre class="r"><code>pm &lt;- VlnPlot(all10x.beforeqc, features.plot=&#39;percent.mito&#39;, group.by=&#39;sample_name&#39;, point.size.use = -1, do.return=T, x.lab.rot=T, size.x.use=8) + geom_hline(yintercept=0.08, linetype=&quot;dashed&quot;, color = &quot;red&quot;)
 pm</code></pre>
 <p><img src="figure/10x-180504-beforeQC.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/6e36947e6e9022fc8baba3f58e9b49869723d321/docs/figure/10x-180504-beforeQC.Rmd/unnamed-chunk-2-1.png" target="_blank">6e36947</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>numi &lt;- VlnPlot(all10x.beforeqc, features.plot=&#39;nUMI&#39;, group.by=&#39;sample_name&#39;, point.size.use = -1, do.return=T, x.lab.rot=T, size.x.use=8) + geom_hline(yintercept=110000, linetype=&quot;dashed&quot;, color = &quot;red&quot;)
 numi</code></pre>
 <p><img src="figure/10x-180504-beforeQC.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -501,6 +583,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/6e36947e6e9022fc8baba3f58e9b49869723d321/docs/figure/10x-180504-beforeQC.Rmd/unnamed-chunk-3-1.png" target="_blank">6e36947</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/4b12f4312170082f2357d1ec010bc7b02c03d834/docs/figure/10x-180504-beforeQC.Rmd/unnamed-chunk-3-1.png" target="_blank">4b12f43</a>
@@ -535,6 +628,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/6e36947e6e9022fc8baba3f58e9b49869723d321/docs/figure/10x-180504-beforeQC.Rmd/unnamed-chunk-4-1.png" target="_blank">6e36947</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/4b12f4312170082f2357d1ec010bc7b02c03d834/docs/figure/10x-180504-beforeQC.Rmd/unnamed-chunk-4-1.png" target="_blank">4b12f43</a>
@@ -576,6 +680,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/6e36947e6e9022fc8baba3f58e9b49869723d321/docs/figure/10x-180504-beforeQC.Rmd/unnamed-chunk-5-1.png" target="_blank">6e36947</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-07
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/4b12f4312170082f2357d1ec010bc7b02c03d834/docs/figure/10x-180504-beforeQC.Rmd/unnamed-chunk-5-1.png" target="_blank">4b12f43</a>
@@ -658,7 +773,7 @@ PytrikFolkertsma
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.4.3 (2017-11-30)
 Platform: x86_64-redhat-linux-gnu (64-bit)
-Running under: Red Hat Enterprise Linux
+Running under: Storage
 
 Matrix products: default
 BLAS/LAPACK: /usr/lib64/R/lib/libRblas.so
