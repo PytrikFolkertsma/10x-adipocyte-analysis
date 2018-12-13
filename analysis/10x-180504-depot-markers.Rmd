@@ -104,17 +104,31 @@ data <- readRDS('output/10x-180831')
 
 Old data
 
-```{r fig9, fig.height = 6, fig.width = 10, fig.align = "center"}
-VlnPlot(all10x, features.plot=c('TM4SF1', 'LINC01116', 'HOXB7', 'BARX1'), group.by='sample_name', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
+```{r fig9, fig.height = 9, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, features.plot=c('TM4SF1', 'LINC01116', 'HOXB7', 'BARX1', 'LY6K'), group.by='sample_name', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
 ```
 
 New data
 
-```{r fig10, fig.height = 8, fig.width = 10, fig.align = "center"}
-FeaturePlot(data, features.plot=c('TM4SF1', 'LINC01116', 'HOXB7', 'BARX1'), cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
+```{r fig10, fig.height = 12, fig.width = 10, fig.align = "center"}
+FeaturePlot(data, features.plot=c('TM4SF1', 'LINC01116', 'HOXB7', 'BARX1', 'LY6K'), cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
 ```
 
 ```{r}
+TSNEPlot(data, group.by='State', pt.size=0.1)
+```
 
+```{r}
+TSNEPlot(data, group.by='res.1.5', pt.size=0.1, do.label=T)
+```
+
+
+```{r fig11, fig.height = 15, fig.width = 10, fig.align = "center"}
+VlnPlot(data, features.plot=c('TM4SF1', 'LINC01116', 'HOXB7', 'BARX1', 'LY6K'), group.by='res.1.5', point.size.use=-1, nCol=1)
+```
+
+
+```{r fig12, fig.height = 15, fig.width = 10, fig.align = "center"}
+VlnPlot(data, features.plot=c('TM4SF1', 'LINC01116', 'HOXB7', 'BARX1', 'LY6K'), group.by='res.1.5', point.size.use=0.1, nCol=1)
 ```
 
