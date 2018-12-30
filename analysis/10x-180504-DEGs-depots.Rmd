@@ -29,11 +29,11 @@ library(Seurat)
 #Brown: TM4SF1, LY6K, HOXB7
 #Visceral: BARX1, LINC01116
 fig1 <- plot_grid(
-  VlnPlot(all10x, features.plot='TM4SF1', point.size.use = -1, group.by='sample_name'),
-  VlnPlot(all10x, features.plot='LY6K', point.size.use = -1, group.by='sample_name'),
-  VlnPlot(all10x, features.plot='HOXB7', point.size.use = -1, group.by='sample_name'),
-  VlnPlot(all10x, features.plot='BARX1', point.size.use = -1, group.by='sample_name'),
-  VlnPlot(all10x, features.plot='LINC01116', point.size.use = -1, group.by='sample_name'),
+  VlnPlot(all10x, features.plot='TM4SF1', point.size.use = -1, group.by='sample_name', x.lab.rot=T, size.x.use = 8),
+  VlnPlot(all10x, features.plot='LY6K', point.size.use = -1, group.by='sample_name', x.lab.rot=T, size.x.use = 8),
+  VlnPlot(all10x, features.plot='HOXB7', point.size.use = -1, group.by='sample_name', x.lab.rot=T, size.x.use = 8),
+  VlnPlot(all10x, features.plot='BARX1', point.size.use = -1, group.by='sample_name', x.lab.rot=T, size.x.use = 8),
+  VlnPlot(all10x, features.plot='LINC01116', point.size.use = -1, group.by='sample_name', x.lab.rot=T, size.x.use = 8),
   labels='auto', ncol=1
 )
 
