@@ -315,7 +315,7 @@ save_plot("plots/180504_pca_tsne.pdf", fig1, base_width=12, base_height = 9)
 fig1
 ```
 
-```{r fig2, fig.height = 9, fig.width = 12, fig.align = "center"}
+```{r fig2, fig.height = 3, fig.width = 12, fig.align = "center"}
 sfig <- plot_grid(
   pm,
   numi,
