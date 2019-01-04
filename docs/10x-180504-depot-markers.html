@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>R Notebook</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">10x-adipocyte-analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="http://github.com/PytrikFolkertsma/10x-adipocyte-analysis">
+    <span class="fa fa-github"></span>
+     
+    Source
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Notebook</h1>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-12-13</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20181026)</code> </summary></p>
+<p>The command <code>set.seed(20181026)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/360a5c53d6bf6eebbfee9881a7a882f1566529ee" target="_blank">360a5c5</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    analysis/figure/
+    Ignored:    output/10x-180504
+    Ignored:    output/10x-180504-aligned
+    Ignored:    output/10x-180504-aligned-metageneplot
+    Ignored:    output/10x-180504-beforeQC
+    Ignored:    output/10x-180504-beforeqc
+    Ignored:    output/10x-180504-cca-discardedcells
+    Ignored:    output/10x-180504-ccregout
+    Ignored:    output/10x-180504-ccregout-aligned
+    Ignored:    output/10x-180504-ccregout-cca-discardedcells
+    Ignored:    output/10x-180831
+    Ignored:    output/10x-180831-T1T2T3
+    Ignored:    output/10x-180831-T4T5
+    Ignored:    output/10x-180831-beforeqc
+    Ignored:    output/10x-180831-notcleaned
+    Ignored:    output/monocle/
+
+Untracked files:
+    Untracked:  output/markergenes/180831/monocle_genelist_T1T2T3_T4T5_res.1.5
+    Untracked:  output/markergenes/180831/monocle_genelist_time-combined
+
+Unstaged changes:
+    Modified:   output/markergenes/180831/markers_10x-180831_time_combined_negbinom
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/360a5c53d6bf6eebbfee9881a7a882f1566529ee/analysis/10x-180504-depot-markers.Rmd" target="_blank">360a5c5</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-13
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“analysis/10x-180504-depot-markers.Rmd”))
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/860f7cd969b7a08dc168761ff40f32d448652926/analysis/10x-180504-depot-markers.Rmd" target="_blank">860f7cd</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+<td style="text-align:left;">
+genes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/860f7cd969b7a08dc168761ff40f32d448652926/docs/10x-180504-depot-markers.html" target="_blank">860f7cd</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+<td style="text-align:left;">
+genes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2bddc82d67f9c8ff28c1666bbb768a5040652345/analysis/10x-180504-depot-markers.Rmd" target="_blank">2bddc82</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-22
+</td>
+<td style="text-align:left;">
+find markers
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/2bddc82d67f9c8ff28c1666bbb768a5040652345/docs/10x-180504-depot-markers.html" target="_blank">2bddc82</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-22
+</td>
+<td style="text-align:left;">
+find markers
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<p>This is an <a href="http://rmarkdown.rstudio.com">R Markdown</a> Notebook. When you execute code within the notebook, the results appear beneath the code.</p>
+<p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Cmd+Shift+Enter</em>.</p>
+<pre class="r"><code>library(gplots) </code></pre>
+<pre><code>
+Attaching package: &#39;gplots&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:stats&#39;:
+
+    lowess</code></pre>
+<pre class="r"><code>library(Seurat)</code></pre>
+<pre><code>Loading required package: ggplot2</code></pre>
+<pre><code>Loading required package: cowplot</code></pre>
+<pre><code>
+Attaching package: &#39;cowplot&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
+
+    ggsave</code></pre>
+<pre><code>Loading required package: Matrix</code></pre>
+<pre class="r"><code>all10x &lt;- readRDS(&#39;output/10x-180504&#39;)</code></pre>
+<pre class="r"><code>brown_markers &lt;- read.table(&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/data/markergenes/180504/markers_10x-180504_brown&#39;, header=T)
+brown_markers &lt;- brown_markers[brown_markers$p_val_adj &lt; 0.05,]
+brown_markers_pos &lt;- brown_markers[brown_markers$avg_logFC &gt; 0.25,]
+brown_markers_neg &lt;- brown_markers[brown_markers$avg_logFC &lt; -0.25,]
+
+white_markers &lt;- read.table(&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/data/markergenes/180504/markers_10x-180504_white&#39;, header=T)
+white_markers &lt;- white_markers[white_markers$p_val_adj &lt; 0.05,]
+white_markers_pos &lt;- white_markers[white_markers$avg_logFC &gt; 0.25,]
+white_markers_neg &lt;- white_markers[white_markers$avg_logFC &lt; -0.25,]
+
+getIntersectingGenes &lt;- function(df, depot){
+  samples &lt;- as.character(unique(all10x@meta.data$sample_name[all10x@meta.data$depot == depot]))
+  genes &lt;- df[df$sample_name == samples[1], &#39;gene&#39;]
+  for (sample in samples[2:length(samples)]){
+    genes &lt;- intersect(genes, df[df$sample_name == sample, &#39;gene&#39;])
+  }
+  print(paste(&#39;Nr of genes for &#39;, depot, &#39;: &#39;, length(genes), sep=&#39;&#39;))
+  return(genes)
+}</code></pre>
+<pre class="r"><code>#Peri 
+peri_pos &lt;- getIntersectingGenes(brown_markers_pos, &#39;Peri&#39;) #12</code></pre>
+<pre><code>[1] &quot;Nr of genes for Peri: 12&quot;</code></pre>
+<pre class="r"><code>peri_neg &lt;- getIntersectingGenes(brown_markers_neg, &#39;Peri&#39;) #9</code></pre>
+<pre><code>[1] &quot;Nr of genes for Peri: 9&quot;</code></pre>
+<pre class="r"><code>#Supra
+supra_pos &lt;- getIntersectingGenes(brown_markers_pos, &#39;Supra&#39;) #4</code></pre>
+<pre><code>[1] &quot;Nr of genes for Supra: 4&quot;</code></pre>
+<pre class="r"><code>supra_neg &lt;- getIntersectingGenes(brown_markers_neg, &#39;Supra&#39;) #3</code></pre>
+<pre><code>[1] &quot;Nr of genes for Supra: 3&quot;</code></pre>
+<pre class="r"><code>#Visce
+visce_pos &lt;- getIntersectingGenes(white_markers_pos, &#39;Visce&#39;) #1</code></pre>
+<pre><code>[1] &quot;Nr of genes for Visce: 1&quot;</code></pre>
+<pre class="r"><code>visce_neg &lt;- getIntersectingGenes(white_markers_neg, &#39;Visce&#39;) #25</code></pre>
+<pre><code>[1] &quot;Nr of genes for Visce: 25&quot;</code></pre>
+<pre class="r"><code>#Subq
+subq_pos &lt;- getIntersectingGenes(white_markers_pos, &#39;Subq&#39;) #4</code></pre>
+<pre><code>[1] &quot;Nr of genes for Subq: 4&quot;</code></pre>
+<pre class="r"><code>subq_neg &lt;- getIntersectingGenes(white_markers_neg, &#39;Subq&#39;) #7</code></pre>
+<pre><code>[1] &quot;Nr of genes for Subq: 7&quot;</code></pre>
+<div id="perirenal" class="section level1">
+<h1>Perirenal</h1>
+<pre class="r"><code>VlnPlot(all10x, features.plot=peri_pos, group.by=&#39;sample_name&#39;, point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2bddc82d67f9c8ff28c1666bbb768a5040652345/docs/figure/10x-180504-depot-markers.Rmd/fig1-1.png" target="_blank">2bddc82</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-22
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<pre class="r"><code>VlnPlot(all10x, features.plot=peri_neg, group.by=&#39;sample_name&#39;, point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2bddc82d67f9c8ff28c1666bbb768a5040652345/docs/figure/10x-180504-depot-markers.Rmd/fig2-1.png" target="_blank">2bddc82</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-22
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="supraclavicular" class="section level1">
+<h1>Supraclavicular</h1>
+<pre class="r"><code>VlnPlot(all10x, features.plot=supra_pos, group.by=&#39;sample_name&#39;, point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig3-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2bddc82d67f9c8ff28c1666bbb768a5040652345/docs/figure/10x-180504-depot-markers.Rmd/fig3-1.png" target="_blank">2bddc82</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-22
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<pre class="r"><code>VlnPlot(all10x, features.plot=supra_neg, group.by=&#39;sample_name&#39;, point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig4-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig4-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2bddc82d67f9c8ff28c1666bbb768a5040652345/docs/figure/10x-180504-depot-markers.Rmd/fig4-1.png" target="_blank">2bddc82</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-22
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="visceral" class="section level1">
+<h1>Visceral</h1>
+<pre class="r"><code>VlnPlot(all10x, features.plot=visce_pos, group.by=&#39;sample_name&#39;, point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig5-1.png" width="480" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2bddc82d67f9c8ff28c1666bbb768a5040652345/docs/figure/10x-180504-depot-markers.Rmd/fig5-1.png" target="_blank">2bddc82</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-22
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<pre class="r"><code>VlnPlot(all10x, features.plot=visce_neg, group.by=&#39;sample_name&#39;, point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig6-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig6-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2bddc82d67f9c8ff28c1666bbb768a5040652345/docs/figure/10x-180504-depot-markers.Rmd/fig6-1.png" target="_blank">2bddc82</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-22
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="subcutaneous" class="section level1">
+<h1>Subcutaneous</h1>
+<pre class="r"><code>VlnPlot(all10x, features.plot=subq_pos, group.by=&#39;sample_name&#39;, point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig7-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig7-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2bddc82d67f9c8ff28c1666bbb768a5040652345/docs/figure/10x-180504-depot-markers.Rmd/fig7-1.png" target="_blank">2bddc82</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-22
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<pre class="r"><code>VlnPlot(all10x, features.plot=subq_neg, group.by=&#39;sample_name&#39;, point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig8-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig8-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2bddc82d67f9c8ff28c1666bbb768a5040652345/docs/figure/10x-180504-depot-markers.Rmd/fig8-1.png" target="_blank">2bddc82</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-22
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="check-markers-in-new-data" class="section level1">
+<h1>Check markers in new data</h1>
+<pre class="r"><code>data &lt;- readRDS(&#39;output/10x-180831&#39;)</code></pre>
+<p>Old data</p>
+<pre class="r"><code>VlnPlot(all10x, features.plot=c(&#39;TM4SF1&#39;, &#39;LINC01116&#39;, &#39;HOXB7&#39;, &#39;BARX1&#39;, &#39;LY6K&#39;), group.by=&#39;sample_name&#39;, point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig9-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig9-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/860f7cd969b7a08dc168761ff40f32d448652926/docs/figure/10x-180504-depot-markers.Rmd/fig9-1.png" target="_blank">860f7cd</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/2bddc82d67f9c8ff28c1666bbb768a5040652345/docs/figure/10x-180504-depot-markers.Rmd/fig9-1.png" target="_blank">2bddc82</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-11-22
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<p>New data</p>
+<pre class="r"><code>FeaturePlot(data, features.plot=c(&#39;TM4SF1&#39;, &#39;LINC01116&#39;, &#39;HOXB7&#39;, &#39;BARX1&#39;, &#39;LY6K&#39;), cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F, nCol=2)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig10-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig10-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/860f7cd969b7a08dc168761ff40f32d448652926/docs/figure/10x-180504-depot-markers.Rmd/fig10-1.png" target="_blank">860f7cd</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<pre class="r"><code>TSNEPlot(data, group.by=&#39;State&#39;, pt.size=0.1)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>TSNEPlot(data, group.by=&#39;res.1.5&#39;, pt.size=0.1, do.label=T)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>VlnPlot(data, features.plot=c(&#39;TM4SF1&#39;, &#39;LINC01116&#39;, &#39;HOXB7&#39;, &#39;BARX1&#39;, &#39;LY6K&#39;), group.by=&#39;res.1.5&#39;, point.size.use=-1, nCol=1)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig11-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>VlnPlot(data, features.plot=c(&#39;TM4SF1&#39;, &#39;LINC01116&#39;, &#39;HOXB7&#39;, &#39;BARX1&#39;, &#39;LY6K&#39;), group.by=&#39;res.1.5&#39;, point.size.use=0.1, nCol=1)</code></pre>
+<p><img src="figure/10x-180504-depot-markers.Rmd/fig12-1.png" width="960" style="display: block; margin: auto;" /></p>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.4.3 (2017-11-30)
+Platform: x86_64-redhat-linux-gnu (64-bit)
+Running under: Storage
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib64/R/lib/libRblas.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] bindrcpp_0.2.2 Seurat_2.3.4   Matrix_1.2-14  cowplot_0.9.3 
+[5] ggplot2_3.0.0  gplots_3.0.1  
+
+loaded via a namespace (and not attached):
+  [1] Rtsne_0.13          colorspace_1.3-2    class_7.3-14       
+  [4] modeltools_0.2-22   ggridges_0.5.0      mclust_5.4.1       
+  [7] rprojroot_1.3-2     htmlTable_1.12      base64enc_0.1-3    
+ [10] rstudioapi_0.7      proxy_0.4-22        flexmix_2.3-14     
+ [13] bit64_0.9-7         mvtnorm_1.0-8       codetools_0.2-15   
+ [16] splines_3.4.3       R.methodsS3_1.7.1   robustbase_0.93-2  
+ [19] knitr_1.20          jsonlite_1.5        Formula_1.2-3      
+ [22] workflowr_1.1.1     ica_1.0-2           cluster_2.0.7-1    
+ [25] kernlab_0.9-27      png_0.1-7           R.oo_1.22.0        
+ [28] compiler_3.4.3      httr_1.3.1          backports_1.1.2    
+ [31] assertthat_0.2.0    lazyeval_0.2.1      lars_1.2           
+ [34] acepack_1.4.1       htmltools_0.3.6     tools_3.4.3        
+ [37] igraph_1.2.2        gtable_0.2.0        glue_1.3.0         
+ [40] RANN_2.6            reshape2_1.4.3      dplyr_0.7.6        
+ [43] Rcpp_0.12.18        trimcluster_0.1-2.1 gdata_2.18.0       
+ [46] ape_5.1             nlme_3.1-137        iterators_1.0.10   
+ [49] fpc_2.1-11.1        gbRd_0.4-11         lmtest_0.9-36      
+ [52] stringr_1.3.1       irlba_2.3.2         gtools_3.8.1       
+ [55] DEoptimR_1.0-8      MASS_7.3-50         zoo_1.8-3          
+ [58] scales_1.0.0        doSNOW_1.0.16       parallel_3.4.3     
+ [61] RColorBrewer_1.1-2  yaml_2.2.0          reticulate_1.10    
+ [64] pbapply_1.3-4       gridExtra_2.3       rpart_4.1-13       
+ [67] segmented_0.5-3.0   latticeExtra_0.6-28 stringi_1.2.4      
+ [70] foreach_1.4.4       checkmate_1.8.5     caTools_1.17.1.1   
+ [73] bibtex_0.4.2        Rdpack_0.9-0        SDMTools_1.1-221   
+ [76] rlang_0.2.2         pkgconfig_2.0.2     dtw_1.20-1         
+ [79] prabclus_2.2-6      bitops_1.0-6        evaluate_0.11      
+ [82] lattice_0.20-35     ROCR_1.0-7          purrr_0.2.5        
+ [85] bindr_0.1.1         labeling_0.3        htmlwidgets_1.2    
+ [88] bit_1.1-14          tidyselect_0.2.4    plyr_1.8.4         
+ [91] magrittr_1.5        R6_2.2.2            snow_0.4-2         
+ [94] Hmisc_4.1-1         pillar_1.3.0        whisker_0.3-2      
+ [97] foreign_0.8-71      withr_2.1.2         fitdistrplus_1.0-9 
+[100] mixtools_1.1.0      survival_2.42-6     nnet_7.3-12        
+[103] tsne_0.1-3          tibble_1.4.2        crayon_1.3.4       
+[106] hdf5r_1.0.0         KernSmooth_2.23-15  rmarkdown_1.10     
+[109] grid_3.4.3          data.table_1.11.4   git2r_0.23.0       
+[112] metap_1.0           digest_0.6.16       diptest_0.75-7     
+[115] tidyr_0.8.1         R.utils_2.7.0       stats4_3.4.3       
+[118] munsell_0.5.0      </code></pre>
+</div>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

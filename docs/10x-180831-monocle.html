@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>R Notebook</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">10x-adipocyte-analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="http://github.com/PytrikFolkertsma/10x-adipocyte-analysis">
+    <span class="fa fa-github"></span>
+     
+    Source
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Notebook</h1>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2019-01-03</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20181026)</code> </summary></p>
+<p>The command <code>set.seed(20181026)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/e8cd231f8371fdb2bf80f0e1829bb065b31abce9" target="_blank">e8cd231</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    analysis/figure/
+    Ignored:    code/.ipynb_checkpoints/
+    Ignored:    output/10x-180504
+    Ignored:    output/10x-180504-aligned
+    Ignored:    output/10x-180504-aligned-metageneplot
+    Ignored:    output/10x-180504-beforeQC
+    Ignored:    output/10x-180504-beforeqc
+    Ignored:    output/10x-180504-cca-discardedcells
+    Ignored:    output/10x-180504-ccregout
+    Ignored:    output/10x-180504-ccregout-aligned
+    Ignored:    output/10x-180504-ccregout-cca-discardedcells
+    Ignored:    output/10x-180831
+    Ignored:    output/10x-180831-T1T2T3
+    Ignored:    output/10x-180831-T4T5
+    Ignored:    output/10x-180831-beforeqc
+    Ignored:    output/10x-180831-notcleaned
+    Ignored:    output/monocle/
+
+Untracked files:
+    Untracked:  analysis/velocyto_notebook_180831.ipynb
+    Untracked:  output/velocyto/10x-180831.hdf5
+    Untracked:  output/velocyto/10x-180831.loom
+    Untracked:  output/velocyto/10x-180831_tsne33_velocity.hdf5
+    Untracked:  output/velocyto/10x-180831_tsne_velocity.hdf5
+    Untracked:  tables/10x-180831-metadata.txt
+    Untracked:  tables/BEAM/
+    Untracked:  tables/BEAM_GSEA/
+
+Unstaged changes:
+    Deleted:    analysis/.ipynb_checkpoints/velocyto_notebook_180504-Copy1-checkpoint.ipynb
+    Deleted:    analysis/.ipynb_checkpoints/velocyto_notebook_180504-checkpoint.ipynb
+    Modified:   analysis/10x-180504-general-analysis.Rmd
+    Modified:   analysis/10x-180504-mixture-cluster.Rmd
+    Modified:   analysis/10x-180831-general-analysis.Rmd
+    Deleted:    analysis/velocyto_notebook_180504-Copy1.ipynb
+    Modified:   analysis/velocyto_notebook_180504.ipynb
+    Modified:   code/velocyto_preprocess.py
+    Modified:   code/velocyto_workflow.py
+    Modified:   plots/180504_pca_tsne.pdf
+    Modified:   plots/180504_velocyto_phase.pdf
+    Modified:   plots/180504_velocyto_phase_legend.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_pcelbow.pdf
+    Modified:   plots/supplementary_figures/sfig_180504_qcplots.pdf
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e8cd231f8371fdb2bf80f0e1829bb065b31abce9/analysis/10x-180831-monocle.Rmd" target="_blank">e8cd231</a>
+</td>
+<td style="text-align:left;">
+PytrikFolkertsma
+</td>
+<td style="text-align:left;">
+2019-01-03
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“analysis/10x-180831-monocle.Rmd”))
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<pre class="r"><code>library(Seurat)</code></pre>
+<pre><code>Loading required package: ggplot2</code></pre>
+<pre><code>Loading required package: cowplot</code></pre>
+<pre><code>
+Attaching package: &#39;cowplot&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
+
+    ggsave</code></pre>
+<pre><code>Loading required package: Matrix</code></pre>
+<pre class="r"><code>library(monocle)</code></pre>
+<pre><code>Loading required package: Biobase</code></pre>
+<pre><code>Loading required package: BiocGenerics</code></pre>
+<pre><code>Loading required package: parallel</code></pre>
+<pre><code>
+Attaching package: &#39;BiocGenerics&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:parallel&#39;:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB</code></pre>
+<pre><code>The following objects are masked from &#39;package:Matrix&#39;:
+
+    colMeans, colSums, rowMeans, rowSums, which</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    IQR, mad, sd, var, xtabs</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    anyDuplicated, append, as.data.frame, cbind, colMeans,
+    colnames, colSums, do.call, duplicated, eval, evalq, Filter,
+    Find, get, grep, grepl, intersect, is.unsorted, lapply,
+    lengths, Map, mapply, match, mget, order, paste, pmax,
+    pmax.int, pmin, pmin.int, Position, rank, rbind, Reduce,
+    rowMeans, rownames, rowSums, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which, which.max, which.min</code></pre>
+<pre><code>Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    &#39;browseVignettes()&#39;. To cite Bioconductor, see
+    &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
+<pre><code>Loading required package: VGAM</code></pre>
+<pre><code>Loading required package: stats4</code></pre>
+<pre><code>Loading required package: splines</code></pre>
+<pre><code>Loading required package: DDRTree</code></pre>
+<pre><code>Loading required package: irlba</code></pre>
+<pre class="r"><code>library(pheatmap)
+seurobj &lt;- readRDS(&#39;output/10x-180831&#39;)</code></pre>
+<div id="feature-selection-strategies" class="section level1">
+<h1>Feature selection strategies</h1>
+<p>Genes with high dispersion</p>
+<pre class="r"><code>cds_high_disp &lt;- readRDS(&#39;output/monocle/180831/monocle_high_dispersion/10x-180831-monocle&#39;)
+plot_cell_trajectory(cds_high_disp, color_by = &#39;timepoint&#39;)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>DE genes between T1T2T3 and T4T5</p>
+<pre class="r"><code>cds_timecombined &lt;- readRDS(&#39;output/monocle/180831/monocle_time-combined/10x-180831-monocle&#39;)
+plot_cell_trajectory(cds_timecombined, color_by=&#39;timepoint&#39;)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>DE genes from cluster resolution 1.5</p>
+<pre class="r"><code>cds_res1.5 &lt;- readRDS(&#39;output/monocle/180831/monocle_res1.5/10x-180831-monocle&#39;)
+plot_cell_trajectory(cds_res1.5, color_by=&#39;timepoint&#39;)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Dataset split into T1+T2+T3 and T4+T5, DE genes from clusters res0.5.</p>
+<pre class="r"><code>cds_split_res0.5 &lt;- readRDS(&#39;output/monocle/180831/monocle_T1T2T3_T4T5_res0.5/10x-180831-noreg-monocle&#39;)
+plot_cell_trajectory(cds_split_res0.5, color_by=&#39;timepoint&#39;)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Dataset split into T1+T2+T3 and T4+T5, DE genes from clusters res1.5 are used here. This trajectory was used for further analyses.</p>
+<pre class="r"><code>cds &lt;- readRDS(&#39;output/monocle/180831/monocle_T1T2T3_T4T5_res1.5/10x-180831-monocle&#39;)
+plot_cell_trajectory(cds, color_by=&#39;timepoint&#39;)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="trajectory-plots" class="section level1">
+<h1>Trajectory plots</h1>
+<pre class="r"><code>fig &lt;- plot_grid(ncol=1,
+  plot_cell_trajectory(cds, color_by=&#39;timepoint&#39;),
+  plot_cell_trajectory(cds, color_by=&#39;Pseudotime&#39;),
+  plot_cell_trajectory(cds, color_by=&#39;State&#39;),
+  plot_cell_trajectory(cds, color_by = &quot;State&quot;) + scale_color_manual(values=c(&quot;#f67770&quot;, &quot;#964B00&quot;, &quot;orange&quot;), name = &quot;State&quot;))
+
+fig</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/fig1-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_cell_trajectory(cds, color_by = &quot;timepoint&quot;) + geom_point(color=&#39;white&#39;, size=5) + geom_point(aes(colour=timepoint), alpha=0.1)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_cell_trajectory(cds, color_by = &quot;timepoint&quot;) + geom_point(color=&#39;white&#39;, size=5) + geom_point(aes(colour=timepoint), alpha=0.01)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#seurobj &lt;- AddMetaData(seurobj, pData(cds)[&#39;State&#39;])
+#saveRDS(seurobj, &#39;output/10x-180831&#39;)</code></pre>
+</div>
+<div id="beam" class="section level1">
+<h1>BEAM</h1>
+<p>BEAM takes as input a CellDataSet that’s been ordered with orderCells and the name of a branch point in the trajectory. It returns a table of significance scores for each gene. Genes that score significant are said to be branch-dependent in their expression.</p>
+<pre class="r"><code>#BEAM_res &lt;- BEAM(cds, branch_point = 1, cores = 10)
+load(&#39;output/monocle/180831/BEAM&#39;)
+BEAM_res &lt;- BEAM_res[order(BEAM_res$qval),]
+BEAM_res &lt;- BEAM_res[,c(&quot;gene_short_name&quot;, &quot;pval&quot;, &quot;qval&quot;)]</code></pre>
+<pre class="r"><code>paste(&#39;Significant genes with q-val &lt; 0.01:&#39;, length(BEAM_res$qval[BEAM_res$qval &lt; 0.01]))</code></pre>
+<pre><code>[1] &quot;Significant genes with q-val &lt; 0.01: 8360&quot;</code></pre>
+<pre class="r"><code>paste(&#39;Significant genes with q-val &lt; 0.001:&#39;, length(BEAM_res$qval[BEAM_res$qval &lt; 0.001]))</code></pre>
+<pre><code>[1] &quot;Significant genes with q-val &lt; 0.001: 7216&quot;</code></pre>
+<pre class="r"><code>paste(&#39;Significant genes with q-val &lt; 0.0001:&#39;, length(BEAM_res$qval[BEAM_res$qval &lt; 0.0001]))</code></pre>
+<pre><code>[1] &quot;Significant genes with q-val &lt; 0.0001: 6421&quot;</code></pre>
+<pre class="r"><code>paste(&#39;Significant genes with q-val &lt; 0.00001:&#39;, length(BEAM_res$qval[BEAM_res$qval &lt; 0.00001]))</code></pre>
+<pre><code>[1] &quot;Significant genes with q-val &lt; 0.00001: 5860&quot;</code></pre>
+<pre class="r"><code>paste(&#39;Significant genes with q-val = 0:&#39;, length(BEAM_res$qval[BEAM_res$qval == 0]))</code></pre>
+<pre><code>[1] &quot;Significant genes with q-val = 0: 329&quot;</code></pre>
+<p>Histograms of p-values and q-values</p>
+<pre class="r"><code>hist(BEAM_res$pval)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>hist(BEAM_res$qval)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="filtering-beam-results-on-fold-change" class="section level1">
+<h1>Filtering BEAM results on fold change</h1>
+<pre class="r"><code>matrix &lt;- as.matrix(seurobj@data)
+calculateAvgLogFC &lt;- function(gene){
+  gene &lt;- as.character(gene)
+    state2 &lt;- log1p(mean(expm1(as.numeric(matrix[gene, row.names(seurobj@meta.data)[seurobj@meta.data$State == 2]])))) # first un-log transform. then average. then logp1 again. This is all done to calculate the mean in non-log-space.
+  state3 &lt;- log1p(mean(expm1(as.numeric(matrix[gene, row.names(seurobj@meta.data)[seurobj@meta.data$State == 3]]))))
+  return(state2-state3)
+}
+
+BEAM_signficnat_res &lt;- BEAM_res[BEAM_res$qval &lt; 0.05,]
+BEAM_signficnat_res$avgLogFC_State2_State3 &lt;- sapply(BEAM_signficnat_res$gene_short_name, calculateAvgLogFC)</code></pre>
+<p>X axis = minimum log fold change.</p>
+<pre class="r"><code>all &lt;- c()
+values &lt;- list()
+for (i in seq(0.0, 3, by=0.1)){
+  fc &lt;- abs(BEAM_signficnat_res$avgLogFC_State2_State3[abs(BEAM_signficnat_res$avgLogFC_State2_State3) &gt;= i])
+  all &lt;- c(all, fc)
+  values[toString(i)] &lt;- length(fc)
+}
+hist(all, breaks=20, probability = F)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>hist(all, breaks=20, probability = T)
+lines(density(all), col=&#39;blue&#39;, lwd=2)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>data.frame(fold_change=names(values), num_genes=unlist(values))</code></pre>
+<pre><code>    fold_change num_genes
+0             0      9799
+0.1         0.1      1775
+0.2         0.2       724
+0.3         0.3       372
+0.4         0.4       215
+0.5         0.5       127
+0.6         0.6        72
+0.7         0.7        50
+0.8         0.8        36
+0.9         0.9        28
+1             1        20
+1.1         1.1        18
+1.2         1.2        17
+1.3         1.3        10
+1.4         1.4         6
+1.5         1.5         5
+1.6         1.6         5
+1.7         1.7         5
+1.8         1.8         2
+1.9         1.9         1
+2             2         1
+2.1         2.1         1
+2.2         2.2         1
+2.3         2.3         0
+2.4         2.4         0
+2.5         2.5         0
+2.6         2.6         0
+2.7         2.7         0
+2.8         2.8         0
+2.9         2.9         0
+3             3         0</code></pre>
+</div>
+<div id="beam-heatmap" class="section level1">
+<h1>BEAM heatmap</h1>
+<p>Create heatmap of the significant genes with absolute average logFC &gt; 0.3.</p>
+<pre class="r"><code>#ran in terminal because of computation time
+#branched_5 &lt;- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, abs(avgLogFC_State2_State3) &gt; 0.3))],
+#                                         branch_point = 1,
+#                                         num_clusters = 5,
+#                                         cores = 10,
+#                                         show_rownames = F,
+#                                       return_heatmap = T,
+#                                       branch_labels = c(&quot;Cell fate 1 (State 2)&quot;, &quot;Cell fate 2 #(State 3)&quot;),
+#                                       branch_colors = c(&#39;#f67770&#39;, &#39;#1bb840&#39;, &#39;#649efc&#39;)
+#                                       )</code></pre>
+<pre class="r"><code>load(&#39;output/monocle/180831/branched&#39;)</code></pre>
+<p>You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.</p>
+<pre class="r"><code>grid::grid.draw(branched_5$ph_res$gtable)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/fig20-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Nr of genes</p>
+<pre class="r"><code>print_nGene &lt;- function(branched){
+  print(paste(&#39;Total number of genes:&#39;, length(branched$annotation_row$Cluster)))
+  for (i in 1:length(unique(branched$annotation_row$Cluster))){
+    cluster &lt;- rownames(branched$annotation_row)[branched$annotation_row$Cluster == i]
+    print(paste(&#39;Nr of genes in cluster &#39;, i, &#39;: &#39;, length(cluster), sep=&#39;&#39;))
+  }
+}
+
+print(&#39;For logFC 0.3:&#39;)</code></pre>
+<pre><code>[1] &quot;For logFC 0.3:&quot;</code></pre>
+<pre class="r"><code>print_nGene(branched_5)</code></pre>
+<pre><code>[1] &quot;Total number of genes: 334&quot;
+[1] &quot;Nr of genes in cluster 1: 23&quot;
+[1] &quot;Nr of genes in cluster 2: 172&quot;
+[1] &quot;Nr of genes in cluster 3: 46&quot;
+[1] &quot;Nr of genes in cluster 4: 62&quot;
+[1] &quot;Nr of genes in cluster 5: 31&quot;</code></pre>
+<p>Write BEAM results to files</p>
+<pre class="r"><code>for (i in 1:length(unique(branched_5$annotation_row$Cluster))){
+  BEAM_cluster &lt;- BEAM_signficnat_res[BEAM_signficnat_res$gene_short_name %in% row.names(branched_5$annotation_row)[branched_5$annotation_row == i],]
+  BEAM_cluster &lt;- BEAM_cluster[order(-BEAM_cluster$avgLogFC_State2_State3),]
+  write.table(BEAM_cluster, paste(&#39;tables/BEAM/genelist_cluster_&#39;, i, &#39;.txt&#39;, sep=&#39;&#39;), row.names=F, quote=F, sep=&#39;\t&#39;)
+}  </code></pre>
+<div id="genes-plotted-over-pseudotime" class="section level2">
+<h2>Genes plotted over pseudotime</h2>
+<p>C/EBPa more important in white. C/EBPb and C/EBPd more important in brown (described in several reviews). Weird to see it the other way around in our data.</p>
+<pre class="r"><code>cds_subset &lt;- cds[row.names(subset(fData(cds), gene_short_name %in% c(&#39;EBF2&#39;, &#39;PDGFRA&#39;, &#39;PDGFRB&#39;, &#39;PPARG&#39;, &#39;MALAT1&#39;, &#39;NEAT1&#39;, &#39;PRDM16&#39;, &#39;CEBPA&#39;, &#39;CEBPB&#39;, &#39;CEBPD&#39;, &#39;UCP1&#39;, &#39;LEP&#39;))),]
+
+p2 &lt;- plot_genes_branched_pseudotime(cds_subset, branch_point = 1, color_by = &quot;timepoint&quot;, ncol = 2)
+p2</code></pre>
+<pre><code>Warning: Transformation introduced infinite values in continuous y-axis
+
+Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/fig10-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#save_plot(&quot;../plots/180831_monocle_genes-in-pseudotime-2.pdf&quot;, p2, base_width=10, base_height=18)</code></pre>
+<p>Pseudotime figures report</p>
+<pre class="r"><code>cds_subset &lt;- cds[row.names(subset(fData(cds), gene_short_name %in% c(&quot;IGF2&quot;, &#39;CD36&#39;, &#39;CIDEC&#39;, &#39;PLIN4&#39;, &#39;UCP1&#39;, &#39;UCP2&#39;))),]
+
+p1 &lt;- plot_genes_branched_pseudotime(cds_subset, branch_point = 1, color_by = &quot;timepoint&quot;, ncol = 2)
+p1</code></pre>
+<pre><code>Warning: Transformation introduced infinite values in continuous y-axis
+
+Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/fig5-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#save_plot(&quot;../plots/180831_monocle_genes-in-pseudotime.pdf&quot;, p1, base_width=10, base_height=9)</code></pre>
+</div>
+</div>
+<div id="figures-for-report" class="section level1">
+<h1>Figures for report</h1>
+<pre class="r"><code>fig &lt;- plot_grid(
+  plot_cell_trajectory(cds, color_by=&#39;timepoint&#39;),
+  plot_cell_trajectory(cds, color_by=&#39;Pseudotime&#39;),
+  labels=&#39;auto&#39;, nrow=1
+)
+#save_plot(&quot;../plots/180831_monocle_timepoint_pseudotime.pdf&quot;, fig, base_width=12, base_height=5)
+fig</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/fig4-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>fig2 &lt;- plot_grid(plot_cell_trajectory(cds, color_by=&#39;State&#39;), labels=c(&#39;d&#39;))
+#save_plot(&quot;../plots/180831_monocle_state.pdf&quot;, fig2, base_width=6, base_height=5)
+fig2</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/fig3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>grid::grid.draw(branched_5$ph_res$gtable)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/fig2-1.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#save_plot(&#39;../plots/180831_beam_heatmap.pdf&#39;, branched_5$ph_res$gtable, base_width=6, base_height=7)</code></pre>
+<p>Supplementary figures</p>
+<pre class="r"><code>sfig &lt;- plot_grid(
+  plot_cell_trajectory(cds_high_disp, color_by=&#39;timepoint&#39;),
+  plot_cell_trajectory(cds_timecombined, color_by=&#39;timepoint&#39;),
+  plot_cell_trajectory(cds_res1.5, color_by=&#39;timepoint&#39;),
+  plot_cell_trajectory(cds, color_by=&#39;timepoint&#39;),
+  labels=&#39;auto&#39;, nrow=2
+)
+#save_plot(&quot;../plots/supplementary_figures/sfig_180831_monocle_highdisp_timecombined_res1.5_split-res1.5.pdf&quot;, sfig, base_width=12, base_height=10)
+sfig</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/fig9-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>hist(BEAM_res$qval)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#pdf(&#39;plots/supplementary_figures/sfig_180831_BEAM_qval_hist.pdf&#39;)</code></pre>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.4.3 (2017-11-30)
+Platform: x86_64-redhat-linux-gnu (64-bit)
+Running under: Storage
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib64/R/lib/libRblas.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+ [1] splines   stats4    parallel  stats     graphics  grDevices utils    
+ [8] datasets  methods   base     
+
+other attached packages:
+ [1] pheatmap_1.0.10     monocle_2.6.4       DDRTree_0.1.5      
+ [4] irlba_2.3.2         VGAM_1.0-6          Biobase_2.38.0     
+ [7] BiocGenerics_0.24.0 Seurat_2.3.4        Matrix_1.2-14      
+[10] cowplot_0.9.3       ggplot2_3.0.0      
+
+loaded via a namespace (and not attached):
+  [1] Rtsne_0.13             colorspace_1.3-2       class_7.3-14          
+  [4] modeltools_0.2-22      ggridges_0.5.0         mclust_5.4.1          
+  [7] rprojroot_1.3-2        htmlTable_1.12         base64enc_0.1-3       
+ [10] rstudioapi_0.7         proxy_0.4-22           ggrepel_0.8.0         
+ [13] flexmix_2.3-14         bit64_0.9-7            mvtnorm_1.0-8         
+ [16] codetools_0.2-15       R.methodsS3_1.7.1      docopt_0.6            
+ [19] robustbase_0.93-2      knitr_1.20             Formula_1.2-3         
+ [22] jsonlite_1.5           workflowr_1.1.1        ica_1.0-2             
+ [25] cluster_2.0.7-1        kernlab_0.9-27         png_0.1-7             
+ [28] R.oo_1.22.0            compiler_3.4.3         httr_1.3.1            
+ [31] backports_1.1.2        assertthat_0.2.0       lazyeval_0.2.1        
+ [34] limma_3.34.9           lars_1.2               acepack_1.4.1         
+ [37] htmltools_0.3.6        tools_3.4.3            bindrcpp_0.2.2        
+ [40] igraph_1.2.2           gtable_0.2.0           glue_1.3.0            
+ [43] RANN_2.6               reshape2_1.4.3         dplyr_0.7.6           
+ [46] Rcpp_0.12.18           slam_0.1-43            trimcluster_0.1-2.1   
+ [49] gdata_2.18.0           ape_5.1                nlme_3.1-137          
+ [52] iterators_1.0.10       fpc_2.1-11.1           gbRd_0.4-11           
+ [55] lmtest_0.9-36          stringr_1.3.1          gtools_3.8.1          
+ [58] DEoptimR_1.0-8         MASS_7.3-50            zoo_1.8-3             
+ [61] scales_1.0.0           doSNOW_1.0.16          RColorBrewer_1.1-2    
+ [64] yaml_2.2.0             reticulate_1.10        pbapply_1.3-4         
+ [67] gridExtra_2.3          rpart_4.1-13           segmented_0.5-3.0     
+ [70] fastICA_1.2-1          latticeExtra_0.6-28    stringi_1.2.4         
+ [73] foreach_1.4.4          checkmate_1.8.5        caTools_1.17.1.1      
+ [76] densityClust_0.3       bibtex_0.4.2           matrixStats_0.54.0    
+ [79] Rdpack_0.9-0           SDMTools_1.1-221       rlang_0.2.2           
+ [82] pkgconfig_2.0.2        dtw_1.20-1             prabclus_2.2-6        
+ [85] bitops_1.0-6           qlcMatrix_0.9.7        evaluate_0.11         
+ [88] lattice_0.20-35        ROCR_1.0-7             purrr_0.2.5           
+ [91] bindr_0.1.1            labeling_0.3           htmlwidgets_1.2       
+ [94] bit_1.1-14             tidyselect_0.2.4       plyr_1.8.4            
+ [97] magrittr_1.5           R6_2.2.2               snow_0.4-2            
+[100] gplots_3.0.1           Hmisc_4.1-1            combinat_0.0-8        
+[103] pillar_1.3.0           whisker_0.3-2          foreign_0.8-71        
+[106] withr_2.1.2            fitdistrplus_1.0-9     mixtools_1.1.0        
+[109] survival_2.42-6        nnet_7.3-12            tsne_0.1-3            
+[112] tibble_1.4.2           crayon_1.3.4           hdf5r_1.0.0           
+[115] KernSmooth_2.23-15     rmarkdown_1.10         viridis_0.5.1         
+[118] grid_3.4.3             data.table_1.11.4      FNN_1.1.2.1           
+[121] git2r_0.23.0           sparsesvd_0.1-4        HSMMSingleCell_0.112.0
+[124] metap_1.0              digest_0.6.16          diptest_0.75-7        
+[127] tidyr_0.8.1            R.utils_2.7.0          munsell_0.5.0         
+[130] viridisLite_0.3.0     </code></pre>
+</div>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
