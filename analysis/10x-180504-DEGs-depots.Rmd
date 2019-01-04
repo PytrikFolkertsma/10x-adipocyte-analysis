@@ -11,9 +11,9 @@ output:
 
 ```{r}
 library(Seurat)
-#all10x <- readRDS('../output/10x-180504')
-#markers_depots <- read.table('../output/markergenes/180504/DEPOT_MARKERS')
-#markers_samples <- read.table('../output/markergenes/180504/DEPOT_MARKERS_SAMPLE_INTERSECT')
+all10x <- readRDS('../output/10x-180504')
+markers_depots <- read.table('../output/markergenes/180504/DEPOT_MARKERS')
+markers_samples <- read.table('../output/markergenes/180504/DEPOT_MARKERS_SAMPLE_INTERSECT')
 ```
 
 

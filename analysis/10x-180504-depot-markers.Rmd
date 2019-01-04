@@ -20,7 +20,7 @@ brown_markers <- read.table('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/da
 brown_markers <- brown_markers[brown_markers$p_val_adj < 0.05,]
 brown_markers_pos <- brown_markers[brown_markers$avg_logFC > 0.25,]
 brown_markers_neg <- brown_markers[brown_markers$avg_logFC < -0.25,]
-
+#'../output/markergenes/180504/markers_10x-180504_brown'
 white_markers <- read.table('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/data/markergenes/180504/markers_10x-180504_white', header=T)
 white_markers <- white_markers[white_markers$p_val_adj < 0.05,]
 white_markers_pos <- white_markers[white_markers$avg_logFC > 0.25,]
@@ -132,3 +132,21 @@ VlnPlot(data, features.plot=c('TM4SF1', 'LINC01116', 'HOXB7', 'BARX1', 'LY6K'), 
 VlnPlot(data, features.plot=c('TM4SF1', 'LINC01116', 'HOXB7', 'BARX1', 'LY6K'), group.by='res.1.5', point.size.use=0.1, nCol=1)
 ```
 
+
+
+#Figures for report
+
+```{r fig1, fig.height = 15, fig.width = 6, fig.align = "center"}
+#Brown: TM4SF1, LY6K, HOXB7
+#Visceral: BARX1, LINC01116
+fig1 <- plot_grid(
+  VlnPlot(all10x, features.plot='TM4SF1', point.size.use = -1, group.by='sample_name', x.lab.rot=T, size.x.use = 8),
+  VlnPlot(all10x, features.plot='LY6K', point.size.use = -1, group.by='sample_name', x.lab.rot=T, size.x.use = 8),
+  VlnPlot(all10x, features.plot='HOXB7', point.size.use = -1, group.by='sample_name', x.lab.rot=T, size.x.use = 8),
+  VlnPlot(all10x, features.plot='BARX1', point.size.use = -1, group.by='sample_name', x.lab.rot=T, size.x.use = 8),
+  VlnPlot(all10x, features.plot='LINC01116', point.size.use = -1, group.by='sample_name', x.lab.rot=T, size.x.use = 8),
+  labels='auto', ncol=1
+)
+
+save_plot("plots/180504_depot_markers.pdf", fig1, base_width=6, base_height=15)
+```

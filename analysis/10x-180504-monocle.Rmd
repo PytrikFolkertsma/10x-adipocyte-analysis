@@ -38,6 +38,13 @@ cds.pm.umi.53 <- readRDS('output/monocle/180504/10x-180504-monocle-pm-umi-53')
 cds.pm.umi.cc.53 <- readRDS('output/monocle/180504/10x-180504-monocle-pm-umi-cc-53')
 ```
 
+Genes with the highest dispersion were used for ordering
+
+```{r}
+plot_ordering_genes(cds.11)
+```
+
+
 #Trajectories of one subset
 
 Trajectories of one subset, coloured by depot and cell cycle phase. Topleft: no regression. Topright: cell cycle regression. Bottom left: percent.mito + nUMI regression. Bottom right: percent.mito + nUMI + cell cycle regression.
@@ -191,5 +198,11 @@ sfig <- plot_grid(
 
 save_plot("plots/supplementary_figures/sfig_180504_monocle.pdf", sfig, base_width=12, base_height=12)
 sfig
+```
+
+```{r fig11, fig.height = 4, fig.width = 6, fig.align = "center"}
+sfig2 <- plot_ordering_genes(cds.11)
+save_plot("plots/supplementary_figures/sfig_180504_genes_monocle_high_dispersion.pdf", sfig2, base_width=6, base_height=4)
+sfig2
 ```
 

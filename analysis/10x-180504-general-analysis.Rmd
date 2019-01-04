@@ -306,9 +306,8 @@ fig1 <- plot_grid(
   TSNEPlot(all10x, group.by='Phase', pt.size=0.1),
   TSNEPlot(all10x.ccregout, group.by='sample_name', pt.size=0.1),
   labels = "auto", nrow = 2)
-save_plot("plots/180504_pca_tsne.pdf", fig1, base_width=12, base_height = 9)
+#save_plot("plots/180504_pca_tsne.pdf", fig1, base_width=12, base_height = 9)
 ```
-
 
 
 ```{r fig1, fig.height = 9, fig.width = 12, fig.align = "center"}
@@ -322,10 +321,9 @@ sfig <- plot_grid(
   ngene,
   labels="auto", nrow=1
 )
-save_plot("plots/supplementary_figures/sfig_180504_qcplots.pdf", sfig, base_width=12, base_height=3)
+#save_plot("plots/supplementary_figures/sfig_180504_qcplots.pdf", sfig, base_width=12, base_height=3)
 sfig
 ```
-
 
 
 ```{r fig3, fig.height = 4, fig.width = 12, fig.align = "center"}
@@ -333,59 +331,33 @@ sfig2 <- plot_grid(
   PCElbowPlot(all10x, num.pc=30),
   PCElbowPlot(all10x.ccregout, num.pc=30),
   labels="auto", nrow=1)
-save_plot("plots/supplementary_figures/sfig_180504_pcelbow.pdf", sfig2, base_width=12, base_height=4)
+#save_plot("plots/supplementary_figures/sfig_180504_pcelbow.pdf", sfig2, base_width=12, base_height=4)
 sfig2
 ```
 
-Mixture cluster figure
+```{r}
+sfig3 <- VlnPlot(all10x, group.by='sample_name', point.size.use=-1, features.plot='EBF2', x.lab.rot=T)
 
-```{r fig5, fig.height = 10, fig.width = 12, fig.align = "center"}
-get_violin_plot <- function(x){
-  return(VlnPlot(all10x, features.plot=c(x), point.size.use=-1, group.by='mixture', size.title.use=14, remove.legend=T) + theme(axis.title.x=element_blank()))
-}
-
-fig2_first_row <- plot_grid(
-  TSNEPlot(all10x, group.by='sample_name', pt.size=0.1) + theme(legend.position=c(0.1, 0.5), legend.key = element_blank(), legend.background= element_rect(fill=alpha('white', 0.8), size=0.5, linetype='solid', colour=alpha('black', 0.3))),
-  DimPlot(all10x, reduction.use='tsne', cells.highlight = rownames(all10x@meta.data)[all10x@meta.data$res.0.5 == 12], cols.highlight='blue', cols.use='gray', pt.size=0.1),
-  labels=c('a', 'b')
-)
-
-fig2_violin <- plot_grid(
-  get_violin_plot('nGene'),
-  get_violin_plot('MALAT1'),
-  get_violin_plot('NEAT1'),
-  get_violin_plot('FN1'),
-  get_violin_plot('ITGB1'),
-  get_violin_plot('COL1A1'),
-  get_violin_plot('COL1A2'),
-  get_violin_plot('percent.mito'),
-  labels=c('d', 'e', 'f', 'g', 'h', 'i', 'j', 'k'), nrow=2
-)
-
-fig2_barplot <- plot_grid(ggplot(data=cluster12@meta.data %>% count(sample_name), aes(x=sample_name, y=n)) +
-  geom_bar(stat="identity", position='dodge') + 
-  scale_y_continuous(expand=c(0,0)) +
-  theme(axis.line.y=element_blank(), axis.ticks.y=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank()) +
-  coord_flip(), labels=c('c'))
-
-fig2_second_row <- plot_grid(fig2_barplot, fig2_violin, rel_widths=c(2/8, 6/8))
-
-fig2 <- plot_grid(
-  fig2_first_row,
-  fig2_second_row,
-  nrow=2
-)
-
-fig2
-
-save_plot("plots/180504_mixture.pdf", fig2, base_width=12, base_height=10)
-
+#save_plot("plots/supplementary_figures/sfig_180504_ebf2.pdf", sfig3, base_width=5, base_height=3)
 ```
+
+```{r fig4, fig.height = 9, fig.width = 12, fig.align = "center"}
+sfig4 <- plot_grid(
+  TSNEPlot(all10x, group.by='res.0.5', do.label=T, pt.size=0.1),
+  TSNEPlot(all10x, group.by='res.0.7', do.label=T, pt.size=0.1),
+  TSNEPlot(all10x, group.by='res.1', do.label=T, pt.size=0.1),
+  TSNEPlot(all10x, group.by='res.1.5', do.label=T, pt.size=0.1),
+  labels='auto', nrow=2
+)
+sfig4
+#save_plot("../plots/supplementary_figures/sfig_180504_clusters.pdf", sfig4, base_width=12, base_height=9)
+```
+
 
 Supplementary table: nr of cells before and after QC.
 
 ```{r}
 ncells
-write.table(ncells, file='tables/10x-180504-nCells.txt', sep='\t', row.names = F, quote=F)
+#write.table(ncells, file='tables/10x-180504-nCells.txt', sep='\t', row.names = F, quote=F)
 ```
 
