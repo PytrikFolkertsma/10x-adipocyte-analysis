@@ -4,10 +4,11 @@
 .Ruserdata
 .Rapp.history
 .DS_Store
-analysis/
 data/
 output/
 tables/
 figures/
 tables/
 files/
+*.png
+*.pdf
