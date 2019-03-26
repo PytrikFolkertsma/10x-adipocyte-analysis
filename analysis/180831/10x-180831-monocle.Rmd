@@ -1,0 +1,761 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
+---
+
+```{r}
+library(Seurat)
+library(monocle)
+library(pheatmap)
+seurobj <- readRDS('output/10x-180831')
+```
+
+
+#Feature selection strategies
+
+Genes with high dispersion
+
+```{r}
+cds_high_disp <- readRDS('output/monocle/180831/monocle_high_dispersion/10x-180831-monocle')
+plot_cell_trajectory(cds_high_disp, color_by = 'timepoint')
+```
+
+DE genes between T1T2T3 and T4T5
+
+```{r}
+cds_timecombined <- readRDS('output/monocle/180831/monocle_time-combined/10x-180831-monocle')
+plot_cell_trajectory(cds_timecombined, color_by='timepoint')
+```
+
+DE genes from cluster resolution 1.5
+
+```{r}
+cds_res1.5 <- readRDS('output/monocle/180831/monocle_res1.5/10x-180831-monocle')
+plot_cell_trajectory(cds_res1.5, color_by='timepoint')
+```
+
+Dataset split into T1+T2+T3 and T4+T5, DE genes from clusters res0.5.
+
+```{r}
+cds_split_res0.5 <- readRDS('output/monocle/180831/monocle_T1T2T3_T4T5_res0.5/10x-180831-noreg-monocle')
+plot_cell_trajectory(cds_split_res0.5, color_by='timepoint')
+```
+
+Dataset split into T1+T2+T3 and T4+T5, DE genes from clusters res1.5 are used here. This trajectory was used for further analyses.
+
+```{r}
+cds <- readRDS('../output/monocle/180831/monocle_T1T2T3_T4T5_res1.5/10x-180831-monocle')
+plot_cell_trajectory(cds, color_by='timepoint')
+```
+
+```{r}
+merged <- merge(pData(cds), seurobj@meta.data[c('sample_name', 'type')], by='row.names', all.x=TRUE)
+rownames(merged) <- merged$Row.names
+merged$Row.names <- NULL
+merged['sample_name2'] <- merged$sample_name
+merged$sample_name <- NULL
+pData(cds) <- merged
+```
+
+DE genes between brown and white.
+
+```{r}
+cds_type <- readRDS('../output/monocle/180831/monocle_type/10x-180831-monocle')
+plot_cell_trajectory(cds_type, color_by='timepoint')
+```
+
+DE genes between top10% lowest PC2 score and top10% highest PC2 score.
+
+```{r fig17, fig.height = 10, fig.width = 12, fig.align = "center"}
+cds_pc2 <- readRDS('../output/monocle/180831/monocle_PC2/10x-180831-monocle')
+plot_grid(
+  plot_cell_trajectory(cds_pc2, color_by='timepoint'),
+  plot_cell_trajectory(cds_pc2, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_pc2, color_by='Pseudotime'),
+  plot_cell_trajectory(cds_pc2, color_by='State'),
+  ncol=2
+)
+```
+
+```{r fig21, fig.height = 5, fig.width = 6, fig.align = "center"}
+plot_cell_trajectory(cds_pc2, color_by='timepoint') + geom_point(color='white', size=5) + geom_point(aes(colour=timepoint), alpha=0.01) 
+```
+
+```{r fig22, fig.height = 5, fig.width = 12, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds_pc2, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_pc2, color_by='depot') + scale_color_manual(values=c("#845d1e", "#edd2a8", "#472809", 'orange'), name = "Depot"),
+  ncol=2
+)
+```
+
+Ratio's white/brown and depots per branch.
+
+```{r}
+get_ratios <- function(col1, col2){
+  states <- unique(seurobj@meta.data[,col1])
+  values <- unique(seurobj@meta.data[,col2])
+  for (state in states){
+    n_state = length(which(seurobj@meta.data[col1] == state))
+    print(paste('N cells', col1, state, ':', n_state))
+    for (value in values){
+    	n_state_value <- length(which(seurobj@meta.data[col1] == state & seurobj@meta.data[col2] == value))
+	    perc_state_value <- n_state_value / n_state
+	    print(paste('Ratio', value, 'in state', state, ': ', round(perc_state_value, 2)))
+    }
+  }
+}
+```
+
+```{r}
+states_pc2 <- pData(cds_pc2)['State']
+names(states_pc2) <- 'State.PC2'
+seurobj <- AddMetaData(seurobj, states_pc2)
+get_ratios('State.PC2', 'depot')
+```
+
+```{r}
+get_ratios('State.PC2', 'State.old.labels')
+```
+
+```{r}
+get_ratios('State.old.labels', 'depot')
+```
+
+```{r}
+get_ratios('depot', 'State.old.labels')
+```
+
+
+```{r fig23, fig.height = 5, fig.width = 12, fig.align = "center"}
+plot_grid(
+  TSNEPlot(seurobj, group.by='State.PC2', pt.size=0.1, colors.use = c('#1bb840', '#649efc', '#f67770')),
+  TSNEPlot(seurobj, group.by='State.old.labels', pt.size=0.1, colors.use = c('#649efc', '#1bb840', '#f67770')),
+  ncol=2
+)
+```
+
+
+#Trajectory plots
+
+```{r fig1, fig.height = 16, fig.width = 5, fig.align = "center"}
+fig <- plot_grid(ncol=1,
+  plot_cell_trajectory(cds, color_by='timepoint'),
+  plot_cell_trajectory(cds, color_by='Pseudotime'),
+  plot_cell_trajectory(cds, color_by='State'),
+  plot_cell_trajectory(cds, color_by = "State") + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"))
+
+fig
+```
+
+```{r fig2, fig.height = 4, fig.width = 5, fig.align = "center"}
+plot_cell_trajectory(cds, color_by='sample_name2') 
+```
+
+```{r fig3, fig.height = 4, fig.width = 5, fig.align = "center"}
+plot_cell_trajectory(cds, color_by='type') + scale_color_manual(values=c("#964B00", "#F7E7CE"), name = "Type")
+```
+
+Percentage of brown and white in the two branches. 
+State2 = brown predicted branch (upper branch)
+State3 = white predicted branch (lower branch)
+
+```{r}
+
+total_state2 <- length(which(seurobj@meta.data$State == 2))
+total_state3 <- length(which(seurobj@meta.data$State == 3))
+
+brown_state2 <- length(which(seurobj@meta.data$type == 'brown' & seurobj@meta.data$State == 2))
+white_state2 <- length(which(seurobj@meta.data$type == 'white' & seurobj@meta.data$State == 2))
+
+
+brown_state3 <- length(which(seurobj@meta.data$type == 'brown' & seurobj@meta.data$State == 3))
+white_state3 <- length(which(seurobj@meta.data$type == 'white' & seurobj@meta.data$State == 3))
+
+print(paste('Percentage brown in State 2:', brown_state2/total_state2))
+print(paste('Percentage white in State 2:', white_state2/total_state2))
+
+print(paste('Percentage brown in State 3:', brown_state3/total_state3))
+print(paste('Percentage white in State 3:', white_state3/total_state3))
+
+```
+
+
+```{r fig4, fig.height = 4.5, fig.width = 12, fig.align = "center"}
+#seurobj <- AddMetaData(seurobj, pData(cds)['State'])
+plot_grid(
+  TSNEPlot(seurobj, group.by='State', pt.size=0.1, colors.use=c('#f67770', '#964B00', '#F7E7CE')),
+  TSNEPlot(seurobj, group.by='type', pt.size=0.1, colors.use=c('#964B00', '#F7E7CE')),
+  labels=c('Predicted by Monocle', 'True labels')
+  )
+```
+
+
+
+```{r fig5, fig.height = 3, fig.width = 4.5, fig.align = "center"}
+TSNEPlot(seurobj, group.by='sample_name', pt.size=0.1)
+```
+
+```{r fig6, fig.height = 4.5, fig.width = 6, fig.align = "center"}
+TSNEPlot(seurobj, group.by='timepoint', pt.size=0.1)
+```
+
+
+
+```{r}
+plot_cell_trajectory(cds, color_by = "timepoint") + geom_point(color='white', size=5) + geom_point(aes(colour=timepoint), alpha=0.1)
+```
+
+```{r}
+plot_cell_trajectory(cds, color_by = "timepoint") + geom_point(color='white', size=5) + geom_point(aes(colour=timepoint), alpha=0.01)
+```
+
+```{r}
+#seurobj <- AddMetaData(seurobj, pData(cds)['State'])
+#saveRDS(seurobj, 'output/10x-180831')
+#save metadata for Velocyto
+write.table(seurobj@meta.data, file='tables/10x-180831-metadata-labels.txt', sep='\t', quote=F)
+```
+
+#BEAM
+
+BEAM takes as input a CellDataSet that's been ordered with orderCells and the name of a branch point in the trajectory. It returns a table of significance scores for each gene. Genes that score significant are said to be branch-dependent in their expression.
+
+```{r}
+#BEAM_res <- BEAM(cds, branch_point = 1, cores = 10)
+load('output/monocle/180831/BEAM')
+BEAM_res <- BEAM_res[order(BEAM_res$qval),]
+BEAM_res <- BEAM_res[,c("gene_short_name", "pval", "qval")]
+```
+
+
+```{r}
+paste('Significant genes with q-val < 0.01:', length(BEAM_res$qval[BEAM_res$qval < 0.05]))
+paste('Significant genes with q-val < 0.01:', length(BEAM_res$qval[BEAM_res$qval < 0.01]))
+paste('Significant genes with q-val < 0.001:', length(BEAM_res$qval[BEAM_res$qval < 0.001]))
+paste('Significant genes with q-val < 0.0001:', length(BEAM_res$qval[BEAM_res$qval < 0.0001]))
+paste('Significant genes with q-val < 0.00001:', length(BEAM_res$qval[BEAM_res$qval < 0.00001]))
+paste('Significant genes with q-val = 0:', length(BEAM_res$qval[BEAM_res$qval == 0]))
+```
+
+Histograms of p-values and q-values
+
+```{r}
+hist(BEAM_res$pval)
+```
+
+```{r}
+hist(BEAM_res$qval)
+```
+
+#Filtering BEAM results on fold change
+
+```{r}
+matrix <- as.matrix(seurobj@data)
+calculateAvgLogFC <- function(gene){
+  gene <- as.character(gene)
+    state2 <- log1p(mean(expm1(as.numeric(matrix[gene, row.names(seurobj@meta.data)[seurobj@meta.data$State == 2]])))) # first un-log transform. then average. then logp1 again. This is all done to calculate the mean in non-log-space.
+  state3 <- log1p(mean(expm1(as.numeric(matrix[gene, row.names(seurobj@meta.data)[seurobj@meta.data$State == 3]]))))
+  return(state2-state3)
+}
+
+BEAM_signficnat_res <- BEAM_res[BEAM_res$qval < 0.05,]
+BEAM_signficnat_res$avgLogFC_State2_State3 <- sapply(BEAM_signficnat_res$gene_short_name, calculateAvgLogFC)
+```
+
+X axis = minimum log fold change.
+
+```{r}
+all <- c()
+values <- list()
+for (i in seq(0.0, 3, by=0.1)){
+  fc <- abs(BEAM_signficnat_res$avgLogFC_State2_State3[abs(BEAM_signficnat_res$avgLogFC_State2_State3) >= i])
+  all <- c(all, fc)
+  values[toString(i)] <- length(fc)
+}
+hist(all, breaks=20, probability = F)
+```
+
+```{r}
+hist(all, breaks=20, probability = T)
+lines(density(all), col='blue', lwd=2)
+```
+
+```{r}
+data.frame(fold_change=names(values), num_genes=unlist(values))
+```
+
+#BEAM heatmap
+
+Create heatmap of the significant genes with absolute average logFC > 0.3.
+
+```{r}
+#ran in terminal because of computation time
+#branched_5 <- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, abs(avgLogFC_State2_State3) > 0.3))],
+#                                         branch_point = 1,
+#                                         num_clusters = 5,
+#                                         cores = 10,
+#                                         show_rownames = F,
+#                                       return_heatmap = T,
+#                                       branch_labels = c("Cell fate 1 (State 2)", "Cell fate 2 #(State 3)"),
+#                                       branch_colors = c('#f67770', '#1bb840', '#649efc')
+#                                       )
+```
+
+```{r}
+load('output/monocle/180831/branched')
+```
+
+You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.
+
+
+```{r fig20, fig.height = 7, fig.width = 6, fig.align = "center"}
+grid::grid.draw(branched_5$ph_res$gtable)
+```
+
+Nr of genes
+
+```{r}
+print_nGene <- function(branched){
+  print(paste('Total number of genes:', length(branched$annotation_row$Cluster)))
+  for (i in 1:length(unique(branched$annotation_row$Cluster))){
+    cluster <- rownames(branched$annotation_row)[branched$annotation_row$Cluster == i]
+    print(paste('Nr of genes in cluster ', i, ': ', length(cluster), sep=''))
+  }
+}
+
+print('For logFC 0.3:')
+print_nGene(branched_5)
+```
+
+
+Write BEAM results to files
+
+```{r}
+for (i in 1:length(unique(branched_5$annotation_row$Cluster))){
+  BEAM_cluster <- BEAM_signficnat_res[BEAM_signficnat_res$gene_short_name %in% row.names(branched_5$annotation_row)[branched_5$annotation_row == i],]
+  BEAM_cluster <- BEAM_cluster[order(-BEAM_cluster$avgLogFC_State2_State3),]
+  write.table(BEAM_cluster, paste('tables/BEAM/genelist_cluster_', i, '.txt', sep=''), row.names=F, quote=F, sep='\t')
+}  
+```
+
+
+##Genes plotted over pseudotime
+
+C/EBPa more important in white. C/EBPb and C/EBPd more important in brown (described in several reviews). Weird to see it the other way around in our data.
+
+```{r fig10, fig.height = 15, fig.width = 10, fig.align = "center"}
+
+cds_subset <- cds[row.names(subset(fData(cds), gene_short_name %in% c('EBF2', 'PDGFRA', 'PDGFRB', 'PPARG', 'MALAT1', 'NEAT1', 'PRDM16', 'CEBPA', 'CEBPB', 'CEBPD', 'UCP1', 'LEP'))),]
+
+p2 <- plot_genes_branched_pseudotime(cds_subset, branch_point = 1, color_by = "timepoint", ncol = 2)
+p2
+#save_plot("../plots/180831_monocle_genes-in-pseudotime-2.pdf", p2, base_width=10, base_height=18)
+```
+
+Pseudotime figures report
+
+```{r fig5, fig.height = 9, fig.width = 10, fig.align = "center"}
+cds_subset <- cds[row.names(subset(fData(cds), gene_short_name %in% c("IGF2", 'CD36', 'CIDEC', 'PLIN4', 'UCP1', 'UCP2'))),]
+
+p1 <- plot_genes_branched_pseudotime(cds_subset, branch_point = 1, color_by = "timepoint", ncol = 2)
+p1
+#save_plot("../plots/180831_monocle_genes-in-pseudotime.pdf", p1, base_width=10, base_height=9)
+```
+
+```{r fig6, fig.height = 15, fig.width = 10, fig.align = "center"}
+cds_subset <- cds[row.names(subset(fData(cds), gene_short_name %in% c("NR1H3", 'MIR24-2', 'DCN', 'ZEB1', 'FOS', 'UCP2', 'ZFAS1', 'FN1', 'IER2'))),]
+
+p1 <- plot_genes_branched_pseudotime(cds_subset, branch_point = 1, color_by = "State", ncol = 2)
+p1
+save_plot("../plots/interesting_genes_pseudotime.state.pdf", p1, base_width=10, base_height=15)
+```
+
+
+#Trajectory DE genes between brown and white
+
+```{r fig10, fig.height = 16, fig.width = 5, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds_type, color_by='timepoint'),
+  plot_cell_trajectory(cds_type, color_by='Pseudotime'),
+  plot_cell_trajectory(cds_type, color_by='State'),
+  plot_cell_trajectory(cds_type, color_by='type') + scale_color_manual(values=c("#964B00", "orange"), name = "Type"), nrow=4
+)
+```
+
+```{r fig11, fig.height = 4.5, fig.width = 12, fig.align = "center"}
+seurobj <- AddMetaData(seurobj, pData(cds_type)['State'])
+plot_grid(
+  TSNEPlot(seurobj, group.by='State', pt.size=0.1, colors.use=c('#f67770', '#F7E7CE', '#964B00')),
+  TSNEPlot(seurobj, group.by='State.old', pt.size=0.1, colors.use=c('#f67770', '#964B00', '#F7E7CE')),
+  labels=c('State from new trajectory', 'State from old trajectory')
+)
+
+```
+
+Percentage brown/white in branches
+
+```{r}
+total_state2 <- length(which(seurobj@meta.data$State.old == 2))
+total_state3 <- length(which(seurobj@meta.data$State.old == 3))
+
+total_brown <- length(which(seurobj@meta.data$State.old != 1 & seurobj@meta.data$type == 'brown'))
+total_white <- length(which(seurobj@meta.data$State.old != 1 & seurobj@meta.data$type == 'white'))
+
+brown_state2 <- length(which(seurobj@meta.data$type == 'brown' & seurobj@meta.data$State.old == 2))
+white_state2 <- length(which(seurobj@meta.data$type == 'white' & seurobj@meta.data$State.old == 2))
+
+
+brown_state3 <- length(which(seurobj@meta.data$type == 'brown' & seurobj@meta.data$State.old == 3))
+white_state3 <- length(which(seurobj@meta.data$type == 'white' & seurobj@meta.data$State.old == 3))
+
+print(paste('Percentage brown in State 2:', brown_state2/total_state2))
+print(paste('Percentage white in State 2:', white_state2/total_state2))
+
+print(paste('Percentage brown in State 3:', brown_state3/total_state3))
+print(paste('Percentage white in State 3:', white_state3/total_state3))
+
+
+print(paste('Percentage brown in State 2 of total brown:', brown_state2/total_brown))
+print(paste('Percentage white in State 2 of total white:', white_state2/total_white))
+
+print(paste('Percentage brown in State 3 of total brown:', brown_state3/total_brown))
+print(paste('Percentage white in State 3 of total white:', white_state3/total_white))
+
+```
+
+```{r}
+
+total_state2 <- length(which(seurobj@meta.data$State == 2))
+total_state3 <- length(which(seurobj@meta.data$State == 3))
+
+total_brown <- length(which(seurobj@meta.data$State != 1 & seurobj@meta.data$type == 'brown'))
+total_white <- length(which(seurobj@meta.data$State != 1 & seurobj@meta.data$type == 'white'))
+
+brown_state2 <- length(which(seurobj@meta.data$type == 'brown' & seurobj@meta.data$State == 2))
+white_state2 <- length(which(seurobj@meta.data$type == 'white' & seurobj@meta.data$State == 2))
+
+
+brown_state3 <- length(which(seurobj@meta.data$type == 'brown' & seurobj@meta.data$State == 3))
+white_state3 <- length(which(seurobj@meta.data$type == 'white' & seurobj@meta.data$State == 3))
+
+print(paste('Percentage brown in State 2:', brown_state2/total_state2))
+print(paste('Percentage white in State 2:', white_state2/total_state2))
+
+print(paste('Percentage brown in State 3:', brown_state3/total_state3))
+print(paste('Percentage white in State 3:', white_state3/total_state3))
+
+
+print(paste('Percentage brown in State 2 of total brown:', brown_state2/total_brown))
+print(paste('Percentage white in State 2 of total white:', white_state2/total_white))
+
+print(paste('Percentage brown in State 3 of total brown:', brown_state3/total_brown))
+print(paste('Percentage white in State 3 of total white:', white_state3/total_white))
+
+```
+
+
+#Figures for report
+
+```{r fig4, fig.height = 5, fig.width = 12, fig.align = "center"}
+fig <- plot_grid(
+  plot_cell_trajectory(cds, color_by='timepoint'),
+  plot_cell_trajectory(cds, color_by='Pseudotime'),
+  labels='auto', nrow=1
+)
+save_plot("plots/180831_monocle_timepoint_pseudotime.pdf", fig, base_width=12, base_height=5)
+fig
+```
+
+```{r fig3, fig.height = 5, fig.width = 6, fig.align = "center"}
+fig2 <- plot_grid(plot_cell_trajectory(cds, color_by='State'), labels=c('d'))
+save_plot("plots/180831_monocle_state.pdf", fig2, base_width=6, base_height=5)
+fig2
+```
+
+```{r fig2, fig.height = 7, fig.width = 6, fig.align = "center"}
+grid::grid.draw(branched_5$ph_res$gtable)
+save_plot('plots/180831_beam_heatmap.pdf', branched_5$ph_res$gtable, base_width=6, base_height=7)
+```
+
+Supplementary figures
+
+```{r fig9, fig.height = 10, fig.width = 12, fig.align = "center"}
+sfig <- plot_grid(
+  plot_cell_trajectory(cds_high_disp, color_by='timepoint'),
+  plot_cell_trajectory(cds_timecombined, color_by='timepoint'),
+  plot_cell_trajectory(cds_res1.5, color_by='timepoint'),
+  plot_cell_trajectory(cds, color_by='timepoint'),
+  labels='auto', nrow=2
+)
+save_plot("plots/supplementary_figures/sfig_180831_monocle_highdisp_timecombined_res1.5_split-res1.5.pdf", sfig, base_width=12, base_height=10)
+sfig
+```
+
+```{r}
+sfig2 <- qplot(BEAM_res$qval, geom="histogram", xlab='q-value', ylab='Number of genes')
+save_plot("plots/supplementary_figures/sfig_180831_beam_qval_hist.pdf", sfig2, base_width=6, base_height=5)
+```
+
+
+#Monocle per depot
+
+3 feature selection methods:
+1) Same feature selection strategy as for the whole dataset (split each depot into T1T2T3 and T4T5, cluster, perform DE tests on clusters, take union of resulting gene lists as features);
+2) Genes with high dispersion;
+3) Genes used for computing the trajectory of the whole dataset.
+
+```{r fig11, fig.height = 6, fig.width = 12, fig.align = "center"}
+cds_peri <- readRDS('../output/monocle/180831/peri/monocle_peri_T1T2T3_T4T5_res1/10x-180831-peri-monocle')
+cds_peri_disp <- readRDS('../output/monocle/180831/peri/monocle_peri_high-dispersion/10x-180831-peri-monocle')
+cds_peri_gl <- readRDS('../output/monocle/180831/peri/monocle_peri_genelist/10x-180831-peri-monocle')
+
+plot_grid(
+  plot_cell_trajectory(cds_peri, color_by='timepoint'),
+  plot_cell_trajectory(cds_peri_disp, color_by='timepoint'),
+  plot_cell_trajectory(cds_peri_gl, color_by='timepoint'),
+  plot_cell_trajectory(cds_peri, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_peri_disp, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_peri_gl, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  ncol=3
+)
+```
+
+```{r fig12, fig.height = 6, fig.width = 12, fig.align = "center"}
+cds_supra <- readRDS('../output/monocle/180831/supra/monocle_supra_T1T2T3_T4T5_res1/10x-180831-supra-monocle')
+cds_supra_disp <- readRDS('../output/monocle/180831/supra/monocle_supra_high-dispersion/10x-180831-supra-monocle')
+cds_supra_gl <- readRDS('../output/monocle/180831/supra/monocle_supra_genelist/10x-180831-supra-monocle')
+
+plot_grid(
+  plot_cell_trajectory(cds_supra, color_by='timepoint'),
+  plot_cell_trajectory(cds_supra_disp, color_by='timepoint'),
+  plot_cell_trajectory(cds_supra_gl, color_by='timepoint'),
+  plot_cell_trajectory(cds_supra, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_supra_disp, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_supra_gl, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  ncol=3
+)
+```
+
+```{r fig13, fig.height = 6, fig.width = 12, fig.align = "center"}
+cds_subq <- readRDS('../output/monocle/180831/subq/monocle_subq_T1T2T3_T4T5_res1/10x-180831-subq-monocle')
+cds_subq_disp <- readRDS('../output/monocle/180831/subq/monocle_subq_high-dispersion/10x-180831-subq-monocle')
+cds_subq_gl <- readRDS('../output/monocle/180831/subq/monocle_subq_genelist/10x-180831-subq-monocle')
+
+plot_grid(
+  plot_cell_trajectory(cds_subq, color_by='timepoint'),
+  plot_cell_trajectory(cds_subq_disp, color_by='timepoint'),
+  plot_cell_trajectory(cds_subq_gl, color_by='timepoint'),
+  plot_cell_trajectory(cds_subq, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_subq_disp, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_subq_gl, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  ncol=3
+)
+```
+
+```{r fig14, fig.height = 6, fig.width = 12, fig.align = "center"}
+cds_visce <- readRDS('../output/monocle/180831/visce/monocle_visce_T1T2T3_T4T5_res1/10x-180831-visce-monocle')
+cds_visce_disp <- readRDS('../output/monocle/180831/visce/monocle_visce_high-dispersion/10x-180831-visce-monocle')
+cds_visce_gl <- readRDS('../output/monocle/180831/visce/monocle_visce_genelist/10x-180831-visce-monocle')
+
+plot_grid(
+  plot_cell_trajectory(cds_visce, color_by='timepoint'),
+  plot_cell_trajectory(cds_visce_disp, color_by='timepoint'),
+  plot_cell_trajectory(cds_visce_gl, color_by='timepoint'),
+  plot_cell_trajectory(cds_visce, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_visce_disp, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_visce_gl, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  ncol=3
+)
+```
+
+
+
+```{r fig15, fig.height = 9, fig.width = 12, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds_peri, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_supra, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_subq, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_visce, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  ncol=2
+)
+```
+
+```{r fig16, fig.height = 9, fig.width = 12, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds_peri, color_by='State'),
+  plot_cell_trajectory(cds_supra, color_by='State'), 
+  plot_cell_trajectory(cds_subq, color_by='State'), 
+  plot_cell_trajectory(cds_visce, color_by='State'),
+  ncol=2
+)
+```
+
+```{r}
+#seurobj <- AddMetaData(seurobj, pData(cds)['State'])
+peri <- AddMetaData(peri, pData(cds_peri)['State'])
+supra <- AddMetaData(supra, pData(cds_supra)['State'])
+```
+
+```{r}
+peri_state_2 <- length(which(peri@meta.data$State == 2))
+print(paste('Num genes in Peri State 2: ', peri_state_2))
+#percentage brown
+#percentage white
+brown <- (length(which(peri@meta.data$State == 2 & peri@meta.data$State.old == 2)) / peri_state_2)*100
+white <- (length(which(peri@meta.data$State == 2 & peri@meta.data$State.old == 3)) / peri_state_2)*100
+pre <- (length(which(peri@meta.data$State == 2 & peri@meta.data$State.old == 1)) / peri_state_2)*100
+paste(round(brown), round(white), round(pre))
+
+peri_state_1 <- length(which(peri@meta.data$State == 1))
+print(paste('Num genes in Peri State 1: ', peri_state_1))
+brown <- (length(which(peri@meta.data$State == 1 & peri@meta.data$State.old == 2)) / peri_state_1)*100
+white <- (length(which(peri@meta.data$State == 1 & peri@meta.data$State.old == 3)) / peri_state_1)*100
+pre <- (length(which(peri@meta.data$State == 1 & peri@meta.data$State.old == 1)) / peri_state_2)*100
+paste(round(brown), round(white), round(pre))
+
+supra_state_1 <- length(which(supra@meta.data$State == 1))
+print(paste('Num genes in Supra State 1: ', supra_state_1))
+brown <- (length(which(supra@meta.data$State == 1 & supra@meta.data$State.old == 2)) / supra_state_1)*100
+white <- (length(which(supra@meta.data$State == 1 & supra@meta.data$State.old == 3)) / supra_state_1)*100
+pre <- (length(which(supra@meta.data$State == 1 & supra@meta.data$State.old == 1)) / supra_state_1)*100
+paste(round(brown), round(white), round(pre))
+
+supra_state_3 <- length(which(supra@meta.data$State == 3))
+print(paste('Num genes in Supra State 3: ', supra_state_3))
+brown <- (length(which(supra@meta.data$State == 3 & supra@meta.data$State.old == 2)) / supra_state_3)*100
+white <- (length(which(supra@meta.data$State == 3 & supra@meta.data$State.old == 3)) / supra_state_3)*100
+pre <- (length(which(supra@meta.data$State == 3 & supra@meta.data$State.old == 1)) / supra_state_3)*100
+paste(round(brown), round(white), round(pre))
+```
+
+#Pseudotime
+
+```{r}
+plot_cell_trajectory(cds, color_by='Pseudotime')
+```
+
+
+```{r fig17, fig.height = 5, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('Pseudotime', 'PC1'), cols.use=c('gray', 'blue'), no.legend=F)
+```
+
+```{r fig17, fig.height = 5, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('Pseudotime', 'PC1'), min.cutoff = c(30, -100), cols.use=c('gray', 'blue'), no.legend=F)
+```
+
+```{r fig20, fig.height = 5, fig.width = 6, fig.align = "center"}
+GenePlot(SetAllIdent(seurobj, id='State'), gene1='PC1', gene2='Pseudotime', cex.use = 0.5, col.use=c("#f67770", "#964B00", "orange"))
+```
+
+```{r fig19, fig.height = 5, fig.width = 6, fig.align = "center"}
+GenePlot(SetAllIdent(seurobj, id='State'), gene1='PC2', gene2='Pseudotime', cex.use = 0.5, col.use=c("#f67770", "#964B00", "orange"))
+```
+
+
+```{r fig17, fig.height = 5, fig.width = 6, fig.align = "center"}
+seurobj <- SetAllIdent(seurobj, id='State.old.labels')
+GenePlot(seurobj, gene1='PC2', gene2='Pseudotime', cell.ids=rownames(seurobj@meta.data)[seurobj@meta.data$State.old.labels == 'oxidative'], cex.use = 0.5, col.use='#964B00')
+```
+
+```{r fig18, fig.height = 5, fig.width = 6, fig.align = "center"}
+GenePlot(seurobj, gene1='PC2', gene2='Pseudotime', cell.ids=rownames(seurobj@meta.data)[seurobj@meta.data$State.old.labels == 'ECM'], cex.use=0.5, col.use='orange')
+```
+
+```{r fig19, fig.height = 5, fig.width = 6, fig.align = "center"}
+GenePlot(seurobj, gene1='PC1', gene2='Pseudotime', cell.ids=rownames(seurobj@meta.data)[seurobj@meta.data$State.old.labels == 'oxidative'], cex.use = 0.5, col.use='#964B00')
+```
+
+```{r fig20, fig.height = 5, fig.width = 6, fig.align = "center"}
+GenePlot(seurobj, gene1='PC1', gene2='Pseudotime', cell.ids=rownames(seurobj@meta.data)[seurobj@meta.data$State.old.labels == 'ECM'], cex.use=0.5, col.use='orange')
+```
+
+#Revigo plots
+
+```{r}
+library(ggplot2)
+library(scales)
+revigo.names <- c("term_ID","description","frequency_%","plot_X","plot_Y","plot_size","log10_p_value","uniqueness","dispensability");
+revigo.data <- rbind(c("GO:0006091","generation of precursor metabolites and energy", 1.940,-3.749, 0.436, 5.396,-35.4750,0.910,0.000),
+c("GO:0008152","metabolic process",75.387, 5.926, 2.295, 6.986,-12.2652,0.998,0.000),
+c("GO:0009987","cellular process",63.780, 3.729, 2.706, 6.913,-3.1752,0.997,0.000),
+c("GO:0055088","lipid homeostasis", 0.041, 7.651,-0.282, 3.717,-4.7799,0.941,0.000),
+c("GO:1901700","response to oxygen-containing compound", 0.503,-1.886, 5.778, 4.810,-6.8601,0.885,0.000),
+c("GO:1901615","organic hydroxy compound metabolic process", 0.831, 5.567, 4.218, 5.028,-9.4935,0.933,0.016),
+c("GO:0071704","organic substance metabolic process",58.357,-5.864, 3.299, 6.874,-7.0052,0.954,0.031),
+c("GO:0007005","mitochondrion organization", 0.418,-1.745, 3.067, 4.729,-11.6162,0.934,0.035),
+c("GO:0016999","antibiotic metabolic process", 0.055,-0.047, 0.968, 3.846,-7.4306,0.933,0.052),
+c("GO:0017144","drug metabolic process", 0.058, 0.829, 3.617, 3.868,-29.9830,0.933,0.052),
+c("GO:1901135","carbohydrate derivative metabolic process", 6.319,-5.060, 1.998, 5.909,-21.3019,0.918,0.059),
+c("GO:0072593","reactive oxygen species metabolic process", 0.282, 3.516, 0.481, 4.558,-1.5528,0.924,0.061),
+c("GO:0006790","sulfur compound metabolic process", 1.822,-7.003, 0.706, 5.369,-8.0000,0.910,0.075),
+c("GO:0019693","ribose phosphate metabolic process", 3.032,-3.430,-2.397, 5.590,-32.1675,0.668,0.080),
+c("GO:0055086","nucleobase-containing small molecule metabolic process", 4.917, 2.326,-6.472, 5.800,-30.3045,0.618,0.091),
+c("GO:0006732","coenzyme metabolic process", 3.111,-6.975,-3.915, 5.601,-14.4353,0.851,0.092),
+c("GO:0006807","nitrogen compound metabolic process",38.744, 7.286, 1.772, 6.696,-1.4214,0.956,0.094),
+c("GO:0051186","cofactor metabolic process", 3.985,-5.649,-1.644, 5.709,-16.2411,0.902,0.095),
+c("GO:0005975","carbohydrate metabolic process", 5.260, 0.168,-1.639, 5.829,-5.8069,0.907,0.096),
+c("GO:1902600","hydrogen ion transmembrane transport", 1.015, 2.738, 5.274, 5.115,-13.1904,0.827,0.107),
+c("GO:1901360","organic cyclic compound metabolic process",30.324,-0.264,-4.606, 6.590,-5.6840,0.899,0.113),
+c("GO:0006793","phosphorus metabolic process",13.507,-5.282,-5.853, 6.239,-13.1618,0.886,0.119),
+c("GO:0044238","primary metabolic process",53.743,-4.483, 4.359, 6.839,-5.7328,0.954,0.120),
+c("GO:0044237","cellular metabolic process",53.061,-6.819,-2.132, 6.833,-11.1772,0.911,0.124),
+c("GO:1901570","fatty acid derivative biosynthetic process", 0.009, 7.255,-2.035, 3.044,-6.2774,0.803,0.127),
+c("GO:1901568","fatty acid derivative metabolic process", 0.017, 4.842,-2.064, 3.342,-5.7011,0.860,0.134),
+c("GO:0006725","cellular aromatic compound metabolic process",29.628,-4.238,-5.318, 6.580,-3.6655,0.872,0.185),
+c("GO:0046483","heterocycle metabolic process",29.664,-4.522,-4.692, 6.580,-2.3969,0.872,0.245),
+c("GO:1901564","organonitrogen compound metabolic process",17.886,-0.459,-7.963, 6.361,-5.9914,0.855,0.245),
+c("GO:0006629","lipid metabolic process", 3.522, 4.297,-5.281, 5.655,-23.0516,0.782,0.247),
+c("GO:0072521","purine-containing compound metabolic process", 2.673,-1.112,-7.975, 5.535,-28.5719,0.810,0.258),
+c("GO:0006839","mitochondrial transport", 0.182, 2.306, 5.825, 4.369,-6.5686,0.956,0.263),
+c("GO:0043603","cellular amide metabolic process", 6.879,-2.054,-7.586, 5.946,-2.3335,0.847,0.264),
+c("GO:0044255","cellular lipid metabolic process", 2.704, 3.914,-6.243, 5.540,-21.7799,0.612,0.282),
+c("GO:0010565","regulation of cellular ketone metabolic process", 0.049, 6.371,-4.597, 3.801,-8.4056,0.723,0.302),
+c("GO:0031667","response to nutrient levels", 0.151,-2.323, 5.483, 4.288,-1.5638,0.933,0.313),
+c("GO:0044281","small molecule metabolic process",15.138, 4.925,-4.525, 6.288,-43.6326,0.751,0.320),
+c("GO:0072524","pyridine-containing compound metabolic process", 1.351, 0.082,-8.241, 5.239,-2.8153,0.823,0.357),
+c("GO:1990542","mitochondrial transmembrane transport", 0.079, 1.524, 5.849, 4.006,-7.8125,0.947,0.375),
+c("GO:0006066","alcohol metabolic process", 0.422, 5.670,-5.644, 4.734,-12.6003,0.675,0.378),
+c("GO:0042180","cellular ketone metabolic process", 0.423, 5.205,-6.239, 4.735,-9.0066,0.705,0.378),
+c("GO:0006139","nucleobase-containing compound metabolic process",26.547,-2.028,-6.237, 6.532,-2.2314,0.771,0.395));
+
+```
+
+```{r}
+one.data <- data.frame(revigo.data);
+names(one.data) <- revigo.names;
+one.data <- one.data [(one.data$plot_X != "null" & one.data$plot_Y != "null"), ];
+one.data$plot_X <- as.numeric( as.character(one.data$plot_X) );
+one.data$plot_Y <- as.numeric( as.character(one.data$plot_Y) );
+one.data$plot_size <- as.numeric( as.character(one.data$plot_size) );
+one.data$log10_p_value <- as.numeric( as.character(one.data$log10_p_value) );
+one.data$frequency <- as.numeric( as.character(one.data$frequency) );
+one.data$uniqueness <- as.numeric( as.character(one.data$uniqueness) );
+one.data$dispensability <- as.numeric( as.character(one.data$dispensability) );
+```
+
+```{r}
+p1 <- ggplot( data = one.data );
+p1 <- p1 + geom_point( aes( plot_X, plot_Y, colour = log10_p_value, size = plot_size), alpha = I(0.6) ) + scale_size_area();
+p1 <- p1 + scale_colour_gradientn( colours = c("blue", "green", "yellow", "red"), limits = c( min(one.data$log10_p_value), 0) );
+p1 <- p1 + geom_point( aes(plot_X, plot_Y, size = plot_size), shape = 21, fill = "transparent", colour = I (alpha ("black", 0.6) )) + scale_size_area();
+p1 <- p1 + scale_size( range=c(5, 30)) + theme_bw(); # + scale_fill_gradientn(colours = heat_hcl(7), limits = c(-300, 0) );
+ex <- one.data [ one.data$dispensability < 0.15, ]; 
+p1 <- p1 + geom_text( data = ex, aes(plot_X, plot_Y, label = description), colour = I(alpha("black", 0.85)), size = 3 );
+p1 <- p1 + labs (y = "semantic space x", x = "semantic space y");
+p1 <- p1 + theme(legend.key = element_blank()) ;
+one.x_range = max(one.data$plot_X) - min(one.data$plot_X);
+one.y_range = max(one.data$plot_Y) - min(one.data$plot_Y);
+p1 <- p1 + xlim(min(one.data$plot_X)-one.x_range/10,max(one.data$plot_X)+one.x_range/10);
+p1 <- p1 + ylim(min(one.data$plot_Y)-one.y_range/10,max(one.data$plot_Y)+one.y_range/10);
+```
+
+```{r}
+p1
+```
+

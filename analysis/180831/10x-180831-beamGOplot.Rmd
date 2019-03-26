@@ -1,0 +1,136 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+library(GOPlot)
+```
+
+#BEAM cluster 2
+
+```{r}
+gsea_c2 <- read.table('../../tables/BEAM_GSEA/REVIGO_cleaned/REVIGO_cluster2_cleaned.tsv', sep='\t', header=T)
+genelist_c2 <- read.table('../../tables/BEAM/genelist_cluster_2.txt', sep='\t', header=T)
+
+gsea_c3 <- read.table('../../tables/BEAM_GSEA/REVIGO_cleaned/REVIGO_cluster3_cleaned.tsv', sep='\t', header=T)
+genelist_c3 <- read.table('../../tables/BEAM/genelist_cluster_3.txt', sep='\t', header=T)
+
+gsea_c4 <- read.table('../../tables/BEAM_GSEA/REVIGO_cleaned/REVIGO_cluster4_cleaned.tsv', sep='\t', header=T)
+genelist_c4 <- read.table('../../tables/BEAM/genelist_cluster_4.txt', sep='\t', header=T)
+
+gsea_c5 <- read.table('../../tables/BEAM_GSEA/REVIGO_cleaned/REVIGO_cluster5_cleaned.tsv', sep='\t', header=T)
+genelist_c5 <- read.table('../../tables/BEAM/genelist_cluster_5.txt', sep='\t', header=T)
+
+
+create_terms <- function(gsea){
+  return(data.frame(category=gsea$gsea.domain, ID=gsea$revigo.term_ID, term=gsea$revigo.description, adj_pval=gsea$gsea.p.value, genes=gsea$gsea.intersection))
+}
+
+create_genes <- function(genelist){
+  return(data.frame(ID=genelist$gene_short_name, logFC=genelist$avgLogFC_State2_State3))
+}
+
+terms_c2 <- create_terms(gsea_c2)
+genes_c2 <- create_genes(genelist_c2)
+genes_c2_swapped <- data.frame(ID=genes_c2$ID, logFC=genes_c2$logFC*-1)
+
+terms_c3 <- create_terms(gsea_c3)
+genes_c3 <- create_genes(genelist_c3)
+genes_c3_swapped <- data.frame(ID=genes_c3$ID, logFC=genes_c3$logFC*-1)
+
+terms_c4 <- create_terms(gsea_c4)
+genes_c4 <- create_genes(genelist_c4)
+genes_c4_swapped <- data.frame(ID=genes_c4$ID, logFC=genes_c4$logFC*-1)
+
+terms_c5 <- create_terms(gsea_c5)
+genes_c5 <- create_genes(genelist_c5)
+genes_c5_swapped <- data.frame(ID=genes_c5$ID, logFC=genes_c5$logFC*-1)
+
+```
+
+#Oxidative
+
+```{r}
+terms <- rbind(terms_c2, terms_c5, terms_c4)
+genes <- rbind(genes_c2_swapped, genes_c5_swapped, genes_c4_swapped)
+circ <- circle_dat(terms, genes)
+```
+
+```{r fig1, fig.height = 10, fig.width = 20, fig.align = "center"}
+GOBar(circ)
+```
+
+```{r fig2, fig.height = 12, fig.width = 20, fig.align = "center"}
+oxidative_terms_bp <- GOBubble(subset(circ, category=='BP'), labels=8, ID=F)
+```
+
+```{r}
+save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster2-5-4-BP-terms.pdf", oxidative_terms_bp, base_width=20, base_height=12)
+```
+
+```{r fig5, fig.height = 12, fig.width = 20, fig.align = "center"}
+oxidative_terms <- GOBubble(circ, labels=8)
+```
+
+```{r}
+save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster2-5-4.pdf", oxidative_terms, base_width=20, base_height=12)
+```
+
+```{r fig10, fig.height = 12, fig.width = 20, fig.align = "center"}
+oxidative_terms_terms <- GOBubble(circ, labels=8, ID=F, table.legend = F)
+oxidative_terms_terms
+```
+
+```{r}
+save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster2-5-4-terms.pdf", oxidative_terms_terms, base_width=20, base_height=12)
+```
+
+
+```{r fig6, fig.height = 12, fig.width = 20, fig.align = "center"}
+oxidative_terms_mf <- GOBubble(subset(circ, category=='MF'), labels=8, ID=F, colour=c('#95bafa', '#95bafa', '#95bafa'))
+```
+
+```{r}
+save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster2-5-4-MF.pdf", oxidative_terms_mf, base_width=20, base_height=12)
+```
+
+
+```{r fig9, fig.height = 12, fig.width = 20, fig.align = "center"}
+oxidative_terms_cc <- GOBubble(subset(circ, category=='CC'), labels=8, ID=F, colour=c('#f25455', '#f25455', '#f25455'))
+```
+
+```{r}
+save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster2-5-4-CC.pdf", oxidative_terms_cc, base_width=20, base_height=12)
+```
+
+
+```{r fig3, fig.height = 10, fig.width = 12, fig.align = "center"}
+reduced_circ <- reduce_overlap(circ, overlap = 0.9)
+GOBubble(reduced_circ, labels = 2.8)
+```
+
+#ECM
+
+```{r}
+terms <- rbind(terms_c3, terms_c5)
+genes <- rbind(genes_c3, genes_c5)
+circ <- circle_dat(terms, genes)
+```
+
+
+```{r fig7, fig.height = 10, fig.width = 20, fig.align = "center"}
+GOBar(circ)
+```
+
+
+```{r fig8, fig.height = 12, fig.width = 20, fig.align = "center"}
+ecm_terms <- GOBubble(circ, labels=1, ID=F)
+```
+
+```{r}
+save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster3-5.pdf", ecm_terms, base_width=20, base_height=12)
+```
+

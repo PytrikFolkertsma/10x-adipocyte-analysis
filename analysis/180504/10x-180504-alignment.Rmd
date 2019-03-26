@@ -1,0 +1,149 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+Notebook for alignment analsyis of the 180504 data.
+
+```{r results='hide', message=FALSE, warning=FALSE}
+library(Seurat)
+library(ggplot2)
+```
+
+Lading the datasets.
+
+```{r}
+load('output/10x-180504-aligned-metageneplot') #contains biweight midcorrelation plots: p1 and p2
+all10x.aligned <- readRDS('output/10x-180504-aligned')
+all10x.aligned.ccregout <- readRDS('output/10x-180504-ccregout-aligned')
+all10x.aligned.discardedcells <- readRDS('output/10x-180504-cca-discardedcells')
+all10x.ccregout.aligned.discardedcells <- readRDS('output/10x-180504-ccregout-cca-discardedcells')
+```
+
+
+Alignment of the data with and without cell cycle effects regressed out. Both were aligned on 30 subspaces, tSNE was performed on the first 15 CCs. 
+
+#Shared correlation per CC
+
+Normal alignment
+
+```{r}
+p1
+```
+
+Alignment with cell cycle effects regressed out
+
+```{r}
+p2
+```
+
+
+
+#Alignment without cell cycle effects regressed out
+
+tSNE of the aligned data.
+
+```{r}
+TSNEPlot(all10x.aligned, group.by='sample_name', pt.size=0.1)
+```
+
+tSNE of the aligned data coloured on cell cycle phase.
+
+```{r}
+TSNEPlot(all10x.aligned, group.by='Phase', pt.size=0.1)
+```
+
+#Alignment with cell cycle regressed out
+
+tSNE of the aligned data with cell cycle effects regressed out.
+
+```{r}
+TSNEPlot(all10x.aligned.ccregout, group.by='sample_name', pt.size=0.1)
+```
+
+tSNE of the aligned data with cell cycle effects regressed out, colored by phase.
+
+```{r}
+TSNEPlot(all10x.aligned.ccregout, group.by='Phase', pt.size=0.1)
+```
+
+tSNE of the aligned data with cell cycle effects regressed out, colored by subtissue
+
+```{r}
+TSNEPlot(all10x.aligned.ccregout, group.by='depot', pt.size=0.1)
+```
+
+#Discarded cells from alignment
+
+Before aligning the samples, sample-specific cells were discarded. Below: discarded cells from normal alignment.
+
+```{r}
+discarded <- as.data.frame(table(all10x.aligned.discardedcells@meta.data$sample_name))
+
+names(discarded) <- c('Sample', 'Frequency')
+
+p_discarded <-ggplot(data=discarded, aes(x=Sample, y=Frequency)) +
+  geom_bar(stat="identity") +
+  theme(axis.text.x = element_text(angle=45, hjust=1)) 
+
+p_discarded
+```
+
+Discarded cells from alignment with cell cycle effects regressed out.
+
+```{r}
+discarded.ccregout <- as.data.frame(table(all10x.ccregout.aligned.discardedcells@meta.data$sample_name))
+
+names(discarded.ccregout) <- c('Sample', 'Frequency')
+
+p_discarded.ccregout <-ggplot(data=discarded.ccregout, aes(x=Sample, y=Frequency)) +
+  geom_bar(stat="identity") +
+  theme(axis.text.x = element_text(angle=45, hjust=1)) 
+
+p_discarded.ccregout
+```
+
+#Figures for report
+
+```{r echo=T, results='hide', include=F}
+fig1 <- plot_grid(
+  TSNEPlot(all10x.aligned, group.by='sample_name', pt.size=0.1),
+  TSNEPlot(all10x.aligned, group.by='Phase', pt.size=0.1),
+  TSNEPlot(all10x.aligned.ccregout, group.by='depot', pt.size=0.1),
+  labels=c('a', 'b', 'c'), nrow=3
+)
+save_plot("plots/180504_alignment.pdf", fig1, base_width=6, base_height=12)
+```
+
+```{r fig1, fig.height = 12, fig.width = 6, fig.align = "center"}
+fig1
+```
+
+Biweight midcorrelation plots.
+
+```{r fig2, fig.height = 4, fig.width = 12, fig.align = "center"}
+sfig1 <- plot_grid(
+  p1,
+  p2,
+  labels=c('a', 'b'),
+  nrow=1
+)
+save_plot("plots/supplementary_figures/sfig_180504_biweightplots.pdf", sfig1, base_width=12, base_height=4)
+sfig1
+```
+
+Discarded cells.
+
+```{r fi3, fig.height = 4, fig.width = 12, fig.align = "center"}
+sfig2 <- plot_grid(
+  p_discarded,
+  p_discarded.ccregout,
+  labels=c('a', 'b'),
+  nrow=1
+)
+save_plot("plots/supplementary_figures/sfig_180504_alignment-discardedcells.pdf", sfig2, base_width=12, base_height=4)
+sfig2
+```
+

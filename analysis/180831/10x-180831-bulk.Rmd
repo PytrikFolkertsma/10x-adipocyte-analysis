@@ -1,0 +1,361 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
+---
+
+```{r}
+library(Seurat)
+library(plyr)
+library('biomaRt')
+seurobj <- readRDS('../../output/seurat_objects/180831/10x-180831')
+```
+
+
+Data loading
+
+```{r}
+#bulk data
+bulk.df <- read.table('../../data/181128_All-data-cells-for-pascal.txt', sep='\t', header=T, stringsAsFactors = F, row.names=1, check.names=F)
+
+#10x data (only use cells from oxidative and ECM branch with highest pseudotime)
+sc.df <- Read10X('/data/sc-10x/data-runs/171120-scheele-adipose/agg-180831-unnormalized/outs/filtered_gene_bc_matrices_mex/hg19/')
+sc.df <- sc.df[,which(colnames(sc.df) %in% colnames(seurobj@data))]
+topcells <- rownames(seurobj@meta.data)[seurobj@meta.data$branch_high_res == 'ECM_top10' | seurobj@meta.data$branch_high_res == 'oxidative_top10']
+topcells.df <- sc.df[,which(colnames(sc.df) %in% topcells)]
+
+#gtex data
+load('/data/rna-seq/gtex/v7-seurat_objs/gtex.seurat_obj.gene_tpm.RData')
+gtex_adipose <- SubsetData(seurat_obj, cells.use=rownames(seurat_obj@meta.data)[seurat_obj@meta.data$SMTS == 'Adipose Tissue'])
+gtex.df <- gtex_adipose@raw.data
+gtex.df <- gtex.df[,which(colnames(gtex_adipose@raw.data) %in% colnames(gtex_adipose@data))]
+```
+
+Function from PT to map gene symbols to ensembl ID's. 
+
+```{r}
+hs_add_gene_symbol_from_ensembl_ids <- function(df, colname_geneids_from="gene", colname_geneids_to="ensembl_gene_id") {
+  ### INPUT df: a tibble/data.frame with the column 'colname_geneids_from' with human ensembl gene ids.
+  ### OUTOUT df 
+  # returns a tibble with human gene symbols added to the column 'colname_geneids_to'. 
+  # Genes that did not map have NA values in the 'colname_geneids_to' column.
+  # If there are duplicated gene IDs in 'colname_geneids_to', then all but the first of the duplicated elements will be marked as NA.
+  
+  df <- as.data.frame(df) # convert to df to ensure the the below operations work.
+  
+  file.mapping <- '/projects/pytrik/sc_adipose/analyze_10x_fluidigm/gene_mapping/gene_mapping.GRCh37.87/Homo_sapiens.GRCh37.87.gene_name_version2ensembl.txt'
+  #file.mapping <- "/raid5/projects/timshel/sc-genetics/sc-genetics/data/gene_annotations/GRCh38.ens_v90.gene_name_version2ensembl.txt.gz"
+  df.mapping <- suppressMessages(read_tsv(file.mapping))
+  
+  genes_mapped <- df.mapping$gene_name_optimal[match(df[,colname_geneids_from], df.mapping$ensembl_gene_id)]
+  bool_dups <- duplicated(genes_mapped, incomparables=NA) # marks elements with smaller subscripts as duplicates
+  # ^ incomparables=NA: 'excluding' NA when counting duplicated. NA values will not be compared. (That is, duplicated() returns FALSE for NA values)
+  # ^ duplicated(c(1,1,2,NA,NA,NA)) returns FALSE  TRUE FALSE FALSE  TRUE  TRUE.
+  # ^ duplicated(c(1,1,2,NA,NA,NA), incomparables=NA) returns FALSE  TRUE FALSE FALSE FALSE FALSE.
+  print(sprintf("Number of genes mapped: %s",sum(!is.na(genes_mapped))))
+  print(sprintf("Number of genes not mapped: %s",sum(is.na(genes_mapped)))) # number of not mapped genes
+  print(sprintf("Number of genes with a NON-unique mapping (genes with duplicated ensembl gene IDs after mapping): %s",sum(bool_dups)))
+  ### set duplicated rows (with smaller subscripts) as NA
+  genes_mapped[bool_dups] <- NA
+  print(sprintf("Total mapping stats: %s genes have no mapping (not mapped + duplicates) out of %s input genes.", sum(is.na(genes_mapped)), length(genes_mapped)))
+  print(sprintf("Total genes mapped (non NA genes): %s", sum(!is.na(genes_mapped))))
+  df <- df %>% mutate(!!rlang::sym(colname_geneids_to):=genes_mapped) %>% as.tibble()
+  # filter(!is.na(gene)) %>% # remove all rows without mapping
+  # filter(!duplicated(gene)) # keep only one of the duplicated pair (if any)
+  print(sprintf("Returning tibble with the column '%s' added where all gene identifiers unique. Unmapped genes have NA values", colname_geneids_to))
+  return(df)
+}
+```
+
+Convert gene ID's in bulk data and GTEx to gene symbols.
+
+```{r}
+#bulk
+ids2symbols <- hs_add_gene_symbol_from_ensembl_ids(data.frame(gene=rownames(bulk.df)), colname_geneids_to='gene_symbol')
+bulk.df <- bulk.df[!is.na(ids2symbols$gene_symbol),]
+rownames(bulk.df) <- ids2symbols$gene_symbol[!is.na(ids2symbols$gene_symbol)]
+
+#gtex
+ids2symbols <- hs_add_gene_symbol_from_ensembl_ids(data.frame(gene=rownames(gtex.df)), colname_geneids_to='gene_symbol')
+gtex.df <- gtex.df[!is.na(ids2symbols$gene_symbol),]
+rownames(gtex.df) <- ids2symbols$gene_symbol[!is.na(ids2symbols$gene_symbol)]
+```
+
+Filter dataframes for intersecting genes
+
+```{r}
+length(rownames(bulk.df))
+length(rownames(gtex.df))
+length(rownames(topcells.df))
+intersecting.genes <- intersect(intersect(rownames(bulk.df), rownames(gtex.df)), rownames(sc.df))
+
+length(intersecting.genes)
+```
+
+```{r}
+bulk.df <- bulk.df[rownames(bulk.df) %in% intersecting.genes,]
+topcells.df <- topcells.df[rownames(topcells.df) %in% intersecting.genes,]
+gtex.df <- gtex.df[rownames(gtex.df) %in% intersecting.genes,]
+```
+
+Create Seurat objects
+
+```{r}
+bulk <- CreateSeuratObject(bulk.df)
+topcells <- CreateSeuratObject(topcells.df)
+gtex <- CreateSeuratObject(gtex.df)
+```
+
+Add metadata bulk
+
+```{r}
+x <- strsplit(rownames(bulk@meta.data), '\\.')
+metadata <- data.frame(do.call(rbind, x))
+bulk@meta.data$type <- tolower(metadata$X1)
+bulk@meta.data$stimulated <- metadata$X3
+bulk@meta.data$average <- metadata$X2
+bulk <- SubsetData(bulk, cells.use=rownames(bulk)[bulk@meta.data$average != 'AVG'])
+bulk@meta.data$average <- NULL
+bulk@meta.data['orig.ident'] <- 'Bulk'
+bulk@meta.data
+```
+
+Add metadata 10x and GTEx
+
+```{r}
+topcells <- AddMetaData(topcells, seurobj@meta.data)
+topcells@meta.data['orig.ident'] <- '10x'
+gtex <- AddMetaData(gtex, seurat_obj@meta.data)
+gtex@meta.data['orig.ident'] <- 'GTEx'
+```
+
+```{r}
+gtex <- RunPCA(gtex)
+gtex <- RunTSNE(gtex, dims.use=1:15)
+```
+
+
+Save objects 
+
+```{r}
+#saveRDS(topcells, file='../output/bulk_analysis/sc-oxidative-ECM-topcells')
+#saveRDS(gtex, file='../output/bulk_analysis/gtex')
+#saveRDS(bulk, file='../output/bulk_analysis/bulk')
+```
+
+
+#Bulk data
+
+```{r}
+bulk <- NormalizeData(bulk)
+bulk <- FindVariableGenes(bulk)
+bulk <- ScaleData(bulk)
+bulk <- RunPCA(bulk)
+type_stimulated_combined <- as.vector(apply(bulk@meta.data[,c('type', 'stimulated')], 1, function(x){
+  return(paste(x[['type']], x[['stimulated']], sep='.'))
+}))
+bulk@meta.data['type_stimulated_combined'] <- type_stimulated_combined
+DimPlot(bulk, group.by='type_stimulated_combined', pt.size=2)
+```
+
+
+#Align bulk + 10x data
+
+```{r}
+bulk.10x <- MergeSeurat(bulk, topcells)
+bulk.10x <- FindVariableGenes(bulk.10x)
+bulk.10x <- ScaleData(bulk.10x)
+bulk.10x <- RunPCA(bulk.10x)
+DimPlot(bulk.10x, group.by='orig.ident')
+```
+
+```{r}
+saveRDS(bulk.10x, file='../output/bulk_analysis/bulk.sc-oxidative-ECM-topcells.merged')
+```
+
+Aligned
+
+```{r}
+bulk.10x.aligned <- readRDS('../output/bulk_analysis/bulk.sc-oxidative-ECM-topcells.merged-aligned')
+TSNEPlot(bulk.10x.aligned, group.by='orig.ident')
+```
+
+```{r}
+bulk.10x.aligned@meta.data['state_type_combined'] <- bulk.10x.aligned@meta.data$type
+labels <- bulk.10x.aligned@meta.data$State.old.labels
+bulk.10x.aligned@meta.data$state_type_combined[!is.na(labels)] <- labels[!is.na(labels)]
+TSNEPlot(bulk.10x.aligned, group.by='state_type_combined')
+```
+
+```{r fig1, fig.height=7, fig.width=8, fig.align="center"}
+plot_grid(
+  DimPlot(bulk.10x.aligned, cells.highlight=rownames(bulk.10x.aligned@meta.data)[bulk.10x.aligned@meta.data$state_type_combined == 'brown'], cols.use=c('gray', 'blue'), cols.highlight = 'blue', reduction.use='tsne', sizes.highlight = 5),
+  DimPlot(bulk.10x.aligned, cells.highlight=rownames(bulk.10x.aligned@meta.data)[bulk.10x.aligned@meta.data$state_type_combined == 'white'], cols.use=c('gray', 'blue'), cols.highlight = 'blue', reduction.use='tsne', sizes.highlight = 5),
+  DimPlot(bulk.10x.aligned, cells.highlight=rownames(bulk.10x.aligned@meta.data)[bulk.10x.aligned@meta.data$stimulated == 'Non'], cols.use=c('gray', 'blue'), cols.highlight = 'blue', reduction.use='tsne', sizes.highlight = 5),
+  DimPlot(bulk.10x.aligned, cells.highlight=rownames(bulk.10x.aligned@meta.data)[bulk.10x.aligned@meta.data$stimulated == 'NE-stim'], cols.use=c('gray'), cols.highlight = 'blue', reduction.use='tsne', sizes.highlight = 5), labels=c('bulk brown', 'bulk white', 'Non-stimulated', 'NE-stimulated')
+)
+
+```
+
+
+#Align bulk + GTEx data
+
+```{r}
+bulk.gtex <- MergeSeurat(bulk, gtex)
+bulk.gtex <- FindVariableGenes(bulk.gtex)
+bulk.gtex <- ScaleData(bulk.gtex)
+bulk.gtex <- RunPCA(bulk.gtex)
+DimPlot(bulk.gtex, group.by='orig.ident')
+```
+
+```{r}
+saveRDS(bulk.gtex, '../output/bulk_analysis/bulk.gtex.merged')
+```
+
+```{r}
+bulk.gtex.aligned <- readRDS('../output/bulk_analysis/bulk.gtex.merged-aligned')
+TSNEPlot(bulk.gtex.aligned, group.by='orig.ident')
+```
+
+```{r}
+#combine TMSDT with type
+bulk.gtex.aligned@meta.data['tissue_type_combined'] <- bulk.gtex.aligned@meta.data$type
+tissue <- bulk.gtex.aligned@meta.data$SMTSD
+bulk.gtex.aligned@meta.data$tissue_type_combined[!is.na(tissue)] <- tissue[!is.na(tissue)]
+TSNEPlot(bulk.gtex.aligned, group.by='tissue_type_combined')
+```
+
+```{r fig2, fig.height=3.5, fig.width=8, fig.align="center"}
+plot_grid(
+  DimPlot(bulk.gtex.aligned, cells.highlight=rownames(bulk.gtex.aligned@meta.data)[bulk.gtex.aligned@meta.data$type == 'brown'], cols.use=c('gray', 'blue'), cols.highlight = 'blue', reduction.use='tsne', sizes.highlight = 5),
+  DimPlot(bulk.gtex.aligned, cells.highlight=rownames(bulk.gtex.aligned@meta.data)[bulk.gtex.aligned@meta.data$type == 'white'], cols.use=c('gray', 'blue'), cols.highlight = 'blue', reduction.use='tsne', sizes.highlight = 5),
+  labels=c('bulk brown', 'bulk white')
+)
+```
+
+
+#Align bulk + 10x + GTEx data
+
+```{r}
+#bulk.10x.gtex <- MergeSeurat(bulk.10x, gtex)
+bulk.10x.gtex <- FindVariableGenes(bulk.10x.gtex)
+bulk.10x.gtex <- ScaleData(bulk.10x.gtex)
+bulk.10x.gtex <- RunPCA(bulk.10x.gtex)
+DimPlot(bulk.10x.gtex, group.by='orig.ident')
+```
+
+```{r}
+#saveRDS(bulk.10x.gtex, '../output/bulk_analysis/bulk.sc-oxidative-ECM-topcells.gtex.merged')
+```
+
+```{r}
+#bulk.10x.gtex.aligned <- readRDS('../output/bulk_analysis/bulk.sc-oxidative-ECM-topcells.gtex.merged-cca')
+```
+
+
+#Bulk and sc data merged
+
+Performed preprocessing (normalization, scaling, PCA, t-SNE) on the merged Seurat object (bulk + sc)
+
+```{r}
+merged <- readRDS('../output/bulk_analysis/bulk-sc180831-merged')
+TSNEPlot(merged, group.by='timepoint')
+```
+
+```{r}
+DimPlot(merged, reduction.use='pca', group.by='timepoint', pt.size=1)
+```
+
+```{r}
+DimPlot(merged, reduction.use='pca', group.by='type', pt.size=1)
+```
+
+
+```{r}
+DimPlot(merged, reduction.use='pca', group.by='stimulated', pt.size=1)
+```
+
+Aligned.
+
+```{r}
+merged_aligned <- readRDS('../output/bulk-sc180831-merged-aligned')
+TSNEPlot(merged_aligned, group.by='timepoint')
+```
+
+```{r}
+
+```
+
+#Intersection of variable genes
+
+Intersection highly variable genes of the three datasets?
+
+```{r}
+gtex <- NormalizeData(gtex)
+gtex <- FindVariableGenes(gtex)
+topcells <- NormalizeData(topcells)
+topcells <- FindVariableGenes(topcells)
+```
+
+```{r}
+paste('Highly variable genes bulk:', length(bulk@var.genes))
+paste('Highly variable genes GTEx adipose:', length(gtex@var.genes))
+paste('Highly variable genes 10x topcells:', length(topcells@var.genes))
+
+paste('Nr of genes intersection bulk and GTEx:', length(intersect(bulk@var.genes, gtex@var.genes)))
+paste('Nr of genes intersection bulk and 10x topcells:', length(intersect(bulk@var.genes, topcells@var.genes)))
+paste('Nr of genes intersection GTEx and 10x topcells:', length(intersect(gtex@var.genes, topcells@var.genes)))
+paste('Nr of genes intersection GTEx, 10x topcells and bulk:', length(intersect(intersect(gtex@var.genes, topcells@var.genes), bulk@var.genes)))
+```
+
+Intersecting genes
+
+```{r}
+genes.intersect <- as.data.frame(intersect(intersect(gtex@var.genes, topcells@var.genes), bulk@var.genes))
+genes.intersect
+```
+
+```{r fig3, fig.height=20, fig.width=12, fig.align="center"}
+FeaturePlot(seurobj, features.plot=c('LEPR', 'CHI3L2', 'PLA2G2A', 'COL16A1', 'NEGR1', 'CYR61', 'ERRFI1', 'CYP4B1'), cols.use=c('gray', 'blue'), no.legend=F, nCol = 2)
+```
+
+```{r fig4, fig.height=20, fig.width=12, fig.align="center"}
+FeaturePlot(gtex, features.plot=c('LEPR', 'CHI3L2', 'PLA2G2A', 'COL16A1', 'NEGR1', 'CYR61', 'ERRFI1', 'CYP4B1'), cols.use=c('gray', 'blue'), no.legend=F, pt.size=2, nCol=2)
+```
+
+```{r}
+TSNEPlot(gtex, group.by='SMTSD')
+```
+
+```{r fig5, fig.height=20, fig.width=12, fig.align="center"}
+VlnPlot(bulk, features.plot=c('LEPR', 'CHI3L2', 'PLA2G2A', 'COL16A1', 'NEGR1', 'CYR61', 'ERRFI1', 'CYP4B1'), group.by='type_stimulated_combined', nCol = 2)
+```
+
+```{r fig5, fig.height=20, fig.width=12, fig.align="center"}
+FeaturePlot(gtex, features.plot=c('SCD','FABP4','ADIPOQ','G0S2','FABP5','ADIRF','PLIN4','KRT18'), cols.use=c('gray', 'blue'), no.legend=F, pt.size=2, nCol=2)
+```
+
+```{r fig6, fig.height=20, fig.width=12, fig.align="center"}
+FeaturePlot(seurobj, features.plot=c('SCD','FABP4','ADIPOQ','G0S2','FABP5','ADIRF','PLIN4','KRT18'), cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
+```
+
+```{r fig5, fig.height=20, fig.width=12, fig.align="center"}
+FeaturePlot(gtex, features.plot=c('CPB1','IRF2BPL','PLD3','CXCL12','HEXA','PLTP','DRAM2','S100A4'), cols.use=c('gray', 'blue'), no.legend=F, pt.size=2, nCol=2)
+```
+
+```{r fig6, fig.height=20, fig.width=12, fig.align="center"}
+FeaturePlot(seurobj, features.plot=c('CPB1','IRF2BPL','PLD3','CXCL12','HEXA','PLTP','DRAM2','S100A4'), cols.use=c('gray', 'blue'), no.legend=F, pt.size=1, nCol=2)
+```
+
+```{r fig6, fig.height=28, fig.width=9, fig.align="center"}
+VlnPlot(bulk, features.plot=c('PPARG', 'PRDM16', 'EBF2', 'CEBPA', 'CEBPB', 'CEBPD', 'CEBPG','JUNB', 'UCP1', 'UCP2', 'ADIPOQ', 'G0S2'), group.by='type_stimulated_combined', nCol = 2, x.lab.rot=T)
+```
+
+```{r}
+
+```
+

@@ -1,0 +1,370 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
+---
+
+```{r}
+#library(workflowr, lib.loc='/home/cbmr/pytrik/libraries/')
+#library(Seurat, lib.loc='/home/cbmr/pytrik/libraries/')
+```
+
+
+```{r}
+seurobj <- readRDS('output/10x-180831')
+```
+
+PC2 seems to capture the difference between Monocle states. 
+
+```{r}
+#DimPlot(seurobj, group.by='State', reduction.use='pca', dim.1=5, dim.2=2)
+DimPlot(seurobj, group.by='State', reduction.use='pca', dim.2=2, dim.1=5, cols.use=c("#f67770", "#964B00", "orange"))
+```
+
+
+```{r}
+FeaturePlot(seurobj, features.plot='PC2', cols.use=c('gray', 'blue'), no.legend=F)
+```
+
+
+How are some of the branch-dependent genes expressed?
+Brown genes
+
+```{r fig2, fig.height = 10, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('UCP2', 'FABP5', 'GPD1', 'ADIPOQ'), reduction.use='pca', dim.1=5, dim.2=2, cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
+```
+
+White genes
+
+```{r fig3, fig.height = 10, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('APOD', 'MGP', 'IGF2', 'PLAC9'), reduction.use='pca', dim.1=5, dim.2=2, cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
+```
+
+
+Expression of brown branch genes in the t-SNE
+
+```{r fig1, fig.height = 20, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('UCP2', 'FABP5', 'SCD', 'G0S2', 'ADIPOQ', 'GPD1', 'PLIN1', 'PLIN4'), reduction.use='tsne', cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
+```
+
+Some of the white branch genes
+
+```{r fig4, fig.height = 35, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('APOD', 'MGP', 'DCN', 'PLAC9', 'IGF2', 'ZFP36', 'FOS',
+'TCEAL4',
+'C1R',
+'OSR2',
+'MFGE8',
+'FBLN1',
+'CLU'), reduction.use='tsne', cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
+```
+
+PC2 heatmap
+
+```{r fig5, fig.height = 30, fig.width = 12, fig.align = "center"}
+PCHeatmap(seurobj, pc.use=2, cells.use=100, do.balanced = T, num.genes = 100)
+```
+
+```{r fig6, fig.height = 35, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('ADIPOQ', 'LIPE', 'PLIN4', 'FASN', 'AGPAT2', 'PCK1', 'MMP2', 'PPAP2B', 'SCARA5', 'IGFBP6', 'SERPING1'), reduction.use='tsne', cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
+```
+
+```{r}
+FeaturePlot(seurobj, features.plot='EBF2', cols.use=c('gray', 'blue'), no.legend=F)
+```
+
+#TF DE analysis
+
+Get DE genes from top 10% PC2 both sides. There are 23428 samples in total. So extract 2343 cells with highest and lowest PC2 score.
+
+```{r}
+pc2 <- as.data.frame(seurobj@dr$pca@cell.embeddings[,2])
+names(pc2) <- 'pc2'
+pc2
+```
+
+Ordered from low to high
+
+```{r}
+pc2_low <- pc2[order(pc2$pc2), , drop=F]
+pc2_low
+```
+
+Cells ordered from high to low
+
+```{r}
+pc2_high <- pc2[order(-pc2$pc2), , drop=F]
+pc2_high
+```
+
+```{r}
+pc2_low_cells <- rownames(pc2_low)[1:2340]
+pc2_high_cells <- rownames(pc2_high)[1:2340]
+
+seurobj@meta.data$pc2 <- 'middle'
+seurobj@meta.data$pc2[which(rownames(seurobj@meta.data) %in% pc2_low_cells)] <- 'bottom_10%_pc2'
+seurobj@meta.data$pc2[which(rownames(seurobj@meta.data) %in% pc2_high_cells)] <- 'top_10%_pc2'
+
+TSNEPlot(seurobj, group.by='pc2', pt.size=0.1)
+```
+
+```{r}
+#markers <- FindMarkers(SetAllIdent(seurobj, id='pc2'), ident.1='top_10%_pc2', #ident.2='bottom_10%_pc2', test.use='negbinom')
+#markers$gene <- rownames(markers)
+#rownames(markers) <- NULL
+#write.table(markers, file='../output/markergenes/180831/markers_10x-180831-PC2-high10%-low10%', quote=F, row.names=F, sep='\t')
+```
+
+1002 markers
+
+```{r}
+length(markers$gene)
+length(unique(markers$gene))
+```
+
+
+Genes expressed high in bottom 10% pc2. 
+
+```{r}
+markers[order(markers$avg_logFC),]
+```
+
+Genes expressed high in top 10% pc2. 
+
+```{r}
+markers[order(-markers$avg_logFC),]
+```
+
+Transcription factors
+'SFPQ', 'NR1H3', 'CEBPA' = high PC2
+'TSC22D3', 'FOS', 'ZEB1' = low PC2
+
+```{r fig7, fig.height = 20, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('SFPQ',
+'NR1H3',
+'CEBPA',
+'EPHA1-AS1',
+'TSC22D3',
+'FOS',
+'ZEB1',
+'MEG3'), cols.use=c('gray', 'blue'), no.legend=F, nCol=2)
+
+
+
+
+```
+
+```{r}
+TSNEPlot(seurobj, group.by='State')
+```
+
+Peri vs supra
+
+```{r}
+pc2_depot <- as.data.frame(seurobj@dr$pca@cell.embeddings[,2])
+names(pc2_depot) <- 'pc2'
+pc2_depot['depot'] <- seurobj@meta.data$depot
+pc2_depot <- pc2_depot[order(-pc2_depot$pc2), , drop=F]
+supra_top_pc2 <- rownames(pc2_depot[pc2_depot$depot == 'Supra', ])[1:500]
+peri_top_pc2 <- rownames(pc2_depot[pc2_depot$depot == 'Peri', ])[1:500]
+
+seurobj@meta.data['pc2_supra_peri'] <- 'other'
+seurobj@meta.data$pc2_supra_peri[which(rownames(seurobj@meta.data) %in% supra_top_pc2)] <- 'supra_top500_pc2'
+seurobj@meta.data$pc2_supra_peri[which(rownames(seurobj@meta.data) %in% peri_top_pc2)] <- 'peri_top500_pc2'
+
+TSNEPlot(seurobj, group.by='pc2_supra_peri', pt.size=0.1)
+```
+
+```{r}
+markers_supra_peri <- FindMarkers(SetAllIdent(seurobj, id='pc2_supra_peri'), ident.1='supra_top500_pc2', ident.2='peri_top500_pc2', test.use='negbinom')
+```
+
+
+```{r}
+#markers_supra_peri$gene <- rownames(markers_supra_peri)
+#rownames(markers_supra_peri) <- NULL
+#write.table(markers_supra_peri, file='../output/markergenes/180831/markers_10x-180831-supra-peri-topPC2', quote=F, row.names=F, sep='\t')
+```
+
+```{r fig8, fig.height = 15, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('CEBPA', 'MAFB', 'SOX4', 'NFIB', 'U2AF1', 'SFPQ'), nCol=2, cols.use=c('gray','blue'), no.legend=F)
+```
+
+Subq vs Visce
+
+```{r}
+pc2_depot <- as.data.frame(seurobj@dr$pca@cell.embeddings[,2])
+names(pc2_depot) <- 'pc2'
+pc2_depot['depot'] <- seurobj@meta.data$depot
+pc2_depot <- pc2_depot[order(pc2_depot$pc2), , drop=F]
+subq_top_pc2 <- rownames(pc2_depot[pc2_depot$depot == 'Subq', ])[1:500]
+visce_top_pc2 <- rownames(pc2_depot[pc2_depot$depot == 'Visce', ])[1:500]
+
+seurobj@meta.data['pc2_subq_visce'] <- 'other'
+seurobj@meta.data$pc2_subq_visce[which(rownames(seurobj@meta.data) %in% subq_top_pc2)] <- 'subq_top500_pc2'
+seurobj@meta.data$pc2_subq_visce[which(rownames(seurobj@meta.data) %in% visce_top_pc2)] <- 'visce_top500_pc2'
+
+TSNEPlot(seurobj, group.by='pc2_subq_visce', pt.size=0.1)
+```
+
+```{r}
+markers_subq_visce <- FindMarkers(SetAllIdent(seurobj, id='pc2_subq_visce'), ident.1='subq_top500_pc2', ident.2='visce_top500_pc2', test.use='negbinom')
+```
+
+```{r}
+#markers_subq_visce$gene <- rownames(markers_subq_visce)
+#rownames(markers_subq_visce) <- NULL
+#write.table(markers_subq_visce, file='../output/markergenes/180831/markers_10x-180831-subq-visce-topPC2', quote=F, row.names=F, sep='\t')
+```
+
+```{r fig8, fig.height = 20, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('MALAT1','SNHG7', 'NEAT1', 'CRNDE', 'EMX2OS','LINC01116', 'HOXC9','TEAD1'), nCol=2, cols.use=c('gray','blue'), no.legend=F)
+```
+
+Depot-specific early timepoints.
+
+```{r fig9, fig.height = 10, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('NFIB', 'LINC01116', 'BEX1'), nCol=2, cols.use=c('gray','blue'), no.legend=F)
+```
+
+
+```{r fig10, fig.height = 10, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('CRNDE','LINC01116','STARD4-AS1','NEAT1'), nCol=2, cols.use=c('gray','blue'), no.legend=F)
+```
+
+```{r fig11, fig.height = 10, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('LINC01116','SNHG7','CRNDE','ZFAS1'), nCol=2, cols.use=c('gray','blue'), no.legend=F)
+```
+
+```{r fig12, fig.height = 10, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('FOS','NFIB','SNHG7'), nCol=2, cols.use=c('gray','blue'), no.legend=F)
+```
+
+
+#WGCNA
+
+```{r}
+eigengenes <- read.table('../output/wgcna/wgcna-180831/tables/10x-180831_run1_kME_cellModEmbed.csv', sep=',', header=T)
+rownames(eigengenes) <- eigengenes$cell_id
+modules <- names(eigengenes[4:8])
+seurobj <- AddMetaData(seurobj, eigengenes[4:8])
+```
+
+Pre branch = lightgreen (cor 0.76)
+Brown branch = blue (cor 0.79) and mediumpurple (cor 0.64). 
+White branch = springgreen (cor 0.68)
+
+```{r fig8, fig.height = 12, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=modules, cols.use=c('gray', 'blue'), nCol=2, no.legend=F)
+```
+
+
+```{r fig13, fig.height = 5, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('CEBPA', 'DLK1'), cols.use=c('gray', 'blue'), nCol=2, no.legend=F)
+```
+
+```{r fig14, fig.height = 5, fig.width = 12, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=c('CEBPA', 'DLK1'), cols.use=c('gray', 'blue'), nCol=2, no.legend=F, reduction.use='pca')
+```
+
+```{r fig15, fig.height = 6, fig.width = 6, fig.align = "center"}
+VizPCA(seurobj, pcs.use=2, num.genes=50)
+```
+
+```{r fig16, fig.height = 5, fig.width = 6, fig.align = "center"}
+DimPlot(seurobj, group.by='depot', pt.size=0.1, cols.use=c("#845d1e", "#edd2a8", "#472809", 'orange'))
+```
+
+```{r fig17, fig.height = 10, fig.width = 10, fig.align = "center"}
+plot_grid(
+  DimPlot(seurobj, pt.size=0.1, cells.highlight=rownames(seurobj@meta.data)[seurobj@meta.data$depot == 'Peri'], cells.use=rownames(seurobj@meta.data)[seurobj@meta.data$depot == 'Peri' & seurobj@meta.data$time_combined == 2], cols.highlight='blue', cols.use='gray') + geom_point() + stat_density_2d(aes(fill = ..level..), geom = "polygon"),
+  DimPlot(seurobj, pt.size=0.1, cells.highlight=rownames(seurobj@meta.data)[seurobj@meta.data$depot == 'Subq'], cells.use=rownames(seurobj@meta.data)[seurobj@meta.data$depot == 'Subq' & seurobj@meta.data$time_combined == 2], cols.highlight='blue', cols.use='gray') + geom_point() + stat_density_2d(aes(fill = ..level..), geom = "polygon"),
+  DimPlot(seurobj, pt.size=0.1, cells.highlight=rownames(seurobj@meta.data)[seurobj@meta.data$depot == 'Supra'], cells.use=rownames(seurobj@meta.data)[seurobj@meta.data$depot == 'Supra' & seurobj@meta.data$time_combined == 2], cols.highlight='blue', cols.use='gray') + geom_point() + stat_density_2d(aes(fill = ..level..), geom = "polygon"),
+  DimPlot(seurobj, pt.size=0.1, cells.use=rownames(seurobj@meta.data)[seurobj@meta.data$depot == 'Visce' & seurobj@meta.data$time_combined == 2], cells.highlight=rownames(seurobj@meta.data)[seurobj@meta.data$depot == 'Visce'], cols.highlight='blue', cols.use='gray') + geom_point() + stat_density_2d(aes(fill = ..level..), data=, geom = "polygon")
+)
+
+```
+
+```{r fig18, fig.height = 5, fig.width = 6, fig.align = "center"}
+FeaturePlot(seurobj, reduction.use='pca', features.plot='Pseudotime', cols.use=c('gray', 'blue'), no.legend=F)
+```
+
+```{r fig18, fig.height = 5, fig.width = 6, fig.align = "center"}
+FeaturePlot(seurobj, reduction.use='pca', features.plot='Pseudotime', cols.use=c('gray', 'blue'), no.legend=F, min.cutoff=30)
+```
+
+#PC gene loadings
+
+```{r}
+seurobj_fullPCA <- readRDS('../output/10x-180831-full-pca')
+```
+
+```{r fig19, fig.height = 5, fig.width = 12, fig.align = "center"}
+plot_grid(
+  DimPlot(seurobj_fullPCA, group.by='State.old.labels', pt.size=0.1, cols.use=c('#649efc', '#1bb840', '#f67770')),
+  DimPlot(seurobj, group.by='State.old.labels', pt.size=0.1, cols.use=c('#649efc', '#1bb840', '#f67770')),
+  ncol=4
+)
+```
+
+How much do the gene loadings from the projected PCA and the fully calculated PCA differ? 
+
+```{r}
+seurobj_fullPCA <- ProjectPCA(seurobj_fullPCA, pcs.store = 10)
+
+seurobj_loadings <- seurobj@dr$pca@gene.loadings[,1:10]
+seurobj_loadings_projected <- seurobj@dr$pca@gene.loadings.full[,1:10] #
+
+
+seurobj_fullPCA_loadings <- seurobj_fullPCA@dr$pca@gene.loadings #
+seurobj_fullPCA_loadings_projected <- seurobj_fullPCA@dr$pca@gene.loadings.full
+
+seurobj_fullPCA_loadings_projected_filtered <- seurobj_fullPCA_loadings_projected[match(rownames(seurobj_fullPCA_loadings), rownames(seurobj_fullPCA_loadings_projected)),]
+
+seurobj_loadings_projected_filtered <- seurobj_loadings_projected[match(rownames(seurobj_fullPCA_loadings), rownames(seurobj_loadings_projected)),]
+
+#correlation between PC1 and PC1 projected?
+```
+
+```{r}
+#file.out.data <- file.path(dir.out, sprintf("%s.umi.csv", prefix_out))
+#data.table::fwrite(df, file=file.out.data,  # fwrite cannot write gziped files
+#                   nThread=24, verbose=T) # write file
+#R.utils::gzip(file.out.data, overwrite=TRUE) # gzip
+
+file.out.data <- file.path('../tables/10x-180831-geneloadings-PC1-PC10-projected.csv')
+data.table::fwrite(as.data.frame(seurobj_loadings_projected), file=file.out.data, verbose=T, nThread=4, row.names=T)
+
+```
+
+```{r fig20, fig.height = 20, fig.width = 12, fig.align = "center"}
+plot_grid(
+  DimPlot(seurobj_fullPCA, group.by='State.old.labels', pt.size=0.1, cols.use=c('#649efc', '#1bb840', '#f67770')),
+  DimPlot(seurobj, group.by='State.old.labels', pt.size=0.1, cols.use=c('#649efc', '#1bb840', '#f67770')),
+  DimPlot(seurobj_fullPCA, group.by='State.old.labels', pt.size=0.1, cols.use=c('#649efc', '#1bb840', '#f67770'), dim.1='2', dim.2='3'),
+  DimPlot(seurobj, group.by='State.old.labels', pt.size=0.1, cols.use=c('#649efc', '#1bb840', '#f67770'), dim.1='2', dim.2='3'),
+  DimPlot(seurobj_fullPCA, group.by='State.old.labels', pt.size=0.1, cols.use=c('#649efc', '#1bb840', '#f67770'),  dim.1='3', dim.2='4'),
+  DimPlot(seurobj, group.by='State.old.labels', pt.size=0.1, cols.use=c('#649efc', '#1bb840', '#f67770'), dim.1='3', dim.2='4'),
+  DimPlot(seurobj_fullPCA, group.by='State.old.labels', pt.size=0.1, cols.use=c('#649efc', '#1bb840', '#f67770'), dim.1='4', dim.2='5'),
+  DimPlot(seurobj, group.by='State.old.labels', pt.size=0.1, cols.use=c('#649efc', '#1bb840', '#f67770'), dim.1='4', dim.2='5'),
+  ncol=2
+)
+```
+
+```{r fig21, fig.height = 20, fig.width = 12, fig.align = "center"}
+plot_grid(
+  DimPlot(seurobj_fullPCA, group.by='timepoint', pt.size=0.1),
+  DimPlot(seurobj, group.by='timepoint', pt.size=0.1),
+  DimPlot(seurobj_fullPCA, group.by='timepoint', pt.size=0.1, dim.1='2', dim.2='3'),
+  DimPlot(seurobj, group.by='timepoint', pt.size=0.1, dim.1='2', dim.2='3'),
+  DimPlot(seurobj_fullPCA, group.by='timepoint', pt.size=0.1,  dim.1='3', dim.2='4'),
+  DimPlot(seurobj, group.by='timepoint', pt.size=0.1, dim.1='3', dim.2='4'),
+  DimPlot(seurobj_fullPCA, group.by='timepoint', pt.size=0.1, dim.1='4', dim.2='5'),
+  DimPlot(seurobj, group.by='timepoint', pt.size=0.1, dim.1='4', dim.2='5'),
+  ncol=2
+)
+```

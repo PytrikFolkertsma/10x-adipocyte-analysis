@@ -1,0 +1,279 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
+---
+
+```{r}
+library(dplyr)
+library(Seurat)
+library(gProfileR)
+```
+
+
+```{r}
+all10x <- readRDS('output/10x-180504')
+```
+
+One cluster in the data contains cells from all samples
+
+```{r}
+TSNEPlot(all10x, group.by='sample_name', pt.size=0.1)
+```
+
+Cluster 12
+
+```{r}
+TSNEPlot(all10x, group.by='res.0.5', pt.size=0.1, do.label=T)
+```
+
+#Marker genes
+
+```{r}
+markers <- read.table('output/markergenes/180504/markers_10x-180504_res.0.5_negbinom', sep='\t', header=T)
+mixture <- markers[markers$cluster == 12,]
+mixture <- mixture[mixture$p_val_adj < 0.05,]
+mixture_pos <- mixture[order(-mixture$avg_logFC),]
+mixture_neg <- mixture[order(mixture$avg_logFC),]
+```
+
+Positive markers 
+
+```{r}
+as.data.frame(mixture_pos)
+```
+
+Negative markers
+
+```{r}
+as.data.frame(mixture_neg)
+```
+
+Top 10 positive markers 
+
+```{r fig1, fig.height = 15, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, features.plot=toupper(mixture_pos$gene[1:10]), group.by='res.0.5', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
+```
+
+Top 10 negative markers
+
+```{r fig2, fig.height = 15, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, features.plot=toupper(mixture_neg$gene[1:10]), group.by='res.0.5', point.size.use=-1, nCol=2, x.lab.rot=T, size.x.use=10)
+```
+
+Plots
+
+```{r fig4, fig.height = 5, fig.width = 9, fig.align = "center"}
+all10x@meta.data$mixture <- ifelse(all10x@meta.data$res.0.5==12, "mixture", "rest")
+VlnPlot(all10x, features.plot=c('nGene', 'MALAT1', 'NEAT1', 'FN1', 'ITGB1', 'COL1A1', 'COL1A2', 'percent.mito'), group.by='mixture', point.size.use=-1, nCol=4)
+```
+
+
+#Gene set enrichment
+
+```{r}
+gsea_revigo <- read.table('tables/Revigo_mixture-cluster_cleaned.txt', header=T, sep='\t')
+gsea_revigo
+```
+
+
+#Nr of cells
+
+Sample composition in cluster 12. 
+
+```{r}
+cluster12 <- SubsetData(all10x, cells.use=rownames(all10x@meta.data)[which(all10x@meta.data$res.0.5 %in% 12)])
+rotate_x <- function(data, column_to_plot, labels_vec, rot_angle) {
+     plt <- barplot(data[[column_to_plot]], col='steelblue', xaxt="n")
+     text(plt, par("usr")[3], labels = labels_vec, srt = rot_angle, adj = c(1.1,1.1), xpd = TRUE, cex=1)
+}
+rotate_x((cluster12@meta.data %>% count(sample_name))[,2], 'n', as.vector(unlist((cluster12@meta.data %>% count(sample_name))[,1])), 45)
+```
+
+#scmap results
+
+```{r}
+TSNEPlot(all10x, group.by='predicted_labels_fat', pt.size=0.1)
+```
+
+Add line breaks for legend
+
+```{r}
+all10x@meta.data$predicted_labels_fat_breaks = as.vector(all10x@meta.data$predicted_labels_fat)
+all10x@meta.data$predicted_labels_fat_breaks[which(all10x@meta.data$predicted_labels_fat == 'mesenchymal stem cell of adipose')] = 'mesenchymal\nstem cell\nof adipose'
+all10x@meta.data$predicted_labels_fat_breaks[which(all10x@meta.data$predicted_labels_fat == 'smooth muscle cell')] = 'smooth\nmuscle cell'
+```
+
+```{r}
+TSNEPlot(all10x, group.by='predicted_labels_fat_breaks', pt.size=0.1) + theme(legend.key.height=unit(1, "cm"))
+```
+
+
+#Stressed cell analysis
+
+```{r}
+stress_genes <- read.table('/raid5/projects/timshel/sc-arc_lira/src/data-genelists/171219-van_den_Brink2017-genes_affected_by_dissociation.csv', header=T) %>% pull(1)
+length(stress_genes)
+```
+
+```{r}
+stress_genes
+```
+
+
+```{r}
+de_genes <- read.table('output/markergenes/180504/markers_10x-180504_res.0.5_negbinom', header=T)
+de_genes <- de_genes[de_genes$p_val_adj < 0.05,]
+```
+
+Cluster 12 is the mixture cluster. Check markers MALAT1 and NEAT1 to be sure:
+
+```{r fig7, fig.height = 3, fig.width = 10, fig.align = "center"}
+VlnPlot(all10x, group.by='res.0.5', features.plot=c('MALAT1', 'NEAT1'), point.size.use =-1)
+```
+
+Are any of the stress genes in the DE genes for the mixture cluster?
+
+```{r}
+de_genes_pos <- de_genes[de_genes$avg_logFC > 0, ]
+de_genes_neg <- de_genes[de_genes$avg_logFC < 0, ]
+
+intersect_pos <- list()
+intersect_neg <- list()
+n_pos <- list()
+n_neg <- list()
+perc_pos <- list()
+perc_neg <- list()
+
+for (i in unique(de_genes$cluster)){
+  c <- paste('cluster', i)
+
+  genes_pos <- de_genes_pos[de_genes_pos$cluster == i, 'gene']
+  genes_neg <- de_genes_neg[de_genes_neg$cluster == i, 'gene']
+  
+  intersect_pos[[c]] <- length(intersect(toupper(stress_genes), genes_pos))
+  intersect_neg[[c]] <- length(intersect(toupper(stress_genes), genes_neg))
+  n_pos[[c]] <- length(genes_pos)
+  n_neg[[c]] <- length(genes_neg)
+  perc_pos[[c]] <- (intersect_pos[[c]] / n_pos[[c]]) * 100
+  perc_neg[[c]] <- (intersect_neg[[c]] / n_neg[[c]]) * 100
+}
+
+stressed_cells <- data.frame(
+  shared.pos.genes=unlist(intersect_pos),
+  shared.neg.genes=unlist(intersect_neg),
+  n_pos=unlist(n_pos),
+  n_neg=unlist(n_neg),
+  perc_pos=unlist(perc_pos),
+  perc_neg=unlist(perc_neg)
+  )
+
+stressed_cells <- stressed_cells[order(rownames(stressed_cells)),]
+stressed_cells
+```
+
+3 of the 140 genes were found in the positive markers for the mixture cluster, 54 in the negative numbers. Similar numbers were found for the other clusters in the data. These results indicate that the mixture cluster does not consist of stressed cells. 
+
+```{r}
+
+```
+
+
+#Figures for report
+
+```{r fig5, fig.height = 9, fig.width = 12, fig.align = "center"}
+get_violin_plot <- function(x){
+  return(VlnPlot(all10x, features.plot=c(x), point.size.use=-1, group.by='mixture', size.title.use=14, remove.legend=T) + theme(axis.title.x=element_blank()))
+}
+
+fig2_first_row <- plot_grid(
+  TSNEPlot(all10x, group.by='sample_name', pt.size=0.1),
+  TSNEPlot(all10x, group.by='predicted_labels_fat_breaks', pt.size=0.1) + theme(legend.key.height=unit(1, "cm")),
+  labels=c('a', 'b'), rel_widths=c(48/100, 52/100)
+)
+
+fig2_violin <- plot_grid(
+  get_violin_plot('nGene'),
+  get_violin_plot('MALAT1'),
+  get_violin_plot('NEAT1'),
+  get_violin_plot('FN1'),
+  get_violin_plot('ITGB1'),
+  get_violin_plot('COL1A1'),
+  get_violin_plot('COL1A2'),
+  get_violin_plot('percent.mito'),
+  labels=c('d', 'e', 'f', 'g', 'h', 'i', 'j', 'k'), nrow=2
+)
+
+fig2_barplot <- plot_grid(ggplot(data=cluster12@meta.data %>% count(sample_name), aes(x=sample_name, y=n)) +
+  geom_bar(stat="identity", position='dodge') + 
+  scale_y_continuous(expand=c(0,0)) +
+  theme(axis.line.y=element_blank(), axis.ticks.y=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  coord_flip(), labels=c('c'))
+
+fig2_second_row <- plot_grid(fig2_barplot, fig2_violin, rel_widths=c(2/8, 6/8))
+
+fig2 <- plot_grid(
+  fig2_first_row,
+  fig2_second_row,
+  nrow=2
+)
+
+fig2
+
+save_plot("plots/180504_mixture.pdf", fig2, base_width=12, base_height=9)
+
+```
+
+
+```{r fig6, fig.height = 10, fig.width = 12, fig.align = "center"}
+# get_violin_plot <- function(x){
+#   return(VlnPlot(all10x, features.plot=c(x), point.size.use=-1, group.by='mixture', size.title.use=14, remove.legend=T) + theme(axis.title.x=element_blank()))
+# }
+# 
+# fig2_first_row <- plot_grid(
+#   TSNEPlot(all10x, group.by='sample_name', pt.size=0.1) + theme(legend.position=c(0.1, 0.5), legend.key = element_blank(), legend.background= element_rect(fill=alpha('white', 0.8), size=0.5, linetype='solid', colour=alpha('black', 0.3))),
+#   DimPlot(all10x, reduction.use='tsne', cells.highlight = rownames(all10x@meta.data)[all10x@meta.data$res.0.5 == 12], cols.highlight='blue', cols.use='gray', pt.size=0.1),
+#   labels=c('a', 'b')
+# )
+# 
+# fig2_violin <- plot_grid(
+#   get_violin_plot('nGene'),
+#   get_violin_plot('MALAT1'),
+#   get_violin_plot('NEAT1'),
+#   get_violin_plot('FN1'),
+#   get_violin_plot('ITGB1'),
+#   get_violin_plot('COL1A1'),
+#   get_violin_plot('COL1A2'),
+#   get_violin_plot('percent.mito'),
+#   labels=c('d', 'e', 'f', 'g', 'h', 'i', 'j', 'k'), nrow=2
+# )
+# 
+# fig2_barplot <- plot_grid(ggplot(data=cluster12@meta.data %>% count(sample_name), aes(x=sample_name, y=n)) +
+#   geom_bar(stat="identity", position='dodge') + 
+#   scale_y_continuous(expand=c(0,0)) +
+#   theme(axis.line.y=element_blank(), axis.ticks.y=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank()) +
+#   coord_flip(), labels=c('c'))
+# 
+# fig2_second_row <- plot_grid(fig2_barplot, fig2_violin, rel_widths=c(2/8, 6/8))
+# 
+# fig2 <- plot_grid(
+#   fig2_first_row,
+#   fig2_second_row,
+#   nrow=2
+# )
+# 
+# fig2
+# 
+# #save_plot("plots/180504_mixture.pdf", fig2, base_width=12, base_height=10)
+
+```
+
+
+```{r}
+write.table(stressed_cells, 'tables/10x-180504-stressed-cells-analysis.txt', sep='\t')
+```
+
