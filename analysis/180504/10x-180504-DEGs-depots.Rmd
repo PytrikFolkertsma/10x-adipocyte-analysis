@@ -11,6 +11,7 @@ output:
 
 ```{r}
 library(Seurat)
+
 all10x <- readRDS('output/seurat_objects/180504/10x-180504')
 ```
 
