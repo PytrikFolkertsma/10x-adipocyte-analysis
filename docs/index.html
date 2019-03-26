@@ -22,9 +22,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -72,9 +71,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -99,6 +96,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -113,7 +113,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -133,6 +132,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -154,19 +190,85 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
 });
 </script>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -222,999 +324,1092 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2019-01-01</p>
-<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
-<ul>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
-</details>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/5c937b2c6f9bc80e45e48fb353589f6866afab02" target="_blank">5c937b2</a> </summary></p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
-<pre><code>
-Ignored files:
-    Ignored:    code/.ipynb_checkpoints/
-    Ignored:    output/10x-180504
-    Ignored:    output/10x-180504-aligned
-    Ignored:    output/10x-180504-aligned-metageneplot
-    Ignored:    output/10x-180504-beforeQC
-    Ignored:    output/10x-180504-beforeqc
-    Ignored:    output/10x-180504-cca-discardedcells
-    Ignored:    output/10x-180504-ccregout
-    Ignored:    output/10x-180504-ccregout-aligned
-    Ignored:    output/10x-180504-ccregout-cca-discardedcells
-    Ignored:    output/10x-180831
-    Ignored:    output/10x-180831-T1T2T3
-    Ignored:    output/10x-180831-T4T5
-    Ignored:    output/10x-180831-beforeqc
-    Ignored:    output/10x-180831-notcleaned
-    Ignored:    output/monocle/
-
-Untracked files:
-    Untracked:  code/mixture_cluster_gsea.R
-    Untracked:  tables/10x-180504-stressed-cells-analysis.txt
-    Untracked:  tables/GSEA_mixture-cluster.txt
-    Untracked:  tables/Revigo_input_mixture-cluster.txt
-    Untracked:  tables/Revigo_mixture-cluster.csv
-    Untracked:  tables/Revigo_mixture-cluster_cleaned.txt
-
-Unstaged changes:
-    Modified:   analysis/10x-180504-general-analysis.Rmd
-    Modified:   analysis/10x-180831-general-analysis.Rmd
-    Modified:   plots/180504_mixture.pdf
-
-</code></pre>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
 </li>
 </ul>
-<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
-<ul>
-<table style="border-collapse:separate; border-spacing:5px;">
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-03-26
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>10x-adipocyte-analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.2.0). The <em>Report</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="report" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomPytrikFolkertsma10xadipocyteanalysistree5034e51fffcfb13e442a933cd5efc4f818b64ac8targetblank5034e51a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/tree/5034e51fffcfb13e442a933cd5efc4f818b64ac8" target="_blank">5034e51</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomPytrikFolkertsma10xadipocyteanalysistree5034e51fffcfb13e442a933cd5efc4f818b64ac8targetblank5034e51a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    analysis/180504/
+    Ignored:    analysis/180831/
+    Ignored:    analysis/figure/
+    Ignored:    figures/
+    Ignored:    output/bulk_analysis/
+    Ignored:    output/markergenes/
+    Ignored:    output/monocle/
+    Ignored:    output/seurat_objects/
+    Ignored:    output/velocyto/
+    Ignored:    output/wgcna/
+    Ignored:    tables/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 File
 </th>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
-<th style="text-align:left;">
+<th>
 Message
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
-<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/5c937b2c6f9bc80e45e48fb353589f6866afab02/analysis/index.Rmd" target="_blank">5c937b2</a>
+<td>
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/5034e51fffcfb13e442a933cd5efc4f818b64ac8/analysis/index.Rmd" target="_blank">5034e51</a>
 </td>
-<td style="text-align:left;">
-PytrikFolkertsma
+<td>
+Pytrik Folkertsma
 </td>
-<td style="text-align:left;">
-2019-01-01
+<td>
+2019-03-26
 </td>
-<td style="text-align:left;">
-wflow_publish(c(“analysis/index.Rmd”))
+<td>
+index updated
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/de97537b7d985f5e61dd1597e484974eb55ab6a8/docs/index.html" target="_blank">de97537</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-01-04
+</td>
+<td>
+velo notebook 180831
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/index.html" target="_blank">221a47f</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-01-04
+</td>
+<td>
+docs
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
-<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/1ee9efb40dd71758c60f6d5bb622fddfe1fd976e/analysis/index.Rmd" target="_blank">1ee9efb</a>
+<td>
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/ab801ec24c583cc82673191279a54153311ad771/analysis/index.Rmd" target="_blank">ab801ec</a>
 </td>
-<td style="text-align:left;">
-PytrikFolkertsma
+<td>
+Pytrik Folkertsma
 </td>
-<td style="text-align:left;">
-2019-01-01
+<td>
+2019-01-04
 </td>
-<td style="text-align:left;">
+<td>
 updated notebooks
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/12351bf1fc4e0259ce7526a95f87c3dea40564db/docs/index.html" target="_blank">12351bf</a>
-</td>
-<td style="text-align:left;">
-PytrikFolkertsma
-</td>
-<td style="text-align:left;">
-2019-01-01
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
-<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/b88a9ba8a1bb2c07016cbf0b02d4a6723871f5d0/analysis/index.Rmd" target="_blank">b88a9ba</a>
-</td>
-<td style="text-align:left;">
-PytrikFolkertsma
-</td>
-<td style="text-align:left;">
-2019-01-01
-</td>
-<td style="text-align:left;">
-wflow_publish(c(“analysis/10x-180504-monocle.Rmd”, “analysis/index.Rmd”))
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/3be3c3de09d84b7fc9d0cd277c906aa87c1d0a46/analysis/index.Rmd" target="_blank">3be3c3d</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-12
 </td>
-<td style="text-align:left;">
+<td>
 updates
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/092644e72bfed36a8d0a125166b8ef506b51ebc3/docs/index.html" target="_blank">092644e</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/092644e72bfed36a8d0a125166b8ef506b51ebc3/docs/index.html" target="_blank">092644e</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-11
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/f64937015610509d2c4974c87e199ac540dbc298/analysis/index.Rmd" target="_blank">f649370</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-11
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/0652285ccfd5c8072116f0b3dd481928c23b43d4/docs/index.html" target="_blank">0652285</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/0652285ccfd5c8072116f0b3dd481928c23b43d4/docs/index.html" target="_blank">0652285</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-08
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/087077277b60946f42e65834f330abff6e12cfa8/analysis/index.Rmd" target="_blank">0870772</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-08
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/19d224c5683a1266ce568cf187e96f7becde7005/docs/index.html" target="_blank">19d224c</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/19d224c5683a1266ce568cf187e96f7becde7005/docs/index.html" target="_blank">19d224c</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-08
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/a40cd08d9aa40b9285c99595e6ecfd3cf1313037/analysis/index.Rmd" target="_blank">a40cd08</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-08
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/072f174e6142d987dd4dbcfc63a1080defc4edd6/docs/index.html" target="_blank">072f174</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/072f174e6142d987dd4dbcfc63a1080defc4edd6/docs/index.html" target="_blank">072f174</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-08
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/6e36947e6e9022fc8baba3f58e9b49869723d321/docs/index.html" target="_blank">6e36947</a>
-</td>
-<td style="text-align:left;">
-PytrikFolkertsma
-</td>
-<td style="text-align:left;">
-2018-11-07
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/8c816d4a0da060d37a59bb13642bf1089fe53e59/docs/index.html" target="_blank">8c816d4</a>
-</td>
-<td style="text-align:left;">
-PytrikFolkertsma
-</td>
-<td style="text-align:left;">
-2018-11-07
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/4b12f4312170082f2357d1ec010bc7b02c03d834/docs/index.html" target="_blank">4b12f43</a>
-</td>
-<td style="text-align:left;">
-PytrikFolkertsma
-</td>
-<td style="text-align:left;">
-2018-11-05
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
-<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/f6e90779fe702c10aff4eb4529c525c7f91a4297/analysis/index.Rmd" target="_blank">f6e9077</a>
+<td>
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/b8cf6298d0a0829c6064ce50fc0203ba91b761f5/analysis/index.Rmd" target="_blank">b8cf629</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
+2018-11-08
+</td>
+<td>
+wflow_publish(c(“analysis/index.Rmd”))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/6e36947e6e9022fc8baba3f58e9b49869723d321/docs/index.html" target="_blank">6e36947</a>
+</td>
+<td>
+PytrikFolkertsma
+</td>
+<td>
+2018-11-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/8c816d4a0da060d37a59bb13642bf1089fe53e59/docs/index.html" target="_blank">8c816d4</a>
+</td>
+<td>
+PytrikFolkertsma
+</td>
+<td>
+2018-11-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/13d5e12e3e20732998b900aef04baf1ae562ad41/analysis/index.Rmd" target="_blank">13d5e12</a>
+</td>
+<td>
+PytrikFolkertsma
+</td>
+<td>
+2018-11-07
+</td>
+<td>
+wflow_publish(c(“analysis/index.Rmd”, “analysis/about.Rmd”))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/4b12f4312170082f2357d1ec010bc7b02c03d834/docs/index.html" target="_blank">4b12f43</a>
+</td>
+<td>
+PytrikFolkertsma
+</td>
+<td>
 2018-11-05
 </td>
-<td style="text-align:left;">
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/f6e90779fe702c10aff4eb4529c525c7f91a4297/analysis/index.Rmd" target="_blank">f6e9077</a>
+</td>
+<td>
+PytrikFolkertsma
+</td>
+<td>
+2018-11-05
+</td>
+<td>
 wflow_publish(c(“analysis/10x-180504-beforeQC.Rmd”, “analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/9e51a0ad7b292f9cef2eacb3717bb650bde7d63a/docs/index.html" target="_blank">9e51a0a</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/9e51a0ad7b292f9cef2eacb3717bb650bde7d63a/docs/index.html" target="_blank">9e51a0a</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/cc9ed00a93476b6b5239f2b6a6033fc144abb77d/docs/index.html" target="_blank">cc9ed00</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/cc9ed00a93476b6b5239f2b6a6033fc144abb77d/docs/index.html" target="_blank">cc9ed00</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/d7744be29e56551acd66dc5f46977c99712ba962/analysis/index.Rmd" target="_blank">d7744be</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/0eee1c42d6e2255380c471d99542a6961782ecdc/docs/index.html" target="_blank">0eee1c4</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/0eee1c42d6e2255380c471d99542a6961782ecdc/docs/index.html" target="_blank">0eee1c4</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/bbcb1c50c2bc116a812182a67327ecb433f58675/analysis/index.Rmd" target="_blank">bbcb1c5</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/4f5e908a29ba9edeef5b53d1767d8070897a4b7a/docs/index.html" target="_blank">4f5e908</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/4f5e908a29ba9edeef5b53d1767d8070897a4b7a/docs/index.html" target="_blank">4f5e908</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/b2747c4cac34df33c571fba994248ed52a13581b/analysis/index.Rmd" target="_blank">b2747c4</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/2b95cbda4db942add36aab9f6844ac6ffbcca393/docs/index.html" target="_blank">2b95cbd</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/2b95cbda4db942add36aab9f6844ac6ffbcca393/docs/index.html" target="_blank">2b95cbd</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/a70776ec2895877f9d46a105a1c329e74d90e9f4/analysis/index.Rmd" target="_blank">a70776e</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/d6ccbf91eda227ddf2d6e50669b2b8615164f815/docs/index.html" target="_blank">d6ccbf9</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/d6ccbf91eda227ddf2d6e50669b2b8615164f815/docs/index.html" target="_blank">d6ccbf9</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/5ef5a54942e1f1abc19e352538a2e99533624b48/analysis/index.Rmd" target="_blank">5ef5a54</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/77f0cd009c0e4a1d64c56a01775af8b8e079f427/docs/index.html" target="_blank">77f0cd0</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/77f0cd009c0e4a1d64c56a01775af8b8e079f427/docs/index.html" target="_blank">77f0cd0</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/ad3b515c174723d06616099a8b23b17b5ee1bac6/analysis/index.Rmd" target="_blank">ad3b515</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/b20b10d0770fd63f44516bd46b1aae1a5ee3f02e/docs/index.html" target="_blank">b20b10d</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/b20b10d0770fd63f44516bd46b1aae1a5ee3f02e/docs/index.html" target="_blank">b20b10d</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/7f1e2a3acbdadf524ee7c1cdf0628fc6787ebb9d/analysis/index.Rmd" target="_blank">7f1e2a3</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/a58d58981daeb082fd8c2a948a3a3feb162f1c3a/docs/index.html" target="_blank">a58d589</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/a58d58981daeb082fd8c2a948a3a3feb162f1c3a/docs/index.html" target="_blank">a58d589</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/9faddbb9c4e1379fd6f6f98bce4f44735cfa81b5/analysis/index.Rmd" target="_blank">9faddbb</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/f378262bcbaf63077ff04b0fec6944dede434e3d/docs/index.html" target="_blank">f378262</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/f378262bcbaf63077ff04b0fec6944dede434e3d/docs/index.html" target="_blank">f378262</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/4d75489f6a0e5d6648258554bc434184df3ee648/docs/index.html" target="_blank">4d75489</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/4d75489f6a0e5d6648258554bc434184df3ee648/docs/index.html" target="_blank">4d75489</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/032862efa73446e81dd8c8c2c7fa84dc6c81dc5d/analysis/index.Rmd" target="_blank">032862e</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/ca069c3a36759712329330ce8f37d222c38ed368/docs/index.html" target="_blank">ca069c3</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/ca069c3a36759712329330ce8f37d222c38ed368/docs/index.html" target="_blank">ca069c3</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 notebooks + index
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/cb4228fcc8b0ffb133c5d4def2e2815b3dfe04e4/docs/index.html" target="_blank">cb4228f</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/cb4228fcc8b0ffb133c5d4def2e2815b3dfe04e4/docs/index.html" target="_blank">cb4228f</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/e39c768f1c548ff6cef7b2b0906ccb1f47be47bc/analysis/index.Rmd" target="_blank">e39c768</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/a4453ecc98f4a7c1319c0ca3c4362443cc44f904/docs/index.html" target="_blank">a4453ec</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/a4453ecc98f4a7c1319c0ca3c4362443cc44f904/docs/index.html" target="_blank">a4453ec</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/52e9177d6b660a33092f9d9fa62de3698628bf6d/analysis/index.Rmd" target="_blank">52e9177</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/b5866be3835cf5a4af9782dab8e8f7271d7cdefe/docs/index.html" target="_blank">b5866be</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/b5866be3835cf5a4af9782dab8e8f7271d7cdefe/docs/index.html" target="_blank">b5866be</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/42be16cef5b9e3f1c3f826abcf6296e79cc2cca6/analysis/index.Rmd" target="_blank">42be16c</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/17b03210ea353e27827ba466d5596339ae994820/docs/index.html" target="_blank">17b0321</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/17b03210ea353e27827ba466d5596339ae994820/docs/index.html" target="_blank">17b0321</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/20adbe0f77a3216889568a2417404c3e2e885421/analysis/index.Rmd" target="_blank">20adbe0</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/91f2c9ca2fae73418a4f217c939bbbe5ff2f624e/docs/index.html" target="_blank">91f2c9c</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/91f2c9ca2fae73418a4f217c939bbbe5ff2f624e/docs/index.html" target="_blank">91f2c9c</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/f8fe5915b881c63d51ad5ed8cba604f12214ff0e/analysis/index.Rmd" target="_blank">f8fe591</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“analysis/index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/eaa7e4a32761ca81339119f880a37af48d617fe9/docs/index.html" target="_blank">eaa7e4a</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/eaa7e4a32761ca81339119f880a37af48d617fe9/docs/index.html" target="_blank">eaa7e4a</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/120215c0f41d0235238a1f0c88c4425c526fc15e/analysis/index.Rmd" target="_blank">120215c</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-02
 </td>
-<td style="text-align:left;">
+<td>
 general analysis + alignment
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/d8102650a6c4e16b7cd3578d201fd4718a44424e/docs/index.html" target="_blank">d810265</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/d8102650a6c4e16b7cd3578d201fd4718a44424e/docs/index.html" target="_blank">d810265</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-10-31
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/57c44d6d687efb85f709e82a896f2ff1c1e94b3b/docs/index.html" target="_blank">57c44d6</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/57c44d6d687efb85f709e82a896f2ff1c1e94b3b/docs/index.html" target="_blank">57c44d6</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-10-31
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/index.html" target="_blank">1f7e0da</a>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/1f7e0da86b6631973350799dd25cf87b6b75f4e5/docs/index.html" target="_blank">1f7e0da</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-10-30
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-html
+<td>
+Rmd
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/PytrikFolkertsma/10x-adipocyte-analysis/3395a74eb53d0c3ee640ec84e4e20723dc7edb13/docs/index.html" target="_blank">3395a74</a>
+<td>
+<a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/f7080f1532d8fb8c8acb22d5e540da898cd2336a/analysis/index.Rmd" target="_blank">f7080f1</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
+2018-10-30
+</td>
+<td>
+wflow_publish(c(“analysis/10x-180504-general-analysis.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/PytrikFolkertsma/10x-adipocyte-analysis/3395a74eb53d0c3ee640ec84e4e20723dc7edb13/docs/index.html" target="_blank">3395a74</a>
+</td>
+<td>
+PytrikFolkertsma
+</td>
+<td>
 2018-10-26
 </td>
-<td style="text-align:left;">
+<td>
 first commit
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/PytrikFolkertsma/10x-adipocyte-analysis/blob/cf98ea8cd39c22a08d680f6667b2ef6b51a17981/analysis/index.Rmd" target="_blank">cf98ea8</a>
 </td>
-<td style="text-align:left;">
+<td>
 PytrikFolkertsma
 </td>
-<td style="text-align:left;">
+<td>
 2018-10-26
 </td>
-<td style="text-align:left;">
+<td>
 Start workflowr project.
 </td>
 </tr>
 </tbody>
 </table>
-</ul>
-<p></details></p>
-<hr />
+</div>
+<hr>
+</div>
+</div>
+</div>
 <b>Notebooks for 10x-180504 analysis:</b>
 <ol>
 <li>
@@ -1224,9 +1419,6 @@ Start workflowr project.
 </li>
 <li>
 <a href="10x-180504-alignment.html">Alignment</a>
-</li>
-<li>
-Differentially expressed genes between depots
 </li>
 <li>
 <a href="10x-180504-monocle.html">Monocle analysis</a>
@@ -1244,18 +1436,19 @@ Differentially expressed genes between depots
 <b>Notebooks for 10x-180831 analysis:</b>
 <ol>
 <li>
-<a href="10x-180831-first-inspection.html">First data inspection</a>
+<a href="10x-180831-first-inspection.before-demuxlet.html">First data inspection</a>
 </li>
 <li>
-<a href="10x-180831-general-analysis.html">General analysis</a>
+<a href="10x-180831-general-analysis.before-demuxlet.html">General analysis</a>
 </li>
 <li>
-<a href="10x-180831-monocle.html">Monocle analysis</a>
+<a href="10x-180831-monocle.before-demuxlet.html">Monocle analysis</a>
 </li>
 <li>
-<a href="velocyto_notebook_180831.html">Velocyto analysis</a>
+<a href="10x-180831-velocyto.before-demuxlet.html">Velocyto analysis</a>
 </li>
 </ol>
+
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
@@ -1268,14 +1461,6 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-
-<hr>
-<p>
-  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
-  analysis was created with
-  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
-</p>
-<hr>
 
 
 
