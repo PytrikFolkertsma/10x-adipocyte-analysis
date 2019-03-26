@@ -1,4 +1,3 @@
-
 cellranger_folder <- "/data/sc-10x/data-runs/171120-scheele-adipose/agg-180831-unnormalized/outs/filtered_gene_bc_matrices_mex/hg19"
 vars.to.regress <- NULL
 n.pcs <- 21

@@ -2,8 +2,8 @@
 ### Runs CCA, aligns subspaces 30 CC's, runs tSNE on 15.
 ### Discarded cells are saved in data/alignment_discarded-cells
 
-n.ccs <- 30 #Nr of CCs to compute 
-n.ccs.use <- 15 #Nr of CCs to use for tSNE and clustering.
+n.ccs <- 15 #Nr of CCs to compute
+n.ccs.use <- 10 #Nr of CCs to use for tSNE and clustering.
 
 library(optparse)
 
@@ -24,7 +24,7 @@ if(is.null(opt$file) || is.null(opt$column)){
 
 library(Rcpp)
 library(magrittr)
-library(Seurat)
+library(Seurat, lib.loc='/home/cbmr/pytrik/libraries/')
 
 ################################################################################
 
@@ -50,6 +50,7 @@ for (i in c(1:length(groups))){
   objectlist[[i]] <- SubsetData(seurobj_all10x, cells.use=seurobj_all10x@cell.names[which(all_groupnames == groups[i])])
   objectlist[[i]] <- FindVariableGenes(objectlist[[i]], do.plot = FALSE)
   variable_genes <- c(variable_genes, rownames(head(objectlist[[i]]@hvg.info, n=1000)))
+  print(length(variable_genes))
 }
 
 unique.variable_genes <- unique(variable_genes)
@@ -57,26 +58,30 @@ print(paste('Nr of variable genes:', length(unique.variable_genes)))
 
 ################################################################################
 
-print('>>>RUNNING MULTICCA')
-
-data <- RunMultiCCA(object.list = objectlist, genes.use=unique.variable_genes, num.ccs=n.ccs)
+if (length(groups) > 2){
+  print('RUNNING MULTI CCA')
+  data <- RunMultiCCA(object.list = objectlist, genes.use=unique.variable_genes, num.ccs=n.ccs)
+} else {
+  print('>>>RUNNING CCA')
+  data <- RunCCA(object=objectlist[[1]], object2=objectlist[[2]], genes.use=unique.variable_genes, num.ccs=n.ccs)
+}
 
 ################################################################################
 
 print('>>>ALIGNING SUBSPACES')
 
-#Discard cells whose expression profile cannot be well-explained by low-dimensional CCA, 
-#compared to low-dimensional PCA. Here cells are discarded when the ratio of the variance 
+#Discard cells whose expression profile cannot be well-explained by low-dimensional CCA,
+#compared to low-dimensional PCA. Here cells are discarded when the ratio of the variance
 #explained by CCA is smaller than 0.5 (compared to the variance explained by PCA).
 
 print('Discarding cells whose expression profile cannot be well explained by low-dim CCA compared to low-dim PCA...')
-data <- CalcVarExpRatio(data, reduction.type = "pca", grouping.var = opt$column, dims.use = 1:10)
-data.all.save <- data
-data <- SubsetData(object = data, subset.name = "var.ratio.pca", accept.low = 0.5)
-data.discard <- SubsetData(object = data.all.save, subset.name = "var.ratio.pca", accept.high = 0.5)
+#data <- CalcVarExpRatio(data, reduction.type = "pca", grouping.var = opt$column, dims.use = 1:10)
+#data.all.save <- data
+#data <- SubsetData(object = data, subset.name = "var.ratio.pca", accept.low = 0.5)
+#data.discard <- SubsetData(object = data.all.save, subset.name = "var.ratio.pca", accept.high = 0.5)
 
 print(paste('Saving object discarded cells in output folder as ', opt$file, '-cca-discardedcells', sep=''))
-saveRDS(data.discard, paste(opt$file, 'cca-discardedcells', sep='-'))
+#saveRDS(data.discard, paste(opt$file, 'cca-discardedcells', sep='-'))
 
 print(paste('Aligning subspaces on ', n.ccs, ' CCs...', sep=''))
 data.aligned <- AlignSubspace(data, reduction.type = "cca", grouping.var = opt$column, dims.align = 1:n.ccs)

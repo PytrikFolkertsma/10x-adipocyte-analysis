@@ -29,8 +29,8 @@ if (!(opt$regressout == 'none')){
 
 ###################################################################################
 
-library(monocle)
-library(Seurat)
+library(monocle, lib.loc='/home/cbmr/pytrik/libraries/')
+library(Seurat, lib.loc='/home/cbmr/pytrik/libraries/')
 
 print('LOADING SEURAT OBJECT')
 seurat_object <- readRDS(opt$file)

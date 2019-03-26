@@ -8,14 +8,14 @@ import sys
 
 def get_loom(x):
     if x == '180504':
-        files = glob.glob('/data/sc-10x/data-runs/171120-scheele-adipose/*/velocyto/*.loom')
-        files = list(filter(lambda x: '180831' not in x, files))
-        files = sorted(files, key=lambda x: x.split('/')[-1])
-        loompy.combine(files, '../output/velocyto/10x-180504.loom', key="Accession")
+        #files = glob.glob('/data/sc-10x/data-runs/171120-scheele-adipose/*/velocyto/*.loom')
+        #files = list(filter(lambda x: '180831' not in x, files))
+        #files = sorted(files, key=lambda x: x.split('/')[-1])
+        #loompy.combine(files, '../output/velocyto/10x-180504.loom', key="Accession")
         vlm = vcy.VelocytoLoom('../output/velocyto/10x-180504.loom')
     else:
-        files = sorted(glob.glob('/data/sc-10x/data-runs/171120-scheele-adipose/180831_10x_s*/velocyto/*.loom'))
-        loompy.combine(files, '../output/velocyto/10x-180831.loom', key="Accession")
+        #files = sorted(glob.glob('/data/sc-10x/data-runs/171120-scheele-adipose/180831_10x_s*/velocyto/*.loom'))
+        #loompy.combine(files, '../output/velocyto/10x-180831.loom', key="Accession")
         vlm = vcy.VelocytoLoom('../output/velocyto/10x-180831.loom')
     return vlm
 
@@ -57,6 +57,7 @@ def merge_vlm_with_metadata(vlm, metadata, x):
     else:
         merged = ca_df.merge(metadata, on='CellID', how='left')
     merged = merged.to_dict('list')
+
 
     vlm.ca['CellID'] = np.asarray([x.encode('utf8') for x in vlm.ca['CellID']])
     vlm.ca['sample_name'] = np.asarray([x.encode('utf8') for x in vlm.ca['sample_name']])

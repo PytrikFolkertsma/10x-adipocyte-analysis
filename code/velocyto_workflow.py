@@ -13,7 +13,7 @@ def main():
         sys.exit()
         
     input_path = sys.argv[1]
-    output_path = input_path[:-5] + '_tsne_velocity.hdf5'
+    output_path = input_path[:-5] + '_tsne33_velocity.hdf5'
     
     print('loading data')
     vlm = vcy.load_velocyto_hdf5(input_path)
@@ -56,7 +56,7 @@ def main():
     vlm.extrapolate_cell_at_t(delta_t=1.)
 
     print('running tsne')
-    bh_tsne = TSNE()
+    bh_tsne = TSNE(random_state=33)
     vlm.ts = bh_tsne.fit_transform(vlm.pcs[:, :15])
 
     print('projection of velocity onto embeddings')

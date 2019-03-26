@@ -1,4 +1,3 @@
-
 ################################################################################
 #
 # Creates a preprocessed Seurat object of CellRanger output.
@@ -44,30 +43,30 @@ cellcycle_genes <- "../files/regev_lab_cell_cycle_genes.txt"
 
 #if a Seurat object is given as input, skip QC and only do PCA, clustering and tSNE.
 if(is.null(opt$file)){
-
+  
   print('>>>LOADING DATA')
-
+  
   df.10x <- Read10X(cellranger_folder)
   seurobj <- CreateSeuratObject(df.10x, min.cells = 3, min.genes = 200, is.expr = 0)
   df.metadata <- get_metadata_df(seurobj) #function from config file
   seurobj <- AddMetaData(seurobj, df.metadata)
-
+  
   print('>>>QUALITY CONTROL')
-
+  
   print('Calculating and percent.mito...')
   mito.genes <- grep(pattern = "^MT-", x = rownames(seurobj@data), value = TRUE, ignore.case=TRUE)
   percent.mito <- Matrix::colSums(seurobj@raw.data[mito.genes, ])/Matrix::colSums(seurobj@raw.data)
   seurobj <- AddMetaData(seurobj, metadata=percent.mito, col.name="percent.mito")
-
+  
   print(paste('Saving object before QC:', output_beforeqc))
   saveRDS(seurobj, output_beforeqc)
-
+  
   print('Filtering cells...')
   seurobj <- get_filtered_dataset(seurobj) #function from config file
-
+  
   print('Normalizing data...')
   seurobj <- NormalizeData(seurobj, normalization.method = "LogNormalize", scale.factor = 1e4)
-
+  
   print('Scaling data...')
   if (is.null(vars.to.regress)){
     seurobj <- ScaleData(seurobj, do.par=T, num.cores=10)
@@ -109,4 +108,3 @@ if(is.null(opt$file)){
   print(paste('Saving dataset:', opt$file))
   saveRDS(seurobj, opt$file)
 }
-

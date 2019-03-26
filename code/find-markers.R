@@ -8,7 +8,7 @@ find_markers <- function(data, colname, test='negbinom', num_nodes=8){
   cl <- makeCluster(num_nodes, type = "FORK")
   clusterEvalQ(cl, library(Seurat, lib.loc='/home/cbmr/pytrik/libraries/'))
  #clusterEvalQ(cl, library(tidyverse))
-  clusterEvalQ(cl, library(rlang))
+  #clusterEvalQ(cl, library(rlang))
   list_of_dfs.all_markers <- parLapply(cl, cluster_ids, function(x) FindMarkers(data, ident.1 = x, min.pct = 0.1, test.use=test))
   stopCluster(cl)
 
@@ -43,9 +43,9 @@ if (sys.nframe() == 0){
 
   ########################################################################
 
+  library(dplyr, lib.loc='/usr/lib64/R/library')
   library(Seurat, lib.loc = '/home/cbmr/pytrik/libraries/')
   library(parallel)
-  library(dplyr)
 
   output_prefix <- unlist(strsplit(opt$file, '/'))[length(unlist(strsplit(opt$file, '/')))]
   print(paste('file name:', output_prefix))
