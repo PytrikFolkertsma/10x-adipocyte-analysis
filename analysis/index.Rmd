@@ -10,17 +10,15 @@ output:
 <li>[Before QC](10x-180504-beforeQC.html)
 <li>[General analysis](10x-180504-general-analysis.html)</li>
 <li>[Alignment](10x-180504-alignment.html)</li>
-<li>Differentially expressed genes between depots</li>
 <li>[Monocle analysis](10x-180504-monocle.html)</li>
 <li>[Velocyto analysis](velocyto_notebook_180504.html)</li>
 <li>[Scmap analysis](10x-180504-scmap.html)</li>
 <li>[Mixture cluster](10x-180504-mixture-cluster.html)</li>
-<li>Marker genes</li>
 </ol>
 
 <b>Notebooks for 10x-180831 analysis:</b><ol>
-<li>[First data inspection](10x-180831-first-inspection.html)</li>
-<li>[General analysis](10x-180831-general-analysis.html)</li>
-<li>Monocle analysis</li>
-<li>Velocyto analysis</li>
+<li>[First data inspection](10x-180831-first-inspection.before-demuxlet.html)</li>
+<li>[General analysis](10x-180831-general-analysis.before-demuxlet.html)</li>
+<li>[Monocle analysis](10x-180831-monocle.before-demuxlet.html)</li>
+<li>[Velocyto analysis](10x-180831-velocyto.before-demuxlet.html)</li>
 </ol>
