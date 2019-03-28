@@ -16,9 +16,13 @@ output:
 <li>[Mixture cluster](10x-180504-mixture-cluster.html)</li>
 </ol>
 
-<b>Notebooks for 10x-180831 analysis:</b><ol>
+<b>Notebooks for 10x-180831 analysis (before demuxlet):</b><ol>
 <li>[First data inspection](10x-180831-first-inspection.before-demuxlet.html)</li>
 <li>[General analysis](10x-180831-general-analysis.before-demuxlet.html)</li>
 <li>[Monocle analysis](10x-180831-monocle.before-demuxlet.html)</li>
 <li>[Velocyto analysis](10x-180831-velocyto.before-demuxlet.html)</li>
+</ol>
+
+<b>Notebooks for 10x-180831 analysis:<b><ol>
+<li>[Demuxlet results](10x-180831-demuxlet.html)</li>
 </ol>
