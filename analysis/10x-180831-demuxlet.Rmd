@@ -8,8 +8,6 @@ output:
       smooth_scroll: true
 ---
 
-
-
 ```{r}
 library(Seurat)
 library(dplyr)
@@ -168,7 +166,6 @@ p <- plot_grid(
 
 ```{r fig4, fig.height = 15, fig.width = 12, fig.align = "center"}
 p
-
 ```
 
 
@@ -219,7 +216,6 @@ DimPlot(data, reduction='tsne', group.by='depot', pt.size=0.1)
 Filter out doublets:
 
 ```{r}
-data <- subset(data, cells=rownames(data@meta.data)[data@meta.data$label != 'DBL'])
 #data <- SubsetData(data, cells.use=rownames(data@meta.data)[data@meta.data$label != 'DBL'])
 ```
 
@@ -330,7 +326,6 @@ sum(demuxlet_all_qc_exons_imputed$DBL) / length(demuxlet_all_qc_exons_imputed$DB
 
 
 ```{r}
-#
 #
 ```
 
