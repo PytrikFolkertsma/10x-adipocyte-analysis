@@ -1,0 +1,331 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
+---
+
+
+
+```{r}
+library(Seurat)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+```{r}
+data <- readRDS('output/seurat_objects/180831/10x-180831')
+```
+
+```{r}
+getDemuxletForSample <- function(i, outputdir){
+  demuxlet <- read.table(paste('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/old/data/demuxlet/', outputdir, '/180831_10x_s', i, '.best', sep=''), header=T)
+
+  demuxlet$correct_barcode <- paste(unlist(sapply(strsplit(as.character(demuxlet$BARCODE), '-'), '[[', 1)), '-', i, sep='')
+  rownames(demuxlet) <- demuxlet$correct_barcode
+  cells <- rownames(data@meta.data)[data@meta.data$timepoint == paste('T', i, sep='')]
+  demuxlet_filtered <- demuxlet[demuxlet$correct_barcode %in% cells, ]
+  demuxlet_filtered['sample'] <- i
+  
+  sng_dbl_abm <- sapply(strsplit(as.character(demuxlet_filtered$BEST), '-'), '[[', 1)
+  demuxlet_filtered['sng_dbl_amb'] <- sng_dbl_abm
+  
+  #add counts singlets, doublets and ambiguous
+  demuxlet_filtered[c('SNG', 'DBL', 'AMB')] <- 0
+  demuxlet_filtered <- demuxlet_filtered %>% mutate(value=1) %>% spread(sng_dbl_amb, value, fill=0)
+  demuxlet_filtered['sng_dbl_amb'] <- sng_dbl_abm
+  
+  return(demuxlet_filtered)
+  
+}
+
+getAllDemuxletResults <- function(outdir){
+  demuxlet_list <- list()
+  for (i in 1:5){
+    demuxlet <- getDemuxletForSample(i, outdir)
+    demuxlet_list[[i]] <- demuxlet
+  }
+  demuxlet_all <- do.call(rbind, unname(demuxlet_list))
+  demuxlet_all$label <- as.character(demuxlet_all$BEST)
+  demuxlet_all$label[startsWith(demuxlet_all$label, 'DBL')] <- 'DBL'
+  demuxlet_all$label[startsWith(demuxlet_all$label, 'AMB')] <- 'AMB'
+
+  df_sda <- as.data.frame(aggregate(demuxlet_all[c('SNG', 'DBL', 'AMB')], by=list(sample=demuxlet_all$sample), FUN=sum))
+  df_snp <- as.data.frame(aggregate(demuxlet_all[c('N.SNP')], by=list(sample=demuxlet_all$sample), FUN=mean))
+  
+  print(cbind(df_sda, df_snp$N.SNP))
+  
+  print('Total number of SNG, DBL and AMB:')
+  print(table(demuxlet_all$sng_dbl_amb))
+  
+  print(paste('Total average N.SNP:', mean(demuxlet_all$N.SNP)))
+  hist(demuxlet_all$N.SNP)
+  
+  return(demuxlet_all)
+}
+
+```
+
+
+#Demuxlet with QCed VCF file
+
+```{r}
+demuxlet_all_qc <- getAllDemuxletResults('190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_plink_bed-updated')
+```
+
+```{r results='hide', echo=FALSE, message=FALSE}
+data <- AddMetaData(data, data.frame(row.names = demuxlet_all_qc$correct_barcode, label=demuxlet_all_qc$label))
+p <- plot_grid(
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('44B', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('BAT14', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('1AF', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('13a', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('DBL', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('AMB', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   labels=c('44B', 'BAT14', '1AF', '13a', 'DBL', 'AMB'), nrow=3
+ )
+```
+
+```{r fig1, fig.height = 15, fig.width = 12, fig.align = "center"}
+p
+```
+
+
+#Demuxlet with QCed VCF, exons only
+
+```{r}
+demuxlet_all_qc_exons <- getAllDemuxletResults('190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_plink_bed-updated.exon_only.recode')
+```
+
+```{r results='hide', echo=FALSE, message=FALSE}
+data <- AddMetaData(data, data.frame(row.names = demuxlet_all_qc_exons$correct_barcode, label=demuxlet_all_qc_exons$label))
+p <- plot_grid(
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('44B', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('BAT14', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('1AF', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('13a', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('DBL', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('AMB', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   labels=c('44B', 'BAT14', '1AF', '13a', 'DBL', 'AMB'), nrow=3
+ )
+
+```
+
+
+```{r fig2, fig.height = 15, fig.width = 12, fig.align = "center"}
+p
+```
+
+
+#Demuxlet with QCed VCF + imputed SNPs
+
+```{r}
+demuxlet_all_qc_imputed <- getAllDemuxletResults('190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_chr1_22_combined.qc_r2_maf.recode')
+```
+
+```{r results='hide', echo=FALSE, message=FALSE}
+data <- AddMetaData(data, data.frame(row.names = demuxlet_all_qc_imputed$correct_barcode, label=demuxlet_all_qc_imputed$label))
+p <- plot_grid(
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('44B', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('BAT14', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('1AF', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('13a', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('DBL', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('AMB', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   labels=c('44B', 'BAT14', '1AF', '13a', 'DBL', 'AMB'), nrow=3
+ )
+```
+
+
+```{r fig3, fig.height = 15, fig.width = 12, fig.align = "center"}
+p
+```
+
+
+#Demuxlet with QCed VCF + imputed SNPs, exons only
+
+```{r}
+demuxlet_all_qc_exons_imputed <- getAllDemuxletResults('190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_chr1_22_combined.qc_r2_maf_exon.recode')
+```
+
+ 
+```{r results='hide', echo=FALSE, message=FALSE}
+data <- AddMetaData(data, data.frame(row.names = demuxlet_all_qc_exons_imputed$correct_barcode, label=demuxlet_all_qc_exons_imputed$label))
+p <- plot_grid(
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('44B', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('BAT14', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('1AF', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('13a', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
+   labels=c('44B', 'BAT14', '1AF', '13a'), nrow=3
+ )
+
+```
+
+
+```{r fig4, fig.height = 15, fig.width = 12, fig.align = "center"}
+p
+
+```
+
+
+
+
+```{r results='hide'}
+
+# demuxlet_list <- list()
+# for (i in 1:5){
+#   demuxlet <- getDemuxletForSample(i, '190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_plink_bed-updated.exon_only.recode')
+#   demuxlet_list[[i]] <- demuxlet
+# }
+# demuxlet_all <- do.call(rbind, unname(demuxlet_list))
+# 
+# demuxlet_all$label <- as.character(demuxlet_all$BEST)
+# demuxlet_all$label[startsWith(demuxlet_all$label, 'DBL')] <- 'DBL'
+# demuxlet_all$label[startsWith(demuxlet_all$label, 'AMB')] <- 'AMB'
+# 
+# data <- AddMetaData(data, as.vector(demuxlet_all['label']))
+# TSNEPlot(data, group.by='label', pt.size=0.1)
+# 
+# data@meta.data$label[is.na(data@meta.data$label)] <- "AMB"
+# 
+#which(is.na(data@meta.data$label))
+#data@meta.data$label[23431] <- 'DBL'
+
+depot <- unlist(lapply(data@meta.data$label, function(x){
+  if (is.na(x)){
+    return(NA)
+  }
+  if (x == 'SNG-13a_13a'){
+    return('Subq')
+  } else if (x == 'SNG-1AF_1AF'){
+    return('Peri')
+  } else if (x == 'SNG-44B_44B'){
+    return('Visce')
+  } else if (x == 'SNG-BAT14_BAT14'){
+    return('Supra')
+  } else {
+    return('DBL')
+  }
+}))
+
+data@meta.data['depot'] <- depot
+DimPlot(data, reduction='tsne', group.by='depot', pt.size=0.1)
+```
+
+Filter out doublets:
+
+```{r}
+data <- subset(data, cells=rownames(data@meta.data)[data@meta.data$label != 'DBL'])
+#data <- SubsetData(data, cells.use=rownames(data@meta.data)[data@meta.data$label != 'DBL'])
+```
+
+```{r}
+DimPlot(data, reduction='tsne', group.by='depot', pt.size=0.1)
+#TSNEPlot(data, group.by='sample_name', pt.size=0.1)
+```
+
+```{r}
+type <- unlist(lapply(as.vector(data@meta.data$depot), function(x){
+  if (x == 'Subq' || x == 'Visce'){
+    return('white')
+  } else {
+    return('brown')
+  }
+}))
+data@meta.data['type'] <- type
+DimPlot(data, reduction='tsne', group.by='type', pt.size=0.1)
+```
+
+Add depot labels
+
+```{r}
+#data@meta.data['depot'] <- substr(data@meta.data$sample_name, 1, nchar(data@meta.data$sample_name)-2)
+```
+
+
+```{r}
+#saveRDS(data, '../../10x-adipocyte-analysis/output/10x-180831')
+```
+
+
+#Summary of results
+
+```{r}
+demuxlet_all_qc['vcf'] <- 'qc'
+demuxlet_all_qc_exons['vcf'] <- 'qc_exons'
+demuxlet_all_qc_imputed['vcf'] <- 'qc_imputed'
+demuxlet_all_qc_exons_imputed['vcf'] <- 'qc_exons_imputed'
+demuxlet_all <- rbind(demuxlet_all_qc, demuxlet_all_qc_exons, demuxlet_all_qc_exons_imputed, demuxlet_all_qc_imputed)
+
+test <- aggregate(demuxlet_all['sng_dbl_amb'], by=list(demuxlet_all$vcf, demuxlet_all$sng_dbl_amb), FUN=length)
+
+df_aggregated <- aggregate(demuxlet_all[c('SNG', 'DBL', 'AMB')], by=list(VCF=demuxlet_all$vcf, timepoint=demuxlet_all$sample), FUN=sum)
+
+df_sng_dbl_amb_vcf <- aggregate(demuxlet_all[c('SNG', 'DBL', 'AMB')], by=list(VCF=demuxlet_all$vcf), FUN=sum)
+```
+
+Number of SNPs, SNG, DBL, AMB
+
+```{r}
+df_snps_vcf <- aggregate(demuxlet_all['N.SNP'], by=list(VCF=demuxlet_all$vcf), FUN=mean)
+df_sng_dbl_amb_vcf['N.SNP'] <- df_snps_vcf$N.SNP
+as.data.frame(df_sng_dbl_amb_vcf)
+```
+
+```{r}
+df_snps_vcf_timepoint <- aggregate(demuxlet_all['N.SNP'], by=list(VCF=demuxlet_all$vcf, timepoint=demuxlet_all$sample), FUN=mean)
+
+ggplot(df_snps_vcf_timepoint, aes(x=VCF, y=N.SNP, fill=factor(timepoint))) + 
+  geom_bar(stat='identity', position='dodge') +
+  labs(title='Number of SNPs', fill='timepoint', x='VCF file', y='') +
+  theme_gray() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+Number of singlets, doublets and ambiguous per VCF file.
+
+
+```{r}
+ggplot(df_aggregated, aes(x=VCF, y=SNG, fill=factor(timepoint))) + 
+  geom_bar(stat='identity', position='dodge') +
+  labs(title='Number of singlets', fill='timepoint', x='VCF file', y='') +
+  theme_gray() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+```{r}
+ggplot(df_aggregated, aes(x=VCF, y=DBL, fill=factor(timepoint))) + 
+  geom_bar(stat='identity', position='dodge') +
+  labs(title='Number of doublets', fill='timepoint', x='VCF file', y='') +
+  theme_gray() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+ggplot(df_aggregated, aes(x=VCF, y=AMB, fill=factor(timepoint))) + 
+  geom_bar(stat='identity', position='dodge') +
+  labs(title='Number of ambiguous', fill='timepoint', x='VCF file', y='') +
+  theme_gray() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  
+```
+
+Percentage doublets
+
+```{r}
+print('QCed')
+sum(demuxlet_all_qc$DBL) / length(demuxlet_all_qc$DBL)
+print('QCed, exons only')
+sum(demuxlet_all_qc_exons$DBL) / length(demuxlet_all_qc_exons$DBL)
+print('QCed + imputed')
+sum(demuxlet_all_qc_imputed$DBL) / length(demuxlet_all_qc_imputed$DBL)
+print('QCed + imputed, exons only')
+sum(demuxlet_all_qc_exons_imputed$DBL) / length(demuxlet_all_qc_exons_imputed$DBL)
+
+```
+
