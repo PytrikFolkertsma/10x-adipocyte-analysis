@@ -138,7 +138,6 @@ p <- plot_grid(
    DimPlot(data, cells.highlight = rownames(data@meta.data)[grep('AMB', data@meta.data$label)], reduction.use='tsne', cols.use='gray', cols.highlight = 'blue'),
    labels=c('44B', 'BAT14', '1AF', '13a', 'DBL', 'AMB'), nrow=3
  )
-
 ```
 
 
