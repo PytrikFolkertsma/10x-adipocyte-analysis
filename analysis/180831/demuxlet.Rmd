@@ -250,6 +250,7 @@ Add depot labels
 
 ```{r}
 #saveRDS(data, '../../10x-adipocyte-analysis/output/10x-180831')
+
 ```
 
 
@@ -267,7 +268,6 @@ test <- aggregate(demuxlet_all['sng_dbl_amb'], by=list(demuxlet_all$vcf, demuxle
 df_aggregated <- aggregate(demuxlet_all[c('SNG', 'DBL', 'AMB')], by=list(VCF=demuxlet_all$vcf, timepoint=demuxlet_all$sample), FUN=sum)
 
 df_sng_dbl_amb_vcf <- aggregate(demuxlet_all[c('SNG', 'DBL', 'AMB')], by=list(VCF=demuxlet_all$vcf), FUN=sum)
-
 ```
 
 Number of SNPs, SNG, DBL, AMB
