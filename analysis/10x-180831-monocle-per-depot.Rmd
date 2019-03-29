@@ -1,0 +1,115 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
+---
+
+```{r}
+library(monocle)
+library(cowplot)
+```
+
+
+3 feature selection methods:
+1) Same feature selection strategy as for the whole dataset (split each depot into T1T2T3 and T4T5, cluster, perform DE tests on clusters, take union of resulting gene lists as features);
+2) Genes with high dispersion;
+3) Genes used for computing the trajectory of the whole dataset.
+
+#Perirenal
+
+```{r fig11, fig.height = 6, fig.width = 12, fig.align = "center"}
+cds_peri <- readRDS('output/monocle/180831/peri/monocle_peri_T1T2T3_T4T5_res1/10x-180831-peri-monocle')
+cds_peri_disp <- readRDS('output/monocle/180831/peri/monocle_peri_high-dispersion/10x-180831-peri-monocle')
+cds_peri_gl <- readRDS('output/monocle/180831/peri/monocle_peri_genelist/10x-180831-peri-monocle')
+
+plot_grid(
+  plot_cell_trajectory(cds_peri, color_by='timepoint'),
+  plot_cell_trajectory(cds_peri_disp, color_by='timepoint'),
+  plot_cell_trajectory(cds_peri_gl, color_by='timepoint'),
+  plot_cell_trajectory(cds_peri, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_peri_disp, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_peri_gl, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  ncol=3
+)
+```
+
+#Supraclavicular
+
+```{r fig12, fig.height = 6, fig.width = 12, fig.align = "center"}
+cds_supra <- readRDS('output/monocle/180831/supra/monocle_supra_T1T2T3_T4T5_res1/10x-180831-supra-monocle')
+cds_supra_disp <- readRDS('output/monocle/180831/supra/monocle_supra_high-dispersion/10x-180831-supra-monocle')
+cds_supra_gl <- readRDS('output/monocle/180831/supra/monocle_supra_genelist/10x-180831-supra-monocle')
+
+plot_grid(
+  plot_cell_trajectory(cds_supra, color_by='timepoint'),
+  plot_cell_trajectory(cds_supra_disp, color_by='timepoint'),
+  plot_cell_trajectory(cds_supra_gl, color_by='timepoint'),
+  plot_cell_trajectory(cds_supra, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_supra_disp, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_supra_gl, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  ncol=3
+)
+```
+
+#Subcutaneous
+
+```{r fig13, fig.height = 6, fig.width = 12, fig.align = "center"}
+cds_subq <- readRDS('output/monocle/180831/subq/monocle_subq_T1T2T3_T4T5_res1/10x-180831-subq-monocle')
+cds_subq_disp <- readRDS('output/monocle/180831/subq/monocle_subq_high-dispersion/10x-180831-subq-monocle')
+cds_subq_gl <- readRDS('output/monocle/180831/subq/monocle_subq_genelist/10x-180831-subq-monocle')
+
+plot_grid(
+  plot_cell_trajectory(cds_subq, color_by='timepoint'),
+  plot_cell_trajectory(cds_subq_disp, color_by='timepoint'),
+  plot_cell_trajectory(cds_subq_gl, color_by='timepoint'),
+  plot_cell_trajectory(cds_subq, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_subq_disp, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_subq_gl, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  ncol=3
+)
+```
+
+#Visceral
+
+```{r fig14, fig.height = 6, fig.width = 12, fig.align = "center"}
+cds_visce <- readRDS('output/monocle/180831/visce/monocle_visce_T1T2T3_T4T5_res1/10x-180831-visce-monocle')
+cds_visce_disp <- readRDS('output/monocle/180831/visce/monocle_visce_high-dispersion/10x-180831-visce-monocle')
+cds_visce_gl <- readRDS('output/monocle/180831/visce/monocle_visce_genelist/10x-180831-visce-monocle')
+
+plot_grid(
+  plot_cell_trajectory(cds_visce, color_by='timepoint'),
+  plot_cell_trajectory(cds_visce_disp, color_by='timepoint'),
+  plot_cell_trajectory(cds_visce_gl, color_by='timepoint'),
+  plot_cell_trajectory(cds_visce, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_visce_disp, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_visce_gl, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  ncol=3
+)
+```
+
+#All
+
+```{r fig15, fig.height = 9, fig.width = 12, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds_peri, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_supra, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_subq, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  plot_cell_trajectory(cds_visce, color_by='State.old') + scale_color_manual(values=c("#f67770", "#964B00", "orange"), name = "State"),
+  ncol=2
+)
+```
+
+```{r fig16, fig.height = 9, fig.width = 12, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds_peri, color_by='State'),
+  plot_cell_trajectory(cds_supra, color_by='State'), 
+  plot_cell_trajectory(cds_subq, color_by='State'), 
+  plot_cell_trajectory(cds_visce, color_by='State'),
+  ncol=2
+)
+```
+
