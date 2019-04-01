@@ -169,17 +169,15 @@ p
 ```
 
 
-
-
 ```{r results='hide'}
-
 demuxlet_list <- list()
 for (i in 1:5){
-   demuxlet <- getDemuxletForSample(i, '190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_plink_bed-updated.exon_only.recode')
+   demuxlet <- getDemuxletForSample(i, '190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_chr1_22_combined.qc_r2_maf_exon.recode')
    demuxlet_list[[i]] <- demuxlet
 }
 demuxlet_all <- do.call(rbind, unname(demuxlet_list))
- 
+
+
 demuxlet_all$label <- as.character(demuxlet_all$BEST)
 demuxlet_all$label[startsWith(demuxlet_all$label, 'DBL')] <- 'DBL'
 demuxlet_all$label[startsWith(demuxlet_all$label, 'AMB')] <- 'AMB'
@@ -190,7 +188,6 @@ TSNEPlot(data, group.by='label', pt.size=0.1)
 ```
 
 ```{r}
- 
 data@meta.data$label[is.na(data@meta.data$label)] <- "AMB"
 
 depot <- unlist(lapply(data@meta.data$label, function(x){
@@ -211,30 +208,33 @@ data@meta.data['depot'] <- depot
 DimPlot(data, reduction='tsne', group.by='depot', pt.size=0.1)
 ```
 
-
 Filter out doublets:
 
 ```{r}
-data <- SubsetData(data, cells.use=rownames(data@meta.data)[data@meta.data$depot != 'DBL'])
+data_cleaned <- SubsetData(data, cells.use=rownames(data@meta.data)[data@meta.data$depot != 'DBL'])
 ```
 
 ```{r}
-DimPlot(data, reduction='tsne', group.by='depot', pt.size=0.1)
+DimPlot(data_cleaned, reduction='tsne', group.by='depot', pt.size=0.1)
 ```
 
 ```{r}
-type <- unlist(lapply(as.vector(data@meta.data$depot), function(x){
+type <- unlist(lapply(as.vector(data_cleaned@meta.data$depot), function(x){
   if (x == 'Subq' || x == 'Visce'){
     return('white')
   } else {
     return('brown')
   }
 }))
-data@meta.data['type'] <- type
-DimPlot(data, reduction='tsne', group.by='type', pt.size=0.1)
+data_cleaned@meta.data['type'] <- type
+DimPlot(data_cleaned, reduction='tsne', group.by='type', pt.size=0.1)
 ```
 
-Add depot labels and save 
+```{r}
+paste('Nr of cells before removing doublet and ambiguous:', length(rownames(data@meta.data)))
+paste('Nr of cells in cleaned up data:', length(rownames(data_cleaned@meta.data)))
+```
+
 
 ```{r}
 #data@meta.data['depot'] <- substr(data@meta.data$sample_name, 1, nchar(data@meta.data$sample_name)-2)
