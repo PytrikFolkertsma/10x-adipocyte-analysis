@@ -1,0 +1,263 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
+---
+
+```{r}
+library(Seurat)
+library(monocle)
+library(pheatmap)
+source('code/colors.R')
+seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
+cds <- readRDS('output/monocle/180831/10x-180831-monocle-monocle_genelist_T1T2T3_T4T5_res.1.5')
+```
+
+
+#Trajectory plots
+
+```{r fig1, fig.height = 16, fig.width = 5, fig.align = "center"}
+fig <- plot_grid(ncol=1,
+  plot_cell_trajectory(cds, color_by='timepoint') + scale_color_manual(values=colors.timepoints, name = "Timepoint"),
+  plot_cell_trajectory(cds, color_by='Pseudotime'),
+  plot_cell_trajectory(cds, color_by='State'),
+  plot_cell_trajectory(cds, color_by = "State") + scale_color_manual(values=colors.states, name = "State"))
+
+fig
+```
+
+```{r fig2, fig.height = 4, fig.width = 5, fig.align = "center"}
+plot_cell_trajectory(cds, color_by='depot') + scale_color_manual(values=colors.depots, name = 'Depots')
+```
+
+```{r fig3, fig.height = 4, fig.width = 5, fig.align = "center"}
+plot_cell_trajectory(cds, color_by='type') + scale_color_manual(values=colors.type, name = "Type")
+```
+
+
+```{r fig4, fig.height = 4.5, fig.width = 12, fig.align = "center"}
+#seurobj <- AddMetaData(seurobj, pData(cds)['State'])
+plot_grid(
+  TSNEPlot(seurobj, group.by='State', pt.size=0.1, colors.use=colors.states),
+  TSNEPlot(seurobj, group.by='type', pt.size=0.1, colors.use=colors.type),
+  labels=c('Predicted by Monocle', 'True labels')
+  )
+```
+
+```{r fig5, fig.height = 5, fig.width = 12, fig.align = "center"}
+plot_grid(
+  TSNEPlot(seurobj, group.by='depot', pt.size=0.1, colors.use=colors.depots),
+  TSNEPlot(seurobj, group.by='timepoint', pt.size=0.1, colors.use=colors.timepoints),
+  ncol=2
+)
+```
+
+
+
+```{r fig6, fig.height = 5, fig.width = 12, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(cds, color_by = "timepoint") + geom_point(color='white', size=5) + geom_point(aes(colour=timepoint), alpha=0.1) + scale_color_manual(values=colors.timepoints),
+  plot_cell_trajectory(cds, color_by = "timepoint") + geom_point(color='white', size=5) + geom_point(aes(colour=timepoint), alpha=0.01) + scale_color_manual(values=colors.timepoints),
+  ncol=2
+)
+```
+
+
+```{r}
+#seurobj <- AddMetaData(seurobj, pData(cds)['State'])
+#saveRDS(seurobj, 'output/10x-180831')
+#save metadata for Velocyto
+#write.table(seurobj@meta.data, file='tables/10x-180831-metadata-labels.txt', sep='\t', quote=F)
+```
+
+
+#Ratio's brown/white in branches
+
+Ratio's white/brown and depots per branch.
+
+```{r}
+get_ratios <- function(col1, col2){
+  states <- unique(seurobj@meta.data[,col1])
+  values <- unique(seurobj@meta.data[,col2])
+  df <- as.data.frame(matrix(ncol=length(values)+1, nrow=length(states)))
+  colnames(df) <- c('n', values)
+  rownames(df) <- states
+  for (state in states){
+    n_state = length(which(seurobj@meta.data[col1] == state))
+    df[state, 'n'] <- n_state
+    #print(paste('N cells', col1, state, ':', n_state))
+    for (value in values){
+    	n_state_value <- length(which(seurobj@meta.data[col1] == state & seurobj@meta.data[col2] == value))
+	    perc_state_value <- n_state_value / n_state
+	    df[state, value] <- round(perc_state_value, 2)
+	    #print(paste('Ratio', value, 'in', state, ': ', round(perc_state_value, 2)))
+    }
+  }
+  return(df)
+}
+```
+
+
+```{r}
+get_ratios('State.labels', 'depot')
+get_ratios('depot', 'State.labels')
+```
+
+```{r}
+get_ratios('State.labels', 'type')
+get_ratios('type', 'State.labels')
+```
+
+
+#BEAM
+
+BEAM takes as input a CellDataSet that's been ordered with orderCells and the name of a branch point in the trajectory. It returns a table of significance scores for each gene. Genes that score significant are said to be branch-dependent in their expression.
+
+```{r}
+#BEAM_res <- BEAM(cds, branch_point = 1, cores = 10)
+load('output/monocle/180831/BEAM_new')
+BEAM_res <- BEAM_res[order(BEAM_res$qval),]
+BEAM_res <- BEAM_res[,c("gene_short_name", "pval", "qval")]
+```
+
+
+```{r}
+paste('Significant genes with q-val < 0.01:', length(BEAM_res$qval[BEAM_res$qval < 0.05]))
+paste('Significant genes with q-val < 0.01:', length(BEAM_res$qval[BEAM_res$qval < 0.01]))
+paste('Significant genes with q-val < 0.001:', length(BEAM_res$qval[BEAM_res$qval < 0.001]))
+paste('Significant genes with q-val < 0.0001:', length(BEAM_res$qval[BEAM_res$qval < 0.0001]))
+paste('Significant genes with q-val < 0.00001:', length(BEAM_res$qval[BEAM_res$qval < 0.00001]))
+paste('Significant genes with q-val = 0:', length(BEAM_res$qval[BEAM_res$qval == 0]))
+```
+
+Histograms of p-values and q-values
+
+```{r}
+hist(BEAM_res$pval)
+```
+
+```{r}
+hist(BEAM_res$qval)
+```
+
+#Filtering BEAM results on fold change
+
+```{r}
+matrix <- as.matrix(seurobj@data)
+calculateAvgLogFC <- function(gene){
+  gene <- as.character(gene)
+    state2 <- log1p(mean(expm1(as.numeric(matrix[gene, row.names(seurobj@meta.data)[seurobj@meta.data$State == 2]])))) # first un-log transform. then average. then logp1 again. This is all done to calculate the mean in non-log-space.
+  state3 <- log1p(mean(expm1(as.numeric(matrix[gene, row.names(seurobj@meta.data)[seurobj@meta.data$State == 3]]))))
+  return(state2-state3)
+}
+
+BEAM_signficnat_res <- BEAM_res[BEAM_res$qval < 0.05,]
+BEAM_signficnat_res$avgLogFC_State2_State3 <- sapply(BEAM_signficnat_res$gene_short_name, calculateAvgLogFC)
+```
+
+X axis = minimum log fold change.
+
+```{r}
+all <- c()
+values <- list()
+for (i in seq(0.0, 3, by=0.1)){
+  fc <- abs(BEAM_signficnat_res$avgLogFC_State2_State3[abs(BEAM_signficnat_res$avgLogFC_State2_State3) >= i])
+  all <- c(all, fc)
+  values[toString(i)] <- length(fc)
+}
+hist(all, breaks=20, probability = F)
+```
+
+```{r}
+hist(all, breaks=20, probability = T)
+lines(density(all), col='blue', lwd=2)
+```
+
+```{r}
+data.frame(fold_change=names(values), num_genes=unlist(values))
+```
+
+#BEAM heatmap
+
+Create heatmap of the significant genes with absolute average logFC > 0.3.
+
+```{r}
+#ran in terminal because of computation time
+#branched_8_0.3 <- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, abs(avgLogFC_State2_State3) > 0.3))],
+#                                         branch_point = 1,
+#                                         num_clusters = 8,
+#                                         cores = 10,
+#                                         show_rownames = T,
+#                                       return_heatmap = T,
+#                                       branch_labels = c("Upper branch", "Lower branch"),
+#                                       branch_colors = colors.states
+#                                       )
+```
+
+```{r}
+load('output/monocle/180831/heatmap')
+```
+
+You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.
+
+```{r fig20, fig.height = 7, fig.width = 6, fig.align = "center"}
+gridExtra::grid.arrange(branched_5_0.3$ph_res$gtable)
+```
+
+
+```{r fig21, fig.height = 7, fig.width = 6, fig.align = "center"}
+gridExtra::grid.arrange(branched_5_0.4$ph_res$gtable)
+```
+
+Different number of clusters for logFC > 0.3.
+
+```{r}
+gridExtra::grid.arrange(branched_5_0.3$ph_res$gtable)
+```
+
+```{r}
+gridExtra::grid.arrange(branched_6_0.3$ph_res$gtable)
+```
+
+
+```{r}
+gridExtra::grid.arrange(branched_7_0.3$ph_res$gtable)
+```
+
+```{r}
+gridExtra::grid.arrange(branched_8_0.3$ph_res$gtable)
+```
+
+
+Write BEAM results to files
+
+```{r}
+#for (i in 1:length(unique(branched_6_0.3$annotation_row$Cluster))){
+#  BEAM_cluster <- BEAM_signficnat_res[BEAM_signficnat_res$gene_short_name %in% row.names(branched_6_0.3$annotation_row)[branched_6_0.3$annotation_row == i],]
+#  BEAM_cluster <- BEAM_cluster[order(-BEAM_cluster$avgLogFC_State2_State3),]
+#  write.table(BEAM_cluster, paste('../tables/BEAM/BEAM_6clusters/genelist_cluster_', i, #'.txt', sep=''), row.names=F, quote=F, sep='\t')
+#}  
+```
+
+Nr of genes
+
+```{r}
+print_nGene <- function(branched){
+  print(paste('Total number of genes:', length(branched$annotation_row$Cluster)))
+  for (i in 1:length(unique(branched$annotation_row$Cluster))){
+    cluster <- rownames(branched$annotation_row)[branched$annotation_row$Cluster == i]
+    print(paste('Nr of genes in cluster ', i, ': ', length(cluster), sep=''))
+  }
+}
+
+print('For logFC 0.3:')
+print_nGene(branched_5_0.3)
+print('For logFC 0.4:')
+print_nGene(branched_5_0.4)
+print('For logFC 0.5:')
+print_nGene(branched_5_0.5)
+```
