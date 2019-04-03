@@ -522,10 +522,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree7f0e856bb45310eb5b50250d440aa40c9307d39dtargetblank7f0e856a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/7f0e856bb45310eb5b50250d440aa40c9307d39d" target="_blank">7f0e856</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreeddbc7bcf8cd93a984f5eeff7682ef94d2c9a3e35targetblankddbc7bca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/ddbc7bcf8cd93a984f5eeff7682ef94d2c9a3e35" target="_blank">ddbc7bc</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree7f0e856bb45310eb5b50250d440aa40c9307d39dtargetblank7f0e856a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreeddbc7bcf8cd93a984f5eeff7682ef94d2c9a3e35targetblankddbc7bca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -595,6 +595,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/ddbc7bcf8cd93a984f5eeff7682ef94d2c9a3e35/analysis/10x-180831-monocle.Rmd" target="_blank">ddbc7bc</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-03
+</td>
+<td>
+new heatmaps
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/4d92211d694562e05840f32952094e2d6a9b9bef/docs/10x-180831-monocle.html" target="_blank">4d92211</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1522,15 +1556,16 @@ Pytrik Folkertsma
 <h1>BEAM heatmap</h1>
 <p>Create heatmap of the significant genes with absolute average logFC &gt; 0.3.</p>
 <pre class="r"><code>#ran in terminal because of computation time
-#branched_4_0.5 &lt;- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, #abs(avgLogFC_State2_State3) &gt; 0.5))],
-#                                         branch_point = 1,
-#                                         num_clusters = 4,
-#                                         cores = 10,
-#                                         show_rownames = T,
-#                                       return_heatmap = T,
-#                                       branch_labels = c(&quot;Upper branch&quot;, &quot;Lower branch&quot;),
-#                                       branch_colors = colors.states
-#                                       )</code></pre>
+branched_3_0.3 &lt;- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, abs(avgLogFC_State2_State3) &gt; 0.3))],
+                                         branch_point = 1,
+                                         num_clusters = 3,
+                                         cores = 10,
+                                         show_rownames = T,
+                                       return_heatmap = T,
+                                       branch_labels = c(&quot;Upper branch&quot;, &quot;Lower branch&quot;),
+                                       branch_colors = colors.states
+                                       )</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>load(&#39;output/monocle/180831/heatmap&#39;)</code></pre>
 <p>You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.\</p>
 <p>3 clusters, logFC &gt; 0.5:</p>
@@ -1558,6 +1593,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/4d92211d694562e05840f32952094e2d6a9b9bef/docs/figure/10x-180831-monocle.Rmd/fig20-1.png" target="_blank">4d92211</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/fig20-1.png" target="_blank">b064e18</a>
@@ -1624,18 +1670,172 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
-<p>5 clusters, genes with logFC &gt; 0.3 between the two branches.</p>
-<pre class="r"><code>gridExtra::grid.arrange(branched_5_0.3$ph_res$gtable)</code></pre>
+<p>3 clusters, genes with logFC &gt; 0.3.</p>
+<pre class="r"><code>gridExtra::grid.arrange(branched_3_0.3$ph_res$gtable)</code></pre>
 <p><img src="figure/10x-180831-monocle.Rmd/fig22-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig22-1">
+Past versions of fig22-1.png
+</button>
+</p>
+<div id="fig-fig22-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/4d92211d694562e05840f32952094e2d6a9b9bef/docs/figure/10x-180831-monocle.Rmd/fig22-1.png" target="_blank">4d92211</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>4 clusters, genes with logFC &gt; 0.3.</p>
+<pre class="r"><code>gridExtra::grid.arrange(branched_4_0.3$ph_res$gtable)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/fig23-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig23-1">
+Past versions of fig23-1.png
+</button>
+</p>
+<div id="fig-fig23-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/4d92211d694562e05840f32952094e2d6a9b9bef/docs/figure/10x-180831-monocle.Rmd/fig23-1.png" target="_blank">4d92211</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>5 clusters, genes with logFC &gt; 0.3.</p>
+<pre class="r"><code>gridExtra::grid.arrange(branched_5_0.3$ph_res$gtable)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/fig24-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig24-1">
+Past versions of fig24-1.png
+</button>
+</p>
+<div id="fig-fig24-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/4d92211d694562e05840f32952094e2d6a9b9bef/docs/figure/10x-180831-monocle.Rmd/fig24-1.png" target="_blank">4d92211</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>6 clusters, genes with logFC &gt; 0.3 between the two branches.</p>
 <pre class="r"><code>gridExtra::grid.arrange(branched_6_0.3$ph_res$gtable)</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/fig23-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-monocle.Rmd/fig25-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig25-1">
+Past versions of fig25-1.png
+</button>
+</p>
+<div id="fig-fig25-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/4d92211d694562e05840f32952094e2d6a9b9bef/docs/figure/10x-180831-monocle.Rmd/fig25-1.png" target="_blank">4d92211</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>7 clusters, genes with logFC &gt; 0.3 between the two branches.</p>
 <pre class="r"><code>gridExtra::grid.arrange(branched_7_0.3$ph_res$gtable)</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/fig24-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-monocle.Rmd/fig26-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>8 clusters, genes with logFC &gt; 0.3 between the two branches.</p>
 <pre class="r"><code>gridExtra::grid.arrange(branched_8_0.3$ph_res$gtable)</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/fig25-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-monocle.Rmd/fig27-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Write BEAM results to files</p>
 <pre class="r"><code>#for (i in 1:length(unique(branched_6_0.3$annotation_row$Cluster))){
 #  BEAM_cluster &lt;- BEAM_signficnat_res[BEAM_signficnat_res$gene_short_name %in% row.names(branched_6_0.3$annotation_row)[branched_6_0.3$annotation_row == i],]
