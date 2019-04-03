@@ -187,9 +187,9 @@ Create heatmap of the significant genes with absolute average logFC > 0.3.
 
 ```{r}
 #ran in terminal because of computation time
-#branched_8_0.3 <- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, abs(avgLogFC_State2_State3) > 0.3))],
+#branched_4_0.5 <- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, #abs(avgLogFC_State2_State3) > 0.5))],
 #                                         branch_point = 1,
-#                                         num_clusters = 8,
+#                                         num_clusters = 4,
 #                                         cores = 10,
 #                                         show_rownames = T,
 #                                       return_heatmap = T,
@@ -202,33 +202,41 @@ Create heatmap of the significant genes with absolute average logFC > 0.3.
 load('output/monocle/180831/heatmap')
 ```
 
-You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.
+You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.\\
+
+3 clusters, logFC > 0.5:
 
 ```{r fig20, fig.height = 7, fig.width = 6, fig.align = "center"}
-gridExtra::grid.arrange(branched_5_0.3$ph_res$gtable)
+gridExtra::grid.arrange(branched_3_0.5$ph_res$gtable)
 ```
 
+5 clusters, genes with logFC > 0.4 between the two branches.
 
 ```{r fig21, fig.height = 7, fig.width = 6, fig.align = "center"}
 gridExtra::grid.arrange(branched_5_0.4$ph_res$gtable)
 ```
 
-Different number of clusters for logFC > 0.3.
+5 clusters, genes with logFC > 0.3 between the two branches.
 
-```{r}
+```{r fig22, fig.height = 7, fig.width = 6, fig.align = "center"}
 gridExtra::grid.arrange(branched_5_0.3$ph_res$gtable)
 ```
 
-```{r}
+6 clusters, genes with logFC > 0.3 between the two branches.
+
+```{r fig23, fig.height = 7, fig.width = 6, fig.align = "center"}
 gridExtra::grid.arrange(branched_6_0.3$ph_res$gtable)
 ```
 
+7 clusters, genes with logFC > 0.3 between the two branches.
 
-```{r}
+```{r fig24, fig.height = 7, fig.width = 6, fig.align = "center"}
 gridExtra::grid.arrange(branched_7_0.3$ph_res$gtable)
 ```
 
-```{r}
+8 clusters, genes with logFC > 0.3 between the two branches.
+
+```{r fig25, fig.height = 7, fig.width = 6, fig.align = "center"}
 gridExtra::grid.arrange(branched_8_0.3$ph_res$gtable)
 ```
 
