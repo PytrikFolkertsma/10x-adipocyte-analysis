@@ -44,12 +44,18 @@ plot_cell_trajectory(cds_split_res0.5, color_by='timepoint')
 
 #Dataset split into T1+T2+T3 and T4+T5, DE genes from clusters res1.5 are used here.
 
-This trajectory was used for further analyses.
-
 ```{r}
 cds <- readRDS('output/monocle/180831/monocle_T1T2T3_T4T5_res1.5/10x-180831-monocle')
 plot_cell_trajectory(cds, color_by='timepoint')
 ```
+
+With doublets removed (used for all further analyses).
+
+```{r}
+cds <- readRDS('output/monocle/180831/10x-180831-monocle-monocle_genelist_T1T2T3_T4T5_res.1.5')
+plot_cell_trajectory(cds, color_by='timepoint')
+```
+
 
 #DE genes between brown and white.
 
