@@ -23,9 +23,10 @@ output:
 <li>[Velocyto analysis](10x-180831-velocyto.before-demuxlet.html)</li>
 </ol>
 
-<b>Notebooks for 10x-180831 analysis:<b><ol>
+<b>Notebooks for 10x-180831 analysis:</b><ol>
 <li>[Demuxlet results](10x-180831-demuxlet.html)</li>
 <li>[Colors figures](10x-180831-colors.html)</li>
 <li>[Monocle feature selection](10x-180831-monocle-featureselection.html)</li>
 <li>[Monocle analysis](10x-180831-monocle.html)</li>
+<li>[Monocle genes over pseudotime](10x-180831-pseudotime)</li>
 </ol>
