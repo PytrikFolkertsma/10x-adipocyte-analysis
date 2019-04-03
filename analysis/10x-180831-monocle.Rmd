@@ -187,15 +187,15 @@ Create heatmap of the significant genes with absolute average logFC > 0.3.
 
 ```{r}
 #ran in terminal because of computation time
-#branched_4_0.5 <- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, #abs(avgLogFC_State2_State3) > 0.5))],
-#                                         branch_point = 1,
-#                                         num_clusters = 4,
-#                                         cores = 10,
-#                                         show_rownames = T,
-#                                       return_heatmap = T,
-#                                       branch_labels = c("Upper branch", "Lower branch"),
-#                                       branch_colors = colors.states
-#                                       )
+branched_3_0.3 <- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, abs(avgLogFC_State2_State3) > 0.3))],
+                                         branch_point = 1,
+                                         num_clusters = 3,
+                                         cores = 10,
+                                         show_rownames = T,
+                                       return_heatmap = T,
+                                       branch_labels = c("Upper branch", "Lower branch"),
+                                       branch_colors = colors.states
+                                       )
 ```
 
 ```{r}
@@ -216,29 +216,42 @@ gridExtra::grid.arrange(branched_3_0.5$ph_res$gtable)
 gridExtra::grid.arrange(branched_5_0.4$ph_res$gtable)
 ```
 
-5 clusters, genes with logFC > 0.3 between the two branches.
+3 clusters, genes with logFC > 0.3.
 
 ```{r fig22, fig.height = 7, fig.width = 6, fig.align = "center"}
+gridExtra::grid.arrange(branched_3_0.3$ph_res$gtable)
+```
+
+4 clusters, genes with logFC > 0.3.
+
+```{r fig23, fig.height = 7, fig.width = 6, fig.align = "center"}
+gridExtra::grid.arrange(branched_4_0.3$ph_res$gtable)
+```
+
+5 clusters, genes with logFC > 0.3.
+
+```{r fig24, fig.height = 7, fig.width = 6, fig.align = "center"}
 gridExtra::grid.arrange(branched_5_0.3$ph_res$gtable)
 ```
 
 6 clusters, genes with logFC > 0.3 between the two branches.
 
-```{r fig23, fig.height = 7, fig.width = 6, fig.align = "center"}
+```{r fig25, fig.height = 7, fig.width = 6, fig.align = "center"}
 gridExtra::grid.arrange(branched_6_0.3$ph_res$gtable)
 ```
 
 7 clusters, genes with logFC > 0.3 between the two branches.
 
-```{r fig24, fig.height = 7, fig.width = 6, fig.align = "center"}
+```{r fig26, fig.height = 7, fig.width = 6, fig.align = "center"}
 gridExtra::grid.arrange(branched_7_0.3$ph_res$gtable)
 ```
 
 8 clusters, genes with logFC > 0.3 between the two branches.
 
-```{r fig25, fig.height = 7, fig.width = 6, fig.align = "center"}
+```{r fig27, fig.height = 7, fig.width = 6, fig.align = "center"}
 gridExtra::grid.arrange(branched_8_0.3$ph_res$gtable)
 ```
+
 
 
 Write BEAM results to files
