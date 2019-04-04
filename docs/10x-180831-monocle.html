@@ -522,10 +522,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree859bb5190423f0d2c6c9575eadead0a8125c6159targetblank859bb51a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/859bb5190423f0d2c6c9575eadead0a8125c6159" target="_blank">859bb51</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree7ef9f3333ed7c4d9b0552b4c9e0a0da420d5073etargetblank7ef9f33a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/7ef9f3333ed7c4d9b0552b4c9e0a0da420d5073e" target="_blank">7ef9f33</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree859bb5190423f0d2c6c9575eadead0a8125c6159targetblank859bb51a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree7ef9f3333ed7c4d9b0552b4c9e0a0da420d5073etargetblank7ef9f33a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -596,6 +596,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/7ef9f3333ed7c4d9b0552b4c9e0a0da420d5073e/analysis/10x-180831-monocle.Rmd" target="_blank">7ef9f33</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+<td>
+updated BEAM analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/10x-180831-monocle.html" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1604,14 +1638,12 @@ Pytrik Folkertsma
 <p>You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.\</p>
 <pre class="r"><code>for (name in names(heatmaps)){
    cat(&#39;\n&#39;)  
-   cat(&quot;#This is a heading for &quot;, name, &quot;\n&quot;) 
+   cat(paste(&#39;BEAM heatmap:&#39;, name))
+   #cat(&quot;#This is a heading for &quot;, name, &quot;\n&quot;) 
    gridExtra::grid.arrange(heatmaps[[name]]$ph_res$gtable)
    cat(&#39;\n&#39;) 
 }</code></pre>
-</div>
-<div id="this-is-a-heading-for-heatmap_logfc0.3_ncluster3" class="section level1">
-<h1>This is a heading for heatmap_logFC0.3_ncluster3</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
 Past versions of unnamed-chunk-16-1.png
@@ -1634,6 +1666,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-1.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-1.png" target="_blank">b064e18</a>
@@ -1660,74 +1703,652 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-2.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-2">
+Past versions of unnamed-chunk-16-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-2.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.3_ncluster4" class="section level1">
-<h1>This is a heading for heatmap_logFC0.3_ncluster4</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-2.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.3_ncluster5" class="section level1">
-<h1>This is a heading for heatmap_logFC0.3_ncluster5</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-3.png" width="576" style="display: block; margin: auto;" /></p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-3.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-3">
+Past versions of unnamed-chunk-16-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-3.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.3_ncluster6" class="section level1">
-<h1>This is a heading for heatmap_logFC0.3_ncluster6</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-4.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.3_ncluster7" class="section level1">
-<h1>This is a heading for heatmap_logFC0.3_ncluster7</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-5.png" width="576" style="display: block; margin: auto;" /></p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-4.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-4">
+Past versions of unnamed-chunk-16-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-4.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.3_ncluster8" class="section level1">
-<h1>This is a heading for heatmap_logFC0.3_ncluster8</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-6.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.4_ncluster3" class="section level1">
-<h1>This is a heading for heatmap_logFC0.4_ncluster3</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-7.png" width="576" style="display: block; margin: auto;" /></p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-5.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-5">
+Past versions of unnamed-chunk-16-5.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-5.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.4_ncluster4" class="section level1">
-<h1>This is a heading for heatmap_logFC0.4_ncluster4</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-8.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.4_ncluster5" class="section level1">
-<h1>This is a heading for heatmap_logFC0.4_ncluster5</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-9.png" width="576" style="display: block; margin: auto;" /></p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-6.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-6">
+Past versions of unnamed-chunk-16-6.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-6" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-6.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.4_ncluster6" class="section level1">
-<h1>This is a heading for heatmap_logFC0.4_ncluster6</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-10.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.4_ncluster7" class="section level1">
-<h1>This is a heading for heatmap_logFC0.4_ncluster7</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-11.png" width="576" style="display: block; margin: auto;" /></p>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-7.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-7">
+Past versions of unnamed-chunk-16-7.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-7" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-7.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.4_ncluster8" class="section level1">
-<h1>This is a heading for heatmap_logFC0.4_ncluster8</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-12.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.5_ncluster3" class="section level1">
-<h1>This is a heading for heatmap_logFC0.5_ncluster3</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-13.png" width="576" style="display: block; margin: auto;" /></p>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-8.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-8">
+Past versions of unnamed-chunk-16-8.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-8" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-8.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.5_ncluster4" class="section level1">
-<h1>This is a heading for heatmap_logFC0.5_ncluster4</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-14.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.5_ncluster5" class="section level1">
-<h1>This is a heading for heatmap_logFC0.5_ncluster5</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-15.png" width="576" style="display: block; margin: auto;" /></p>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-9.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-9">
+Past versions of unnamed-chunk-16-9.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-9" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-9.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.5_ncluster6" class="section level1">
-<h1>This is a heading for heatmap_logFC0.5_ncluster6</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-16.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.5_ncluster7" class="section level1">
-<h1>This is a heading for heatmap_logFC0.5_ncluster7</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-17.png" width="576" style="display: block; margin: auto;" /></p>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-10.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-10">
+Past versions of unnamed-chunk-16-10.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-10" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-10.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="this-is-a-heading-for-heatmap_logfc0.5_ncluster8" class="section level1">
-<h1>This is a heading for heatmap_logFC0.5_ncluster8</h1>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-18.png" width="576" style="display: block; margin: auto;" /></p>
+</div>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-11.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-11">
+Past versions of unnamed-chunk-16-11.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-11" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-11.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-12.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-12">
+Past versions of unnamed-chunk-16-12.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-12" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-12.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-13.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-13">
+Past versions of unnamed-chunk-16-13.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-13" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-13.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-14.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-14">
+Past versions of unnamed-chunk-16-14.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-14" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-14.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-15.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-15">
+Past versions of unnamed-chunk-16-15.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-15" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-15.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-16.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-16">
+Past versions of unnamed-chunk-16-16.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-16" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-16.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-17.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-17">
+Past versions of unnamed-chunk-16-17.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-17" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-17.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-18.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-18">
+Past versions of unnamed-chunk-16-18.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-18" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-18.png" target="_blank">b3cc370</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Nr of genes</p>
 <pre class="r"><code>print_nGene &lt;- function(branched){
   print(paste(&#39;Total number of genes:&#39;, length(branched$annotation_row$Cluster)))
