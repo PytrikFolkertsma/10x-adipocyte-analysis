@@ -522,16 +522,17 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree7ef9f3333ed7c4d9b0552b4c9e0a0da420d5073etargetblank7ef9f33a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/7ef9f3333ed7c4d9b0552b4c9e0a0da420d5073e" target="_blank">7ef9f33</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree8e41685fdace7a6eb136056b18802f363f5b55b5targetblank8e41685a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/8e41685fdace7a6eb136056b18802f363f5b55b5" target="_blank">8e41685</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree7ef9f3333ed7c4d9b0552b4c9e0a0da420d5073etargetblank7ef9f33a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree8e41685fdace7a6eb136056b18802f363f5b55b5targetblank8e41685a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    analysis/figure/
     Ignored:    figures/
     Ignored:    output/bulk_analysis/
     Ignored:    output/markergenes/
@@ -549,6 +550,7 @@ Untracked files:
     Untracked:  analysis/10x-180831-BEAM-heatmap.Rmd
     Untracked:  analysis/10x-180831-pseudotime.Rmd
     Untracked:  code/BEAM-heatmaps.R
+    Untracked:  code/BEAM_gsea.R
     Untracked:  code/colors.R
 
 Unstaged changes:
@@ -596,6 +598,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/8e41685fdace7a6eb136056b18802f363f5b55b5/analysis/10x-180831-monocle.Rmd" target="_blank">8e41685</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+<td>
+updated BEAM analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/9ced468c6f3b2658f802c3e6bdfe1c9918062f71/docs/10x-180831-monocle.html" target="_blank">9ced468</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -854,6 +890,7 @@ Attaching package: &#39;BiocGenerics&#39;</code></pre>
 <pre><code>Loading required package: DDRTree</code></pre>
 <pre><code>Loading required package: irlba</code></pre>
 <pre class="r"><code>library(pheatmap)
+library(knitr)
 source(&#39;code/colors.R&#39;)
 seurobj &lt;- readRDS(&#39;output/seurat_objects/180831/10x-180831&#39;)
 cds &lt;- readRDS(&#39;output/monocle/180831/10x-180831-monocle-monocle_genelist_T1T2T3_T4T5_res.1.5&#39;)</code></pre>
@@ -1536,90 +1573,143 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
-<pre class="r"><code>hist(all, breaks=20, probability = T)
-lines(density(all), col=&#39;blue&#39;, lwd=2)</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
-Past versions of unnamed-chunk-12-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-12-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
+<pre class="r"><code>df &lt;- data.frame(fold_change=names(values), num_genes=unlist(values))
+rownames(df) &lt;- NULL
+kable(df)</code></pre>
+<table>
 <thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
+<tr class="header">
+<th align="left">fold_change</th>
+<th align="right">num_genes</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-12-1.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
+<tr class="odd">
+<td align="left">0</td>
+<td align="right">8647</td>
 </tr>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-12-1.png" target="_blank">221a47f</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-01-04
-</td>
+<tr class="even">
+<td align="left">0.1</td>
+<td align="right">1857</td>
+</tr>
+<tr class="odd">
+<td align="left">0.2</td>
+<td align="right">791</td>
+</tr>
+<tr class="even">
+<td align="left">0.3</td>
+<td align="right">413</td>
+</tr>
+<tr class="odd">
+<td align="left">0.4</td>
+<td align="right">249</td>
+</tr>
+<tr class="even">
+<td align="left">0.5</td>
+<td align="right">148</td>
+</tr>
+<tr class="odd">
+<td align="left">0.6</td>
+<td align="right">93</td>
+</tr>
+<tr class="even">
+<td align="left">0.7</td>
+<td align="right">63</td>
+</tr>
+<tr class="odd">
+<td align="left">0.8</td>
+<td align="right">45</td>
+</tr>
+<tr class="even">
+<td align="left">0.9</td>
+<td align="right">33</td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="right">27</td>
+</tr>
+<tr class="even">
+<td align="left">1.1</td>
+<td align="right">20</td>
+</tr>
+<tr class="odd">
+<td align="left">1.2</td>
+<td align="right">18</td>
+</tr>
+<tr class="even">
+<td align="left">1.3</td>
+<td align="right">16</td>
+</tr>
+<tr class="odd">
+<td align="left">1.4</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">1.5</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">1.6</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">1.7</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">1.8</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">1.9</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">2.1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">2.2</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">2.3</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">2.4</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2.5</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2.6</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2.7</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2.8</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2.9</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="right">0</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<pre class="r"><code>data.frame(fold_change=names(values), num_genes=unlist(values))</code></pre>
-<pre><code>    fold_change num_genes
-0             0      8647
-0.1         0.1      1857
-0.2         0.2       791
-0.3         0.3       413
-0.4         0.4       249
-0.5         0.5       148
-0.6         0.6        93
-0.7         0.7        63
-0.8         0.8        45
-0.9         0.9        33
-1             1        27
-1.1         1.1        20
-1.2         1.2        18
-1.3         1.3        16
-1.4         1.4        11
-1.5         1.5         6
-1.6         1.6         5
-1.7         1.7         5
-1.8         1.8         5
-1.9         1.9         2
-2             2         1
-2.1         2.1         1
-2.2         2.2         1
-2.3         2.3         1
-2.4         2.4         0
-2.5         2.5         0
-2.6         2.6         0
-2.7         2.7         0
-2.8         2.8         0
-2.9         2.9         0
-3             3         0</code></pre>
 </div>
 <div id="beam-heatmap" class="section level1">
 <h1>BEAM heatmap</h1>
@@ -1636,11 +1726,18 @@ Pytrik Folkertsma
 #                                       )</code></pre>
 <pre class="r"><code>load(&#39;output/monocle/180831/heatmaps&#39;)</code></pre>
 <p>You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.\</p>
+<pre class="r"><code>print_nGene &lt;- function(branched){
+  print(paste(&#39;Total number of genes:&#39;, length(branched$annotation_row$Cluster)))
+  for (i in 1:length(unique(branched$annotation_row$Cluster))){
+    cluster &lt;- rownames(branched$annotation_row)[branched$annotation_row$Cluster == i]
+    print(paste(&#39;Nr of genes in cluster &#39;, i, &#39;: &#39;, length(cluster), sep=&#39;&#39;))
+  }
+}</code></pre>
 <pre class="r"><code>for (name in names(heatmaps)){
    cat(&#39;\n&#39;)  
    cat(paste(&#39;BEAM heatmap:&#39;, name))
-   #cat(&quot;#This is a heading for &quot;, name, &quot;\n&quot;) 
    gridExtra::grid.arrange(heatmaps[[name]]$ph_res$gtable)
+   cat(print_nGene(heatmaps[[name]]))
    cat(&#39;\n&#39;) 
 }</code></pre>
 <p>BEAM heatmap: heatmap_logFC0.3_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /></p>
@@ -1703,6 +1800,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 249” [1] “Nr of genes in cluster 2: 95” [1] “Nr of genes in cluster 3: 69”</p>
 <p>BEAM heatmap: heatmap_logFC0.3_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-2.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-2">
@@ -1741,6 +1839,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 74” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 95” [1] “Nr of genes in cluster 4: 69”</p>
 <p>BEAM heatmap: heatmap_logFC0.3_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-3.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-3">
@@ -1779,6 +1878,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 74” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 58” [1] “Nr of genes in cluster 4: 69” [1] “Nr of genes in cluster 5: 37”</p>
 <p>BEAM heatmap: heatmap_logFC0.3_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-4.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-4">
@@ -1817,6 +1917,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 37” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 58” [1] “Nr of genes in cluster 4: 69” [1] “Nr of genes in cluster 5: 37” [1] “Nr of genes in cluster 6: 37”</p>
 <p>BEAM heatmap: heatmap_logFC0.3_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-5.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-5">
@@ -1855,6 +1956,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 37” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 58” [1] “Nr of genes in cluster 4: 69” [1] “Nr of genes in cluster 5: 26” [1] “Nr of genes in cluster 6: 11” [1] “Nr of genes in cluster 7: 37”</p>
 <p>BEAM heatmap: heatmap_logFC0.3_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-6.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-6">
@@ -1893,6 +1995,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 37” [1] “Nr of genes in cluster 2: 45” [1] “Nr of genes in cluster 3: 130” [1] “Nr of genes in cluster 4: 58” [1] “Nr of genes in cluster 5: 69” [1] “Nr of genes in cluster 6: 26” [1] “Nr of genes in cluster 7: 11” [1] “Nr of genes in cluster 8: 37”</p>
 <p>BEAM heatmap: heatmap_logFC0.4_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-7.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-7">
@@ -1931,6 +2034,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 150” [1] “Nr of genes in cluster 2: 53” [1] “Nr of genes in cluster 3: 46”</p>
 <p>BEAM heatmap: heatmap_logFC0.4_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-8.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-8">
@@ -1969,6 +2073,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 41” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 53” [1] “Nr of genes in cluster 4: 46”</p>
 <p>BEAM heatmap: heatmap_logFC0.4_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-9.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-9">
@@ -2007,6 +2112,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 41” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 46” [1] “Nr of genes in cluster 5: 28”</p>
 <p>BEAM heatmap: heatmap_logFC0.4_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-10.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-10">
@@ -2045,6 +2151,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 14” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 46” [1] “Nr of genes in cluster 5: 28” [1] “Nr of genes in cluster 6: 27”</p>
 <p>BEAM heatmap: heatmap_logFC0.4_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-11.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-11">
@@ -2083,6 +2190,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 14” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 26” [1] “Nr of genes in cluster 5: 28” [1] “Nr of genes in cluster 6: 20” [1] “Nr of genes in cluster 7: 27”</p>
 <p>BEAM heatmap: heatmap_logFC0.4_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-12.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-12">
@@ -2121,6 +2229,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 14” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 26” [1] “Nr of genes in cluster 5: 22” [1] “Nr of genes in cluster 6: 6” [1] “Nr of genes in cluster 7: 20” [1] “Nr of genes in cluster 8: 27”</p>
 <p>BEAM heatmap: heatmap_logFC0.5_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-13.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-13">
@@ -2159,6 +2268,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 85” [1] “Nr of genes in cluster 2: 35” [1] “Nr of genes in cluster 3: 28”</p>
 <p>BEAM heatmap: heatmap_logFC0.5_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-14.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-14">
@@ -2197,6 +2307,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 16” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 35” [1] “Nr of genes in cluster 4: 28”</p>
 <p>BEAM heatmap: heatmap_logFC0.5_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-15.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-15">
@@ -2235,6 +2346,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 16” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 28” [1] “Nr of genes in cluster 5: 15”</p>
 <p>BEAM heatmap: heatmap_logFC0.5_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-16.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-16">
@@ -2273,6 +2385,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 3” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 28” [1] “Nr of genes in cluster 5: 15” [1] “Nr of genes in cluster 6: 13”</p>
 <p>BEAM heatmap: heatmap_logFC0.5_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-17.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-17">
@@ -2311,6 +2424,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 3” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 14” [1] “Nr of genes in cluster 5: 15” [1] “Nr of genes in cluster 6: 14” [1] “Nr of genes in cluster 7: 13”</p>
 <p>BEAM heatmap: heatmap_logFC0.5_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-18.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-18">
@@ -2349,154 +2463,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
-<p>Nr of genes</p>
-<pre class="r"><code>print_nGene &lt;- function(branched){
-  print(paste(&#39;Total number of genes:&#39;, length(branched$annotation_row$Cluster)))
-  for (i in 1:length(unique(branched$annotation_row$Cluster))){
-    cluster &lt;- rownames(branched$annotation_row)[branched$annotation_row$Cluster == i]
-    print(paste(&#39;Nr of genes in cluster &#39;, i, &#39;: &#39;, length(cluster), sep=&#39;&#39;))
-  }
-}
-
-for (name in names(heatmaps)){
-  cat(paste(&#39;\n&#39;, name))
-  print_nGene(heatmaps[[name]])
-}</code></pre>
-<pre><code>
- heatmap_logFC0.3_ncluster3[1] &quot;Total number of genes: 413&quot;
-[1] &quot;Nr of genes in cluster 1: 249&quot;
-[1] &quot;Nr of genes in cluster 2: 95&quot;
-[1] &quot;Nr of genes in cluster 3: 69&quot;
-
- heatmap_logFC0.3_ncluster4[1] &quot;Total number of genes: 413&quot;
-[1] &quot;Nr of genes in cluster 1: 74&quot;
-[1] &quot;Nr of genes in cluster 2: 175&quot;
-[1] &quot;Nr of genes in cluster 3: 95&quot;
-[1] &quot;Nr of genes in cluster 4: 69&quot;
-
- heatmap_logFC0.3_ncluster5[1] &quot;Total number of genes: 413&quot;
-[1] &quot;Nr of genes in cluster 1: 74&quot;
-[1] &quot;Nr of genes in cluster 2: 175&quot;
-[1] &quot;Nr of genes in cluster 3: 58&quot;
-[1] &quot;Nr of genes in cluster 4: 69&quot;
-[1] &quot;Nr of genes in cluster 5: 37&quot;
-
- heatmap_logFC0.3_ncluster6[1] &quot;Total number of genes: 413&quot;
-[1] &quot;Nr of genes in cluster 1: 37&quot;
-[1] &quot;Nr of genes in cluster 2: 175&quot;
-[1] &quot;Nr of genes in cluster 3: 58&quot;
-[1] &quot;Nr of genes in cluster 4: 69&quot;
-[1] &quot;Nr of genes in cluster 5: 37&quot;
-[1] &quot;Nr of genes in cluster 6: 37&quot;
-
- heatmap_logFC0.3_ncluster7[1] &quot;Total number of genes: 413&quot;
-[1] &quot;Nr of genes in cluster 1: 37&quot;
-[1] &quot;Nr of genes in cluster 2: 175&quot;
-[1] &quot;Nr of genes in cluster 3: 58&quot;
-[1] &quot;Nr of genes in cluster 4: 69&quot;
-[1] &quot;Nr of genes in cluster 5: 26&quot;
-[1] &quot;Nr of genes in cluster 6: 11&quot;
-[1] &quot;Nr of genes in cluster 7: 37&quot;
-
- heatmap_logFC0.3_ncluster8[1] &quot;Total number of genes: 413&quot;
-[1] &quot;Nr of genes in cluster 1: 37&quot;
-[1] &quot;Nr of genes in cluster 2: 45&quot;
-[1] &quot;Nr of genes in cluster 3: 130&quot;
-[1] &quot;Nr of genes in cluster 4: 58&quot;
-[1] &quot;Nr of genes in cluster 5: 69&quot;
-[1] &quot;Nr of genes in cluster 6: 26&quot;
-[1] &quot;Nr of genes in cluster 7: 11&quot;
-[1] &quot;Nr of genes in cluster 8: 37&quot;
-
- heatmap_logFC0.4_ncluster3[1] &quot;Total number of genes: 249&quot;
-[1] &quot;Nr of genes in cluster 1: 150&quot;
-[1] &quot;Nr of genes in cluster 2: 53&quot;
-[1] &quot;Nr of genes in cluster 3: 46&quot;
-
- heatmap_logFC0.4_ncluster4[1] &quot;Total number of genes: 249&quot;
-[1] &quot;Nr of genes in cluster 1: 41&quot;
-[1] &quot;Nr of genes in cluster 2: 109&quot;
-[1] &quot;Nr of genes in cluster 3: 53&quot;
-[1] &quot;Nr of genes in cluster 4: 46&quot;
-
- heatmap_logFC0.4_ncluster5[1] &quot;Total number of genes: 249&quot;
-[1] &quot;Nr of genes in cluster 1: 41&quot;
-[1] &quot;Nr of genes in cluster 2: 109&quot;
-[1] &quot;Nr of genes in cluster 3: 25&quot;
-[1] &quot;Nr of genes in cluster 4: 46&quot;
-[1] &quot;Nr of genes in cluster 5: 28&quot;
-
- heatmap_logFC0.4_ncluster6[1] &quot;Total number of genes: 249&quot;
-[1] &quot;Nr of genes in cluster 1: 14&quot;
-[1] &quot;Nr of genes in cluster 2: 109&quot;
-[1] &quot;Nr of genes in cluster 3: 25&quot;
-[1] &quot;Nr of genes in cluster 4: 46&quot;
-[1] &quot;Nr of genes in cluster 5: 28&quot;
-[1] &quot;Nr of genes in cluster 6: 27&quot;
-
- heatmap_logFC0.4_ncluster7[1] &quot;Total number of genes: 249&quot;
-[1] &quot;Nr of genes in cluster 1: 14&quot;
-[1] &quot;Nr of genes in cluster 2: 109&quot;
-[1] &quot;Nr of genes in cluster 3: 25&quot;
-[1] &quot;Nr of genes in cluster 4: 26&quot;
-[1] &quot;Nr of genes in cluster 5: 28&quot;
-[1] &quot;Nr of genes in cluster 6: 20&quot;
-[1] &quot;Nr of genes in cluster 7: 27&quot;
-
- heatmap_logFC0.4_ncluster8[1] &quot;Total number of genes: 249&quot;
-[1] &quot;Nr of genes in cluster 1: 14&quot;
-[1] &quot;Nr of genes in cluster 2: 109&quot;
-[1] &quot;Nr of genes in cluster 3: 25&quot;
-[1] &quot;Nr of genes in cluster 4: 26&quot;
-[1] &quot;Nr of genes in cluster 5: 22&quot;
-[1] &quot;Nr of genes in cluster 6: 6&quot;
-[1] &quot;Nr of genes in cluster 7: 20&quot;
-[1] &quot;Nr of genes in cluster 8: 27&quot;
-
- heatmap_logFC0.5_ncluster3[1] &quot;Total number of genes: 148&quot;
-[1] &quot;Nr of genes in cluster 1: 85&quot;
-[1] &quot;Nr of genes in cluster 2: 35&quot;
-[1] &quot;Nr of genes in cluster 3: 28&quot;
-
- heatmap_logFC0.5_ncluster4[1] &quot;Total number of genes: 148&quot;
-[1] &quot;Nr of genes in cluster 1: 16&quot;
-[1] &quot;Nr of genes in cluster 2: 69&quot;
-[1] &quot;Nr of genes in cluster 3: 35&quot;
-[1] &quot;Nr of genes in cluster 4: 28&quot;
-
- heatmap_logFC0.5_ncluster5[1] &quot;Total number of genes: 148&quot;
-[1] &quot;Nr of genes in cluster 1: 16&quot;
-[1] &quot;Nr of genes in cluster 2: 69&quot;
-[1] &quot;Nr of genes in cluster 3: 20&quot;
-[1] &quot;Nr of genes in cluster 4: 28&quot;
-[1] &quot;Nr of genes in cluster 5: 15&quot;
-
- heatmap_logFC0.5_ncluster6[1] &quot;Total number of genes: 148&quot;
-[1] &quot;Nr of genes in cluster 1: 3&quot;
-[1] &quot;Nr of genes in cluster 2: 69&quot;
-[1] &quot;Nr of genes in cluster 3: 20&quot;
-[1] &quot;Nr of genes in cluster 4: 28&quot;
-[1] &quot;Nr of genes in cluster 5: 15&quot;
-[1] &quot;Nr of genes in cluster 6: 13&quot;
-
- heatmap_logFC0.5_ncluster7[1] &quot;Total number of genes: 148&quot;
-[1] &quot;Nr of genes in cluster 1: 3&quot;
-[1] &quot;Nr of genes in cluster 2: 69&quot;
-[1] &quot;Nr of genes in cluster 3: 20&quot;
-[1] &quot;Nr of genes in cluster 4: 14&quot;
-[1] &quot;Nr of genes in cluster 5: 15&quot;
-[1] &quot;Nr of genes in cluster 6: 14&quot;
-[1] &quot;Nr of genes in cluster 7: 13&quot;
-
- heatmap_logFC0.5_ncluster8[1] &quot;Total number of genes: 148&quot;
-[1] &quot;Nr of genes in cluster 1: 3&quot;
-[1] &quot;Nr of genes in cluster 2: 69&quot;
-[1] &quot;Nr of genes in cluster 3: 20&quot;
-[1] &quot;Nr of genes in cluster 4: 14&quot;
-[1] &quot;Nr of genes in cluster 5: 4&quot;
-[1] &quot;Nr of genes in cluster 6: 14&quot;
-[1] &quot;Nr of genes in cluster 7: 13&quot;
-[1] &quot;Nr of genes in cluster 8: 11&quot;</code></pre>
+<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 3” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 14” [1] “Nr of genes in cluster 5: 4” [1] “Nr of genes in cluster 6: 14” [1] “Nr of genes in cluster 7: 13” [1] “Nr of genes in cluster 8: 11”</p>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -2525,10 +2492,10 @@ attached base packages:
  [8] datasets  methods   base     
 
 other attached packages:
- [1] pheatmap_1.0.12     monocle_2.8.0       DDRTree_0.1.5      
- [4] irlba_2.3.3         VGAM_1.1-1          Biobase_2.42.0     
- [7] BiocGenerics_0.28.0 Seurat_2.3.4        Matrix_1.2-17      
-[10] cowplot_0.9.4       ggplot2_3.1.0      
+ [1] knitr_1.22          pheatmap_1.0.12     monocle_2.8.0      
+ [4] DDRTree_0.1.5       irlba_2.3.3         VGAM_1.1-1         
+ [7] Biobase_2.42.0      BiocGenerics_0.28.0 Seurat_2.3.4       
+[10] Matrix_1.2-17       cowplot_0.9.4       ggplot2_3.1.0      
 
 loaded via a namespace (and not attached):
   [1] snow_0.4-3             backports_1.1.3        Hmisc_4.2-0           
@@ -2557,14 +2524,14 @@ loaded via a namespace (and not attached):
  [70] tidyselect_0.2.5       labeling_0.3           rlang_0.3.2           
  [73] reshape2_1.4.3         munsell_0.5.0          tools_3.5.3           
  [76] ggridges_0.5.1         evaluate_0.13          stringr_1.4.0         
- [79] yaml_2.2.0             npsurv_0.4-0           knitr_1.22            
- [82] bit64_0.9-7            fs_1.2.7               fitdistrplus_1.0-14   
- [85] robustbase_0.93-4      caTools_1.17.1.2       purrr_0.3.2           
- [88] RANN_2.6.1             pbapply_1.4-0          nlme_3.1-137          
- [91] whisker_0.3-2          slam_0.1-45            R.oo_1.22.0           
- [94] hdf5r_1.1.1            compiler_3.5.3         rstudioapi_0.10       
- [97] png_0.1-7              lsei_1.2-0             tibble_2.1.1          
-[100] stringi_1.4.3          lattice_0.20-38        trimcluster_0.1-2.1   
+ [79] yaml_2.2.0             npsurv_0.4-0           bit64_0.9-7           
+ [82] fs_1.2.7               fitdistrplus_1.0-14    robustbase_0.93-4     
+ [85] caTools_1.17.1.2       purrr_0.3.2            RANN_2.6.1            
+ [88] pbapply_1.4-0          nlme_3.1-137           whisker_0.3-2         
+ [91] slam_0.1-45            R.oo_1.22.0            hdf5r_1.1.1           
+ [94] compiler_3.5.3         rstudioapi_0.10        png_0.1-7             
+ [97] lsei_1.2-0             tibble_2.1.1           stringi_1.4.3         
+[100] highr_0.8              lattice_0.20-38        trimcluster_0.1-2.1   
 [103] HSMMSingleCell_0.114.0 pillar_1.3.1           combinat_0.0-8        
 [106] Rdpack_0.10-1          lmtest_0.9-36          data.table_1.12.0     
 [109] bitops_1.0-6           gbRd_0.4-11            R6_2.4.0              
