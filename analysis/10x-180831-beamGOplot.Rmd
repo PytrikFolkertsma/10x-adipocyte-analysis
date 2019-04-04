@@ -1,136 +1,137 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
 ---
 
 
-
 ```{r}
-library(GOPlot)
+library(GOplot)
 ```
 
-#BEAM cluster 2
+
 
 ```{r}
-gsea_c2 <- read.table('../../tables/BEAM_GSEA/REVIGO_cleaned/REVIGO_cluster2_cleaned.tsv', sep='\t', header=T)
-genelist_c2 <- read.table('../../tables/BEAM/genelist_cluster_2.txt', sep='\t', header=T)
+name <- 'heatmap_logFC0.3_ncluster6'
+folder <- paste('tables/BEAM/', name, sep='')
+gsea_files <- list.files(paste(folder, '/REVIGO_cleaned/', sep=''))
 
-gsea_c3 <- read.table('../../tables/BEAM_GSEA/REVIGO_cleaned/REVIGO_cluster3_cleaned.tsv', sep='\t', header=T)
-genelist_c3 <- read.table('../../tables/BEAM/genelist_cluster_3.txt', sep='\t', header=T)
+clusters <- c(1,2,3,4,6)
 
-gsea_c4 <- read.table('../../tables/BEAM_GSEA/REVIGO_cleaned/REVIGO_cluster4_cleaned.tsv', sep='\t', header=T)
-genelist_c4 <- read.table('../../tables/BEAM/genelist_cluster_4.txt', sep='\t', header=T)
+gsea <- list()
+genelist <- list()
 
-gsea_c5 <- read.table('../../tables/BEAM_GSEA/REVIGO_cleaned/REVIGO_cluster5_cleaned.tsv', sep='\t', header=T)
-genelist_c5 <- read.table('../../tables/BEAM/genelist_cluster_5.txt', sep='\t', header=T)
+for (i in clusters){
+  gsea_cluster <- read.table(paste(folder, '/REVIGO_cleaned/', 'REVIGO_cluster', i, '_cleaned.tsv', sep=''), header=T)
+  gsea_cluster['cluster'] <- i
+  genes_cluster <- read.table(paste(folder, '/genelist_cluster', i, '.tsv', sep=''))
+  gsea[[i]] <- gsea_cluster
+  genelist[[i]] <- genes_cluster
+}
 
+gsea <- do.call("rbind", gsea)
+genelist <- do.call("rbind", genelist)
+```
 
+```{r}
 create_terms <- function(gsea){
-  return(data.frame(category=gsea$gsea.domain, ID=gsea$revigo.term_ID, term=gsea$revigo.description, adj_pval=gsea$gsea.p.value, genes=gsea$gsea.intersection))
+  return(data.frame(category=gsea$gsea.domain, ID=gsea$revigo.term_ID, term=gsea$revigo.description, adj_pval=gsea$gsea.p.value, genes=gsea$gsea.intersection, cluster=gsea$cluster))
 }
 
 create_genes <- function(genelist){
   return(data.frame(ID=genelist$gene_short_name, logFC=genelist$avgLogFC_State2_State3))
 }
-
-terms_c2 <- create_terms(gsea_c2)
-genes_c2 <- create_genes(genelist_c2)
-genes_c2_swapped <- data.frame(ID=genes_c2$ID, logFC=genes_c2$logFC*-1)
-
-terms_c3 <- create_terms(gsea_c3)
-genes_c3 <- create_genes(genelist_c3)
-genes_c3_swapped <- data.frame(ID=genes_c3$ID, logFC=genes_c3$logFC*-1)
-
-terms_c4 <- create_terms(gsea_c4)
-genes_c4 <- create_genes(genelist_c4)
-genes_c4_swapped <- data.frame(ID=genes_c4$ID, logFC=genes_c4$logFC*-1)
-
-terms_c5 <- create_terms(gsea_c5)
-genes_c5 <- create_genes(genelist_c5)
-genes_c5_swapped <- data.frame(ID=genes_c5$ID, logFC=genes_c5$logFC*-1)
-
 ```
 
-#Oxidative
+#All terms
 
 ```{r}
-terms <- rbind(terms_c2, terms_c5, terms_c4)
-genes <- rbind(genes_c2_swapped, genes_c5_swapped, genes_c4_swapped)
+terms <- create_terms(gsea)
+genes <- create_genes(genelist)
 circ <- circle_dat(terms, genes)
 ```
 
-```{r fig1, fig.height = 10, fig.width = 20, fig.align = "center"}
+```{r, fig.height = 10, fig.width = 20, fig.align = "center"}
 GOBar(circ)
 ```
 
-```{r fig2, fig.height = 12, fig.width = 20, fig.align = "center"}
-oxidative_terms_bp <- GOBubble(subset(circ, category=='BP'), labels=8, ID=F)
+```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
+GOBubble(circ, labels=8, ID=F)
 ```
+
+```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
+GOBubble(circ, labels=8, ID=F, display='mutliple')
+```
+
+#Terms associated with metabolic branch
+
+Cluster 2 and 6 (up in metabolic branch) and cluster 4 (down in metabolic branch).
 
 ```{r}
-save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster2-5-4-BP-terms.pdf", oxidative_terms_bp, base_width=20, base_height=12)
+gsea_filtered_metabolic <- gsea[gsea$cluster %in% c(2,6,4),]
+terms_metabolic <- create_terms(gsea_filtered_metabolic)
+#genes <- rbind(genes_c2_swapped, genes_c5_swapped, genes_c4_swapped)
+circ_metabolic <- circle_dat(terms_metabolic, genes)
 ```
 
-```{r fig5, fig.height = 12, fig.width = 20, fig.align = "center"}
-oxidative_terms <- GOBubble(circ, labels=8)
+
+```{r, fig.height = 10, fig.width = 20, fig.align = "center"}
+GOBar(circ_metabolic)
 ```
+
+```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
+GOBubble(circ_metabolic, labels=8, ID=F)
+```
+
+```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
+GOBubble(circ_metabolic, labels=8, ID=F, display='mutliple')
+```
+
+#Terms associated with ECM branch
+
+Cluster 1 (down in ECM branch) and cluster 3 (up in ECM branch)
 
 ```{r}
-save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster2-5-4.pdf", oxidative_terms, base_width=20, base_height=12)
+gsea_filtered_ecm <- gsea[gsea$cluster %in% c(1,3),]
+terms_ecm <- create_terms(gsea_filtered_ecm)
+genes_swapped <- data.frame(ID=genes$ID, logFC=genes$logFC*-1) #swap fold change direction
+circ_ecm <- circle_dat(terms_ecm, genes_swapped)
 ```
 
-```{r fig10, fig.height = 12, fig.width = 20, fig.align = "center"}
-oxidative_terms_terms <- GOBubble(circ, labels=8, ID=F, table.legend = F)
-oxidative_terms_terms
+```{r, fig.height = 10, fig.width = 20, fig.align = "center"}
+GOBar(circ_ecm)
 ```
+
+```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
+GOBubble(circ_ecm, labels=2, ID=F)
+```
+
+```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
+GOBubble(circ_ecm, labels=2, ID=F, display='mutliple')
+```
+
+#Only upregulated terms
 
 ```{r}
-save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster2-5-4-terms.pdf", oxidative_terms_terms, base_width=20, base_height=12)
+gsea_upregulated <- gsea[gsea$cluster %in% c(2,6,3),]
+terms_upregulated <- create_terms(gsea_upregulated)
+circ_upregulated <- circle_dat(terms_upregulated, genes)
 ```
 
-
-```{r fig6, fig.height = 12, fig.width = 20, fig.align = "center"}
-oxidative_terms_mf <- GOBubble(subset(circ, category=='MF'), labels=8, ID=F, colour=c('#95bafa', '#95bafa', '#95bafa'))
+```{r, fig.height = 10, fig.width = 20, fig.align = "center"}
+GOBar(circ_upregulated)
 ```
 
-```{r}
-save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster2-5-4-MF.pdf", oxidative_terms_mf, base_width=20, base_height=12)
+Negative Z-score = terms upregulated in ECM branch. Positive Z-score = terms upregulated in metabolic branch.
+
+```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
+GOBubble(circ_upregulated, labels=2, ID=F)
 ```
 
-
-```{r fig9, fig.height = 12, fig.width = 20, fig.align = "center"}
-oxidative_terms_cc <- GOBubble(subset(circ, category=='CC'), labels=8, ID=F, colour=c('#f25455', '#f25455', '#f25455'))
+```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
+GOBubble(circ_upregulated, labels=8, ID=F, display='mutliple')
 ```
-
-```{r}
-save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster2-5-4-CC.pdf", oxidative_terms_cc, base_width=20, base_height=12)
-```
-
-
-```{r fig3, fig.height = 10, fig.width = 12, fig.align = "center"}
-reduced_circ <- reduce_overlap(circ, overlap = 0.9)
-GOBubble(reduced_circ, labels = 2.8)
-```
-
-#ECM
-
-```{r}
-terms <- rbind(terms_c3, terms_c5)
-genes <- rbind(genes_c3, genes_c5)
-circ <- circle_dat(terms, genes)
-```
-
-
-```{r fig7, fig.height = 10, fig.width = 20, fig.align = "center"}
-GOBar(circ)
-```
-
-
-```{r fig8, fig.height = 12, fig.width = 20, fig.align = "center"}
-ecm_terms <- GOBubble(circ, labels=1, ID=F)
-```
-
-```{r}
-save_plot("../../plots/plots_paper/plots_BEAM_GO/180831_beamGO_cluster3-5.pdf", ecm_terms, base_width=20, base_height=12)
-```
-
