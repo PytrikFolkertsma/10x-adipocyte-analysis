@@ -208,7 +208,8 @@ You can visualize changes for all the genes that are significantly branch depend
 ```{r, results='asis', fig.height = 7, fig.width = 6, fig.align = "center"}
 for (name in names(heatmaps)){
    cat('\n')  
-   cat("#This is a heading for ", name, "\n") 
+   cat(paste('BEAM heatmap:', name))
+   #cat("#This is a heading for ", name, "\n") 
    gridExtra::grid.arrange(heatmaps[[name]]$ph_res$gtable)
    cat('\n') 
 }
