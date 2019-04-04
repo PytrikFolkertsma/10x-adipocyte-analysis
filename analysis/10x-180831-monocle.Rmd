@@ -12,6 +12,7 @@ output:
 library(Seurat)
 library(monocle)
 library(pheatmap)
+library(knitr)
 source('code/colors.R')
 seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
 cds <- readRDS('output/monocle/180831/10x-180831-monocle-monocle_genelist_T1T2T3_T4T5_res.1.5')
@@ -172,13 +173,11 @@ for (i in seq(0.0, 3, by=0.1)){
 hist(all, breaks=20, probability = F)
 ```
 
-```{r}
-hist(all, breaks=20, probability = T)
-lines(density(all), col='blue', lwd=2)
-```
 
 ```{r}
-data.frame(fold_change=names(values), num_genes=unlist(values))
+df <- data.frame(fold_change=names(values), num_genes=unlist(values))
+rownames(df) <- NULL
+kable(df)
 ```
 
 #BEAM heatmap
@@ -204,20 +203,6 @@ load('output/monocle/180831/heatmaps')
 
 You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.\\
 
-
-```{r, results='asis', fig.height = 7, fig.width = 6, fig.align = "center"}
-for (name in names(heatmaps)){
-   cat('\n')  
-   cat(paste('BEAM heatmap:', name))
-   #cat("#This is a heading for ", name, "\n") 
-   gridExtra::grid.arrange(heatmaps[[name]]$ph_res$gtable)
-   cat('\n') 
-}
-```
-
-
-Nr of genes
-
 ```{r}
 print_nGene <- function(branched){
   print(paste('Total number of genes:', length(branched$annotation_row$Cluster)))
@@ -226,9 +211,16 @@ print_nGene <- function(branched){
     print(paste('Nr of genes in cluster ', i, ': ', length(cluster), sep=''))
   }
 }
+```
 
+
+```{r, results='asis', fig.height = 7, fig.width = 6, fig.align = "center"}
 for (name in names(heatmaps)){
-  cat(paste('\n', name))
-  print_nGene(heatmaps[[name]])
+   cat('\n')  
+   cat(paste('BEAM heatmap:', name))
+   gridExtra::grid.arrange(heatmaps[[name]]$ph_res$gtable)
+   cat(print_nGene(heatmaps[[name]]))
+   cat('\n') 
 }
 ```
+
