@@ -1,0 +1,65 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+library(data.table)
+library(readr)
+library(dplyr)
+library(knitr)
+library(Seurat)
+
+seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
+gene_annotations <- fread('tables/tables_paper/all_tables/genes_biomart.txt', sep='\t', quote="", header=T)
+```
+
+
+```{r}
+ids2symbols <- read.table('tables/tables_paper/all_tables/10x-180831-geneids-genesymbols.tsv', header=T)
+```
+
+
+#BEAM clusters
+
+```{r}
+combined <- list()
+
+for (i in 1:6){
+  beam_genelist <- read.table(paste('tables/tables_paper/all_tables/BEAM/heatmap_logFC0.3_ncluster6/genelist_cluster', i, '.tsv', sep=''), sep='\t', header=T)
+  beam_genelist['ensembl_gene_id'] <- ids2symbols$ensembl_gene_id[match(beam_genelist$gene_short_name, ids2symbols$gene_symbol)]
+  beam_genelist['cluster'] <- i
+  
+  #add geneinfo
+  merged <- merge(beam_genelist, gene_annotations[,c('Gene stable ID', 'Gene type', 'GO term accession', 'GO term name')], by.y='Gene stable ID', by.x='ensembl_gene_id')
+  
+  #filter for tf's and gene type != protein coding
+  filtered <- merged[c(which(c(merged$`GO term name`) %like% 'transcription factor'),
+                     which(merged$`GO term definition` %like% 'transcription factor'),
+                     which(merged$`Gene type` != 'protein_coding')),]
+  
+  #filter out duplicate genes
+  filtered <- filtered[!duplicated(filtered$gene_short_name),]
+  
+  combined[[i]] <- filtered
+}
+
+combined <- do.call("rbind", combined)
+```
+
+```{r}
+kable(combined)
+```
+
+
+```{r}
+#write.table(combined, file='../tables/tables_paper/all_tables/BEAM/heatmap_logFC0.3_ncluster6/genelist_TFs.tsv', sep='\t', quote=F, row.names=F)
+#write.table(combined, file='../tables/tables_paper/supplementary_tables/BEAM_logFC0.3_nclusters6/genelist_TFs.tsv', sep='\t', quote=F, row.names=F)
+```
+
+```{r, fig.height = 80, fig.width = 10, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=as.vector(combined$gene_short_name), nCol=2, cols.use=c('gray', 'blue'), no.legend=F)
+```
+
