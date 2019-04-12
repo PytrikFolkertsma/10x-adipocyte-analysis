@@ -30,5 +30,6 @@ output:
 <li>[Monocle analysis](10x-180831-monocle.html)</li>
 <li>[Monocle genes over pseudotime](10x-180831-pseudotime.html)</li>
 <li>[BEAM GO plots](10x-180831-beamGOplot.html)</li>
-<li>[TF analysis](10x-180831-TF_analysis.html)
+<li>[TF analysis](10x-180831-TF_analysis.html)</li>
+<li>[Metabolic and ECM genes](10x-180831-metabolic_ECM_genes.html)</li>
 </ol>
