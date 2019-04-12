@@ -1,0 +1,48 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
+---
+
+
+
+
+```{r}
+library(Seurat)
+library(knitr)
+seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
+markers <- read.table('output/markergenes/180831/markers_10x-180831_upperbranch_lowerbranch_negbinom.tsv', header=T)
+```
+
+#Metabolic genes
+
+```{r}
+markers_metabolic <- markers[markers$avg_logFC > 0,]
+markers_metabolic <- markers_metabolic[order(-markers_metabolic$avg_logFC),]
+kable(markers_metabolic)
+```
+
+Top 60 markers for metabolic branch sorted on logFC.
+
+```{r, fig.height = 120, fig.width = 10, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=as.vector(markers_metabolic$gene)[1:60], nCol=2, cols.use=c('gray', 'blue'), no.legend=F)
+```
+
+
+#ECM genes
+
+```{r}
+markers_ecm <- markers[markers$avg_logFC < 0,]
+markers_ecm <- markers_ecm[order(markers_ecm$avg_logFC),]
+kable(markers_ecm)
+```
+
+Top 60 ECM branch genes sorted on logFC.
+
+```{r, fig.height = 120, fig.width = 10, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=as.vector(markers_ecm$gene)[1:60], nCol=2, cols.use=c('gray', 'blue'), no.legend=F)
+```
