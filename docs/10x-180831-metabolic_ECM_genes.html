@@ -1,0 +1,5342 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>R Notebook</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">10x-adipocyte-analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="http://github.com/PytrikFolkertsma/10x-adipocyte-analysis">
+    <span class="fa fa-github"></span>
+     
+    Source
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Notebook</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-04-12
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>10x-adipocyte-analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.2.0). The <em>Report</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="report" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20181026code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20181026)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20181026code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20181026)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree2b8079fef786823e43edab63d1febd0611bd4217targetblank2b8079fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/2b8079fef786823e43edab63d1febd0611bd4217" target="_blank">2b8079f</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree2b8079fef786823e43edab63d1febd0611bd4217targetblank2b8079fa" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    figures/
+    Ignored:    output/bulk_analysis/
+    Ignored:    output/markergenes/
+    Ignored:    output/monocle/
+    Ignored:    output/seurat_objects/
+    Ignored:    output/velocyto/
+    Ignored:    output/wgcna/
+    Ignored:    tables/
+
+Untracked files:
+    Untracked:  10x-180831-figures.Rmd
+    Untracked:  Rplots.pdf
+    Untracked:  analysis/.ipynb_checkpoints/velocyto_notebook_180831-checkpoint.ipynb
+    Untracked:  analysis/10-180831-monocle-per-depot.Rmd
+    Untracked:  analysis/10x-180831-BATLAS.Rmd
+    Untracked:  analysis/10x-180831-BEAM-heatmap.Rmd
+    Untracked:  analysis/10x-180831-pseudotime.Rmd
+    Untracked:  code/BEAM-heatmaps.R
+    Untracked:  code/BEAM_gsea.R
+    Untracked:  code/colors.R
+
+Unstaged changes:
+    Modified:   analysis/10x-180831-beamGOplot.Rmd
+    Modified:   analysis/10x-180831-colors.Rmd
+    Modified:   analysis/10x-180831-general-analysis.Rmd
+    Modified:   analysis/10x-180831-monocle.Rmd
+    Modified:   analysis/velocyto_notebook_180831.ipynb
+    Deleted:    code/REMOVE/find-brown-sample-markers-180504-REMOVE.R
+    Deleted:    code/REMOVE/find-white-sample-markers-180504-REMOVE.R
+    Deleted:    code/REMOVE/get-genes-monocle-180831-REMOVE.R
+    Modified:   code/compute-genelists-monocle-depots.R
+    Modified:   code/find-markers.R
+    Modified:   code/preprocess-data.R
+    Modified:   code/run-monocle.R
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/2b8079fef786823e43edab63d1febd0611bd4217/analysis/10x-180831-metabolic_ECM_genes.Rmd" target="_blank">2b8079f</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-12
+</td>
+<td>
+Metabolic and ECM genes
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>library(Seurat)</code></pre>
+<pre><code>Loading required package: ggplot2</code></pre>
+<pre><code>Loading required package: cowplot</code></pre>
+<pre><code>
+Attaching package: &#39;cowplot&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
+
+    ggsave</code></pre>
+<pre><code>Loading required package: Matrix</code></pre>
+<pre class="r"><code>library(knitr)
+seurobj &lt;- readRDS(&#39;output/seurat_objects/180831/10x-180831&#39;)
+markers &lt;- read.table(&#39;output/markergenes/180831/markers_10x-180831_upperbranch_lowerbranch_negbinom.tsv&#39;, header=T)</code></pre>
+<div id="metabolic-genes" class="section level1">
+<h1>Metabolic genes</h1>
+<pre class="r"><code>markers_metabolic &lt;- markers[markers$avg_logFC &gt; 0,]
+markers_metabolic &lt;- markers_metabolic[order(-markers_metabolic$avg_logFC),]
+kable(markers_metabolic)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">p_val</th>
+<th align="right">avg_logFC</th>
+<th align="right">pct.1</th>
+<th align="right">pct.2</th>
+<th align="right">p_val_adj</th>
+<th align="left">gene</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td align="right">0</td>
+<td align="right">2.3668674</td>
+<td align="right">0.814</td>
+<td align="right">0.452</td>
+<td align="right">0</td>
+<td align="left">SCD</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td align="right">0</td>
+<td align="right">1.9345684</td>
+<td align="right">0.944</td>
+<td align="right">0.558</td>
+<td align="right">0</td>
+<td align="left">FABP5</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td align="right">0</td>
+<td align="right">1.8911775</td>
+<td align="right">0.959</td>
+<td align="right">0.739</td>
+<td align="right">0</td>
+<td align="left">G0S2</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td align="right">0</td>
+<td align="right">1.8649388</td>
+<td align="right">0.999</td>
+<td align="right">0.991</td>
+<td align="right">0</td>
+<td align="left">FABP4</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td align="right">0</td>
+<td align="right">1.8116877</td>
+<td align="right">0.585</td>
+<td align="right">0.147</td>
+<td align="right">0</td>
+<td align="left">ADIPOQ</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td align="right">0</td>
+<td align="right">1.5471742</td>
+<td align="right">0.557</td>
+<td align="right">0.322</td>
+<td align="right">0</td>
+<td align="left">ADIRF</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td align="right">0</td>
+<td align="right">1.4585314</td>
+<td align="right">0.785</td>
+<td align="right">0.411</td>
+<td align="right">0</td>
+<td align="left">CD36</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td align="right">0</td>
+<td align="right">1.4433467</td>
+<td align="right">0.732</td>
+<td align="right">0.159</td>
+<td align="right">0</td>
+<td align="left">PLIN4</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td align="right">0</td>
+<td align="right">1.4303713</td>
+<td align="right">0.840</td>
+<td align="right">0.236</td>
+<td align="right">0</td>
+<td align="left">GPD1</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td align="right">0</td>
+<td align="right">1.3479227</td>
+<td align="right">0.549</td>
+<td align="right">0.185</td>
+<td align="right">0</td>
+<td align="left">RBP4</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td align="right">0</td>
+<td align="right">1.3378702</td>
+<td align="right">0.809</td>
+<td align="right">0.164</td>
+<td align="right">0</td>
+<td align="left">PLIN1</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td align="right">0</td>
+<td align="right">1.3069709</td>
+<td align="right">0.696</td>
+<td align="right">0.165</td>
+<td align="right">0</td>
+<td align="left">FASN</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td align="right">0</td>
+<td align="right">1.2918998</td>
+<td align="right">0.988</td>
+<td align="right">0.850</td>
+<td align="right">0</td>
+<td align="left">DBI</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td align="right">0</td>
+<td align="right">1.2703044</td>
+<td align="right">0.887</td>
+<td align="right">0.391</td>
+<td align="right">0</td>
+<td align="left">PNPLA2</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td align="right">0</td>
+<td align="right">1.1849491</td>
+<td align="right">0.767</td>
+<td align="right">0.295</td>
+<td align="right">0</td>
+<td align="left">CHCHD10</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td align="right">0</td>
+<td align="right">1.0783518</td>
+<td align="right">0.937</td>
+<td align="right">0.533</td>
+<td align="right">0</td>
+<td align="left">CIDEC</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td align="right">0</td>
+<td align="right">1.0567199</td>
+<td align="right">0.922</td>
+<td align="right">0.546</td>
+<td align="right">0</td>
+<td align="left">HEBP2</td>
+</tr>
+<tr class="even">
+<td>248</td>
+<td align="right">0</td>
+<td align="right">1.0234040</td>
+<td align="right">0.447</td>
+<td align="right">0.210</td>
+<td align="right">0</td>
+<td align="left">MTRNR2L1</td>
+</tr>
+<tr class="odd">
+<td>18</td>
+<td align="right">0</td>
+<td align="right">1.0196356</td>
+<td align="right">0.618</td>
+<td align="right">0.204</td>
+<td align="right">0</td>
+<td align="left">AGPAT2</td>
+</tr>
+<tr class="even">
+<td>19</td>
+<td align="right">0</td>
+<td align="right">0.9651879</td>
+<td align="right">0.784</td>
+<td align="right">0.235</td>
+<td align="right">0</td>
+<td align="left">ACACB</td>
+</tr>
+<tr class="odd">
+<td>20</td>
+<td align="right">0</td>
+<td align="right">0.9617837</td>
+<td align="right">0.517</td>
+<td align="right">0.115</td>
+<td align="right">0</td>
+<td align="left">FADS1</td>
+</tr>
+<tr class="even">
+<td>21</td>
+<td align="right">0</td>
+<td align="right">0.9474505</td>
+<td align="right">0.667</td>
+<td align="right">0.230</td>
+<td align="right">0</td>
+<td align="left">ACSL1</td>
+</tr>
+<tr class="odd">
+<td>22</td>
+<td align="right">0</td>
+<td align="right">0.8888489</td>
+<td align="right">0.591</td>
+<td align="right">0.115</td>
+<td align="right">0</td>
+<td align="left">UCP2</td>
+</tr>
+<tr class="even">
+<td>23</td>
+<td align="right">0</td>
+<td align="right">0.8751794</td>
+<td align="right">0.929</td>
+<td align="right">0.587</td>
+<td align="right">0</td>
+<td align="left">PLA2G16</td>
+</tr>
+<tr class="odd">
+<td>24</td>
+<td align="right">0</td>
+<td align="right">0.8699395</td>
+<td align="right">0.620</td>
+<td align="right">0.230</td>
+<td align="right">0</td>
+<td align="left">INSIG1</td>
+</tr>
+<tr class="even">
+<td>25</td>
+<td align="right">0</td>
+<td align="right">0.8587624</td>
+<td align="right">0.964</td>
+<td align="right">0.767</td>
+<td align="right">0</td>
+<td align="left">CYB5A</td>
+</tr>
+<tr class="odd">
+<td>26</td>
+<td align="right">0</td>
+<td align="right">0.8196034</td>
+<td align="right">0.451</td>
+<td align="right">0.067</td>
+<td align="right">0</td>
+<td align="left">LIPE</td>
+</tr>
+<tr class="even">
+<td>27</td>
+<td align="right">0</td>
+<td align="right">0.8080338</td>
+<td align="right">0.814</td>
+<td align="right">0.408</td>
+<td align="right">0</td>
+<td align="left">CYCS</td>
+</tr>
+<tr class="odd">
+<td>28</td>
+<td align="right">0</td>
+<td align="right">0.7773532</td>
+<td align="right">0.428</td>
+<td align="right">0.060</td>
+<td align="right">0</td>
+<td align="left">DGAT2</td>
+</tr>
+<tr class="even">
+<td>29</td>
+<td align="right">0</td>
+<td align="right">0.7571747</td>
+<td align="right">0.377</td>
+<td align="right">0.070</td>
+<td align="right">0</td>
+<td align="left">GPAM</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td align="right">0</td>
+<td align="right">0.7543819</td>
+<td align="right">0.468</td>
+<td align="right">0.111</td>
+<td align="right">0</td>
+<td align="left">MRAP</td>
+</tr>
+<tr class="even">
+<td>31</td>
+<td align="right">0</td>
+<td align="right">0.7513995</td>
+<td align="right">0.505</td>
+<td align="right">0.084</td>
+<td align="right">0</td>
+<td align="left">PPP1R1A</td>
+</tr>
+<tr class="odd">
+<td>32</td>
+<td align="right">0</td>
+<td align="right">0.7454391</td>
+<td align="right">0.908</td>
+<td align="right">0.662</td>
+<td align="right">0</td>
+<td align="left">COX7B</td>
+</tr>
+<tr class="even">
+<td>33</td>
+<td align="right">0</td>
+<td align="right">0.7285936</td>
+<td align="right">0.652</td>
+<td align="right">0.277</td>
+<td align="right">0</td>
+<td align="left">ACLY</td>
+</tr>
+<tr class="odd">
+<td>34</td>
+<td align="right">0</td>
+<td align="right">0.7264040</td>
+<td align="right">0.725</td>
+<td align="right">0.307</td>
+<td align="right">0</td>
+<td align="left">SLC25A1</td>
+</tr>
+<tr class="even">
+<td>35</td>
+<td align="right">0</td>
+<td align="right">0.7081435</td>
+<td align="right">0.999</td>
+<td align="right">1.000</td>
+<td align="right">0</td>
+<td align="left">MT-CO2</td>
+</tr>
+<tr class="odd">
+<td>279</td>
+<td align="right">0</td>
+<td align="right">0.7030135</td>
+<td align="right">0.211</td>
+<td align="right">0.024</td>
+<td align="right">0</td>
+<td align="left">LPL</td>
+</tr>
+<tr class="even">
+<td>36</td>
+<td align="right">0</td>
+<td align="right">0.6948749</td>
+<td align="right">0.509</td>
+<td align="right">0.072</td>
+<td align="right">0</td>
+<td align="left">AOC3</td>
+</tr>
+<tr class="odd">
+<td>37</td>
+<td align="right">0</td>
+<td align="right">0.6604334</td>
+<td align="right">0.921</td>
+<td align="right">0.663</td>
+<td align="right">0</td>
+<td align="left">SLC25A5</td>
+</tr>
+<tr class="even">
+<td>38</td>
+<td align="right">0</td>
+<td align="right">0.6533328</td>
+<td align="right">0.407</td>
+<td align="right">0.077</td>
+<td align="right">0</td>
+<td align="left">FAM213A</td>
+</tr>
+<tr class="odd">
+<td>39</td>
+<td align="right">0</td>
+<td align="right">0.6421343</td>
+<td align="right">0.766</td>
+<td align="right">0.377</td>
+<td align="right">0</td>
+<td align="left">CAV2</td>
+</tr>
+<tr class="even">
+<td>40</td>
+<td align="right">0</td>
+<td align="right">0.6316857</td>
+<td align="right">0.993</td>
+<td align="right">0.942</td>
+<td align="right">0</td>
+<td align="left">ALDOA</td>
+</tr>
+<tr class="odd">
+<td>41</td>
+<td align="right">0</td>
+<td align="right">0.6294591</td>
+<td align="right">0.796</td>
+<td align="right">0.474</td>
+<td align="right">0</td>
+<td align="left">MPC2</td>
+</tr>
+<tr class="even">
+<td>42</td>
+<td align="right">0</td>
+<td align="right">0.6270537</td>
+<td align="right">0.993</td>
+<td align="right">0.946</td>
+<td align="right">0</td>
+<td align="left">COX7A2</td>
+</tr>
+<tr class="odd">
+<td>253</td>
+<td align="right">0</td>
+<td align="right">0.6190016</td>
+<td align="right">0.257</td>
+<td align="right">0.040</td>
+<td align="right">0</td>
+<td align="left">PCK1</td>
+</tr>
+<tr class="even">
+<td>43</td>
+<td align="right">0</td>
+<td align="right">0.6176262</td>
+<td align="right">0.995</td>
+<td align="right">0.937</td>
+<td align="right">0</td>
+<td align="left">PRDX6</td>
+</tr>
+<tr class="odd">
+<td>44</td>
+<td align="right">0</td>
+<td align="right">0.6120592</td>
+<td align="right">0.949</td>
+<td align="right">0.756</td>
+<td align="right">0</td>
+<td align="left">COX8A</td>
+</tr>
+<tr class="even">
+<td>45</td>
+<td align="right">0</td>
+<td align="right">0.6107311</td>
+<td align="right">0.969</td>
+<td align="right">0.819</td>
+<td align="right">0</td>
+<td align="left">ATP5G3</td>
+</tr>
+<tr class="odd">
+<td>46</td>
+<td align="right">0</td>
+<td align="right">0.6091304</td>
+<td align="right">0.934</td>
+<td align="right">0.661</td>
+<td align="right">0</td>
+<td align="left">COL4A1</td>
+</tr>
+<tr class="even">
+<td>47</td>
+<td align="right">0</td>
+<td align="right">0.6052668</td>
+<td align="right">0.859</td>
+<td align="right">0.520</td>
+<td align="right">0</td>
+<td align="left">TIMM8B</td>
+</tr>
+<tr class="odd">
+<td>48</td>
+<td align="right">0</td>
+<td align="right">0.6034987</td>
+<td align="right">0.441</td>
+<td align="right">0.064</td>
+<td align="right">0</td>
+<td align="left">ACSL5</td>
+</tr>
+<tr class="even">
+<td>49</td>
+<td align="right">0</td>
+<td align="right">0.6011568</td>
+<td align="right">0.994</td>
+<td align="right">0.939</td>
+<td align="right">0</td>
+<td align="left">UQCRQ</td>
+</tr>
+<tr class="odd">
+<td>50</td>
+<td align="right">0</td>
+<td align="right">0.6008086</td>
+<td align="right">0.995</td>
+<td align="right">0.986</td>
+<td align="right">0</td>
+<td align="left">PTMA</td>
+</tr>
+<tr class="even">
+<td>51</td>
+<td align="right">0</td>
+<td align="right">0.5996341</td>
+<td align="right">0.881</td>
+<td align="right">0.560</td>
+<td align="right">0</td>
+<td align="left">ATP5B</td>
+</tr>
+<tr class="odd">
+<td>52</td>
+<td align="right">0</td>
+<td align="right">0.5967354</td>
+<td align="right">0.582</td>
+<td align="right">0.297</td>
+<td align="right">0</td>
+<td align="left">FDPS</td>
+</tr>
+<tr class="even">
+<td>53</td>
+<td align="right">0</td>
+<td align="right">0.5899964</td>
+<td align="right">0.847</td>
+<td align="right">0.479</td>
+<td align="right">0</td>
+<td align="left">MDH1</td>
+</tr>
+<tr class="odd">
+<td>54</td>
+<td align="right">0</td>
+<td align="right">0.5891652</td>
+<td align="right">0.466</td>
+<td align="right">0.066</td>
+<td align="right">0</td>
+<td align="left">AQP7</td>
+</tr>
+<tr class="even">
+<td>55</td>
+<td align="right">0</td>
+<td align="right">0.5844586</td>
+<td align="right">0.942</td>
+<td align="right">0.718</td>
+<td align="right">0</td>
+<td align="left">MRPL41</td>
+</tr>
+<tr class="odd">
+<td>56</td>
+<td align="right">0</td>
+<td align="right">0.5776642</td>
+<td align="right">0.350</td>
+<td align="right">0.034</td>
+<td align="right">0</td>
+<td align="left">PRKAR2B</td>
+</tr>
+<tr class="even">
+<td>57</td>
+<td align="right">0</td>
+<td align="right">0.5753469</td>
+<td align="right">0.967</td>
+<td align="right">0.834</td>
+<td align="right">0</td>
+<td align="left">ATP5J</td>
+</tr>
+<tr class="odd">
+<td>58</td>
+<td align="right">0</td>
+<td align="right">0.5748667</td>
+<td align="right">0.991</td>
+<td align="right">0.932</td>
+<td align="right">0</td>
+<td align="left">COX5B</td>
+</tr>
+<tr class="even">
+<td>59</td>
+<td align="right">0</td>
+<td align="right">0.5678075</td>
+<td align="right">0.397</td>
+<td align="right">0.059</td>
+<td align="right">0</td>
+<td align="left">LGALS12</td>
+</tr>
+<tr class="odd">
+<td>60</td>
+<td align="right">0</td>
+<td align="right">0.5672789</td>
+<td align="right">0.967</td>
+<td align="right">0.842</td>
+<td align="right">0</td>
+<td align="left">UQCR10</td>
+</tr>
+<tr class="even">
+<td>61</td>
+<td align="right">0</td>
+<td align="right">0.5649240</td>
+<td align="right">0.986</td>
+<td align="right">0.924</td>
+<td align="right">0</td>
+<td align="left">UQCRH</td>
+</tr>
+<tr class="odd">
+<td>62</td>
+<td align="right">0</td>
+<td align="right">0.5648477</td>
+<td align="right">0.779</td>
+<td align="right">0.389</td>
+<td align="right">0</td>
+<td align="left">ACADVL</td>
+</tr>
+<tr class="even">
+<td>63</td>
+<td align="right">0</td>
+<td align="right">0.5645716</td>
+<td align="right">0.815</td>
+<td align="right">0.428</td>
+<td align="right">0</td>
+<td align="left">CYC1</td>
+</tr>
+<tr class="odd">
+<td>64</td>
+<td align="right">0</td>
+<td align="right">0.5564133</td>
+<td align="right">0.932</td>
+<td align="right">0.709</td>
+<td align="right">0</td>
+<td align="left">DDT</td>
+</tr>
+<tr class="even">
+<td>65</td>
+<td align="right">0</td>
+<td align="right">0.5562388</td>
+<td align="right">0.538</td>
+<td align="right">0.135</td>
+<td align="right">0</td>
+<td align="left">VKORC1L1</td>
+</tr>
+<tr class="odd">
+<td>66</td>
+<td align="right">0</td>
+<td align="right">0.5543867</td>
+<td align="right">0.949</td>
+<td align="right">0.700</td>
+<td align="right">0</td>
+<td align="left">ETFB</td>
+</tr>
+<tr class="even">
+<td>67</td>
+<td align="right">0</td>
+<td align="right">0.5541594</td>
+<td align="right">0.881</td>
+<td align="right">0.598</td>
+<td align="right">0</td>
+<td align="left">COX5A</td>
+</tr>
+<tr class="odd">
+<td>68</td>
+<td align="right">0</td>
+<td align="right">0.5497026</td>
+<td align="right">0.313</td>
+<td align="right">0.037</td>
+<td align="right">0</td>
+<td align="left">THRSP</td>
+</tr>
+<tr class="even">
+<td>69</td>
+<td align="right">0</td>
+<td align="right">0.5476794</td>
+<td align="right">0.773</td>
+<td align="right">0.352</td>
+<td align="right">0</td>
+<td align="left">NME1</td>
+</tr>
+<tr class="odd">
+<td>70</td>
+<td align="right">0</td>
+<td align="right">0.5371121</td>
+<td align="right">0.925</td>
+<td align="right">0.684</td>
+<td align="right">0</td>
+<td align="left">NDUFC2</td>
+</tr>
+<tr class="even">
+<td>71</td>
+<td align="right">0</td>
+<td align="right">0.5361255</td>
+<td align="right">0.672</td>
+<td align="right">0.243</td>
+<td align="right">0</td>
+<td align="left">SHC1</td>
+</tr>
+<tr class="odd">
+<td>72</td>
+<td align="right">0</td>
+<td align="right">0.5346643</td>
+<td align="right">0.609</td>
+<td align="right">0.204</td>
+<td align="right">0</td>
+<td align="left">ACO2</td>
+</tr>
+<tr class="even">
+<td>73</td>
+<td align="right">0</td>
+<td align="right">0.5278472</td>
+<td align="right">0.961</td>
+<td align="right">0.814</td>
+<td align="right">0</td>
+<td align="left">MGST3</td>
+</tr>
+<tr class="odd">
+<td>74</td>
+<td align="right">0</td>
+<td align="right">0.5232081</td>
+<td align="right">0.881</td>
+<td align="right">0.557</td>
+<td align="right">0</td>
+<td align="left">COL4A2</td>
+</tr>
+<tr class="even">
+<td>75</td>
+<td align="right">0</td>
+<td align="right">0.5228482</td>
+<td align="right">0.491</td>
+<td align="right">0.093</td>
+<td align="right">0</td>
+<td align="left">FNDC4</td>
+</tr>
+<tr class="odd">
+<td>76</td>
+<td align="right">0</td>
+<td align="right">0.5220889</td>
+<td align="right">0.856</td>
+<td align="right">0.570</td>
+<td align="right">0</td>
+<td align="left">PRDX2</td>
+</tr>
+<tr class="even">
+<td>77</td>
+<td align="right">0</td>
+<td align="right">0.5181163</td>
+<td align="right">0.472</td>
+<td align="right">0.123</td>
+<td align="right">0</td>
+<td align="left">HADH</td>
+</tr>
+<tr class="odd">
+<td>78</td>
+<td align="right">0</td>
+<td align="right">0.5152906</td>
+<td align="right">0.903</td>
+<td align="right">0.618</td>
+<td align="right">0</td>
+<td align="left">DCXR</td>
+</tr>
+<tr class="even">
+<td>79</td>
+<td align="right">0</td>
+<td align="right">0.5029292</td>
+<td align="right">0.361</td>
+<td align="right">0.092</td>
+<td align="right">0</td>
+<td align="left">MVD</td>
+</tr>
+<tr class="odd">
+<td>247</td>
+<td align="right">0</td>
+<td align="right">0.5026573</td>
+<td align="right">0.768</td>
+<td align="right">0.532</td>
+<td align="right">0</td>
+<td align="left">STOM</td>
+</tr>
+<tr class="even">
+<td>80</td>
+<td align="right">0</td>
+<td align="right">0.5014454</td>
+<td align="right">0.455</td>
+<td align="right">0.083</td>
+<td align="right">0</td>
+<td align="left">HK2</td>
+</tr>
+<tr class="odd">
+<td>81</td>
+<td align="right">0</td>
+<td align="right">0.5009651</td>
+<td align="right">0.894</td>
+<td align="right">0.568</td>
+<td align="right">0</td>
+<td align="left">ENO1</td>
+</tr>
+<tr class="even">
+<td>82</td>
+<td align="right">0</td>
+<td align="right">0.4946480</td>
+<td align="right">0.448</td>
+<td align="right">0.070</td>
+<td align="right">0</td>
+<td align="left">ALDH1L1</td>
+</tr>
+<tr class="odd">
+<td>83</td>
+<td align="right">0</td>
+<td align="right">0.4938111</td>
+<td align="right">0.674</td>
+<td align="right">0.277</td>
+<td align="right">0</td>
+<td align="left">MRPL12</td>
+</tr>
+<tr class="even">
+<td>84</td>
+<td align="right">0</td>
+<td align="right">0.4926468</td>
+<td align="right">0.537</td>
+<td align="right">0.168</td>
+<td align="right">0</td>
+<td align="left">CS</td>
+</tr>
+<tr class="odd">
+<td>85</td>
+<td align="right">0</td>
+<td align="right">0.4918045</td>
+<td align="right">0.773</td>
+<td align="right">0.423</td>
+<td align="right">0</td>
+<td align="left">YWHAG</td>
+</tr>
+<tr class="even">
+<td>86</td>
+<td align="right">0</td>
+<td align="right">0.4911254</td>
+<td align="right">0.591</td>
+<td align="right">0.193</td>
+<td align="right">0</td>
+<td align="left">ISOC2</td>
+</tr>
+<tr class="odd">
+<td>87</td>
+<td align="right">0</td>
+<td align="right">0.4884373</td>
+<td align="right">0.831</td>
+<td align="right">0.573</td>
+<td align="right">0</td>
+<td align="left">RPL22L1</td>
+</tr>
+<tr class="even">
+<td>88</td>
+<td align="right">0</td>
+<td align="right">0.4881559</td>
+<td align="right">0.865</td>
+<td align="right">0.549</td>
+<td align="right">0</td>
+<td align="left">AKR1C2</td>
+</tr>
+<tr class="odd">
+<td>89</td>
+<td align="right">0</td>
+<td align="right">0.4870903</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+<td align="right">0</td>
+<td align="left">RPLP2</td>
+</tr>
+<tr class="even">
+<td>90</td>
+<td align="right">0</td>
+<td align="right">0.4870801</td>
+<td align="right">0.810</td>
+<td align="right">0.480</td>
+<td align="right">0</td>
+<td align="left">ELOVL5</td>
+</tr>
+<tr class="odd">
+<td>91</td>
+<td align="right">0</td>
+<td align="right">0.4839989</td>
+<td align="right">0.472</td>
+<td align="right">0.090</td>
+<td align="right">0</td>
+<td align="left">ITGA7</td>
+</tr>
+<tr class="even">
+<td>92</td>
+<td align="right">0</td>
+<td align="right">0.4790120</td>
+<td align="right">0.988</td>
+<td align="right">0.954</td>
+<td align="right">0</td>
+<td align="left">SLC25A6</td>
+</tr>
+<tr class="odd">
+<td>93</td>
+<td align="right">0</td>
+<td align="right">0.4766446</td>
+<td align="right">0.672</td>
+<td align="right">0.276</td>
+<td align="right">0</td>
+<td align="left">CSAD</td>
+</tr>
+<tr class="even">
+<td>94</td>
+<td align="right">0</td>
+<td align="right">0.4725353</td>
+<td align="right">0.749</td>
+<td align="right">0.343</td>
+<td align="right">0</td>
+<td align="left">MRPL23</td>
+</tr>
+<tr class="odd">
+<td>95</td>
+<td align="right">0</td>
+<td align="right">0.4724549</td>
+<td align="right">0.997</td>
+<td align="right">0.988</td>
+<td align="right">0</td>
+<td align="left">MT-ATP6</td>
+</tr>
+<tr class="even">
+<td>96</td>
+<td align="right">0</td>
+<td align="right">0.4658894</td>
+<td align="right">0.999</td>
+<td align="right">0.998</td>
+<td align="right">0</td>
+<td align="left">MT-ND4</td>
+</tr>
+<tr class="odd">
+<td>97</td>
+<td align="right">0</td>
+<td align="right">0.4657037</td>
+<td align="right">0.981</td>
+<td align="right">0.862</td>
+<td align="right">0</td>
+<td align="left">NDUFB2</td>
+</tr>
+<tr class="even">
+<td>252</td>
+<td align="right">0</td>
+<td align="right">0.4651636</td>
+<td align="right">0.341</td>
+<td align="right">0.071</td>
+<td align="right">0</td>
+<td align="left">HMGCS1</td>
+</tr>
+<tr class="odd">
+<td>98</td>
+<td align="right">0</td>
+<td align="right">0.4641587</td>
+<td align="right">0.690</td>
+<td align="right">0.324</td>
+<td align="right">0</td>
+<td align="left">ECHS1</td>
+</tr>
+<tr class="even">
+<td>99</td>
+<td align="right">0</td>
+<td align="right">0.4596779</td>
+<td align="right">0.807</td>
+<td align="right">0.453</td>
+<td align="right">0</td>
+<td align="left">BCAP31</td>
+</tr>
+<tr class="odd">
+<td>100</td>
+<td align="right">0</td>
+<td align="right">0.4572808</td>
+<td align="right">0.874</td>
+<td align="right">0.612</td>
+<td align="right">0</td>
+<td align="left">ATP5G1</td>
+</tr>
+<tr class="even">
+<td>101</td>
+<td align="right">0</td>
+<td align="right">0.4561524</td>
+<td align="right">0.834</td>
+<td align="right">0.489</td>
+<td align="right">0</td>
+<td align="left">GBE1</td>
+</tr>
+<tr class="odd">
+<td>102</td>
+<td align="right">0</td>
+<td align="right">0.4561170</td>
+<td align="right">0.962</td>
+<td align="right">0.810</td>
+<td align="right">0</td>
+<td align="left">RTN4</td>
+</tr>
+<tr class="even">
+<td>103</td>
+<td align="right">0</td>
+<td align="right">0.4534031</td>
+<td align="right">0.866</td>
+<td align="right">0.608</td>
+<td align="right">0</td>
+<td align="left">COX14</td>
+</tr>
+<tr class="odd">
+<td>104</td>
+<td align="right">0</td>
+<td align="right">0.4525655</td>
+<td align="right">0.819</td>
+<td align="right">0.501</td>
+<td align="right">0</td>
+<td align="left">NDUFA6</td>
+</tr>
+<tr class="even">
+<td>105</td>
+<td align="right">0</td>
+<td align="right">0.4521609</td>
+<td align="right">0.832</td>
+<td align="right">0.514</td>
+<td align="right">0</td>
+<td align="left">NDUFS8</td>
+</tr>
+<tr class="odd">
+<td>106</td>
+<td align="right">0</td>
+<td align="right">0.4497413</td>
+<td align="right">0.739</td>
+<td align="right">0.392</td>
+<td align="right">0</td>
+<td align="left">RHOB</td>
+</tr>
+<tr class="even">
+<td>107</td>
+<td align="right">0</td>
+<td align="right">0.4479602</td>
+<td align="right">0.507</td>
+<td align="right">0.180</td>
+<td align="right">0</td>
+<td align="left">PDXK</td>
+</tr>
+<tr class="odd">
+<td>324</td>
+<td align="right">0</td>
+<td align="right">0.4477185</td>
+<td align="right">0.283</td>
+<td align="right">0.100</td>
+<td align="right">0</td>
+<td align="left">HP</td>
+</tr>
+<tr class="even">
+<td>108</td>
+<td align="right">0</td>
+<td align="right">0.4469896</td>
+<td align="right">0.699</td>
+<td align="right">0.320</td>
+<td align="right">0</td>
+<td align="left">MTCH2</td>
+</tr>
+<tr class="odd">
+<td>109</td>
+<td align="right">0</td>
+<td align="right">0.4462437</td>
+<td align="right">0.858</td>
+<td align="right">0.583</td>
+<td align="right">0</td>
+<td align="left">UQCRFS1</td>
+</tr>
+<tr class="even">
+<td>110</td>
+<td align="right">0</td>
+<td align="right">0.4434685</td>
+<td align="right">0.582</td>
+<td align="right">0.220</td>
+<td align="right">0</td>
+<td align="left">PPP1R14B</td>
+</tr>
+<tr class="odd">
+<td>111</td>
+<td align="right">0</td>
+<td align="right">0.4432958</td>
+<td align="right">0.611</td>
+<td align="right">0.270</td>
+<td align="right">0</td>
+<td align="left">TSKU</td>
+</tr>
+<tr class="even">
+<td>112</td>
+<td align="right">0</td>
+<td align="right">0.4430642</td>
+<td align="right">0.944</td>
+<td align="right">0.805</td>
+<td align="right">0</td>
+<td align="left">ATP5D</td>
+</tr>
+<tr class="odd">
+<td>301</td>
+<td align="right">0</td>
+<td align="right">0.4422965</td>
+<td align="right">0.319</td>
+<td align="right">0.127</td>
+<td align="right">0</td>
+<td align="left">CHI3L2</td>
+</tr>
+<tr class="even">
+<td>268</td>
+<td align="right">0</td>
+<td align="right">0.4420577</td>
+<td align="right">0.306</td>
+<td align="right">0.058</td>
+<td align="right">0</td>
+<td align="left">ACSS2</td>
+</tr>
+<tr class="odd">
+<td>113</td>
+<td align="right">0</td>
+<td align="right">0.4419751</td>
+<td align="right">0.861</td>
+<td align="right">0.597</td>
+<td align="right">0</td>
+<td align="left">HSPE1</td>
+</tr>
+<tr class="even">
+<td>114</td>
+<td align="right">0</td>
+<td align="right">0.4368126</td>
+<td align="right">0.867</td>
+<td align="right">0.571</td>
+<td align="right">0</td>
+<td align="left">NDUFS6</td>
+</tr>
+<tr class="odd">
+<td>115</td>
+<td align="right">0</td>
+<td align="right">0.4326943</td>
+<td align="right">0.457</td>
+<td align="right">0.109</td>
+<td align="right">0</td>
+<td align="left">FAH</td>
+</tr>
+<tr class="even">
+<td>116</td>
+<td align="right">0</td>
+<td align="right">0.4302819</td>
+<td align="right">0.387</td>
+<td align="right">0.062</td>
+<td align="right">0</td>
+<td align="left">SREBF1</td>
+</tr>
+<tr class="odd">
+<td>117</td>
+<td align="right">0</td>
+<td align="right">0.4297691</td>
+<td align="right">0.531</td>
+<td align="right">0.166</td>
+<td align="right">0</td>
+<td align="left">FAM195A</td>
+</tr>
+<tr class="even">
+<td>269</td>
+<td align="right">0</td>
+<td align="right">0.4293498</td>
+<td align="right">0.944</td>
+<td align="right">0.774</td>
+<td align="right">0</td>
+<td align="left">APOE</td>
+</tr>
+<tr class="odd">
+<td>337</td>
+<td align="right">0</td>
+<td align="right">0.4287948</td>
+<td align="right">0.273</td>
+<td align="right">0.125</td>
+<td align="right">0</td>
+<td align="left">C11orf96</td>
+</tr>
+<tr class="even">
+<td>118</td>
+<td align="right">0</td>
+<td align="right">0.4246917</td>
+<td align="right">0.785</td>
+<td align="right">0.499</td>
+<td align="right">0</td>
+<td align="left">EIF5A</td>
+</tr>
+<tr class="odd">
+<td>119</td>
+<td align="right">0</td>
+<td align="right">0.4245221</td>
+<td align="right">0.904</td>
+<td align="right">0.652</td>
+<td align="right">0</td>
+<td align="left">TALDO1</td>
+</tr>
+<tr class="even">
+<td>120</td>
+<td align="right">0</td>
+<td align="right">0.4238569</td>
+<td align="right">0.898</td>
+<td align="right">0.670</td>
+<td align="right">0</td>
+<td align="left">TIMM13</td>
+</tr>
+<tr class="odd">
+<td>121</td>
+<td align="right">0</td>
+<td align="right">0.4231312</td>
+<td align="right">0.561</td>
+<td align="right">0.230</td>
+<td align="right">0</td>
+<td align="left">PEMT</td>
+</tr>
+<tr class="even">
+<td>122</td>
+<td align="right">0</td>
+<td align="right">0.4225094</td>
+<td align="right">0.518</td>
+<td align="right">0.167</td>
+<td align="right">0</td>
+<td align="left">AIFM2</td>
+</tr>
+<tr class="odd">
+<td>123</td>
+<td align="right">0</td>
+<td align="right">0.4210100</td>
+<td align="right">0.776</td>
+<td align="right">0.427</td>
+<td align="right">0</td>
+<td align="left">C1QBP</td>
+</tr>
+<tr class="even">
+<td>124</td>
+<td align="right">0</td>
+<td align="right">0.4208609</td>
+<td align="right">0.914</td>
+<td align="right">0.706</td>
+<td align="right">0</td>
+<td align="left">SLIRP</td>
+</tr>
+<tr class="odd">
+<td>125</td>
+<td align="right">0</td>
+<td align="right">0.4199032</td>
+<td align="right">0.618</td>
+<td align="right">0.290</td>
+<td align="right">0</td>
+<td align="left">SH3PXD2A</td>
+</tr>
+<tr class="even">
+<td>126</td>
+<td align="right">0</td>
+<td align="right">0.4144307</td>
+<td align="right">0.904</td>
+<td align="right">0.699</td>
+<td align="right">0</td>
+<td align="left">MT-ND5</td>
+</tr>
+<tr class="odd">
+<td>127</td>
+<td align="right">0</td>
+<td align="right">0.4129852</td>
+<td align="right">0.571</td>
+<td align="right">0.252</td>
+<td align="right">0</td>
+<td align="left">IDH1</td>
+</tr>
+<tr class="even">
+<td>128</td>
+<td align="right">0</td>
+<td align="right">0.4123038</td>
+<td align="right">0.999</td>
+<td align="right">0.993</td>
+<td align="right">0</td>
+<td align="left">MYL6</td>
+</tr>
+<tr class="odd">
+<td>129</td>
+<td align="right">0</td>
+<td align="right">0.4114366</td>
+<td align="right">0.999</td>
+<td align="right">1.000</td>
+<td align="right">0</td>
+<td align="left">MT-CO3</td>
+</tr>
+<tr class="even">
+<td>130</td>
+<td align="right">0</td>
+<td align="right">0.4104477</td>
+<td align="right">0.697</td>
+<td align="right">0.375</td>
+<td align="right">0</td>
+<td align="left">COX17</td>
+</tr>
+<tr class="odd">
+<td>131</td>
+<td align="right">0</td>
+<td align="right">0.4101654</td>
+<td align="right">0.492</td>
+<td align="right">0.128</td>
+<td align="right">0</td>
+<td align="left">CAMK1</td>
+</tr>
+<tr class="even">
+<td>132</td>
+<td align="right">0</td>
+<td align="right">0.4095750</td>
+<td align="right">0.974</td>
+<td align="right">0.893</td>
+<td align="right">0</td>
+<td align="left">UQCR11.1</td>
+</tr>
+<tr class="odd">
+<td>133</td>
+<td align="right">0</td>
+<td align="right">0.4092634</td>
+<td align="right">0.992</td>
+<td align="right">0.935</td>
+<td align="right">0</td>
+<td align="left">NDUFS5</td>
+</tr>
+<tr class="even">
+<td>134</td>
+<td align="right">0</td>
+<td align="right">0.4089046</td>
+<td align="right">0.410</td>
+<td align="right">0.095</td>
+<td align="right">0</td>
+<td align="left">ERV3-1</td>
+</tr>
+<tr class="odd">
+<td>135</td>
+<td align="right">0</td>
+<td align="right">0.4086221</td>
+<td align="right">0.963</td>
+<td align="right">0.801</td>
+<td align="right">0</td>
+<td align="left">ATP5J2</td>
+</tr>
+<tr class="even">
+<td>136</td>
+<td align="right">0</td>
+<td align="right">0.4079703</td>
+<td align="right">0.729</td>
+<td align="right">0.397</td>
+<td align="right">0</td>
+<td align="left">GCSH</td>
+</tr>
+<tr class="odd">
+<td>137</td>
+<td align="right">0</td>
+<td align="right">0.4071789</td>
+<td align="right">0.959</td>
+<td align="right">0.814</td>
+<td align="right">0</td>
+<td align="left">USMG5</td>
+</tr>
+<tr class="even">
+<td>138</td>
+<td align="right">0</td>
+<td align="right">0.4067898</td>
+<td align="right">0.405</td>
+<td align="right">0.067</td>
+<td align="right">0</td>
+<td align="left">MESP1</td>
+</tr>
+<tr class="odd">
+<td>139</td>
+<td align="right">0</td>
+<td align="right">0.4060720</td>
+<td align="right">0.879</td>
+<td align="right">0.627</td>
+<td align="right">0</td>
+<td align="left">AURKAIP1</td>
+</tr>
+<tr class="even">
+<td>277</td>
+<td align="right">0</td>
+<td align="right">0.4022523</td>
+<td align="right">0.320</td>
+<td align="right">0.081</td>
+<td align="right">0</td>
+<td align="left">NOTCH3</td>
+</tr>
+<tr class="odd">
+<td>140</td>
+<td align="right">0</td>
+<td align="right">0.3993649</td>
+<td align="right">0.826</td>
+<td align="right">0.518</td>
+<td align="right">0</td>
+<td align="left">NDUFA3</td>
+</tr>
+<tr class="even">
+<td>141</td>
+<td align="right">0</td>
+<td align="right">0.3968682</td>
+<td align="right">0.763</td>
+<td align="right">0.444</td>
+<td align="right">0</td>
+<td align="left">ASPH</td>
+</tr>
+<tr class="odd">
+<td>142</td>
+<td align="right">0</td>
+<td align="right">0.3944349</td>
+<td align="right">0.868</td>
+<td align="right">0.589</td>
+<td align="right">0</td>
+<td align="left">ECH1</td>
+</tr>
+<tr class="even">
+<td>143</td>
+<td align="right">0</td>
+<td align="right">0.3940340</td>
+<td align="right">0.515</td>
+<td align="right">0.171</td>
+<td align="right">0</td>
+<td align="left">ACO1</td>
+</tr>
+<tr class="odd">
+<td>144</td>
+<td align="right">0</td>
+<td align="right">0.3933739</td>
+<td align="right">0.827</td>
+<td align="right">0.552</td>
+<td align="right">0</td>
+<td align="left">NDUFAB1</td>
+</tr>
+<tr class="even">
+<td>145</td>
+<td align="right">0</td>
+<td align="right">0.3929025</td>
+<td align="right">0.442</td>
+<td align="right">0.154</td>
+<td align="right">0</td>
+<td align="left">IDI1</td>
+</tr>
+<tr class="odd">
+<td>318</td>
+<td align="right">0</td>
+<td align="right">0.3927756</td>
+<td align="right">0.723</td>
+<td align="right">0.416</td>
+<td align="right">0</td>
+<td align="left">RASD1</td>
+</tr>
+<tr class="even">
+<td>256</td>
+<td align="right">0</td>
+<td align="right">0.3917956</td>
+<td align="right">0.510</td>
+<td align="right">0.205</td>
+<td align="right">0</td>
+<td align="left">RDH5</td>
+</tr>
+<tr class="odd">
+<td>146</td>
+<td align="right">0</td>
+<td align="right">0.3916896</td>
+<td align="right">0.963</td>
+<td align="right">0.824</td>
+<td align="right">0</td>
+<td align="left">LDHA</td>
+</tr>
+<tr class="even">
+<td>147</td>
+<td align="right">0</td>
+<td align="right">0.3910632</td>
+<td align="right">0.473</td>
+<td align="right">0.254</td>
+<td align="right">0</td>
+<td align="left">CDKN2C</td>
+</tr>
+<tr class="odd">
+<td>148</td>
+<td align="right">0</td>
+<td align="right">0.3870365</td>
+<td align="right">0.723</td>
+<td align="right">0.379</td>
+<td align="right">0</td>
+<td align="left">HSPD1</td>
+</tr>
+<tr class="even">
+<td>149</td>
+<td align="right">0</td>
+<td align="right">0.3853895</td>
+<td align="right">0.399</td>
+<td align="right">0.104</td>
+<td align="right">0</td>
+<td align="left">RETSAT</td>
+</tr>
+<tr class="odd">
+<td>150</td>
+<td align="right">0</td>
+<td align="right">0.3836226</td>
+<td align="right">0.990</td>
+<td align="right">0.953</td>
+<td align="right">0</td>
+<td align="left">ATP5L</td>
+</tr>
+<tr class="even">
+<td>259</td>
+<td align="right">0</td>
+<td align="right">0.3799294</td>
+<td align="right">0.334</td>
+<td align="right">0.060</td>
+<td align="right">0</td>
+<td align="left">DLAT</td>
+</tr>
+<tr class="odd">
+<td>151</td>
+<td align="right">0</td>
+<td align="right">0.3788402</td>
+<td align="right">0.757</td>
+<td align="right">0.402</td>
+<td align="right">0</td>
+<td align="left">PHB</td>
+</tr>
+<tr class="even">
+<td>152</td>
+<td align="right">0</td>
+<td align="right">0.3765062</td>
+<td align="right">0.859</td>
+<td align="right">0.605</td>
+<td align="right">0</td>
+<td align="left">HSPA8</td>
+</tr>
+<tr class="odd">
+<td>244</td>
+<td align="right">0</td>
+<td align="right">0.3754890</td>
+<td align="right">0.378</td>
+<td align="right">0.049</td>
+<td align="right">0</td>
+<td align="left">CLMN</td>
+</tr>
+<tr class="even">
+<td>153</td>
+<td align="right">0</td>
+<td align="right">0.3743367</td>
+<td align="right">0.889</td>
+<td align="right">0.824</td>
+<td align="right">0</td>
+<td align="left">MTRNR2L8</td>
+</tr>
+<tr class="odd">
+<td>154</td>
+<td align="right">0</td>
+<td align="right">0.3740861</td>
+<td align="right">0.417</td>
+<td align="right">0.107</td>
+<td align="right">0</td>
+<td align="left">MMAB</td>
+</tr>
+<tr class="even">
+<td>295</td>
+<td align="right">0</td>
+<td align="right">0.3722141</td>
+<td align="right">0.286</td>
+<td align="right">0.066</td>
+<td align="right">0</td>
+<td align="left">HLA-DMA</td>
+</tr>
+<tr class="odd">
+<td>155</td>
+<td align="right">0</td>
+<td align="right">0.3717264</td>
+<td align="right">0.993</td>
+<td align="right">0.975</td>
+<td align="right">0</td>
+<td align="left">CAV1</td>
+</tr>
+<tr class="even">
+<td>156</td>
+<td align="right">0</td>
+<td align="right">0.3706229</td>
+<td align="right">0.991</td>
+<td align="right">0.954</td>
+<td align="right">0</td>
+<td align="left">COX6B1</td>
+</tr>
+<tr class="odd">
+<td>157</td>
+<td align="right">0</td>
+<td align="right">0.3699491</td>
+<td align="right">0.423</td>
+<td align="right">0.110</td>
+<td align="right">0</td>
+<td align="left">MRAS</td>
+</tr>
+<tr class="even">
+<td>158</td>
+<td align="right">0</td>
+<td align="right">0.3696316</td>
+<td align="right">0.926</td>
+<td align="right">0.733</td>
+<td align="right">0</td>
+<td align="left">NDUFB7</td>
+</tr>
+<tr class="odd">
+<td>292</td>
+<td align="right">0</td>
+<td align="right">0.3673746</td>
+<td align="right">0.316</td>
+<td align="right">0.040</td>
+<td align="right">0</td>
+<td align="left">MLXIPL</td>
+</tr>
+<tr class="even">
+<td>159</td>
+<td align="right">0</td>
+<td align="right">0.3653028</td>
+<td align="right">0.918</td>
+<td align="right">0.729</td>
+<td align="right">0</td>
+<td align="left">ATP5I</td>
+</tr>
+<tr class="odd">
+<td>299</td>
+<td align="right">0</td>
+<td align="right">0.3632776</td>
+<td align="right">0.388</td>
+<td align="right">0.159</td>
+<td align="right">0</td>
+<td align="left">TIMP4</td>
+</tr>
+<tr class="even">
+<td>160</td>
+<td align="right">0</td>
+<td align="right">0.3619079</td>
+<td align="right">0.914</td>
+<td align="right">0.718</td>
+<td align="right">0</td>
+<td align="left">COX6A1</td>
+</tr>
+<tr class="odd">
+<td>296</td>
+<td align="right">0</td>
+<td align="right">0.3615633</td>
+<td align="right">0.390</td>
+<td align="right">0.129</td>
+<td align="right">0</td>
+<td align="left">MMD</td>
+</tr>
+<tr class="even">
+<td>161</td>
+<td align="right">0</td>
+<td align="right">0.3609143</td>
+<td align="right">0.999</td>
+<td align="right">0.997</td>
+<td align="right">0</td>
+<td align="left">MGST1</td>
+</tr>
+<tr class="odd">
+<td>249</td>
+<td align="right">0</td>
+<td align="right">0.3591204</td>
+<td align="right">0.411</td>
+<td align="right">0.101</td>
+<td align="right">0</td>
+<td align="left">MKNK2</td>
+</tr>
+<tr class="even">
+<td>293</td>
+<td align="right">0</td>
+<td align="right">0.3576535</td>
+<td align="right">0.326</td>
+<td align="right">0.087</td>
+<td align="right">0</td>
+<td align="left">MSMO1</td>
+</tr>
+<tr class="odd">
+<td>162</td>
+<td align="right">0</td>
+<td align="right">0.3569965</td>
+<td align="right">0.477</td>
+<td align="right">0.144</td>
+<td align="right">0</td>
+<td align="left">NR1H3</td>
+</tr>
+<tr class="even">
+<td>163</td>
+<td align="right">0</td>
+<td align="right">0.3568609</td>
+<td align="right">0.631</td>
+<td align="right">0.303</td>
+<td align="right">0</td>
+<td align="left">BOLA3</td>
+</tr>
+<tr class="odd">
+<td>164</td>
+<td align="right">0</td>
+<td align="right">0.3557991</td>
+<td align="right">0.992</td>
+<td align="right">0.925</td>
+<td align="right">0</td>
+<td align="left">SAT1</td>
+</tr>
+<tr class="even">
+<td>246</td>
+<td align="right">0</td>
+<td align="right">0.3549774</td>
+<td align="right">0.478</td>
+<td align="right">0.149</td>
+<td align="right">0</td>
+<td align="left">GPC1</td>
+</tr>
+<tr class="odd">
+<td>289</td>
+<td align="right">0</td>
+<td align="right">0.3541996</td>
+<td align="right">0.489</td>
+<td align="right">0.178</td>
+<td align="right">0</td>
+<td align="left">MME</td>
+</tr>
+<tr class="even">
+<td>285</td>
+<td align="right">0</td>
+<td align="right">0.3540137</td>
+<td align="right">0.420</td>
+<td align="right">0.149</td>
+<td align="right">0</td>
+<td align="left">HILPDA</td>
+</tr>
+<tr class="odd">
+<td>165</td>
+<td align="right">0</td>
+<td align="right">0.3521484</td>
+<td align="right">0.899</td>
+<td align="right">0.659</td>
+<td align="right">0</td>
+<td align="left">RAN</td>
+</tr>
+<tr class="even">
+<td>166</td>
+<td align="right">0</td>
+<td align="right">0.3516043</td>
+<td align="right">0.631</td>
+<td align="right">0.286</td>
+<td align="right">0</td>
+<td align="left">UROS</td>
+</tr>
+<tr class="odd">
+<td>167</td>
+<td align="right">0</td>
+<td align="right">0.3499098</td>
+<td align="right">0.713</td>
+<td align="right">0.385</td>
+<td align="right">0</td>
+<td align="left">G6PD</td>
+</tr>
+<tr class="even">
+<td>168</td>
+<td align="right">0</td>
+<td align="right">0.3484041</td>
+<td align="right">0.545</td>
+<td align="right">0.222</td>
+<td align="right">0</td>
+<td align="left">C20orf27</td>
+</tr>
+<tr class="odd">
+<td>169</td>
+<td align="right">0</td>
+<td align="right">0.3470887</td>
+<td align="right">0.861</td>
+<td align="right">0.608</td>
+<td align="right">0</td>
+<td align="left">PRELID1</td>
+</tr>
+<tr class="even">
+<td>306</td>
+<td align="right">0</td>
+<td align="right">0.3466449</td>
+<td align="right">0.268</td>
+<td align="right">0.020</td>
+<td align="right">0</td>
+<td align="left">CEBPA</td>
+</tr>
+<tr class="odd">
+<td>170</td>
+<td align="right">0</td>
+<td align="right">0.3439968</td>
+<td align="right">0.877</td>
+<td align="right">0.634</td>
+<td align="right">0</td>
+<td align="left">HSP90AA1</td>
+</tr>
+<tr class="even">
+<td>171</td>
+<td align="right">0</td>
+<td align="right">0.3428421</td>
+<td align="right">0.659</td>
+<td align="right">0.330</td>
+<td align="right">0</td>
+<td align="left">RTN3</td>
+</tr>
+<tr class="odd">
+<td>250</td>
+<td align="right">0</td>
+<td align="right">0.3404516</td>
+<td align="right">0.479</td>
+<td align="right">0.183</td>
+<td align="right">0</td>
+<td align="left">HSD17B12</td>
+</tr>
+<tr class="even">
+<td>172</td>
+<td align="right">0</td>
+<td align="right">0.3399934</td>
+<td align="right">0.689</td>
+<td align="right">0.358</td>
+<td align="right">0</td>
+<td align="left">CISD3</td>
+</tr>
+<tr class="odd">
+<td>345</td>
+<td align="right">0</td>
+<td align="right">0.3397997</td>
+<td align="right">0.377</td>
+<td align="right">0.150</td>
+<td align="right">0</td>
+<td align="left">IL17RE</td>
+</tr>
+<tr class="even">
+<td>173</td>
+<td align="right">0</td>
+<td align="right">0.3394396</td>
+<td align="right">0.743</td>
+<td align="right">0.402</td>
+<td align="right">0</td>
+<td align="left">HSD17B10</td>
+</tr>
+<tr class="odd">
+<td>300</td>
+<td align="right">0</td>
+<td align="right">0.3390659</td>
+<td align="right">0.302</td>
+<td align="right">0.085</td>
+<td align="right">0</td>
+<td align="left">ME1</td>
+</tr>
+<tr class="even">
+<td>174</td>
+<td align="right">0</td>
+<td align="right">0.3387767</td>
+<td align="right">0.808</td>
+<td align="right">0.494</td>
+<td align="right">0</td>
+<td align="left">NHP2</td>
+</tr>
+<tr class="odd">
+<td>262</td>
+<td align="right">0</td>
+<td align="right">0.3383261</td>
+<td align="right">0.691</td>
+<td align="right">0.455</td>
+<td align="right">0</td>
+<td align="left">FHL1</td>
+</tr>
+<tr class="even">
+<td>175</td>
+<td align="right">0</td>
+<td align="right">0.3369407</td>
+<td align="right">0.844</td>
+<td align="right">0.684</td>
+<td align="right">0</td>
+<td align="left">COX7A1</td>
+</tr>
+<tr class="odd">
+<td>176</td>
+<td align="right">0</td>
+<td align="right">0.3358994</td>
+<td align="right">0.712</td>
+<td align="right">0.462</td>
+<td align="right">0</td>
+<td align="left">YWHAZ</td>
+</tr>
+<tr class="even">
+<td>177</td>
+<td align="right">0</td>
+<td align="right">0.3355317</td>
+<td align="right">0.864</td>
+<td align="right">0.602</td>
+<td align="right">0</td>
+<td align="left">C19orf70</td>
+</tr>
+<tr class="odd">
+<td>178</td>
+<td align="right">0</td>
+<td align="right">0.3349688</td>
+<td align="right">0.951</td>
+<td align="right">0.799</td>
+<td align="right">0</td>
+<td align="left">PSMA7</td>
+</tr>
+<tr class="even">
+<td>281</td>
+<td align="right">0</td>
+<td align="right">0.3342182</td>
+<td align="right">0.444</td>
+<td align="right">0.153</td>
+<td align="right">0</td>
+<td align="left">DHCR24</td>
+</tr>
+<tr class="odd">
+<td>179</td>
+<td align="right">0</td>
+<td align="right">0.3333487</td>
+<td align="right">0.993</td>
+<td align="right">0.985</td>
+<td align="right">0</td>
+<td align="left">ATP5E</td>
+</tr>
+<tr class="even">
+<td>287</td>
+<td align="right">0</td>
+<td align="right">0.3322712</td>
+<td align="right">0.488</td>
+<td align="right">0.214</td>
+<td align="right">0</td>
+<td align="left">TOB1</td>
+</tr>
+<tr class="odd">
+<td>180</td>
+<td align="right">0</td>
+<td align="right">0.3321904</td>
+<td align="right">0.647</td>
+<td align="right">0.297</td>
+<td align="right">0</td>
+<td align="left">CAT</td>
+</tr>
+<tr class="even">
+<td>258</td>
+<td align="right">0</td>
+<td align="right">0.3311433</td>
+<td align="right">0.447</td>
+<td align="right">0.136</td>
+<td align="right">0</td>
+<td align="left">SLC25A4</td>
+</tr>
+<tr class="odd">
+<td>181</td>
+<td align="right">0</td>
+<td align="right">0.3283443</td>
+<td align="right">0.999</td>
+<td align="right">1.000</td>
+<td align="right">0</td>
+<td align="left">MT-CO1</td>
+</tr>
+<tr class="even">
+<td>182</td>
+<td align="right">0</td>
+<td align="right">0.3282112</td>
+<td align="right">0.921</td>
+<td align="right">0.749</td>
+<td align="right">0</td>
+<td align="left">ATP5O</td>
+</tr>
+<tr class="odd">
+<td>183</td>
+<td align="right">0</td>
+<td align="right">0.3281871</td>
+<td align="right">0.876</td>
+<td align="right">0.642</td>
+<td align="right">0</td>
+<td align="left">AKR1C3</td>
+</tr>
+<tr class="even">
+<td>184</td>
+<td align="right">0</td>
+<td align="right">0.3277222</td>
+<td align="right">0.789</td>
+<td align="right">0.497</td>
+<td align="right">0</td>
+<td align="left">LINC00116</td>
+</tr>
+<tr class="odd">
+<td>185</td>
+<td align="right">0</td>
+<td align="right">0.3266503</td>
+<td align="right">0.666</td>
+<td align="right">0.368</td>
+<td align="right">0</td>
+<td align="left">TECR</td>
+</tr>
+<tr class="even">
+<td>186</td>
+<td align="right">0</td>
+<td align="right">0.3259517</td>
+<td align="right">0.996</td>
+<td align="right">0.977</td>
+<td align="right">0</td>
+<td align="left">COX7C</td>
+</tr>
+<tr class="odd">
+<td>187</td>
+<td align="right">0</td>
+<td align="right">0.3248240</td>
+<td align="right">0.600</td>
+<td align="right">0.274</td>
+<td align="right">0</td>
+<td align="left">UQCRC1</td>
+</tr>
+<tr class="even">
+<td>188</td>
+<td align="right">0</td>
+<td align="right">0.3226131</td>
+<td align="right">0.474</td>
+<td align="right">0.138</td>
+<td align="right">0</td>
+<td align="left">PPARG</td>
+</tr>
+<tr class="odd">
+<td>189</td>
+<td align="right">0</td>
+<td align="right">0.3205082</td>
+<td align="right">0.804</td>
+<td align="right">0.517</td>
+<td align="right">0</td>
+<td align="left">NDUFS7</td>
+</tr>
+<tr class="even">
+<td>257</td>
+<td align="right">0</td>
+<td align="right">0.3195467</td>
+<td align="right">0.590</td>
+<td align="right">0.266</td>
+<td align="right">0</td>
+<td align="left">EIF4EBP1</td>
+</tr>
+<tr class="odd">
+<td>190</td>
+<td align="right">0</td>
+<td align="right">0.3193664</td>
+<td align="right">0.989</td>
+<td align="right">0.945</td>
+<td align="right">0</td>
+<td align="left">NDUFA4</td>
+</tr>
+<tr class="even">
+<td>275</td>
+<td align="right">0</td>
+<td align="right">0.3193467</td>
+<td align="right">0.415</td>
+<td align="right">0.149</td>
+<td align="right">0</td>
+<td align="left">LETM1</td>
+</tr>
+<tr class="odd">
+<td>191</td>
+<td align="right">0</td>
+<td align="right">0.3179402</td>
+<td align="right">0.941</td>
+<td align="right">0.774</td>
+<td align="right">0</td>
+<td align="left">TPI1</td>
+</tr>
+<tr class="even">
+<td>390</td>
+<td align="right">0</td>
+<td align="right">0.3174487</td>
+<td align="right">0.491</td>
+<td align="right">0.305</td>
+<td align="right">0</td>
+<td align="left">HSD11B1</td>
+</tr>
+<tr class="odd">
+<td>192</td>
+<td align="right">0</td>
+<td align="right">0.3169042</td>
+<td align="right">0.999</td>
+<td align="right">1.000</td>
+<td align="right">0</td>
+<td align="left">LGALS1</td>
+</tr>
+<tr class="even">
+<td>193</td>
+<td align="right">0</td>
+<td align="right">0.3164739</td>
+<td align="right">0.941</td>
+<td align="right">0.785</td>
+<td align="right">0</td>
+<td align="left">NDUFA1</td>
+</tr>
+<tr class="odd">
+<td>194</td>
+<td align="right">0</td>
+<td align="right">0.3155912</td>
+<td align="right">0.645</td>
+<td align="right">0.332</td>
+<td align="right">0</td>
+<td align="left">MRPS12</td>
+</tr>
+<tr class="even">
+<td>245</td>
+<td align="right">0</td>
+<td align="right">0.3152373</td>
+<td align="right">0.544</td>
+<td align="right">0.239</td>
+<td align="right">0</td>
+<td align="left">ACAA2</td>
+</tr>
+<tr class="odd">
+<td>278</td>
+<td align="right">0</td>
+<td align="right">0.3143023</td>
+<td align="right">0.478</td>
+<td align="right">0.213</td>
+<td align="right">0</td>
+<td align="left">GLRX5</td>
+</tr>
+<tr class="even">
+<td>195</td>
+<td align="right">0</td>
+<td align="right">0.3140140</td>
+<td align="right">0.889</td>
+<td align="right">0.699</td>
+<td align="right">0</td>
+<td align="left">C17orf89</td>
+</tr>
+<tr class="odd">
+<td>307</td>
+<td align="right">0</td>
+<td align="right">0.3118525</td>
+<td align="right">0.665</td>
+<td align="right">0.512</td>
+<td align="right">0</td>
+<td align="left">MTRNR2L10</td>
+</tr>
+<tr class="even">
+<td>196</td>
+<td align="right">0</td>
+<td align="right">0.3106364</td>
+<td align="right">0.781</td>
+<td align="right">0.481</td>
+<td align="right">0</td>
+<td align="left">MDH2</td>
+</tr>
+<tr class="odd">
+<td>197</td>
+<td align="right">0</td>
+<td align="right">0.3098151</td>
+<td align="right">0.682</td>
+<td align="right">0.351</td>
+<td align="right">0</td>
+<td align="left">HADHB</td>
+</tr>
+<tr class="even">
+<td>198</td>
+<td align="right">0</td>
+<td align="right">0.3095168</td>
+<td align="right">0.854</td>
+<td align="right">0.607</td>
+<td align="right">0</td>
+<td align="left">MINOS1</td>
+</tr>
+<tr class="odd">
+<td>199</td>
+<td align="right">0</td>
+<td align="right">0.3081449</td>
+<td align="right">0.757</td>
+<td align="right">0.459</td>
+<td align="right">0</td>
+<td align="left">MLF2</td>
+</tr>
+<tr class="even">
+<td>200</td>
+<td align="right">0</td>
+<td align="right">0.3076045</td>
+<td align="right">0.999</td>
+<td align="right">0.998</td>
+<td align="right">0</td>
+<td align="left">MT-CYB</td>
+</tr>
+<tr class="odd">
+<td>201</td>
+<td align="right">0</td>
+<td align="right">0.3075390</td>
+<td align="right">0.801</td>
+<td align="right">0.531</td>
+<td align="right">0</td>
+<td align="left">NME4</td>
+</tr>
+<tr class="even">
+<td>202</td>
+<td align="right">0</td>
+<td align="right">0.3073266</td>
+<td align="right">0.966</td>
+<td align="right">0.858</td>
+<td align="right">0</td>
+<td align="left">DYNLL1</td>
+</tr>
+<tr class="odd">
+<td>203</td>
+<td align="right">0</td>
+<td align="right">0.3050834</td>
+<td align="right">0.633</td>
+<td align="right">0.335</td>
+<td align="right">0</td>
+<td align="left">DECR1</td>
+</tr>
+<tr class="even">
+<td>204</td>
+<td align="right">0</td>
+<td align="right">0.3048266</td>
+<td align="right">0.732</td>
+<td align="right">0.444</td>
+<td align="right">0</td>
+<td align="left">CALR</td>
+</tr>
+<tr class="odd">
+<td>205</td>
+<td align="right">0</td>
+<td align="right">0.3035234</td>
+<td align="right">0.935</td>
+<td align="right">0.773</td>
+<td align="right">0</td>
+<td align="left">FKBP1A</td>
+</tr>
+<tr class="even">
+<td>206</td>
+<td align="right">0</td>
+<td align="right">0.3028480</td>
+<td align="right">0.767</td>
+<td align="right">0.465</td>
+<td align="right">0</td>
+<td align="left">VDAC1</td>
+</tr>
+<tr class="odd">
+<td>276</td>
+<td align="right">0</td>
+<td align="right">0.3027719</td>
+<td align="right">0.447</td>
+<td align="right">0.163</td>
+<td align="right">0</td>
+<td align="left">FZD4</td>
+</tr>
+<tr class="even">
+<td>330</td>
+<td align="right">0</td>
+<td align="right">0.3017737</td>
+<td align="right">0.260</td>
+<td align="right">0.011</td>
+<td align="right">0</td>
+<td align="left">PDE3B</td>
+</tr>
+<tr class="odd">
+<td>305</td>
+<td align="right">0</td>
+<td align="right">0.3002897</td>
+<td align="right">0.368</td>
+<td align="right">0.123</td>
+<td align="right">0</td>
+<td align="left">ACAT2</td>
+</tr>
+<tr class="even">
+<td>327</td>
+<td align="right">0</td>
+<td align="right">0.3000552</td>
+<td align="right">0.230</td>
+<td align="right">0.012</td>
+<td align="right">0</td>
+<td align="left">EPHA1-AS1</td>
+</tr>
+<tr class="odd">
+<td>207</td>
+<td align="right">0</td>
+<td align="right">0.2992634</td>
+<td align="right">0.768</td>
+<td align="right">0.502</td>
+<td align="right">0</td>
+<td align="left">PGD</td>
+</tr>
+<tr class="even">
+<td>280</td>
+<td align="right">0</td>
+<td align="right">0.2988513</td>
+<td align="right">0.441</td>
+<td align="right">0.153</td>
+<td align="right">0</td>
+<td align="left">IMPAD1</td>
+</tr>
+<tr class="odd">
+<td>208</td>
+<td align="right">0</td>
+<td align="right">0.2966906</td>
+<td align="right">0.894</td>
+<td align="right">0.680</td>
+<td align="right">0</td>
+<td align="left">ATP5A1</td>
+</tr>
+<tr class="even">
+<td>209</td>
+<td align="right">0</td>
+<td align="right">0.2961501</td>
+<td align="right">0.626</td>
+<td align="right">0.318</td>
+<td align="right">0</td>
+<td align="left">NDUFV3</td>
+</tr>
+<tr class="odd">
+<td>210</td>
+<td align="right">0</td>
+<td align="right">0.2959820</td>
+<td align="right">0.894</td>
+<td align="right">0.705</td>
+<td align="right">0</td>
+<td align="left">NDUFB9</td>
+</tr>
+<tr class="even">
+<td>267</td>
+<td align="right">0</td>
+<td align="right">0.2954133</td>
+<td align="right">0.558</td>
+<td align="right">0.276</td>
+<td align="right">0</td>
+<td align="left">KIF5B</td>
+</tr>
+<tr class="odd">
+<td>211</td>
+<td align="right">0</td>
+<td align="right">0.2950150</td>
+<td align="right">0.969</td>
+<td align="right">0.884</td>
+<td align="right">0</td>
+<td align="left">C14orf2</td>
+</tr>
+<tr class="even">
+<td>261</td>
+<td align="right">0</td>
+<td align="right">0.2942862</td>
+<td align="right">0.537</td>
+<td align="right">0.246</td>
+<td align="right">0</td>
+<td align="left">C20orf24</td>
+</tr>
+<tr class="odd">
+<td>272</td>
+<td align="right">0</td>
+<td align="right">0.2941648</td>
+<td align="right">0.589</td>
+<td align="right">0.321</td>
+<td align="right">0</td>
+<td align="left">ASS1</td>
+</tr>
+<tr class="even">
+<td>212</td>
+<td align="right">0</td>
+<td align="right">0.2932942</td>
+<td align="right">0.725</td>
+<td align="right">0.433</td>
+<td align="right">0</td>
+<td align="left">LAMA4</td>
+</tr>
+<tr class="odd">
+<td>213</td>
+<td align="right">0</td>
+<td align="right">0.2920553</td>
+<td align="right">0.772</td>
+<td align="right">0.482</td>
+<td align="right">0</td>
+<td align="left">UQCC2</td>
+</tr>
+<tr class="even">
+<td>304</td>
+<td align="right">0</td>
+<td align="right">0.2918269</td>
+<td align="right">0.382</td>
+<td align="right">0.124</td>
+<td align="right">0</td>
+<td align="left">TFRC</td>
+</tr>
+<tr class="odd">
+<td>302</td>
+<td align="right">0</td>
+<td align="right">0.2913536</td>
+<td align="right">0.330</td>
+<td align="right">0.089</td>
+<td align="right">0</td>
+<td align="left">EBP</td>
+</tr>
+<tr class="even">
+<td>321</td>
+<td align="right">0</td>
+<td align="right">0.2913124</td>
+<td align="right">0.236</td>
+<td align="right">0.025</td>
+<td align="right">0</td>
+<td align="left">TM7SF2</td>
+</tr>
+<tr class="odd">
+<td>286</td>
+<td align="right">0</td>
+<td align="right">0.2911367</td>
+<td align="right">0.527</td>
+<td align="right">0.230</td>
+<td align="right">0</td>
+<td align="left">ACTN1</td>
+</tr>
+<tr class="even">
+<td>326</td>
+<td align="right">0</td>
+<td align="right">0.2909249</td>
+<td align="right">0.373</td>
+<td align="right">0.145</td>
+<td align="right">0</td>
+<td align="left">MT-ND6</td>
+</tr>
+<tr class="odd">
+<td>214</td>
+<td align="right">0</td>
+<td align="right">0.2882187</td>
+<td align="right">0.786</td>
+<td align="right">0.490</td>
+<td align="right">0</td>
+<td align="left">PFDN2</td>
+</tr>
+<tr class="even">
+<td>215</td>
+<td align="right">0</td>
+<td align="right">0.2867175</td>
+<td align="right">0.944</td>
+<td align="right">0.822</td>
+<td align="right">0</td>
+<td align="left">SRPX</td>
+</tr>
+<tr class="odd">
+<td>283</td>
+<td align="right">0</td>
+<td align="right">0.2851152</td>
+<td align="right">0.433</td>
+<td align="right">0.141</td>
+<td align="right">0</td>
+<td align="left">DLD</td>
+</tr>
+<tr class="even">
+<td>216</td>
+<td align="right">0</td>
+<td align="right">0.2837749</td>
+<td align="right">0.727</td>
+<td align="right">0.399</td>
+<td align="right">0</td>
+<td align="left">ANXA6</td>
+</tr>
+<tr class="odd">
+<td>328</td>
+<td align="right">0</td>
+<td align="right">0.2833065</td>
+<td align="right">0.910</td>
+<td align="right">0.737</td>
+<td align="right">0</td>
+<td align="left">AKR1C1</td>
+</tr>
+<tr class="even">
+<td>282</td>
+<td align="right">0</td>
+<td align="right">0.2826451</td>
+<td align="right">0.553</td>
+<td align="right">0.243</td>
+<td align="right">0</td>
+<td align="left">CD320</td>
+</tr>
+<tr class="odd">
+<td>325</td>
+<td align="right">0</td>
+<td align="right">0.2815639</td>
+<td align="right">0.240</td>
+<td align="right">0.050</td>
+<td align="right">0</td>
+<td align="left">ACSF2</td>
+</tr>
+<tr class="even">
+<td>217</td>
+<td align="right">0</td>
+<td align="right">0.2806730</td>
+<td align="right">0.826</td>
+<td align="right">0.556</td>
+<td align="right">0</td>
+<td align="left">NDUFB8.1</td>
+</tr>
+<tr class="odd">
+<td>312</td>
+<td align="right">0</td>
+<td align="right">0.2799768</td>
+<td align="right">0.319</td>
+<td align="right">0.095</td>
+<td align="right">0</td>
+<td align="left">LPIN1</td>
+</tr>
+<tr class="even">
+<td>251</td>
+<td align="right">0</td>
+<td align="right">0.2797438</td>
+<td align="right">0.659</td>
+<td align="right">0.372</td>
+<td align="right">0</td>
+<td align="left">ARL6IP1</td>
+</tr>
+<tr class="odd">
+<td>218</td>
+<td align="right">0</td>
+<td align="right">0.2796333</td>
+<td align="right">0.883</td>
+<td align="right">0.687</td>
+<td align="right">0</td>
+<td align="left">CCDC85B</td>
+</tr>
+<tr class="even">
+<td>329</td>
+<td align="right">0</td>
+<td align="right">0.2794488</td>
+<td align="right">0.246</td>
+<td align="right">0.015</td>
+<td align="right">0</td>
+<td align="left">TUSC5</td>
+</tr>
+<tr class="odd">
+<td>315</td>
+<td align="right">0</td>
+<td align="right">0.2779544</td>
+<td align="right">0.280</td>
+<td align="right">0.045</td>
+<td align="right">0</td>
+<td align="left">PTPRF</td>
+</tr>
+<tr class="even">
+<td>219</td>
+<td align="right">0</td>
+<td align="right">0.2779275</td>
+<td align="right">0.897</td>
+<td align="right">0.693</td>
+<td align="right">0</td>
+<td align="left">NDUFA2</td>
+</tr>
+<tr class="odd">
+<td>335</td>
+<td align="right">0</td>
+<td align="right">0.2778049</td>
+<td align="right">0.488</td>
+<td align="right">0.308</td>
+<td align="right">0</td>
+<td align="left">MEST</td>
+</tr>
+<tr class="even">
+<td>298</td>
+<td align="right">0</td>
+<td align="right">0.2771925</td>
+<td align="right">0.425</td>
+<td align="right">0.151</td>
+<td align="right">0</td>
+<td align="left">NOP16</td>
+</tr>
+<tr class="odd">
+<td>220</td>
+<td align="right">0</td>
+<td align="right">0.2765676</td>
+<td align="right">0.926</td>
+<td align="right">0.789</td>
+<td align="right">0</td>
+<td align="left">EIF3K</td>
+</tr>
+<tr class="even">
+<td>290</td>
+<td align="right">0</td>
+<td align="right">0.2761980</td>
+<td align="right">0.415</td>
+<td align="right">0.130</td>
+<td align="right">0</td>
+<td align="left">PDHA1</td>
+</tr>
+<tr class="odd">
+<td>274</td>
+<td align="right">0</td>
+<td align="right">0.2750959</td>
+<td align="right">0.976</td>
+<td align="right">0.897</td>
+<td align="right">0</td>
+<td align="left">HSPB6</td>
+</tr>
+<tr class="even">
+<td>284</td>
+<td align="right">0</td>
+<td align="right">0.2750803</td>
+<td align="right">0.843</td>
+<td align="right">0.589</td>
+<td align="right">0</td>
+<td align="left">CD151</td>
+</tr>
+<tr class="odd">
+<td>221</td>
+<td align="right">0</td>
+<td align="right">0.2749152</td>
+<td align="right">0.975</td>
+<td align="right">0.879</td>
+<td align="right">0</td>
+<td align="left">LDHB</td>
+</tr>
+<tr class="even">
+<td>222</td>
+<td align="right">0</td>
+<td align="right">0.2739205</td>
+<td align="right">0.747</td>
+<td align="right">0.444</td>
+<td align="right">0</td>
+<td align="left">NDUFAF3</td>
+</tr>
+<tr class="odd">
+<td>223</td>
+<td align="right">0</td>
+<td align="right">0.2731452</td>
+<td align="right">0.912</td>
+<td align="right">0.725</td>
+<td align="right">0</td>
+<td align="left">ATOX1</td>
+</tr>
+<tr class="even">
+<td>260</td>
+<td align="right">0</td>
+<td align="right">0.2720072</td>
+<td align="right">0.722</td>
+<td align="right">0.484</td>
+<td align="right">0</td>
+<td align="left">CHP1</td>
+</tr>
+<tr class="odd">
+<td>294</td>
+<td align="right">0</td>
+<td align="right">0.2719525</td>
+<td align="right">0.452</td>
+<td align="right">0.142</td>
+<td align="right">0</td>
+<td align="left">TSPAN14</td>
+</tr>
+<tr class="even">
+<td>265</td>
+<td align="right">0</td>
+<td align="right">0.2718098</td>
+<td align="right">0.647</td>
+<td align="right">0.339</td>
+<td align="right">0</td>
+<td align="left">PGK1</td>
+</tr>
+<tr class="odd">
+<td>255</td>
+<td align="right">0</td>
+<td align="right">0.2700509</td>
+<td align="right">0.525</td>
+<td align="right">0.225</td>
+<td align="right">0</td>
+<td align="left">SLC25A39</td>
+</tr>
+<tr class="even">
+<td>297</td>
+<td align="right">0</td>
+<td align="right">0.2695807</td>
+<td align="right">0.428</td>
+<td align="right">0.188</td>
+<td align="right">0</td>
+<td align="left">PGM1</td>
+</tr>
+<tr class="odd">
+<td>224</td>
+<td align="right">0</td>
+<td align="right">0.2693153</td>
+<td align="right">0.659</td>
+<td align="right">0.368</td>
+<td align="right">0</td>
+<td align="left">NDUFA8</td>
+</tr>
+<tr class="even">
+<td>273</td>
+<td align="right">0</td>
+<td align="right">0.2691674</td>
+<td align="right">0.503</td>
+<td align="right">0.202</td>
+<td align="right">0</td>
+<td align="left">PMVK</td>
+</tr>
+<tr class="odd">
+<td>323</td>
+<td align="right">0</td>
+<td align="right">0.2685060</td>
+<td align="right">0.248</td>
+<td align="right">0.022</td>
+<td align="right">0</td>
+<td align="left">GPT2</td>
+</tr>
+<tr class="even">
+<td>225</td>
+<td align="right">0</td>
+<td align="right">0.2683308</td>
+<td align="right">0.690</td>
+<td align="right">0.389</td>
+<td align="right">0</td>
+<td align="left">UQCRC2</td>
+</tr>
+<tr class="odd">
+<td>226</td>
+<td align="right">0</td>
+<td align="right">0.2680419</td>
+<td align="right">0.828</td>
+<td align="right">0.552</td>
+<td align="right">0</td>
+<td align="left">MRPL20</td>
+</tr>
+<tr class="even">
+<td>310</td>
+<td align="right">0</td>
+<td align="right">0.2678387</td>
+<td align="right">0.337</td>
+<td align="right">0.090</td>
+<td align="right">0</td>
+<td align="left">RP1-193H18.3</td>
+</tr>
+<tr class="odd">
+<td>313</td>
+<td align="right">0</td>
+<td align="right">0.2648278</td>
+<td align="right">0.400</td>
+<td align="right">0.146</td>
+<td align="right">0</td>
+<td align="left">ATP2B4</td>
+</tr>
+<tr class="even">
+<td>264</td>
+<td align="right">0</td>
+<td align="right">0.2640395</td>
+<td align="right">0.561</td>
+<td align="right">0.280</td>
+<td align="right">0</td>
+<td align="left">MKKS</td>
+</tr>
+<tr class="odd">
+<td>270</td>
+<td align="right">0</td>
+<td align="right">0.2633008</td>
+<td align="right">0.608</td>
+<td align="right">0.318</td>
+<td align="right">0</td>
+<td align="left">PXDN</td>
+</tr>
+<tr class="even">
+<td>227</td>
+<td align="right">0</td>
+<td align="right">0.2628533</td>
+<td align="right">0.709</td>
+<td align="right">0.433</td>
+<td align="right">0</td>
+<td align="left">GHITM</td>
+</tr>
+<tr class="odd">
+<td>243</td>
+<td align="right">0</td>
+<td align="right">0.2624123</td>
+<td align="right">0.627</td>
+<td align="right">0.310</td>
+<td align="right">0</td>
+<td align="left">ETFA</td>
+</tr>
+<tr class="even">
+<td>319</td>
+<td align="right">0</td>
+<td align="right">0.2619744</td>
+<td align="right">0.594</td>
+<td align="right">0.310</td>
+<td align="right">0</td>
+<td align="left">SRM</td>
+</tr>
+<tr class="odd">
+<td>320</td>
+<td align="right">0</td>
+<td align="right">0.2611602</td>
+<td align="right">0.254</td>
+<td align="right">0.027</td>
+<td align="right">0</td>
+<td align="left">DGAT1</td>
+</tr>
+<tr class="even">
+<td>228</td>
+<td align="right">0</td>
+<td align="right">0.2609854</td>
+<td align="right">0.859</td>
+<td align="right">0.645</td>
+<td align="right">0</td>
+<td align="left">HIGD2A</td>
+</tr>
+<tr class="odd">
+<td>229</td>
+<td align="right">0</td>
+<td align="right">0.2607847</td>
+<td align="right">0.625</td>
+<td align="right">0.325</td>
+<td align="right">0</td>
+<td align="left">TXNL4A</td>
+</tr>
+<tr class="even">
+<td>230</td>
+<td align="right">0</td>
+<td align="right">0.2605587</td>
+<td align="right">0.647</td>
+<td align="right">0.356</td>
+<td align="right">0</td>
+<td align="left">COA3</td>
+</tr>
+<tr class="odd">
+<td>354</td>
+<td align="right">0</td>
+<td align="right">0.2602344</td>
+<td align="right">0.288</td>
+<td align="right">0.128</td>
+<td align="right">0</td>
+<td align="left">APOC1</td>
+</tr>
+<tr class="even">
+<td>308</td>
+<td align="right">0</td>
+<td align="right">0.2594917</td>
+<td align="right">0.534</td>
+<td align="right">0.290</td>
+<td align="right">0</td>
+<td align="left">AKR1B1</td>
+</tr>
+<tr class="odd">
+<td>271</td>
+<td align="right">0</td>
+<td align="right">0.2593420</td>
+<td align="right">0.586</td>
+<td align="right">0.280</td>
+<td align="right">0</td>
+<td align="left">LSM4</td>
+</tr>
+<tr class="even">
+<td>231</td>
+<td align="right">0</td>
+<td align="right">0.2588614</td>
+<td align="right">0.712</td>
+<td align="right">0.412</td>
+<td align="right">0</td>
+<td align="left">DNPH1</td>
+</tr>
+<tr class="odd">
+<td>309</td>
+<td align="right">0</td>
+<td align="right">0.2585350</td>
+<td align="right">0.288</td>
+<td align="right">0.046</td>
+<td align="right">0</td>
+<td align="left">SORT1</td>
+</tr>
+<tr class="even">
+<td>232</td>
+<td align="right">0</td>
+<td align="right">0.2580523</td>
+<td align="right">0.722</td>
+<td align="right">0.431</td>
+<td align="right">0</td>
+<td align="left">SRSF3</td>
+</tr>
+<tr class="odd">
+<td>233</td>
+<td align="right">0</td>
+<td align="right">0.2547827</td>
+<td align="right">0.933</td>
+<td align="right">0.762</td>
+<td align="right">0</td>
+<td align="left">YWHAE</td>
+</tr>
+<tr class="even">
+<td>234</td>
+<td align="right">0</td>
+<td align="right">0.2542113</td>
+<td align="right">0.687</td>
+<td align="right">0.401</td>
+<td align="right">0</td>
+<td align="left">MRPL34</td>
+</tr>
+<tr class="odd">
+<td>291</td>
+<td align="right">0</td>
+<td align="right">0.2537132</td>
+<td align="right">0.582</td>
+<td align="right">0.291</td>
+<td align="right">0</td>
+<td align="left">SERPINH1</td>
+</tr>
+<tr class="even">
+<td>314</td>
+<td align="right">0</td>
+<td align="right">0.2536344</td>
+<td align="right">0.422</td>
+<td align="right">0.178</td>
+<td align="right">0</td>
+<td align="left">APMAP</td>
+</tr>
+<tr class="odd">
+<td>311</td>
+<td align="right">0</td>
+<td align="right">0.2534278</td>
+<td align="right">0.318</td>
+<td align="right">0.087</td>
+<td align="right">0</td>
+<td align="left">ALAS1</td>
+</tr>
+<tr class="even">
+<td>235</td>
+<td align="right">0</td>
+<td align="right">0.2533945</td>
+<td align="right">0.989</td>
+<td align="right">0.973</td>
+<td align="right">0</td>
+<td align="left">YBX1</td>
+</tr>
+<tr class="odd">
+<td>236</td>
+<td align="right">0</td>
+<td align="right">0.2519216</td>
+<td align="right">0.795</td>
+<td align="right">0.517</td>
+<td align="right">0</td>
+<td align="left">PSMD8</td>
+</tr>
+<tr class="even">
+<td>263</td>
+<td align="right">0</td>
+<td align="right">0.2513121</td>
+<td align="right">0.554</td>
+<td align="right">0.245</td>
+<td align="right">0</td>
+<td align="left">TMEM141</td>
+</tr>
+<tr class="odd">
+<td>237</td>
+<td align="right">0</td>
+<td align="right">0.2507870</td>
+<td align="right">0.932</td>
+<td align="right">0.767</td>
+<td align="right">0</td>
+<td align="left">NDUFB11</td>
+</tr>
+<tr class="even">
+<td>238</td>
+<td align="right">0</td>
+<td align="right">0.2501242</td>
+<td align="right">0.877</td>
+<td align="right">0.656</td>
+<td align="right">0</td>
+<td align="left">DRAP1</td>
+</tr>
+</tbody>
+</table>
+<p>Top 60 markers for metabolic branch sorted on logFC.</p>
+<pre class="r"><code>FeaturePlot(seurobj, features.plot=as.vector(markers_metabolic$gene)[1:60], nCol=2, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F)</code></pre>
+<p><img src="figure/10x-180831-metabolic_ECM_genes.Rmd/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ecm-genes" class="section level1">
+<h1>ECM genes</h1>
+<pre class="r"><code>markers_ecm &lt;- markers[markers$avg_logFC &lt; 0,]
+markers_ecm &lt;- markers_ecm[order(markers_ecm$avg_logFC),]
+kable(markers_ecm)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">p_val</th>
+<th align="right">avg_logFC</th>
+<th align="right">pct.1</th>
+<th align="right">pct.2</th>
+<th align="right">p_val_adj</th>
+<th align="left">gene</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>266</td>
+<td align="right">0.0e+00</td>
+<td align="right">-1.4736756</td>
+<td align="right">0.412</td>
+<td align="right">0.716</td>
+<td align="right">0.0000000</td>
+<td align="left">APOD</td>
+</tr>
+<tr class="even">
+<td>242</td>
+<td align="right">0.0e+00</td>
+<td align="right">-1.4203376</td>
+<td align="right">0.830</td>
+<td align="right">0.976</td>
+<td align="right">0.0000000</td>
+<td align="left">MGP</td>
+</tr>
+<tr class="odd">
+<td>241</td>
+<td align="right">0.0e+00</td>
+<td align="right">-1.3868741</td>
+<td align="right">0.873</td>
+<td align="right">0.996</td>
+<td align="right">0.0000000</td>
+<td align="left">DCN</td>
+</tr>
+<tr class="even">
+<td>303</td>
+<td align="right">0.0e+00</td>
+<td align="right">-1.3067572</td>
+<td align="right">0.184</td>
+<td align="right">0.406</td>
+<td align="right">0.0000000</td>
+<td align="left">CTGF</td>
+</tr>
+<tr class="odd">
+<td>347</td>
+<td align="right">0.0e+00</td>
+<td align="right">-1.1216422</td>
+<td align="right">0.145</td>
+<td align="right">0.310</td>
+<td align="right">0.0000000</td>
+<td align="left">IGF2</td>
+</tr>
+<tr class="even">
+<td>240</td>
+<td align="right">0.0e+00</td>
+<td align="right">-1.0912836</td>
+<td align="right">0.806</td>
+<td align="right">0.976</td>
+<td align="right">0.0000000</td>
+<td align="left">CCDC80</td>
+</tr>
+<tr class="odd">
+<td>239</td>
+<td align="right">0.0e+00</td>
+<td align="right">-1.0449993</td>
+<td align="right">0.463</td>
+<td align="right">0.778</td>
+<td align="right">0.0000000</td>
+<td align="left">RP11-572C15.6</td>
+</tr>
+<tr class="even">
+<td>254</td>
+<td align="right">0.0e+00</td>
+<td align="right">-1.0051597</td>
+<td align="right">0.805</td>
+<td align="right">0.966</td>
+<td align="right">0.0000000</td>
+<td align="left">PLAC9</td>
+</tr>
+<tr class="odd">
+<td>333</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.9779005</td>
+<td align="right">0.566</td>
+<td align="right">0.794</td>
+<td align="right">0.0000000</td>
+<td align="left">COL1A1</td>
+</tr>
+<tr class="even">
+<td>336</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.9359817</td>
+<td align="right">0.396</td>
+<td align="right">0.575</td>
+<td align="right">0.0000000</td>
+<td align="left">THBS1</td>
+</tr>
+<tr class="odd">
+<td>338</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.9084909</td>
+<td align="right">0.460</td>
+<td align="right">0.750</td>
+<td align="right">0.0000000</td>
+<td align="left">CLDN11</td>
+</tr>
+<tr class="even">
+<td>332</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.8775692</td>
+<td align="right">0.555</td>
+<td align="right">0.783</td>
+<td align="right">0.0000000</td>
+<td align="left">MFAP4</td>
+</tr>
+<tr class="odd">
+<td>389</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.8760161</td>
+<td align="right">0.751</td>
+<td align="right">0.878</td>
+<td align="right">0.0000000</td>
+<td align="left">IGFBP6</td>
+</tr>
+<tr class="even">
+<td>317</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.8697664</td>
+<td align="right">0.993</td>
+<td align="right">1.000</td>
+<td align="right">0.0000000</td>
+<td align="left">CST3</td>
+</tr>
+<tr class="odd">
+<td>334</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.8672895</td>
+<td align="right">0.926</td>
+<td align="right">0.993</td>
+<td align="right">0.0000000</td>
+<td align="left">MFAP5</td>
+</tr>
+<tr class="even">
+<td>331</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.8357621</td>
+<td align="right">0.959</td>
+<td align="right">0.997</td>
+<td align="right">0.0000000</td>
+<td align="left">IFITM3</td>
+</tr>
+<tr class="odd">
+<td>408</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.8253483</td>
+<td align="right">0.618</td>
+<td align="right">0.782</td>
+<td align="right">0.0000000</td>
+<td align="left">S100A4</td>
+</tr>
+<tr class="even">
+<td>376</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.7853804</td>
+<td align="right">0.914</td>
+<td align="right">0.974</td>
+<td align="right">0.0000000</td>
+<td align="left">IGFBP7</td>
+</tr>
+<tr class="odd">
+<td>367</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.7825588</td>
+<td align="right">0.538</td>
+<td align="right">0.680</td>
+<td align="right">0.0000000</td>
+<td align="left">CLU</td>
+</tr>
+<tr class="even">
+<td>288</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.7712418</td>
+<td align="right">0.242</td>
+<td align="right">0.598</td>
+<td align="right">0.0000000</td>
+<td align="left">PDGFRA</td>
+</tr>
+<tr class="odd">
+<td>349</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.7683252</td>
+<td align="right">0.548</td>
+<td align="right">0.752</td>
+<td align="right">0.0000000</td>
+<td align="left">LUM</td>
+</tr>
+<tr class="even">
+<td>357</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.7652085</td>
+<td align="right">0.600</td>
+<td align="right">0.779</td>
+<td align="right">0.0000000</td>
+<td align="left">JUNB</td>
+</tr>
+<tr class="odd">
+<td>322</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.7645133</td>
+<td align="right">0.630</td>
+<td align="right">0.817</td>
+<td align="right">0.0000000</td>
+<td align="left">FBN1</td>
+</tr>
+<tr class="even">
+<td>355</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.7638235</td>
+<td align="right">0.503</td>
+<td align="right">0.691</td>
+<td align="right">0.0000000</td>
+<td align="left">CYR61</td>
+</tr>
+<tr class="odd">
+<td>316</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.7348863</td>
+<td align="right">0.119</td>
+<td align="right">0.406</td>
+<td align="right">0.0000000</td>
+<td align="left">IFITM1</td>
+</tr>
+<tr class="even">
+<td>352</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.7113562</td>
+<td align="right">0.564</td>
+<td align="right">0.753</td>
+<td align="right">0.0000000</td>
+<td align="left">ZFP36</td>
+</tr>
+<tr class="odd">
+<td>442</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6984895</td>
+<td align="right">0.944</td>
+<td align="right">0.972</td>
+<td align="right">0.0000000</td>
+<td align="left">TIMP1</td>
+</tr>
+<tr class="even">
+<td>423</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6952933</td>
+<td align="right">0.430</td>
+<td align="right">0.509</td>
+<td align="right">0.0000000</td>
+<td align="left">PTGDS</td>
+</tr>
+<tr class="odd">
+<td>373</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6893209</td>
+<td align="right">0.959</td>
+<td align="right">0.979</td>
+<td align="right">0.0000000</td>
+<td align="left">CALD1</td>
+</tr>
+<tr class="even">
+<td>362</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6841868</td>
+<td align="right">0.160</td>
+<td align="right">0.311</td>
+<td align="right">0.0000000</td>
+<td align="left">DPT</td>
+</tr>
+<tr class="odd">
+<td>382</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6809188</td>
+<td align="right">0.458</td>
+<td align="right">0.607</td>
+<td align="right">0.0000000</td>
+<td align="left">CYP1B1</td>
+</tr>
+<tr class="even">
+<td>340</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6752993</td>
+<td align="right">0.341</td>
+<td align="right">0.579</td>
+<td align="right">0.0000000</td>
+<td align="left">FBLN1</td>
+</tr>
+<tr class="odd">
+<td>344</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6714240</td>
+<td align="right">0.656</td>
+<td align="right">0.790</td>
+<td align="right">0.0000000</td>
+<td align="left">PDLIM2</td>
+</tr>
+<tr class="even">
+<td>417</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6405352</td>
+<td align="right">0.828</td>
+<td align="right">0.901</td>
+<td align="right">0.0000000</td>
+<td align="left">FOS</td>
+</tr>
+<tr class="odd">
+<td>359</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6357936</td>
+<td align="right">0.612</td>
+<td align="right">0.797</td>
+<td align="right">0.0000000</td>
+<td align="left">EMP3</td>
+</tr>
+<tr class="even">
+<td>375</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6328013</td>
+<td align="right">0.774</td>
+<td align="right">0.884</td>
+<td align="right">0.0000000</td>
+<td align="left">MFGE8</td>
+</tr>
+<tr class="odd">
+<td>369</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6291763</td>
+<td align="right">0.780</td>
+<td align="right">0.905</td>
+<td align="right">0.0000000</td>
+<td align="left">C1S</td>
+</tr>
+<tr class="even">
+<td>406</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6249373</td>
+<td align="right">0.780</td>
+<td align="right">0.895</td>
+<td align="right">0.0000000</td>
+<td align="left">C1R</td>
+</tr>
+<tr class="odd">
+<td>343</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6079750</td>
+<td align="right">0.186</td>
+<td align="right">0.398</td>
+<td align="right">0.0000000</td>
+<td align="left">CTSK</td>
+</tr>
+<tr class="even">
+<td>420</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.6003065</td>
+<td align="right">0.189</td>
+<td align="right">0.324</td>
+<td align="right">0.0000000</td>
+<td align="left">PTX3</td>
+</tr>
+<tr class="odd">
+<td>453</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5965988</td>
+<td align="right">0.781</td>
+<td align="right">0.873</td>
+<td align="right">0.0000000</td>
+<td align="left">S100A13</td>
+</tr>
+<tr class="even">
+<td>346</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5893658</td>
+<td align="right">0.141</td>
+<td align="right">0.371</td>
+<td align="right">0.0000000</td>
+<td align="left">OSR2</td>
+</tr>
+<tr class="odd">
+<td>383</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5867891</td>
+<td align="right">0.588</td>
+<td align="right">0.730</td>
+<td align="right">0.0000000</td>
+<td align="left">ZFP36L1</td>
+</tr>
+<tr class="even">
+<td>459</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5793361</td>
+<td align="right">0.948</td>
+<td align="right">0.986</td>
+<td align="right">0.0000000</td>
+<td align="left">COL1A2</td>
+</tr>
+<tr class="odd">
+<td>392</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5782118</td>
+<td align="right">0.756</td>
+<td align="right">0.884</td>
+<td align="right">0.0000000</td>
+<td align="left">IFITM2</td>
+</tr>
+<tr class="even">
+<td>364</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5639808</td>
+<td align="right">0.319</td>
+<td align="right">0.535</td>
+<td align="right">0.0000000</td>
+<td align="left">CRLF1</td>
+</tr>
+<tr class="odd">
+<td>361</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5632580</td>
+<td align="right">0.332</td>
+<td align="right">0.533</td>
+<td align="right">0.0000000</td>
+<td align="left">FGF7</td>
+</tr>
+<tr class="even">
+<td>372</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5496012</td>
+<td align="right">0.320</td>
+<td align="right">0.467</td>
+<td align="right">0.0000000</td>
+<td align="left">LOX</td>
+</tr>
+<tr class="odd">
+<td>366</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5469600</td>
+<td align="right">0.075</td>
+<td align="right">0.218</td>
+<td align="right">0.0000000</td>
+<td align="left">CCL2</td>
+</tr>
+<tr class="even">
+<td>379</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5426199</td>
+<td align="right">0.449</td>
+<td align="right">0.605</td>
+<td align="right">0.0000000</td>
+<td align="left">EFEMP1</td>
+</tr>
+<tr class="odd">
+<td>404</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5407585</td>
+<td align="right">0.522</td>
+<td align="right">0.655</td>
+<td align="right">0.0000000</td>
+<td align="left">TPM1</td>
+</tr>
+<tr class="even">
+<td>486</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5395325</td>
+<td align="right">0.937</td>
+<td align="right">0.955</td>
+<td align="right">0.0000000</td>
+<td align="left">S100A10</td>
+</tr>
+<tr class="odd">
+<td>413</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5379888</td>
+<td align="right">0.662</td>
+<td align="right">0.775</td>
+<td align="right">0.0000000</td>
+<td align="left">TCEAL4</td>
+</tr>
+<tr class="even">
+<td>500</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5376989</td>
+<td align="right">0.911</td>
+<td align="right">0.895</td>
+<td align="right">0.0000559</td>
+<td align="left">COL3A1</td>
+</tr>
+<tr class="odd">
+<td>381</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5313284</td>
+<td align="right">0.388</td>
+<td align="right">0.596</td>
+<td align="right">0.0000000</td>
+<td align="left">SNAI2</td>
+</tr>
+<tr class="even">
+<td>462</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5215079</td>
+<td align="right">0.623</td>
+<td align="right">0.787</td>
+<td align="right">0.0000000</td>
+<td align="left">PPAP2B</td>
+</tr>
+<tr class="odd">
+<td>440</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5204705</td>
+<td align="right">0.705</td>
+<td align="right">0.778</td>
+<td align="right">0.0000000</td>
+<td align="left">CD59</td>
+</tr>
+<tr class="even">
+<td>368</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5139881</td>
+<td align="right">0.233</td>
+<td align="right">0.432</td>
+<td align="right">0.0000000</td>
+<td align="left">PRRX1</td>
+</tr>
+<tr class="odd">
+<td>370</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5077050</td>
+<td align="right">0.278</td>
+<td align="right">0.468</td>
+<td align="right">0.0000000</td>
+<td align="left">DAB2</td>
+</tr>
+<tr class="even">
+<td>445</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5052342</td>
+<td align="right">0.507</td>
+<td align="right">0.633</td>
+<td align="right">0.0000000</td>
+<td align="left">PRKCDBP</td>
+</tr>
+<tr class="odd">
+<td>405</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.5044662</td>
+<td align="right">0.187</td>
+<td align="right">0.376</td>
+<td align="right">0.0000000</td>
+<td align="left">LINC00152</td>
+</tr>
+<tr class="even">
+<td>439</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4980286</td>
+<td align="right">0.712</td>
+<td align="right">0.772</td>
+<td align="right">0.0000000</td>
+<td align="left">SPOCK1</td>
+</tr>
+<tr class="odd">
+<td>393</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4934709</td>
+<td align="right">0.250</td>
+<td align="right">0.423</td>
+<td align="right">0.0000000</td>
+<td align="left">PRSS23</td>
+</tr>
+<tr class="even">
+<td>371</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4857833</td>
+<td align="right">0.326</td>
+<td align="right">0.521</td>
+<td align="right">0.0000000</td>
+<td align="left">YPEL3</td>
+</tr>
+<tr class="odd">
+<td>398</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4857524</td>
+<td align="right">0.505</td>
+<td align="right">0.638</td>
+<td align="right">0.0000000</td>
+<td align="left">PNRC1</td>
+</tr>
+<tr class="even">
+<td>339</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4851785</td>
+<td align="right">0.098</td>
+<td align="right">0.312</td>
+<td align="right">0.0000000</td>
+<td align="left">FBLN5</td>
+</tr>
+<tr class="odd">
+<td>412</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4711892</td>
+<td align="right">0.371</td>
+<td align="right">0.514</td>
+<td align="right">0.0000000</td>
+<td align="left">AXL</td>
+</tr>
+<tr class="even">
+<td>350</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4709351</td>
+<td align="right">0.147</td>
+<td align="right">0.345</td>
+<td align="right">0.0000000</td>
+<td align="left">VGLL3</td>
+</tr>
+<tr class="odd">
+<td>416</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4703532</td>
+<td align="right">0.182</td>
+<td align="right">0.350</td>
+<td align="right">0.0000000</td>
+<td align="left">MIR4435-1HG</td>
+</tr>
+<tr class="even">
+<td>475</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4663342</td>
+<td align="right">0.852</td>
+<td align="right">0.866</td>
+<td align="right">0.0000000</td>
+<td align="left">C6orf48</td>
+</tr>
+<tr class="odd">
+<td>476</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4636693</td>
+<td align="right">0.813</td>
+<td align="right">0.814</td>
+<td align="right">0.0000000</td>
+<td align="left">TIMP2</td>
+</tr>
+<tr class="even">
+<td>387</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4582122</td>
+<td align="right">0.284</td>
+<td align="right">0.472</td>
+<td align="right">0.0000000</td>
+<td align="left">OLFML3</td>
+</tr>
+<tr class="odd">
+<td>448</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4574269</td>
+<td align="right">0.670</td>
+<td align="right">0.764</td>
+<td align="right">0.0000000</td>
+<td align="left">CYBRD1</td>
+</tr>
+<tr class="even">
+<td>435</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4524769</td>
+<td align="right">0.459</td>
+<td align="right">0.574</td>
+<td align="right">0.0000000</td>
+<td align="left">ARID5B</td>
+</tr>
+<tr class="odd">
+<td>365</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4514171</td>
+<td align="right">0.192</td>
+<td align="right">0.385</td>
+<td align="right">0.0000000</td>
+<td align="left">ABCA6</td>
+</tr>
+<tr class="even">
+<td>488</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4489217</td>
+<td align="right">0.920</td>
+<td align="right">0.929</td>
+<td align="right">0.0000000</td>
+<td align="left">FN1</td>
+</tr>
+<tr class="odd">
+<td>360</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4488806</td>
+<td align="right">0.068</td>
+<td align="right">0.209</td>
+<td align="right">0.0000000</td>
+<td align="left">CTHRC1</td>
+</tr>
+<tr class="even">
+<td>395</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4466219</td>
+<td align="right">0.252</td>
+<td align="right">0.411</td>
+<td align="right">0.0000000</td>
+<td align="left">TCF4</td>
+</tr>
+<tr class="odd">
+<td>341</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4444798</td>
+<td align="right">0.048</td>
+<td align="right">0.244</td>
+<td align="right">0.0000000</td>
+<td align="left">LSP1</td>
+</tr>
+<tr class="even">
+<td>456</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4444236</td>
+<td align="right">0.543</td>
+<td align="right">0.661</td>
+<td align="right">0.0000000</td>
+<td align="left">TPM4</td>
+</tr>
+<tr class="odd">
+<td>356</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4361096</td>
+<td align="right">0.171</td>
+<td align="right">0.371</td>
+<td align="right">0.0000000</td>
+<td align="left">ISLR</td>
+</tr>
+<tr class="even">
+<td>385</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4309001</td>
+<td align="right">0.308</td>
+<td align="right">0.477</td>
+<td align="right">0.0000000</td>
+<td align="left">SH3D19</td>
+</tr>
+<tr class="odd">
+<td>380</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4307388</td>
+<td align="right">0.288</td>
+<td align="right">0.450</td>
+<td align="right">0.0000000</td>
+<td align="left">ZEB1</td>
+</tr>
+<tr class="even">
+<td>407</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4279312</td>
+<td align="right">0.454</td>
+<td align="right">0.583</td>
+<td align="right">0.0000000</td>
+<td align="left">DDR2</td>
+</tr>
+<tr class="odd">
+<td>342</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4275094</td>
+<td align="right">0.077</td>
+<td align="right">0.276</td>
+<td align="right">0.0000000</td>
+<td align="left">CD34</td>
+</tr>
+<tr class="even">
+<td>463</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4251619</td>
+<td align="right">0.540</td>
+<td align="right">0.589</td>
+<td align="right">0.0000000</td>
+<td align="left">TXNRD1</td>
+</tr>
+<tr class="odd">
+<td>450</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4214083</td>
+<td align="right">0.475</td>
+<td align="right">0.574</td>
+<td align="right">0.0000000</td>
+<td align="left">ADD3</td>
+</tr>
+<tr class="even">
+<td>348</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4208061</td>
+<td align="right">0.072</td>
+<td align="right">0.276</td>
+<td align="right">0.0000000</td>
+<td align="left">DEPTOR</td>
+</tr>
+<tr class="odd">
+<td>495</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4145258</td>
+<td align="right">0.624</td>
+<td align="right">0.677</td>
+<td align="right">0.0000023</td>
+<td align="left">RRAS</td>
+</tr>
+<tr class="even">
+<td>492</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.4097523</td>
+<td align="right">0.363</td>
+<td align="right">0.426</td>
+<td align="right">0.0000003</td>
+<td align="left">ADM</td>
+</tr>
+<tr class="odd">
+<td>429</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3997669</td>
+<td align="right">0.187</td>
+<td align="right">0.263</td>
+<td align="right">0.0000000</td>
+<td align="left">SERPINE2</td>
+</tr>
+<tr class="even">
+<td>474</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3991944</td>
+<td align="right">0.497</td>
+<td align="right">0.602</td>
+<td align="right">0.0000000</td>
+<td align="left">ZFP36L2</td>
+</tr>
+<tr class="odd">
+<td>399</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3940235</td>
+<td align="right">0.255</td>
+<td align="right">0.392</td>
+<td align="right">0.0000000</td>
+<td align="left">SLIT3</td>
+</tr>
+<tr class="even">
+<td>446</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3910049</td>
+<td align="right">0.485</td>
+<td align="right">0.555</td>
+<td align="right">0.0000000</td>
+<td align="left">DPYSL2</td>
+</tr>
+<tr class="odd">
+<td>358</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3892257</td>
+<td align="right">0.115</td>
+<td align="right">0.308</td>
+<td align="right">0.0000000</td>
+<td align="left">CALHM2</td>
+</tr>
+<tr class="even">
+<td>427</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3852036</td>
+<td align="right">0.263</td>
+<td align="right">0.362</td>
+<td align="right">0.0000000</td>
+<td align="left">SEMA3C</td>
+</tr>
+<tr class="odd">
+<td>374</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3831644</td>
+<td align="right">0.153</td>
+<td align="right">0.322</td>
+<td align="right">0.0000000</td>
+<td align="left">ABCA8</td>
+</tr>
+<tr class="even">
+<td>478</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3783351</td>
+<td align="right">0.535</td>
+<td align="right">0.587</td>
+<td align="right">0.0000000</td>
+<td align="left">WBP5</td>
+</tr>
+<tr class="odd">
+<td>497</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3740986</td>
+<td align="right">0.433</td>
+<td align="right">0.507</td>
+<td align="right">0.0000190</td>
+<td align="left">MARCKS</td>
+</tr>
+<tr class="even">
+<td>443</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3740643</td>
+<td align="right">0.131</td>
+<td align="right">0.232</td>
+<td align="right">0.0000000</td>
+<td align="left">DKK1</td>
+</tr>
+<tr class="odd">
+<td>422</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3738312</td>
+<td align="right">0.304</td>
+<td align="right">0.446</td>
+<td align="right">0.0000000</td>
+<td align="left">TFPI</td>
+</tr>
+<tr class="even">
+<td>460</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3735668</td>
+<td align="right">0.534</td>
+<td align="right">0.594</td>
+<td align="right">0.0000000</td>
+<td align="left">SMIM14</td>
+</tr>
+<tr class="odd">
+<td>494</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3719382</td>
+<td align="right">0.535</td>
+<td align="right">0.609</td>
+<td align="right">0.0000003</td>
+<td align="left">MXRA8</td>
+</tr>
+<tr class="even">
+<td>438</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3666916</td>
+<td align="right">0.256</td>
+<td align="right">0.404</td>
+<td align="right">0.0000000</td>
+<td align="left">NDRG1</td>
+</tr>
+<tr class="odd">
+<td>484</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3661539</td>
+<td align="right">0.441</td>
+<td align="right">0.508</td>
+<td align="right">0.0000000</td>
+<td align="left">IL6ST</td>
+</tr>
+<tr class="even">
+<td>433</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3625350</td>
+<td align="right">0.264</td>
+<td align="right">0.386</td>
+<td align="right">0.0000000</td>
+<td align="left">LHFP</td>
+</tr>
+<tr class="odd">
+<td>386</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3581875</td>
+<td align="right">0.134</td>
+<td align="right">0.287</td>
+<td align="right">0.0000000</td>
+<td align="left">FRMD6</td>
+</tr>
+<tr class="even">
+<td>430</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3556367</td>
+<td align="right">0.183</td>
+<td align="right">0.260</td>
+<td align="right">0.0000000</td>
+<td align="left">USP53</td>
+</tr>
+<tr class="odd">
+<td>485</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3553073</td>
+<td align="right">0.996</td>
+<td align="right">1.000</td>
+<td align="right">0.0000000</td>
+<td align="left">TMSB4X</td>
+</tr>
+<tr class="even">
+<td>363</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3473315</td>
+<td align="right">0.044</td>
+<td align="right">0.189</td>
+<td align="right">0.0000000</td>
+<td align="left">TNNT3</td>
+</tr>
+<tr class="odd">
+<td>421</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3472240</td>
+<td align="right">0.188</td>
+<td align="right">0.297</td>
+<td align="right">0.0000000</td>
+<td align="left">MYADM</td>
+</tr>
+<tr class="even">
+<td>470</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3448129</td>
+<td align="right">0.375</td>
+<td align="right">0.491</td>
+<td align="right">0.0000000</td>
+<td align="left">C1orf21</td>
+</tr>
+<tr class="odd">
+<td>468</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3445678</td>
+<td align="right">0.160</td>
+<td align="right">0.251</td>
+<td align="right">0.0000000</td>
+<td align="left">CILP</td>
+</tr>
+<tr class="even">
+<td>409</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3436946</td>
+<td align="right">0.145</td>
+<td align="right">0.274</td>
+<td align="right">0.0000000</td>
+<td align="left">TMEM59L</td>
+</tr>
+<tr class="odd">
+<td>449</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3428310</td>
+<td align="right">0.258</td>
+<td align="right">0.357</td>
+<td align="right">0.0000000</td>
+<td align="left">HCFC1R1</td>
+</tr>
+<tr class="even">
+<td>351</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3420740</td>
+<td align="right">0.046</td>
+<td align="right">0.214</td>
+<td align="right">0.0000000</td>
+<td align="left">PTGIS</td>
+</tr>
+<tr class="odd">
+<td>411</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3412664</td>
+<td align="right">0.211</td>
+<td align="right">0.350</td>
+<td align="right">0.0000000</td>
+<td align="left">HSD17B11</td>
+</tr>
+<tr class="even">
+<td>461</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3378705</td>
+<td align="right">0.375</td>
+<td align="right">0.446</td>
+<td align="right">0.0000000</td>
+<td align="left">SLC38A2</td>
+</tr>
+<tr class="odd">
+<td>377</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3364780</td>
+<td align="right">0.031</td>
+<td align="right">0.153</td>
+<td align="right">0.0000000</td>
+<td align="left">WISP2</td>
+</tr>
+<tr class="even">
+<td>444</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3285126</td>
+<td align="right">0.301</td>
+<td align="right">0.408</td>
+<td align="right">0.0000000</td>
+<td align="left">FAM198B</td>
+</tr>
+<tr class="odd">
+<td>403</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3276626</td>
+<td align="right">0.150</td>
+<td align="right">0.287</td>
+<td align="right">0.0000000</td>
+<td align="left">BASP1</td>
+</tr>
+<tr class="even">
+<td>481</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3271414</td>
+<td align="right">0.319</td>
+<td align="right">0.407</td>
+<td align="right">0.0000000</td>
+<td align="left">PPAP2A</td>
+</tr>
+<tr class="odd">
+<td>400</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3271168</td>
+<td align="right">0.125</td>
+<td align="right">0.245</td>
+<td align="right">0.0000000</td>
+<td align="left">BICC1</td>
+</tr>
+<tr class="even">
+<td>431</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3245189</td>
+<td align="right">0.266</td>
+<td align="right">0.387</td>
+<td align="right">0.0000000</td>
+<td align="left">NEXN</td>
+</tr>
+<tr class="odd">
+<td>487</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3238307</td>
+<td align="right">0.332</td>
+<td align="right">0.401</td>
+<td align="right">0.0000000</td>
+<td align="left">ANKRD28</td>
+</tr>
+<tr class="even">
+<td>451</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3236846</td>
+<td align="right">0.191</td>
+<td align="right">0.289</td>
+<td align="right">0.0000000</td>
+<td align="left">PPP1R15A</td>
+</tr>
+<tr class="odd">
+<td>466</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3210070</td>
+<td align="right">0.227</td>
+<td align="right">0.308</td>
+<td align="right">0.0000000</td>
+<td align="left">CBR3</td>
+</tr>
+<tr class="even">
+<td>432</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3208090</td>
+<td align="right">0.114</td>
+<td align="right">0.217</td>
+<td align="right">0.0000000</td>
+<td align="left">SPON2</td>
+</tr>
+<tr class="odd">
+<td>441</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3113038</td>
+<td align="right">0.134</td>
+<td align="right">0.233</td>
+<td align="right">0.0000000</td>
+<td align="left">MIR24-2</td>
+</tr>
+<tr class="even">
+<td>469</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3093493</td>
+<td align="right">0.203</td>
+<td align="right">0.306</td>
+<td align="right">0.0000000</td>
+<td align="left">GPNMB</td>
+</tr>
+<tr class="odd">
+<td>418</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3092838</td>
+<td align="right">0.130</td>
+<td align="right">0.232</td>
+<td align="right">0.0000000</td>
+<td align="left">RIN2</td>
+</tr>
+<tr class="even">
+<td>489</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3077585</td>
+<td align="right">0.510</td>
+<td align="right">0.556</td>
+<td align="right">0.0000000</td>
+<td align="left">RAB31</td>
+</tr>
+<tr class="odd">
+<td>447</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3033854</td>
+<td align="right">0.161</td>
+<td align="right">0.247</td>
+<td align="right">0.0000000</td>
+<td align="left">SLC40A1</td>
+</tr>
+<tr class="even">
+<td>457</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3024642</td>
+<td align="right">0.150</td>
+<td align="right">0.238</td>
+<td align="right">0.0000000</td>
+<td align="left">PROCR</td>
+</tr>
+<tr class="odd">
+<td>473</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.3012332</td>
+<td align="right">0.178</td>
+<td align="right">0.257</td>
+<td align="right">0.0000000</td>
+<td align="left">EPHB6</td>
+</tr>
+<tr class="even">
+<td>388</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2998950</td>
+<td align="right">0.039</td>
+<td align="right">0.149</td>
+<td align="right">0.0000000</td>
+<td align="left">IER3</td>
+</tr>
+<tr class="odd">
+<td>424</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2991122</td>
+<td align="right">0.132</td>
+<td align="right">0.246</td>
+<td align="right">0.0000000</td>
+<td align="left">SVEP1</td>
+</tr>
+<tr class="even">
+<td>391</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2981124</td>
+<td align="right">0.077</td>
+<td align="right">0.211</td>
+<td align="right">0.0000000</td>
+<td align="left">ABCA9</td>
+</tr>
+<tr class="odd">
+<td>452</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2978345</td>
+<td align="right">0.188</td>
+<td align="right">0.278</td>
+<td align="right">0.0000000</td>
+<td align="left">CELF2</td>
+</tr>
+<tr class="even">
+<td>483</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2975602</td>
+<td align="right">0.357</td>
+<td align="right">0.425</td>
+<td align="right">0.0000000</td>
+<td align="left">HTRA1</td>
+</tr>
+<tr class="odd">
+<td>503</td>
+<td align="right">9.0e-07</td>
+<td align="right">-0.2941391</td>
+<td align="right">0.839</td>
+<td align="right">0.818</td>
+<td align="right">0.0206998</td>
+<td align="left">EID1</td>
+</tr>
+<tr class="even">
+<td>394</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2932849</td>
+<td align="right">0.084</td>
+<td align="right">0.211</td>
+<td align="right">0.0000000</td>
+<td align="left">CTD-2369P2.2</td>
+</tr>
+<tr class="odd">
+<td>482</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2904967</td>
+<td align="right">0.275</td>
+<td align="right">0.374</td>
+<td align="right">0.0000000</td>
+<td align="left">SCARA5</td>
+</tr>
+<tr class="even">
+<td>496</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2875948</td>
+<td align="right">0.890</td>
+<td align="right">0.892</td>
+<td align="right">0.0000065</td>
+<td align="left">RABAC1</td>
+</tr>
+<tr class="odd">
+<td>384</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2871373</td>
+<td align="right">0.987</td>
+<td align="right">0.998</td>
+<td align="right">0.0000000</td>
+<td align="left">PFDN5</td>
+</tr>
+<tr class="even">
+<td>397</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2870688</td>
+<td align="right">0.984</td>
+<td align="right">0.987</td>
+<td align="right">0.0000000</td>
+<td align="left">RPS27L</td>
+</tr>
+<tr class="odd">
+<td>396</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2866403</td>
+<td align="right">0.987</td>
+<td align="right">0.992</td>
+<td align="right">0.0000000</td>
+<td align="left">S100A11</td>
+</tr>
+<tr class="even">
+<td>458</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2865729</td>
+<td align="right">0.246</td>
+<td align="right">0.336</td>
+<td align="right">0.0000000</td>
+<td align="left">LY96</td>
+</tr>
+<tr class="odd">
+<td>499</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2849428</td>
+<td align="right">0.219</td>
+<td align="right">0.298</td>
+<td align="right">0.0000296</td>
+<td align="left">TUBA1A</td>
+</tr>
+<tr class="even">
+<td>402</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2831726</td>
+<td align="right">0.970</td>
+<td align="right">0.970</td>
+<td align="right">0.0000000</td>
+<td align="left">COL6A2</td>
+</tr>
+<tr class="odd">
+<td>437</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2819146</td>
+<td align="right">0.975</td>
+<td align="right">0.991</td>
+<td align="right">0.0000000</td>
+<td align="left">GSN</td>
+</tr>
+<tr class="even">
+<td>493</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2797459</td>
+<td align="right">0.802</td>
+<td align="right">0.763</td>
+<td align="right">0.0000003</td>
+<td align="left">MYL12A</td>
+</tr>
+<tr class="odd">
+<td>419</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2772346</td>
+<td align="right">0.122</td>
+<td align="right">0.241</td>
+<td align="right">0.0000000</td>
+<td align="left">TGIF1</td>
+</tr>
+<tr class="even">
+<td>471</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2756794</td>
+<td align="right">0.244</td>
+<td align="right">0.315</td>
+<td align="right">0.0000000</td>
+<td align="left">DST</td>
+</tr>
+<tr class="odd">
+<td>464</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2755761</td>
+<td align="right">0.192</td>
+<td align="right">0.259</td>
+<td align="right">0.0000000</td>
+<td align="left">ARHGAP29</td>
+</tr>
+<tr class="even">
+<td>477</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2749453</td>
+<td align="right">0.170</td>
+<td align="right">0.255</td>
+<td align="right">0.0000000</td>
+<td align="left">ADAMTS5</td>
+</tr>
+<tr class="odd">
+<td>472</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2723758</td>
+<td align="right">0.232</td>
+<td align="right">0.317</td>
+<td align="right">0.0000000</td>
+<td align="left">PLP2</td>
+</tr>
+<tr class="even">
+<td>415</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2722957</td>
+<td align="right">0.105</td>
+<td align="right">0.210</td>
+<td align="right">0.0000000</td>
+<td align="left">KLF4</td>
+</tr>
+<tr class="odd">
+<td>378</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2716798</td>
+<td align="right">0.033</td>
+<td align="right">0.152</td>
+<td align="right">0.0000000</td>
+<td align="left">SGK1</td>
+</tr>
+<tr class="even">
+<td>490</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2699287</td>
+<td align="right">0.321</td>
+<td align="right">0.387</td>
+<td align="right">0.0000001</td>
+<td align="left">KANK2</td>
+</tr>
+<tr class="odd">
+<td>410</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2698614</td>
+<td align="right">0.054</td>
+<td align="right">0.141</td>
+<td align="right">0.0000000</td>
+<td align="left">NR4A1</td>
+</tr>
+<tr class="even">
+<td>455</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2671119</td>
+<td align="right">0.214</td>
+<td align="right">0.312</td>
+<td align="right">0.0000000</td>
+<td align="left">LPAR1</td>
+</tr>
+<tr class="odd">
+<td>426</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2669031</td>
+<td align="right">0.092</td>
+<td align="right">0.195</td>
+<td align="right">0.0000000</td>
+<td align="left">CLEC2B</td>
+</tr>
+<tr class="even">
+<td>436</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2636003</td>
+<td align="right">0.116</td>
+<td align="right">0.213</td>
+<td align="right">0.0000000</td>
+<td align="left">PODN</td>
+</tr>
+<tr class="odd">
+<td>414</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2634092</td>
+<td align="right">0.077</td>
+<td align="right">0.187</td>
+<td align="right">0.0000000</td>
+<td align="left">FIBIN</td>
+</tr>
+<tr class="even">
+<td>467</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2633527</td>
+<td align="right">0.209</td>
+<td align="right">0.288</td>
+<td align="right">0.0000000</td>
+<td align="left">IFI16</td>
+</tr>
+<tr class="odd">
+<td>480</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2611765</td>
+<td align="right">0.205</td>
+<td align="right">0.274</td>
+<td align="right">0.0000000</td>
+<td align="left">CHIC2</td>
+</tr>
+<tr class="even">
+<td>428</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2609559</td>
+<td align="right">0.935</td>
+<td align="right">0.942</td>
+<td align="right">0.0000000</td>
+<td align="left">ADH1B</td>
+</tr>
+<tr class="odd">
+<td>425</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2584379</td>
+<td align="right">0.094</td>
+<td align="right">0.197</td>
+<td align="right">0.0000000</td>
+<td align="left">ITGBL1</td>
+</tr>
+<tr class="even">
+<td>454</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2577790</td>
+<td align="right">0.140</td>
+<td align="right">0.224</td>
+<td align="right">0.0000000</td>
+<td align="left">CCNG2</td>
+</tr>
+<tr class="odd">
+<td>498</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2571086</td>
+<td align="right">0.682</td>
+<td align="right">0.672</td>
+<td align="right">0.0000224</td>
+<td align="left">JUN</td>
+</tr>
+<tr class="even">
+<td>401</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2569772</td>
+<td align="right">0.945</td>
+<td align="right">0.943</td>
+<td align="right">0.0000000</td>
+<td align="left">H3F3B</td>
+</tr>
+<tr class="odd">
+<td>501</td>
+<td align="right">2.0e-07</td>
+<td align="right">-0.2569092</td>
+<td align="right">0.273</td>
+<td align="right">0.369</td>
+<td align="right">0.0041113</td>
+<td align="left">CRISPLD2</td>
+</tr>
+<tr class="even">
+<td>504</td>
+<td align="right">1.4e-06</td>
+<td align="right">-0.2562880</td>
+<td align="right">0.847</td>
+<td align="right">0.815</td>
+<td align="right">0.0323345</td>
+<td align="left">LAMC1</td>
+</tr>
+<tr class="odd">
+<td>353</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2519629</td>
+<td align="right">0.996</td>
+<td align="right">1.000</td>
+<td align="right">0.0000000</td>
+<td align="left">RPS27</td>
+</tr>
+<tr class="even">
+<td>465</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2519161</td>
+<td align="right">0.870</td>
+<td align="right">0.866</td>
+<td align="right">0.0000000</td>
+<td align="left">COL6A3</td>
+</tr>
+<tr class="odd">
+<td>491</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2517855</td>
+<td align="right">0.801</td>
+<td align="right">0.733</td>
+<td align="right">0.0000002</td>
+<td align="left">SEPT11</td>
+</tr>
+<tr class="even">
+<td>434</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2510037</td>
+<td align="right">0.132</td>
+<td align="right">0.222</td>
+<td align="right">0.0000000</td>
+<td align="left">PLSCR4</td>
+</tr>
+<tr class="odd">
+<td>502</td>
+<td align="right">2.0e-07</td>
+<td align="right">-0.2508395</td>
+<td align="right">0.670</td>
+<td align="right">0.664</td>
+<td align="right">0.0042143</td>
+<td align="left">VAMP5</td>
+</tr>
+<tr class="even">
+<td>479</td>
+<td align="right">0.0e+00</td>
+<td align="right">-0.2502025</td>
+<td align="right">0.217</td>
+<td align="right">0.289</td>
+<td align="right">0.0000000</td>
+<td align="left">TSPAN4</td>
+</tr>
+</tbody>
+</table>
+<p>Top 60 ECM branch genes sorted on logFC.</p>
+<pre class="r"><code>FeaturePlot(seurobj, features.plot=as.vector(markers_ecm$gene)[1:60], nCol=2, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F)</code></pre>
+<img src="figure/10x-180831-metabolic_ECM_genes.Rmd/unnamed-chunk-5-1.png" width="960" style="display: block; margin: auto;" /> <br> <br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.3 (2019-03-11)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Storage
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.3.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] knitr_1.22    Seurat_2.3.4  Matrix_1.2-17 cowplot_0.9.4 ggplot2_3.1.0
+
+loaded via a namespace (and not attached):
+  [1] Rtsne_0.15          colorspace_1.4-1    class_7.3-15       
+  [4] modeltools_0.2-22   ggridges_0.5.1      mclust_5.4.3       
+  [7] rprojroot_1.3-2     htmlTable_1.13.1    base64enc_0.1-3    
+ [10] fs_1.2.7            rstudioapi_0.10     proxy_0.4-23       
+ [13] npsurv_0.4-0        flexmix_2.3-15      bit64_0.9-7        
+ [16] mvtnorm_1.0-10      codetools_0.2-16    splines_3.5.3      
+ [19] R.methodsS3_1.7.1   lsei_1.2-0          robustbase_0.93-4  
+ [22] jsonlite_1.6        Formula_1.2-3       workflowr_1.2.0    
+ [25] ica_1.0-2           cluster_2.0.7-1     kernlab_0.9-27     
+ [28] png_0.1-7           R.oo_1.22.0         compiler_3.5.3     
+ [31] httr_1.4.0          backports_1.1.3     assertthat_0.2.1   
+ [34] lazyeval_0.2.2      lars_1.2            acepack_1.4.1      
+ [37] htmltools_0.3.6     tools_3.5.3         igraph_1.2.4       
+ [40] gtable_0.3.0        glue_1.3.1          reshape2_1.4.3     
+ [43] RANN_2.6.1          dplyr_0.8.0.1       Rcpp_1.0.1         
+ [46] trimcluster_0.1-2.1 gdata_2.18.0        ape_5.3            
+ [49] nlme_3.1-137        iterators_1.0.10    fpc_2.1-11.1       
+ [52] gbRd_0.4-11         lmtest_0.9-36       xfun_0.5           
+ [55] stringr_1.4.0       irlba_2.3.3         gtools_3.8.1       
+ [58] DEoptimR_1.0-8      MASS_7.3-51.1       zoo_1.8-5          
+ [61] scales_1.0.0        doSNOW_1.0.16       parallel_3.5.3     
+ [64] RColorBrewer_1.1-2  yaml_2.2.0          reticulate_1.11.1  
+ [67] pbapply_1.4-0       gridExtra_2.3       rpart_4.1-13       
+ [70] segmented_0.5-3.0   latticeExtra_0.6-28 stringi_1.4.3      
+ [73] highr_0.8           foreach_1.4.4       checkmate_1.9.1    
+ [76] caTools_1.17.1.2    bibtex_0.4.2        Rdpack_0.10-1      
+ [79] SDMTools_1.1-221    rlang_0.3.2         pkgconfig_2.0.2    
+ [82] dtw_1.20-1          prabclus_2.2-7      bitops_1.0-6       
+ [85] evaluate_0.13       lattice_0.20-38     ROCR_1.0-7         
+ [88] purrr_0.3.2         labeling_0.3        htmlwidgets_1.3    
+ [91] bit_1.1-14          tidyselect_0.2.5    plyr_1.8.4         
+ [94] magrittr_1.5        R6_2.4.0            snow_0.4-3         
+ [97] gplots_3.0.1.1      Hmisc_4.2-0         pillar_1.3.1       
+[100] whisker_0.3-2       foreign_0.8-71      withr_2.1.2        
+[103] fitdistrplus_1.0-14 mixtools_1.1.0      survival_2.43-3    
+[106] nnet_7.3-12         tsne_0.1-3          tibble_2.1.1       
+[109] crayon_1.3.4        hdf5r_1.1.1         KernSmooth_2.23-15 
+[112] rmarkdown_1.12      grid_3.5.3          data.table_1.12.0  
+[115] git2r_0.25.2        metap_1.1           digest_0.6.18      
+[118] diptest_0.75-7      tidyr_0.8.3         R.utils_2.8.0      
+[121] stats4_3.5.3        munsell_0.5.0      </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
