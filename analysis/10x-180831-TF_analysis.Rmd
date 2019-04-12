@@ -50,7 +50,7 @@ combined <- do.call("rbind", combined)
 ```
 
 ```{r}
-kable(combined)
+kable(combined[c('gene_short_name', 'qval', 'avgLogFC_State2_State3', 'cluster', 'Gene type', 'GO term accession', 'GO term name')])
 ```
 
 
@@ -61,5 +61,12 @@ kable(combined)
 
 ```{r, fig.height = 80, fig.width = 10, fig.align = "center"}
 FeaturePlot(seurobj, features.plot=as.vector(combined$gene_short_name), nCol=2, cols.use=c('gray', 'blue'), no.legend=F)
+```
+
+```{r}
+#for (gene in as.vector(combined$gene_short_name)){
+#  p <- FeaturePlot(seurobj, features.plot=as.vector(combined$gene_short_name), nCol=2, cols.use=c('gray', 'blue'), no.legend=F, do.return = T)[[gene]]
+#  save_plot(paste('../figures/figures_paper/supplementary_figures/tf_analysis/BEAM_logFC0.3_ncluster6_413genes/', gene, '.pdf', sep=''), p, base_width=5, base_height=4)
+#}
 ```
 
