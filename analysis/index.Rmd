@@ -32,6 +32,5 @@ output:
 <li>[BEAM GO plots](10x-180831-beamGOplot.html)</li>
 <li>[TF analysis](10x-180831-TF_analysis.html)</li>
 <li>[Metabolic and ECM genes](10x-180831-metabolic_ECM_genes.html)</li>
-<li>[BATLAS](10x-180831-BATLAS.html)</li>
 <li>[Supplementary figures](10x-180831-supplementary_figures.html)</li>
 </ol>
