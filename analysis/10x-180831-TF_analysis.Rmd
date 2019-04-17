@@ -10,6 +10,7 @@ library(data.table)
 library(readr)
 library(dplyr)
 library(knitr)
+library(kableExtra)
 library(Seurat)
 
 seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
@@ -50,7 +51,8 @@ combined <- do.call("rbind", combined)
 ```
 
 ```{r}
-kable(combined[c('gene_short_name', 'qval', 'avgLogFC_State2_State3', 'cluster', 'Gene type', 'GO term accession', 'GO term name')])
+kable(combined[c('gene_short_name', 'qval', 'avgLogFC_State2_State3', 'cluster', 'Gene type', 'GO term accession', 'GO term name')]) %>%
+  kable_styling(bootstrap_options = "striped")
 ```
 
 
