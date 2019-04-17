@@ -236,6 +236,46 @@ paste('Nr of cells in cleaned up data:', length(rownames(data_cleaned@meta.data)
 ```
 
 
+Number of cells per donor and timepoint.
+
+```{r}
+n_cells <- as.data.frame(as.matrix(ftable(data_cleaned@meta.data$timepoint, data_cleaned@meta.data$depot)))
+
+n_cells[nrow(n_cells), ] <- colSums(n_cells)
+rownames(n_cells)[length(rownames(n_cells))] <- 'total'
+
+n_cells[,ncol(n_cells)+1] <- rowSums(n_cells)
+names(n_cells)[length(names(n_cells))] <- 'total'
+
+n_cells
+```
+
+```{r}
+#write.table(n_cells, '../tables/tables_paper/supplementary_tables/10x-180831-ncells.tsv', sep='\t', quote=F, col.names=NA)
+```
+
+```{r}
+df <- merge(demuxlet_all_qc_exons_imputed, data@meta.data, by.x='correct_barcode', by.y='row.names')
+
+n_cells_timepoint_dbl_sng <- as.data.frame(as.matrix(ftable(df$timepoint, df$sng_dbl_amb)))
+ncells_timepoint_snps <- aggregate(df$N.SNP, by=list(timepoint=df$timepoint), FUN=mean)
+n_cells_combined <- merge(n_cells_timepoint_dbl_sng, ncells_timepoint_snps, by.x='row.names', by.y='timepoint')
+rownames(n_cells_combined) <- n_cells_combined$Row.names
+n_cells_combined['Row.names'] <- NULL
+names(n_cells_combined)[length(names(n_cells_combined))] <- 'avg N.SNP'
+
+#n_cells_combined[nrow(n_cells_combined)+1, ] <- colSums(n_cells_combined)
+#rownames(n_cells_combined)[length(rownames(n_cells_combined))] <- 'total'
+
+#n_cells_combined[,ncol(n_cells_combined)+1] <- rowSums(n_cells_combined)
+#names(n_cells_combined)[length(names(n_cells_combined))] <- 'total'
+
+```
+
+```{r}
+#write.table(n_cells_combined, '../tables/tables_paper/supplementary_tables/10x-180831-ncells_demuxlet.tsv', sep='\t', quote=F, col.names=NA)
+```
+
 ```{r}
 #data@meta.data['depot'] <- substr(data@meta.data$sample_name, 1, nchar(data@meta.data$sample_name)-2)
 #saveRDS(data, '../../10x-adipocyte-analysis/output/10x-180831')
