@@ -14,6 +14,8 @@ output:
 ```{r}
 library(Seurat)
 library(knitr)
+library(kableExtra)
+library(dplyr)
 seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
 markers <- read.table('output/markergenes/180831/markers_10x-180831_upperbranch_lowerbranch_negbinom.tsv', header=T)
 ```
@@ -23,26 +25,47 @@ markers <- read.table('output/markergenes/180831/markers_10x-180831_upperbranch_
 ```{r}
 markers_metabolic <- markers[markers$avg_logFC > 0,]
 markers_metabolic <- markers_metabolic[order(-markers_metabolic$avg_logFC),]
-kable(markers_metabolic)
+kable(markers_metabolic) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
-Top 60 markers for metabolic branch sorted on logFC.
+Top 80 markers for metabolic branch sorted on logFC.
 
-```{r, fig.height = 120, fig.width = 10, fig.align = "center"}
-FeaturePlot(seurobj, features.plot=as.vector(markers_metabolic$gene)[1:60], nCol=2, cols.use=c('gray', 'blue'), no.legend=F)
+```{r, fig.height = 45.7, fig.width = 12, fig.align = "center"}
+plots_metabolic <- FeaturePlot(seurobj, features.plot=as.vector(markers_metabolic$gene[1:80]), nCol=4, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
+
+plots_metabolic_edited <- list()
+
+for (p in names(plots_metabolic)){
+  plots_metabolic_edited[[p]] <- plots_metabolic[[p]] + scale_color_gradient(name='Expr.', low='gray', high='blue', guide='colorbar') + theme(legend.title=element_text(size=9), legend.text=element_text(size=9), legend.key.height = unit(0.6, 'cm'), legend.key.width=unit(0.2, 'cm'))
+}
+
+grid_metabolic <- plot_grid(plotlist=plots_metabolic_edited, ncol=4)
+grid_metabolic
 ```
-
 
 #ECM genes
 
 ```{r}
 markers_ecm <- markers[markers$avg_logFC < 0,]
 markers_ecm <- markers_ecm[order(markers_ecm$avg_logFC),]
-kable(markers_ecm)
+kable(markers_ecm) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
 Top 60 ECM branch genes sorted on logFC.
 
-```{r, fig.height = 120, fig.width = 10, fig.align = "center"}
-FeaturePlot(seurobj, features.plot=as.vector(markers_ecm$gene)[1:60], nCol=2, cols.use=c('gray', 'blue'), no.legend=F)
+```{r, fig.height = 45.7, fig.width = 10, fig.align = "center"}
+plots_ecm <- FeaturePlot(seurobj, features.plot=as.vector(markers_ecm$gene[1:80]), nCol=4, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
+
+plots_ecm_edited <- list()
+
+for (p in names(plots_ecm)){
+  plots_ecm_edited[[p]] <- plots_ecm[[p]] + scale_color_gradient(name='Expr.', low='gray', high='blue', guide='colorbar') + theme(legend.title=element_text(size=9), legend.text=element_text(size=9), legend.key.height = unit(0.6, 'cm'), legend.key.width=unit(0.2, 'cm'))
+}
+
+grid_ecm <- plot_grid(plotlist=plots_ecm_edited, ncol=4)
+grid_ecm
 ```
+
+
