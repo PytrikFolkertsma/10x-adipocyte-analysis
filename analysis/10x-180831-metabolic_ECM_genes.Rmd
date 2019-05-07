@@ -31,7 +31,7 @@ kable(markers_metabolic) %>%
 
 Top 80 markers for metabolic branch sorted on logFC.
 
-```{r, results='hide'}
+```{r, fig.show='hide', results='hide'}
 plots_metabolic <- FeaturePlot(seurobj, features.plot=as.vector(markers_metabolic$gene[1:80]), nCol=4, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
 
 plots_metabolic_edited <- list()
@@ -41,6 +41,14 @@ for (p in names(plots_metabolic)){
 }
 
 grid_metabolic <- plot_grid(plotlist=plots_metabolic_edited, ncol=4)
+
+#grid_1 <- plot_grid(plotlist=plots_metabolic_edited[1:28], ncol=4)
+#grid_2 <- plot_grid(plotlist=plots_metabolic_edited[29:56], ncol=4)
+
+#save_plot('figures/figures_paper/supplementary_figures/7_branch-marker-genes/markers_upper_branch_1-28.pdf', grid_1, base_height=16, base_width=12)
+#save_plot('figures/figures_paper/supplementary_figures/7_branch-marker-genes/markers_upper_branch_29_56.pdf', grid_2, base_height=16, base_width=12)
+#save_plot('figures/figures_paper/supplementary_figures/7_branch-marker-genes/markers_upper_branch_1-28.png', grid_1, base_height=16, base_width=12)
+#save_plot('figures/figures_paper/supplementary_figures/7_branch-marker-genes/markers_upper_branch_29_56.png', grid_2, base_height=16, base_width=12)
 ```
 
 ```{r fig.height = 45.7, fig.width = 12, fig.align = "center"}
@@ -58,7 +66,7 @@ kable(markers_ecm) %>%
 
 Top 60 ECM branch genes sorted on logFC.
 
-```{r, results='hide'}
+```{r, fig.show='hide', results='hide'}
 plots_ecm <- FeaturePlot(seurobj, features.plot=as.vector(markers_ecm$gene[1:80]), nCol=4, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
 
 plots_ecm_edited <- list()
@@ -68,6 +76,14 @@ for (p in names(plots_ecm)){
 }
 
 grid_ecm <- plot_grid(plotlist=plots_ecm_edited, ncol=4)
+
+#grid_1 <- plot_grid(plotlist=plots_ecm_edited[1:28], ncol=4)
+#grid_2 <- plot_grid(plotlist=plots_ecm_edited[29:56], ncol=4)
+
+#save_plot('figures/figures_paper/supplementary_figures/7_branch-marker-genes/markers_lower_branch_1-28.pdf', grid_1, base_height=16, base_width=12)
+#save_plot('figures/figures_paper/supplementary_figures/7_branch-marker-genes/markers_lower_branch_29_56.pdf', grid_2, base_height=16, base_width=12)
+#save_plot('figures/figures_paper/supplementary_figures/7_branch-marker-genes/markers_lower_branch_1-28.png', grid_1, base_height=16, base_width=12)
+#save_plot('figures/figures_paper/supplementary_figures/7_branch-marker-genes/markers_lower_branch_29_56.png', grid_2, base_height=16, base_width=12)
 ```
 
 
