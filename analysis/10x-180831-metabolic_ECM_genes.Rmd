@@ -31,7 +31,7 @@ kable(markers_metabolic) %>%
 
 Top 80 markers for metabolic branch sorted on logFC.
 
-```{r, fig.height = 45.7, fig.width = 12, fig.align = "center"}
+```{r, results='hide'}
 plots_metabolic <- FeaturePlot(seurobj, features.plot=as.vector(markers_metabolic$gene[1:80]), nCol=4, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
 
 plots_metabolic_edited <- list()
@@ -41,6 +41,9 @@ for (p in names(plots_metabolic)){
 }
 
 grid_metabolic <- plot_grid(plotlist=plots_metabolic_edited, ncol=4)
+```
+
+```{r fig.height = 45.7, fig.width = 12, fig.align = "center"}
 grid_metabolic
 ```
 
@@ -55,7 +58,7 @@ kable(markers_ecm) %>%
 
 Top 60 ECM branch genes sorted on logFC.
 
-```{r, fig.height = 45.7, fig.width = 10, fig.align = "center"}
+```{r, results='hide'}
 plots_ecm <- FeaturePlot(seurobj, features.plot=as.vector(markers_ecm$gene[1:80]), nCol=4, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
 
 plots_ecm_edited <- list()
@@ -65,7 +68,9 @@ for (p in names(plots_ecm)){
 }
 
 grid_ecm <- plot_grid(plotlist=plots_ecm_edited, ncol=4)
-grid_ecm
 ```
 
 
+```{r, fig.height = 45.7, fig.width = 10, fig.align = "center"}
+grid_ecm
+```
