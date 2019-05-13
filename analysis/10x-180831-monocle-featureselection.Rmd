@@ -10,7 +10,7 @@ output:
 
 This notebook shows the results of different feature selection methods of Monocle. 
 
-```{r results='hide'}
+```{r message=F}
 library(monocle)
 library(cowplot)
 ```
