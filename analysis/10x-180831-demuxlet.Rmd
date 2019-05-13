@@ -8,7 +8,7 @@ output:
       smooth_scroll: true
 ---
 
-```{r}
+```{r message=F}
 library(Seurat)
 library(dplyr)
 library(tidyr)
@@ -21,7 +21,7 @@ data <- readRDS('output/seurat_objects/180831/10x-180831-notcleaned')
 
 ```{r}
 getDemuxletForSample <- function(i, outputdir){
-  demuxlet <- read.table(paste('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/old/data/demuxlet/', outputdir, '/180831_10x_s', i, '.best', sep=''), header=T)
+  demuxlet <- read.table(paste('output/demuxlet/190110_demuxlet_new_genotypes/demuxlet_out/', outputdir, '/180831_10x_s', i, '.best', sep=''), header=T)
 
   demuxlet$correct_barcode <- paste(unlist(sapply(strsplit(as.character(demuxlet$BARCODE), '-'), '[[', 1)), '-', i, sep='')
   rownames(demuxlet) <- demuxlet$correct_barcode
@@ -72,7 +72,7 @@ getAllDemuxletResults <- function(outdir){
 #Demuxlet with QCed VCF file
 
 ```{r}
-demuxlet_all_qc <- getAllDemuxletResults('190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_plink_bed-updated')
+demuxlet_all_qc <- getAllDemuxletResults('demuxlet_plink_bed-updated')
 ```
 
 ```{r results='hide', echo=FALSE, message=FALSE}
@@ -96,7 +96,7 @@ p
 #Demuxlet with QCed VCF, exons only
 
 ```{r}
-demuxlet_all_qc_exons <- getAllDemuxletResults('190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_plink_bed-updated.exon_only.recode')
+demuxlet_all_qc_exons <- getAllDemuxletResults('demuxlet_plink_bed-updated.exon_only.recode')
 ```
 
 ```{r results='hide', echo=FALSE, message=FALSE}
@@ -122,7 +122,7 @@ p
 #Demuxlet with QCed VCF + imputed SNPs
 
 ```{r}
-demuxlet_all_qc_imputed <- getAllDemuxletResults('190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_chr1_22_combined.qc_r2_maf.recode')
+demuxlet_all_qc_imputed <- getAllDemuxletResults('demuxlet_chr1_22_combined.qc_r2_maf.recode')
 ```
 
 ```{r results='hide', echo=FALSE, message=FALSE}
@@ -147,7 +147,7 @@ p
 #Demuxlet with QCed VCF + imputed SNPs, exons only
 
 ```{r}
-demuxlet_all_qc_exons_imputed <- getAllDemuxletResults('190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_chr1_22_combined.qc_r2_maf_exon.recode')
+demuxlet_all_qc_exons_imputed <- getAllDemuxletResults('demuxlet_chr1_22_combined.qc_r2_maf_exon.recode')
 ```
 
  
@@ -172,11 +172,10 @@ p
 ```{r results='hide'}
 demuxlet_list <- list()
 for (i in 1:5){
-   demuxlet <- getDemuxletForSample(i, '190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_chr1_22_combined.qc_r2_maf_exon.recode')
+   demuxlet <- getDemuxletForSample(i, 'demuxlet_chr1_22_combined.qc_r2_maf_exon.recode')
    demuxlet_list[[i]] <- demuxlet
 }
 demuxlet_all <- do.call(rbind, unname(demuxlet_list))
-
 
 demuxlet_all$label <- as.character(demuxlet_all$BEST)
 demuxlet_all$label[startsWith(demuxlet_all$label, 'DBL')] <- 'DBL'
@@ -348,18 +347,9 @@ ggplot(df_aggregated, aes(x=VCF, y=AMB, fill=factor(timepoint))) +
 Percentage doublets
 
 ```{r}
-print('QCed')
-sum(demuxlet_all_qc$DBL) / length(demuxlet_all_qc$DBL)
-print('QCed, exons only')
-sum(demuxlet_all_qc_exons$DBL) / length(demuxlet_all_qc_exons$DBL)
-print('QCed + imputed')
-sum(demuxlet_all_qc_imputed$DBL) / length(demuxlet_all_qc_imputed$DBL)
-print('QCed + imputed, exons only')
-sum(demuxlet_all_qc_exons_imputed$DBL) / length(demuxlet_all_qc_exons_imputed$DBL)
-```
-
-
-```{r}
-#
+paste('QCed:',sum(demuxlet_all_qc$DBL) / length(demuxlet_all_qc$DBL))
+paste('QCed, exons only:', sum(demuxlet_all_qc_exons$DBL) / length(demuxlet_all_qc_exons$DBL))
+paste('QCed + imputed:', sum(demuxlet_all_qc_imputed$DBL) / length(demuxlet_all_qc_imputed$DBL))
+paste('QCed + imputed, exons only', sum(demuxlet_all_qc_exons_imputed$DBL) / length(demuxlet_all_qc_exons_imputed$DBL))
 ```
 
