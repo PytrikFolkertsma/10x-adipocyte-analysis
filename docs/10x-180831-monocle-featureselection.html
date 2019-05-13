@@ -522,10 +522,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree4556d76c4d448c7dee34f3af229dba07e216dceetargetblank4556d76a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/4556d76c4d448c7dee34f3af229dba07e216dcee" target="_blank">4556d76</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree79c83f67ff06e943d8189be7e169c444e979c1c2targetblank79c83f6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/79c83f67ff06e943d8189be7e169c444e979c1c2" target="_blank">79c83f6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree4556d76c4d448c7dee34f3af229dba07e216dceetargetblank4556d76a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree79c83f67ff06e943d8189be7e169c444e979c1c2targetblank79c83f6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -621,6 +621,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/79c83f67ff06e943d8189be7e169c444e979c1c2/analysis/10x-180831-monocle-featureselection.Rmd" target="_blank">79c83f6</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-05-13
+</td>
+<td>
+Monocle feature selection
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/4145fddcea943fd3fe0b75a9ac0f49bd2e03bbb9/docs/10x-180831-monocle-featureselection.html" target="_blank">4145fdd</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-05-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/4556d76c4d448c7dee34f3af229dba07e216dcee/analysis/10x-180831-monocle-featureselection.Rmd" target="_blank">4556d76</a>
 </td>
 <td>
@@ -709,51 +743,8 @@ monocle feature selection notebook
 </div>
 </div>
 <p>This notebook shows the results of different feature selection methods of Monocle.</p>
-<pre class="r"><code>library(monocle)</code></pre>
-<pre><code>Loading required package: Matrix</code></pre>
-<pre><code>Loading required package: Biobase</code></pre>
-<pre><code>Loading required package: BiocGenerics</code></pre>
-<pre><code>Loading required package: parallel</code></pre>
-<pre><code>
-Attaching package: &#39;BiocGenerics&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:parallel&#39;:
-
-    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-    clusterExport, clusterMap, parApply, parCapply, parLapply,
-    parLapplyLB, parRapply, parSapply, parSapplyLB</code></pre>
-<pre><code>The following objects are masked from &#39;package:Matrix&#39;:
-
-    colMeans, colSums, rowMeans, rowSums, which</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
-
-    IQR, mad, sd, var, xtabs</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    anyDuplicated, append, as.data.frame, basename, cbind,
-    colMeans, colnames, colSums, dirname, do.call, duplicated,
-    eval, evalq, Filter, Find, get, grep, grepl, intersect,
-    is.unsorted, lapply, lengths, Map, mapply, match, mget, order,
-    paste, pmax, pmax.int, pmin, pmin.int, Position, rank, rbind,
-    Reduce, rowMeans, rownames, rowSums, sapply, setdiff, sort,
-    table, tapply, union, unique, unsplit, which, which.max,
-    which.min</code></pre>
-<pre><code>Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    &#39;browseVignettes()&#39;. To cite Bioconductor, see
-    &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
-<pre><code>Loading required package: ggplot2</code></pre>
-<pre><code>Loading required package: VGAM</code></pre>
-<pre><code>Loading required package: stats4</code></pre>
-<pre><code>Loading required package: splines</code></pre>
-<pre><code>Loading required package: DDRTree</code></pre>
-<pre><code>Loading required package: irlba</code></pre>
-<pre class="r"><code>library(cowplot)</code></pre>
-<pre><code>
-Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
-
-    ggsave</code></pre>
+<pre class="r"><code>library(monocle)
+library(cowplot)</code></pre>
 <div id="genes-with-high-dispersion" class="section level1">
 <h1>Genes with high dispersion</h1>
 <pre class="r"><code>cds_high_disp &lt;- readRDS(&#39;output/monocle/180831/monocle_high_dispersion/10x-180831-monocle&#39;)
