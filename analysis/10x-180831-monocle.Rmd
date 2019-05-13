@@ -8,11 +8,14 @@ output:
       smooth_scroll: true
 ---
 
-```{r}
+```{r message=F}
 library(Seurat)
 library(monocle)
 library(pheatmap)
 library(knitr)
+library(gtools)
+library(dplyr)
+library(kableExtra)
 source('code/colors.R')
 seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
 cds <- readRDS('output/monocle/180831/10x-180831-monocle-monocle_genelist_T1T2T3_T4T5_res.1.5')
@@ -21,7 +24,7 @@ cds <- readRDS('output/monocle/180831/10x-180831-monocle-monocle_genelist_T1T2T3
 
 #Trajectory plots
 
-```{r fig1, fig.height = 16, fig.width = 5, fig.align = "center"}
+```{r fig.height = 16, fig.width = 5, fig.align = "center"}
 fig <- plot_grid(ncol=1,
   plot_cell_trajectory(cds, color_by='timepoint') + scale_color_manual(values=colors.timepoints, name = "Timepoint"),
   plot_cell_trajectory(cds, color_by='Pseudotime'),
@@ -31,33 +34,31 @@ fig <- plot_grid(ncol=1,
 fig
 ```
 
-```{r fig2, fig.height = 4, fig.width = 5, fig.align = "center"}
+```{r fig.height = 4, fig.width = 5, fig.align = "center"}
 plot_cell_trajectory(cds, color_by='depot') + scale_color_manual(values=colors.depots, name = 'Depots')
 ```
 
-```{r fig3, fig.height = 4, fig.width = 5, fig.align = "center"}
+```{r fig.height = 4, fig.width = 5, fig.align = "center"}
 plot_cell_trajectory(cds, color_by='type') + scale_color_manual(values=colors.type, name = "Type")
 ```
 
 
-```{r fig4, fig.height = 4.5, fig.width = 12, fig.align = "center"}
+```{r fig.height = 4.5, fig.width = 12, fig.align = "center"}
 #seurobj <- AddMetaData(seurobj, pData(cds)['State'])
 plot_grid(
-  TSNEPlot(seurobj, group.by='State', pt.size=0.1, colors.use=colors.states),
-  TSNEPlot(seurobj, group.by='type', pt.size=0.1, colors.use=colors.type),
+  TSNEPlot(seurobj, group.by='State', pt.size=0.1, colors.use=colors.states, return.plot=T),
+  TSNEPlot(seurobj, group.by='type', pt.size=0.1, colors.use=colors.type, return.plot=T),
   labels=c('Predicted by Monocle', 'True labels')
   )
 ```
 
-```{r fig5, fig.height = 5, fig.width = 12, fig.align = "center"}
-plot_grid(
-  TSNEPlot(seurobj, group.by='depot', pt.size=0.1, colors.use=colors.depots),
-  TSNEPlot(seurobj, group.by='timepoint', pt.size=0.1, colors.use=colors.timepoints),
+```{r fig.height = 5, fig.width = 12, fig.align = "center"}
+p <- plot_grid(
+  TSNEPlot(seurobj, group.by='depot', pt.size=0.1, colors.use=colors.depots, return.plot=T),
+  TSNEPlot(seurobj, group.by='timepoint', pt.size=0.1, colors.use=colors.timepoints, return.plot=T),
   ncol=2
 )
 ```
-
-
 
 ```{r fig6, fig.height = 5, fig.width = 12, fig.align = "center"}
 plot_grid(
@@ -67,12 +68,12 @@ plot_grid(
 )
 ```
 
+Pseudotime deciles
 
-```{r}
-#seurobj <- AddMetaData(seurobj, pData(cds)['State'])
-#saveRDS(seurobj, 'output/10x-180831')
-#save metadata for Velocyto
-#write.table(seurobj@meta.data, file='tables/10x-180831-metadata-labels.txt', sep='\t', quote=F)
+```{r, fig.height = 5, fig.width = 8, fig.align = "center"}
+p <- TSNEPlot(seurobj, group.by='branch_high_res', colors.use=colors.deciles.gradient, pt.size=0.5)
+p
+#save_plot('../figures/figures_paper/supplementary_figures/10x-180831_tsne-deciles-pseudotime.pdf', p, base_height=5, base_width=8)
 ```
 
 
@@ -104,13 +105,25 @@ get_ratios <- function(col1, col2){
 
 
 ```{r}
-get_ratios('State.labels', 'depot')
-get_ratios('depot', 'State.labels')
+states.depots <- get_ratios('State.labels', 'depot')
+depots.states <- get_ratios('depot', 'State.labels')
+
+#write.table(states.depots, '../tables/tables_paper/supplementary_tables/10x-180831-ratios-branches-depots.tsv', sep='\t', quote=F, col.names=NA)
+#write.table(depots.states, '../tables/tables_paper/supplementary_tables/10x-180831-ratios-depots-branches.tsv', sep='\t', quote=F, col.names=NA)
+
+states.depots
+depots.states
 ```
 
 ```{r}
-get_ratios('State.labels', 'type')
-get_ratios('type', 'State.labels')
+states.types <- get_ratios('State.labels', 'type')
+types.states <- get_ratios('type', 'State.labels')
+
+#write.table(states.types, '../tables/tables_paper/supplementary_tables/10x-180831-ratios-branches-types.tsv', sep='\t', quote=F, col.names=NA)
+#write.table(types.states, '../tables/tables_paper/supplementary_tables/10x-180831-ratios-types-branches.tsv', sep='\t', quote=F, col.names=NA)
+
+states.types
+types.states
 ```
 
 
@@ -127,7 +140,7 @@ BEAM_res <- BEAM_res[,c("gene_short_name", "pval", "qval")]
 
 
 ```{r}
-paste('Significant genes with q-val < 0.01:', length(BEAM_res$qval[BEAM_res$qval < 0.05]))
+paste('Significant genes with q-val < 0.05:', length(BEAM_res$qval[BEAM_res$qval < 0.05]))
 paste('Significant genes with q-val < 0.01:', length(BEAM_res$qval[BEAM_res$qval < 0.01]))
 paste('Significant genes with q-val < 0.001:', length(BEAM_res$qval[BEAM_res$qval < 0.001]))
 paste('Significant genes with q-val < 0.0001:', length(BEAM_res$qval[BEAM_res$qval < 0.0001]))
@@ -177,7 +190,8 @@ hist(all, breaks=20, probability = F)
 ```{r}
 df <- data.frame(fold_change=names(values), num_genes=unlist(values))
 rownames(df) <- NULL
-kable(df)
+kable(df) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
 #BEAM heatmap
@@ -185,7 +199,6 @@ kable(df)
 Create heatmap of the significant genes with absolute average logFC > 0.3.
 
 ```{r}
-#ran in terminal because of computation time
 #branched_5_0.3_2 <- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, abs(avgLogFC_State2_State3) > 0.3))],
 #                                         branch_point = 1,
 #                                         num_clusters = 5,
@@ -202,6 +215,7 @@ load('output/monocle/180831/heatmaps')
 ```
 
 You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.\\
+Below heatmaps with different logFC thresholds and nClusters are shown. For the heatmap in the publication figure, genes were filtered on absolute logFC > 0.3 between U and L branch and clustered in 6 groups.
 
 ```{r}
 print_nGene <- function(branched){
@@ -223,4 +237,3 @@ for (name in names(heatmaps)){
    cat('\n') 
 }
 ```
-
