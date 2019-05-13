@@ -8,7 +8,9 @@ output:
       smooth_scroll: true
 ---
 
-```{r}
+This notebook shows the results of different feature selection methods of Monocle. 
+
+```{r results='hide'}
 library(monocle)
 library(cowplot)
 ```
