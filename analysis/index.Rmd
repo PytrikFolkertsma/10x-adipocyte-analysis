@@ -20,16 +20,15 @@ output:
 <li>[First data inspection](10x-180831-first-inspection.before-demuxlet.html)</li>
 <li>[General analysis](10x-180831-general-analysis.before-demuxlet.html)</li>
 <li>[Monocle analysis](10x-180831-monocle.before-demuxlet.html)</li>
-<li>[Velocyto analysis](10x-180831-velocyto.before-demuxlet.html)</li>
 </ol>
 
 <b>Notebooks for 10x-180831 analysis:</b><ol>
 <li>[Demuxlet results](10x-180831-demuxlet.html)</li>
-<li>[Colors figures](10x-180831-colors.html)</li>
 <li>[Monocle feature selection](10x-180831-monocle-featureselection.html)</li>
 <li>[Monocle analysis](10x-180831-monocle.html)</li>
 <li>[Monocle genes over pseudotime](10x-180831-pseudotime.html)</li>
 <li>[BEAM GO plots](10x-180831-beamGOplot.html)</li>
+<li>Velocyto analysis</li>
 <li>[TF analysis](10x-180831-TF_analysis.html)</li>
 <li>[Metabolic and ECM genes](10x-180831-metabolic_ECM_genes.html)</li>
 <li>[Supplementary figures](10x-180831-supplementary_figures.html)</li>
