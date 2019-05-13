@@ -443,7 +443,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-04-17
+<strong>Last updated:</strong> 2019-05-13
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -522,10 +522,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree7b6d1975706285933a3e2e241ac6bff0f8cef3d8targetblank7b6d197a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/7b6d1975706285933a3e2e241ac6bff0f8cef3d8" target="_blank">7b6d197</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree1de6405764932f25f5ba26b49f9aceb0b6526eb6targetblank1de6405a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/1de6405764932f25f5ba26b49f9aceb0b6526eb6" target="_blank">1de6405</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree7b6d1975706285933a3e2e241ac6bff0f8cef3d8targetblank7b6d197a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree1de6405764932f25f5ba26b49f9aceb0b6526eb6targetblank1de6405a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -534,6 +534,7 @@ Great! You are using Git for version control. Tracking code development and conn
 Ignored files:
     Ignored:    figures/
     Ignored:    output/bulk_analysis/
+    Ignored:    output/demuxlet/
     Ignored:    output/markergenes/
     Ignored:    output/monocle/
     Ignored:    output/seurat_objects/
@@ -542,31 +543,39 @@ Ignored files:
     Ignored:    tables/
 
 Untracked files:
+    Untracked:  .rstudio_old10/
+    Untracked:  10x-adipocyte-analysis-copy.Rproj
     Untracked:  analysis/.ipynb_checkpoints/velocyto_notebook_180831-checkpoint.ipynb
     Untracked:  analysis/10-180831-monocle-per-depot.Rmd
     Untracked:  analysis/10x-180831-BEAM-heatmap.Rmd
-    Untracked:  analysis/10x-180831-figures.Rmd
     Untracked:  analysis/10x-180831-pseudotime.Rmd
     Untracked:  code/BEAM-heatmaps.R
     Untracked:  code/BEAM_gsea.R
     Untracked:  code/colors.R
 
 Unstaged changes:
+    Deleted:    10x-adipocyte-analysis.Rproj
+    Modified:   analysis/10x-180504-DEGs-depots.Rmd
+    Modified:   analysis/10x-180504-alignment.Rmd
+    Modified:   analysis/10x-180504-depot-markers.Rmd
     Modified:   analysis/10x-180831-BATLAS.Rmd
+    Modified:   analysis/10x-180831-TF_analysis.Rmd
     Modified:   analysis/10x-180831-beamGOplot.Rmd
     Modified:   analysis/10x-180831-colors.Rmd
+    Modified:   analysis/10x-180831-figures.Rmd
     Modified:   analysis/10x-180831-general-analysis.Rmd
-    Modified:   analysis/10x-180831-metabolic_ECM_genes.Rmd
-    Modified:   analysis/10x-180831-monocle.Rmd
     Modified:   analysis/10x-180831-supplementary_figures.Rmd
+    Modified:   analysis/velocyto_notebook_180504.ipynb
     Modified:   analysis/velocyto_notebook_180831.ipynb
     Deleted:    code/REMOVE/find-brown-sample-markers-180504-REMOVE.R
     Deleted:    code/REMOVE/find-white-sample-markers-180504-REMOVE.R
     Deleted:    code/REMOVE/get-genes-monocle-180831-REMOVE.R
     Modified:   code/compute-genelists-monocle-depots.R
+    Modified:   code/find-depot-markers-180504.R
     Modified:   code/find-markers.R
     Modified:   code/preprocess-data.R
     Modified:   code/run-monocle.R
+    Modified:   code/velocyto_preprocess.py
 
 </code></pre>
 <p>
@@ -605,6 +614,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/158bede2ed6eebe5cfc3a64d26645f5bd931d113/docs/10x-180831-demuxlet.html" target="_blank">158bede</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -748,34 +774,13 @@ analysis updates
 </div>
 </div>
 </div>
-<pre class="r"><code>library(Seurat)</code></pre>
-<pre><code>Loading required package: ggplot2</code></pre>
-<pre><code>Loading required package: cowplot</code></pre>
-<pre><code>
-Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
-
-    ggsave</code></pre>
-<pre><code>Loading required package: Matrix</code></pre>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>
-Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
-
-    filter, lag</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>library(tidyr)</code></pre>
-<pre><code>
-Attaching package: &#39;tidyr&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:Matrix&#39;:
-
-    expand</code></pre>
-<pre class="r"><code>library(ggplot2)</code></pre>
+<pre class="r"><code>library(Seurat)
+library(dplyr)
+library(tidyr)
+library(ggplot2)</code></pre>
 <pre class="r"><code>data &lt;- readRDS(&#39;output/seurat_objects/180831/10x-180831-notcleaned&#39;)</code></pre>
 <pre class="r"><code>getDemuxletForSample &lt;- function(i, outputdir){
-  demuxlet &lt;- read.table(paste(&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/old/data/demuxlet/&#39;, outputdir, &#39;/180831_10x_s&#39;, i, &#39;.best&#39;, sep=&#39;&#39;), header=T)
+  demuxlet &lt;- read.table(paste(&#39;output/demuxlet/190110_demuxlet_new_genotypes/demuxlet_out/&#39;, outputdir, &#39;/180831_10x_s&#39;, i, &#39;.best&#39;, sep=&#39;&#39;), header=T)
 
   demuxlet$correct_barcode &lt;- paste(unlist(sapply(strsplit(as.character(demuxlet$BARCODE), &#39;-&#39;), &#39;[[&#39;, 1)), &#39;-&#39;, i, sep=&#39;&#39;)
   rownames(demuxlet) &lt;- demuxlet$correct_barcode
@@ -821,7 +826,7 @@ getAllDemuxletResults &lt;- function(outdir){
 }</code></pre>
 <div id="demuxlet-with-qced-vcf-file" class="section level1">
 <h1>Demuxlet with QCed VCF file</h1>
-<pre class="r"><code>demuxlet_all_qc &lt;- getAllDemuxletResults(&#39;190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_plink_bed-updated&#39;)</code></pre>
+<pre class="r"><code>demuxlet_all_qc &lt;- getAllDemuxletResults(&#39;demuxlet_plink_bed-updated&#39;)</code></pre>
 <pre><code>  sample  SNG DBL AMB df_snp$N.SNP
 1      1 3074 359   0     89.41159
 2      2 5220 311   0     78.10541
@@ -1229,7 +1234,7 @@ Pytrik Folkertsma
 </div>
 <div id="demuxlet-with-qced-vcf-exons-only" class="section level1">
 <h1>Demuxlet with QCed VCF, exons only</h1>
-<pre class="r"><code>demuxlet_all_qc_exons &lt;- getAllDemuxletResults(&#39;190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_plink_bed-updated.exon_only.recode&#39;)</code></pre>
+<pre class="r"><code>demuxlet_all_qc_exons &lt;- getAllDemuxletResults(&#39;demuxlet_plink_bed-updated.exon_only.recode&#39;)</code></pre>
 <pre><code>  sample  SNG DBL AMB df_snp$N.SNP
 1      1 3056 377   0     68.64433
 2      2 5153 376   2     56.22528
@@ -1637,7 +1642,7 @@ Pytrik Folkertsma
 </div>
 <div id="demuxlet-with-qced-vcf-imputed-snps" class="section level1">
 <h1>Demuxlet with QCed VCF + imputed SNPs</h1>
-<pre class="r"><code>demuxlet_all_qc_imputed &lt;- getAllDemuxletResults(&#39;190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_chr1_22_combined.qc_r2_maf.recode&#39;)</code></pre>
+<pre class="r"><code>demuxlet_all_qc_imputed &lt;- getAllDemuxletResults(&#39;demuxlet_chr1_22_combined.qc_r2_maf.recode&#39;)</code></pre>
 <pre><code>  sample  SNG  DBL AMB df_snp$N.SNP
 1      1 2948  485   0    146.00524
 2      2 5065  465   1    147.65811
@@ -2045,7 +2050,7 @@ Pytrik Folkertsma
 </div>
 <div id="demuxlet-with-qced-vcf-imputed-snps-exons-only" class="section level1">
 <h1>Demuxlet with QCed VCF + imputed SNPs, exons only</h1>
-<pre class="r"><code>demuxlet_all_qc_exons_imputed &lt;- getAllDemuxletResults(&#39;190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_chr1_22_combined.qc_r2_maf_exon.recode&#39;)</code></pre>
+<pre class="r"><code>demuxlet_all_qc_exons_imputed &lt;- getAllDemuxletResults(&#39;demuxlet_chr1_22_combined.qc_r2_maf_exon.recode&#39;)</code></pre>
 <pre><code>  sample  SNG  DBL AMB df_snp$N.SNP
 1      1 2890  543   0     75.05884
 2      2 5211  320   0    223.39487
@@ -2354,11 +2359,10 @@ Pytrik Folkertsma
 </div>
 <pre class="r"><code>demuxlet_list &lt;- list()
 for (i in 1:5){
-   demuxlet &lt;- getDemuxletForSample(i, &#39;190110_demuxlet_new_genotypes/demuxlet_out/demuxlet_chr1_22_combined.qc_r2_maf_exon.recode&#39;)
+   demuxlet &lt;- getDemuxletForSample(i, &#39;demuxlet_chr1_22_combined.qc_r2_maf_exon.recode&#39;)
    demuxlet_list[[i]] &lt;- demuxlet
 }
 demuxlet_all &lt;- do.call(rbind, unname(demuxlet_list))
-
 
 demuxlet_all$label &lt;- as.character(demuxlet_all$BEST)
 demuxlet_all$label[startsWith(demuxlet_all$label, &#39;DBL&#39;)] &lt;- &#39;DBL&#39;
@@ -2685,6 +2689,43 @@ ggplot(df_snps_vcf_timepoint, aes(x=VCF, y=N.SNP, fill=factor(timepoint))) +
   theme_gray() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) </code></pre>
 <p><img src="figure/10x-180831-demuxlet.Rmd/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-25-1">
+Past versions of unnamed-chunk-25-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-25-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/158bede2ed6eebe5cfc3a64d26645f5bd931d113/docs/figure/10x-180831-demuxlet.Rmd/unnamed-chunk-25-1.png" target="_blank">158bede</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Number of singlets, doublets and ambiguous per VCF file.</p>
 <pre class="r"><code>ggplot(df_aggregated, aes(x=VCF, y=SNG, fill=factor(timepoint))) + 
   geom_bar(stat=&#39;identity&#39;, position=&#39;dodge&#39;) +
@@ -2692,36 +2733,138 @@ ggplot(df_snps_vcf_timepoint, aes(x=VCF, y=N.SNP, fill=factor(timepoint))) +
   theme_gray() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
 <p><img src="figure/10x-180831-demuxlet.Rmd/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-26-1">
+Past versions of unnamed-chunk-26-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-26-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/158bede2ed6eebe5cfc3a64d26645f5bd931d113/docs/figure/10x-180831-demuxlet.Rmd/unnamed-chunk-26-1.png" target="_blank">158bede</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot(df_aggregated, aes(x=VCF, y=DBL, fill=factor(timepoint))) + 
   geom_bar(stat=&#39;identity&#39;, position=&#39;dodge&#39;) +
   labs(title=&#39;Number of doublets&#39;, fill=&#39;timepoint&#39;, x=&#39;VCF file&#39;, y=&#39;&#39;) +
   theme_gray() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
 <p><img src="figure/10x-180831-demuxlet.Rmd/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-27-1">
+Past versions of unnamed-chunk-27-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-27-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/158bede2ed6eebe5cfc3a64d26645f5bd931d113/docs/figure/10x-180831-demuxlet.Rmd/unnamed-chunk-27-1.png" target="_blank">158bede</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot(df_aggregated, aes(x=VCF, y=AMB, fill=factor(timepoint))) + 
   geom_bar(stat=&#39;identity&#39;, position=&#39;dodge&#39;) +
   labs(title=&#39;Number of ambiguous&#39;, fill=&#39;timepoint&#39;, x=&#39;VCF file&#39;, y=&#39;&#39;) +
   theme_gray() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
 <p><img src="figure/10x-180831-demuxlet.Rmd/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-28-1">
+Past versions of unnamed-chunk-28-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-28-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/158bede2ed6eebe5cfc3a64d26645f5bd931d113/docs/figure/10x-180831-demuxlet.Rmd/unnamed-chunk-28-1.png" target="_blank">158bede</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Percentage doublets</p>
-<pre class="r"><code>print(&#39;QCed&#39;)</code></pre>
-<pre><code>[1] &quot;QCed&quot;</code></pre>
-<pre class="r"><code>sum(demuxlet_all_qc$DBL) / length(demuxlet_all_qc$DBL)</code></pre>
-<pre><code>[1] 0.07688586</code></pre>
-<pre class="r"><code>print(&#39;QCed, exons only&#39;)</code></pre>
-<pre><code>[1] &quot;QCed, exons only&quot;</code></pre>
-<pre class="r"><code>sum(demuxlet_all_qc_exons$DBL) / length(demuxlet_all_qc_exons$DBL)</code></pre>
-<pre><code>[1] 0.08741766</code></pre>
-<pre class="r"><code>print(&#39;QCed + imputed&#39;)</code></pre>
-<pre><code>[1] &quot;QCed + imputed&quot;</code></pre>
-<pre class="r"><code>sum(demuxlet_all_qc_imputed$DBL) / length(demuxlet_all_qc_imputed$DBL)</code></pre>
-<pre><code>[1] 0.1266421</code></pre>
-<pre class="r"><code>print(&#39;QCed + imputed, exons only&#39;)</code></pre>
-<pre><code>[1] &quot;QCed + imputed, exons only&quot;</code></pre>
-<pre class="r"><code>sum(demuxlet_all_qc_exons_imputed$DBL) / length(demuxlet_all_qc_exons_imputed$DBL)</code></pre>
-<pre><code>[1] 0.1281307</code></pre>
-<pre class="r"><code>#</code></pre>
+<pre class="r"><code>paste(&#39;QCed:&#39;,sum(demuxlet_all_qc$DBL) / length(demuxlet_all_qc$DBL))</code></pre>
+<pre><code>[1] &quot;QCed: 0.0768858620817982&quot;</code></pre>
+<pre class="r"><code>paste(&#39;QCed, exons only:&#39;, sum(demuxlet_all_qc_exons$DBL) / length(demuxlet_all_qc_exons$DBL))</code></pre>
+<pre><code>[1] &quot;QCed, exons only: 0.0874176621636709&quot;</code></pre>
+<pre class="r"><code>paste(&#39;QCed + imputed:&#39;, sum(demuxlet_all_qc_imputed$DBL) / length(demuxlet_all_qc_imputed$DBL))</code></pre>
+<pre><code>[1] &quot;QCed + imputed: 0.126642104871423&quot;</code></pre>
+<pre class="r"><code>paste(&#39;QCed + imputed, exons only&#39;, sum(demuxlet_all_qc_exons_imputed$DBL) / length(demuxlet_all_qc_exons_imputed$DBL))</code></pre>
+<pre><code>[1] &quot;QCed + imputed, exons only 0.128130698522571&quot;</code></pre>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
