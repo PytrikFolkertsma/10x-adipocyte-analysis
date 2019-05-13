@@ -443,7 +443,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-04-03
+<strong>Last updated:</strong> 2019-05-13
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -522,10 +522,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree5db56000bc581dfa116f5021790715a36bf4cb16targetblank5db5600a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/5db56000bc581dfa116f5021790715a36bf4cb16" target="_blank">5db5600</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree4556d76c4d448c7dee34f3af229dba07e216dceetargetblank4556d76a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/4556d76c4d448c7dee34f3af229dba07e216dcee" target="_blank">4556d76</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree5db56000bc581dfa116f5021790715a36bf4cb16targetblank5db5600a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree4556d76c4d448c7dee34f3af229dba07e216dceetargetblank4556d76a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -534,6 +534,7 @@ Great! You are using Git for version control. Tracking code development and conn
 Ignored files:
     Ignored:    figures/
     Ignored:    output/bulk_analysis/
+    Ignored:    output/demuxlet/
     Ignored:    output/markergenes/
     Ignored:    output/monocle/
     Ignored:    output/seurat_objects/
@@ -542,21 +543,41 @@ Ignored files:
     Ignored:    tables/
 
 Untracked files:
-    Untracked:  Rplots.pdf
+    Untracked:  .rstudio_old10/
+    Untracked:  10x-adipocyte-analysis-copy.Rproj
     Untracked:  analysis/.ipynb_checkpoints/velocyto_notebook_180831-checkpoint.ipynb
     Untracked:  analysis/10-180831-monocle-per-depot.Rmd
     Untracked:  analysis/10x-180831-BEAM-heatmap.Rmd
-    Untracked:  analysis/10x-180831-monocle.Rmd
-    Untracked:  analysis/10x-180831-pseudotime.Rmd
+    Untracked:  code/BEAM-heatmaps.R
+    Untracked:  code/BEAM_gsea.R
     Untracked:  code/colors.R
 
 Unstaged changes:
+    Deleted:    10x-adipocyte-analysis.Rproj
+    Modified:   analysis/10x-180504-DEGs-depots.Rmd
+    Modified:   analysis/10x-180504-alignment.Rmd
+    Modified:   analysis/10x-180504-depot-markers.Rmd
+    Modified:   analysis/10x-180831-BATLAS.Rmd
+    Modified:   analysis/10x-180831-TF_analysis.Rmd
+    Modified:   analysis/10x-180831-beamGOplot.Rmd
+    Modified:   analysis/10x-180831-colors.Rmd
+    Modified:   analysis/10x-180831-demuxlet.Rmd
+    Modified:   analysis/10x-180831-figures.Rmd
     Modified:   analysis/10x-180831-general-analysis.Rmd
+    Modified:   analysis/10x-180831-monocle.Rmd
+    Modified:   analysis/10x-180831-supplementary_figures.Rmd
     Modified:   analysis/index.Rmd
+    Modified:   analysis/velocyto_notebook_180504.ipynb
     Modified:   analysis/velocyto_notebook_180831.ipynb
+    Deleted:    code/REMOVE/find-brown-sample-markers-180504-REMOVE.R
+    Deleted:    code/REMOVE/find-white-sample-markers-180504-REMOVE.R
+    Deleted:    code/REMOVE/get-genes-monocle-180831-REMOVE.R
     Modified:   code/compute-genelists-monocle-depots.R
+    Modified:   code/find-depot-markers-180504.R
+    Modified:   code/find-markers.R
     Modified:   code/preprocess-data.R
     Modified:   code/run-monocle.R
+    Modified:   code/velocyto_preprocess.py
 
 </code></pre>
 <p>
@@ -595,6 +616,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/4556d76c4d448c7dee34f3af229dba07e216dcee/analysis/10x-180831-monocle-featureselection.Rmd" target="_blank">4556d76</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-05-13
+</td>
+<td>
+Monocle feature selection
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/6030229458e43a61497099a9648f3ac224359e26/docs/10x-180831-monocle-featureselection.html" target="_blank">6030229</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -653,6 +708,7 @@ monocle feature selection notebook
 </div>
 </div>
 </div>
+<p>This notebook shows the results of different feature selection methods of Monocle.</p>
 <pre class="r"><code>library(monocle)</code></pre>
 <pre><code>Loading required package: Matrix</code></pre>
 <pre><code>Loading required package: Biobase</code></pre>
@@ -940,6 +996,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/6030229458e43a61497099a9648f3ac224359e26/docs/figure/10x-180831-monocle-featureselection.Rmd/unnamed-chunk-7-1.png" target="_blank">6030229</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/4d2bbec3eeb236b00920c6537e5ee3cb149001c8/docs/figure/10x-180831-monocle-featureselection.Rmd/unnamed-chunk-7-1.png" target="_blank">4d2bbec</a>
 </td>
 <td>
@@ -959,6 +1026,43 @@ Pytrik Folkertsma
 <pre class="r"><code>cds_type &lt;- readRDS(&#39;output/monocle/180831/monocle_type/10x-180831-monocle&#39;)
 plot_cell_trajectory(cds_type, color_by=&#39;timepoint&#39;)</code></pre>
 <p><img src="figure/10x-180831-monocle-featureselection.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/6030229458e43a61497099a9648f3ac224359e26/docs/figure/10x-180831-monocle-featureselection.Rmd/unnamed-chunk-8-1.png" target="_blank">6030229</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="de-genes-between-top10-lowest-pc2-score-and-top10-highest-pc2-score." class="section level1">
 <h1>DE genes between top10% lowest PC2 score and top10% highest PC2 score.</h1>
