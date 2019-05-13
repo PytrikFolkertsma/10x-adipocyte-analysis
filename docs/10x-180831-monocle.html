@@ -25,6 +25,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -443,7 +444,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-04-04
+<strong>Last updated:</strong> 2019-05-13
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -522,10 +523,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree8e41685fdace7a6eb136056b18802f363f5b55b5targetblank8e41685a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/8e41685fdace7a6eb136056b18802f363f5b55b5" target="_blank">8e41685</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreeb2735debe81e7cb8e18e28993795246877eadd66targetblankb2735dea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/b2735debe81e7cb8e18e28993795246877eadd66" target="_blank">b2735de</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree8e41685fdace7a6eb136056b18802f363f5b55b5targetblank8e41685a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreeb2735debe81e7cb8e18e28993795246877eadd66targetblankb2735dea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -535,6 +536,7 @@ Ignored files:
     Ignored:    analysis/figure/
     Ignored:    figures/
     Ignored:    output/bulk_analysis/
+    Ignored:    output/demuxlet/
     Ignored:    output/markergenes/
     Ignored:    output/monocle/
     Ignored:    output/seurat_objects/
@@ -543,8 +545,8 @@ Ignored files:
     Ignored:    tables/
 
 Untracked files:
-    Untracked:  10x-180831-figures.Rmd
-    Untracked:  Rplots.pdf
+    Untracked:  .rstudio_old10/
+    Untracked:  10x-adipocyte-analysis-copy.Rproj
     Untracked:  analysis/.ipynb_checkpoints/velocyto_notebook_180831-checkpoint.ipynb
     Untracked:  analysis/10-180831-monocle-per-depot.Rmd
     Untracked:  analysis/10x-180831-BEAM-heatmap.Rmd
@@ -554,12 +556,30 @@ Untracked files:
     Untracked:  code/colors.R
 
 Unstaged changes:
+    Deleted:    10x-adipocyte-analysis.Rproj
+    Modified:   analysis/10x-180504-DEGs-depots.Rmd
+    Modified:   analysis/10x-180504-alignment.Rmd
+    Modified:   analysis/10x-180504-depot-markers.Rmd
+    Modified:   analysis/10x-180831-BATLAS.Rmd
+    Modified:   analysis/10x-180831-TF_analysis.Rmd
+    Modified:   analysis/10x-180831-beamGOplot.Rmd
     Modified:   analysis/10x-180831-colors.Rmd
+    Modified:   analysis/10x-180831-demuxlet.Rmd
+    Modified:   analysis/10x-180831-figures.Rmd
     Modified:   analysis/10x-180831-general-analysis.Rmd
+    Modified:   analysis/10x-180831-supplementary_figures.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/velocyto_notebook_180504.ipynb
     Modified:   analysis/velocyto_notebook_180831.ipynb
+    Deleted:    code/REMOVE/find-brown-sample-markers-180504-REMOVE.R
+    Deleted:    code/REMOVE/find-white-sample-markers-180504-REMOVE.R
+    Deleted:    code/REMOVE/get-genes-monocle-180831-REMOVE.R
     Modified:   code/compute-genelists-monocle-depots.R
+    Modified:   code/find-depot-markers-180504.R
+    Modified:   code/find-markers.R
     Modified:   code/preprocess-data.R
     Modified:   code/run-monocle.R
+    Modified:   code/velocyto_preprocess.py
 
 </code></pre>
 <p>
@@ -598,6 +618,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b2735debe81e7cb8e18e28993795246877eadd66/analysis/10x-180831-monocle.Rmd" target="_blank">b2735de</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-05-13
+</td>
+<td>
+Notebook cleanup
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/7edfe738529e517f0b9afe4ad21139bd985571c1/docs/10x-180831-monocle.html" target="_blank">7edfe73</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -843,54 +897,13 @@ updated notebooks
 </div>
 </div>
 </div>
-<pre class="r"><code>library(Seurat)</code></pre>
-<pre><code>Loading required package: ggplot2</code></pre>
-<pre><code>Loading required package: cowplot</code></pre>
-<pre><code>
-Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
-
-    ggsave</code></pre>
-<pre><code>Loading required package: Matrix</code></pre>
-<pre class="r"><code>library(monocle)</code></pre>
-<pre><code>Loading required package: Biobase</code></pre>
-<pre><code>Loading required package: BiocGenerics</code></pre>
-<pre><code>Loading required package: parallel</code></pre>
-<pre><code>
-Attaching package: &#39;BiocGenerics&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:parallel&#39;:
-
-    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-    clusterExport, clusterMap, parApply, parCapply, parLapply,
-    parLapplyLB, parRapply, parSapply, parSapplyLB</code></pre>
-<pre><code>The following objects are masked from &#39;package:Matrix&#39;:
-
-    colMeans, colSums, rowMeans, rowSums, which</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
-
-    IQR, mad, sd, var, xtabs</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    anyDuplicated, append, as.data.frame, basename, cbind,
-    colMeans, colnames, colSums, dirname, do.call, duplicated,
-    eval, evalq, Filter, Find, get, grep, grepl, intersect,
-    is.unsorted, lapply, lengths, Map, mapply, match, mget, order,
-    paste, pmax, pmax.int, pmin, pmin.int, Position, rank, rbind,
-    Reduce, rowMeans, rownames, rowSums, sapply, setdiff, sort,
-    table, tapply, union, unique, unsplit, which, which.max,
-    which.min</code></pre>
-<pre><code>Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    &#39;browseVignettes()&#39;. To cite Bioconductor, see
-    &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
-<pre><code>Loading required package: VGAM</code></pre>
-<pre><code>Loading required package: stats4</code></pre>
-<pre><code>Loading required package: splines</code></pre>
-<pre><code>Loading required package: DDRTree</code></pre>
-<pre><code>Loading required package: irlba</code></pre>
-<pre class="r"><code>library(pheatmap)
+<pre class="r"><code>library(Seurat)
+library(monocle)
+library(pheatmap)
 library(knitr)
+library(gtools)
+library(dplyr)
+library(kableExtra)
 source(&#39;code/colors.R&#39;)
 seurobj &lt;- readRDS(&#39;output/seurat_objects/180831/10x-180831&#39;)
 cds &lt;- readRDS(&#39;output/monocle/180831/10x-180831-monocle-monocle_genelist_T1T2T3_T4T5_res.1.5&#39;)</code></pre>
@@ -903,13 +916,13 @@ cds &lt;- readRDS(&#39;output/monocle/180831/10x-180831-monocle-monocle_genelist
   plot_cell_trajectory(cds, color_by = &quot;State&quot;) + scale_color_manual(values=colors.states, name = &quot;State&quot;))
 
 fig</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/fig1-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig1-1">
-Past versions of fig1-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
 </button>
 </p>
-<div id="fig-fig1-1" class="collapse">
+<div id="fig-unnamed-chunk-2-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -928,18 +941,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/fig1-1.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/fig1-1.png" target="_blank">221a47f</a>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-2-1.png" target="_blank">221a47f</a>
 </td>
 <td>
 Pytrik Folkertsma
@@ -953,13 +955,13 @@ Pytrik Folkertsma
 </div>
 </div>
 <pre class="r"><code>plot_cell_trajectory(cds, color_by=&#39;depot&#39;) + scale_color_manual(values=colors.depots, name = &#39;Depots&#39;)</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/fig2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig2-1">
-Past versions of fig2-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
 </button>
 </p>
-<div id="fig-fig2-1" class="collapse">
+<div id="fig-unnamed-chunk-3-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -978,18 +980,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/fig2-1.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/fig2-1.png" target="_blank">221a47f</a>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-3-1.png" target="_blank">221a47f</a>
 </td>
 <td>
 Pytrik Folkertsma
@@ -1003,13 +994,13 @@ Pytrik Folkertsma
 </div>
 </div>
 <pre class="r"><code>plot_cell_trajectory(cds, color_by=&#39;type&#39;) + scale_color_manual(values=colors.type, name = &quot;Type&quot;)</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/fig3-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig3-1">
-Past versions of fig3-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
 </button>
 </p>
-<div id="fig-fig3-1" class="collapse">
+<div id="fig-unnamed-chunk-4-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1028,18 +1019,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/fig3-1.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/fig3-1.png" target="_blank">221a47f</a>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-4-1.png" target="_blank">221a47f</a>
 </td>
 <td>
 Pytrik Folkertsma
@@ -1054,17 +1034,17 @@ Pytrik Folkertsma
 </div>
 <pre class="r"><code>#seurobj &lt;- AddMetaData(seurobj, pData(cds)[&#39;State&#39;])
 plot_grid(
-  TSNEPlot(seurobj, group.by=&#39;State&#39;, pt.size=0.1, colors.use=colors.states),
-  TSNEPlot(seurobj, group.by=&#39;type&#39;, pt.size=0.1, colors.use=colors.type),
+  TSNEPlot(seurobj, group.by=&#39;State&#39;, pt.size=0.1, colors.use=colors.states, return.plot=T),
+  TSNEPlot(seurobj, group.by=&#39;type&#39;, pt.size=0.1, colors.use=colors.type, return.plot=T),
   labels=c(&#39;Predicted by Monocle&#39;, &#39;True labels&#39;)
   )</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/fig4-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig4-1">
-Past versions of fig4-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
 </button>
 </p>
-<div id="fig-fig4-1" class="collapse">
+<div id="fig-unnamed-chunk-5-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1083,18 +1063,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/fig4-1.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/fig4-1.png" target="_blank">221a47f</a>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-5-1.png" target="_blank">221a47f</a>
 </td>
 <td>
 Pytrik Folkertsma
@@ -1107,94 +1076,19 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
-<p><img src="figure/10x-180831-monocle.Rmd/fig4-2.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig4-2">
-Past versions of fig4-2.png
-</button>
-</p>
-<div id="fig-fig4-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/fig4-2.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/10x-180831-monocle.Rmd/fig4-3.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig4-3">
-Past versions of fig4-3.png
-</button>
-</p>
-<div id="fig-fig4-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/fig4-3.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>plot_grid(
-  TSNEPlot(seurobj, group.by=&#39;depot&#39;, pt.size=0.1, colors.use=colors.depots),
-  TSNEPlot(seurobj, group.by=&#39;timepoint&#39;, pt.size=0.1, colors.use=colors.timepoints),
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-5-2.png" width="1152" style="display: block; margin: auto;" /><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-5-3.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>p &lt;- plot_grid(
+  TSNEPlot(seurobj, group.by=&#39;depot&#39;, pt.size=0.1, colors.use=colors.depots, return.plot=T),
+  TSNEPlot(seurobj, group.by=&#39;timepoint&#39;, pt.size=0.1, colors.use=colors.timepoints, return.plot=T),
   ncol=2
 )</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/fig5-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig5-1">
-Past versions of fig5-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
 </button>
 </p>
-<div id="fig-fig5-1" class="collapse">
+<div id="fig-unnamed-chunk-6-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1213,18 +1107,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/fig5-1.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/fig5-1.png" target="_blank">221a47f</a>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-6-1.png" target="_blank">221a47f</a>
 </td>
 <td>
 Pytrik Folkertsma
@@ -1237,82 +1120,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
-<p><img src="figure/10x-180831-monocle.Rmd/fig5-2.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig5-2">
-Past versions of fig5-2.png
-</button>
-</p>
-<div id="fig-fig5-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/fig5-2.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/10x-180831-monocle.Rmd/fig5-3.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-fig5-3">
-Past versions of fig5-3.png
-</button>
-</p>
-<div id="fig-fig5-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/fig5-3.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-6-2.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>plot_grid(
   plot_cell_trajectory(cds, color_by = &quot;timepoint&quot;) + geom_point(color=&#39;white&#39;, size=5) + geom_point(aes(colour=timepoint), alpha=0.1) + scale_color_manual(values=colors.timepoints),
   plot_cell_trajectory(cds, color_by = &quot;timepoint&quot;) + geom_point(color=&#39;white&#39;, size=5) + geom_point(aes(colour=timepoint), alpha=0.01) + scale_color_manual(values=colors.timepoints),
@@ -1356,10 +1164,49 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
-<pre class="r"><code>#seurobj &lt;- AddMetaData(seurobj, pData(cds)[&#39;State&#39;])
-#saveRDS(seurobj, &#39;output/10x-180831&#39;)
-#save metadata for Velocyto
-#write.table(seurobj@meta.data, file=&#39;tables/10x-180831-metadata-labels.txt&#39;, sep=&#39;\t&#39;, quote=F)</code></pre>
+<p>Pseudotime deciles</p>
+<pre class="r"><code>p &lt;- TSNEPlot(seurobj, group.by=&#39;branch_high_res&#39;, colors.use=colors.deciles.gradient, pt.size=0.5)</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-7-1.png" target="_blank">221a47f</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-01-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>p</code></pre>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-7-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#save_plot(&#39;../figures/figures_paper/supplementary_figures/10x-180831_tsne-deciles-pseudotime.pdf&#39;, p, base_height=5, base_width=8)</code></pre>
 </div>
 <div id="ratios-brownwhite-in-branches" class="section level1">
 <h1>Ratio’s brown/white in branches</h1>
@@ -1383,26 +1230,38 @@ Pytrik Folkertsma
   }
   return(df)
 }</code></pre>
-<pre class="r"><code>get_ratios(&#39;State.labels&#39;, &#39;depot&#39;)</code></pre>
-<pre><code>                      n Peri Subq Visce Supra
-Progenitor branch 14353 0.23 0.26  0.25  0.26
-Lower branch       5476 0.17 0.32  0.36  0.16
-Upper branch       3599 0.39 0.23  0.11  0.27</code></pre>
-<pre class="r"><code>get_ratios(&#39;depot&#39;, &#39;State.labels&#39;)</code></pre>
-<pre><code>         n Progenitor branch Lower branch Upper branch
-Peri  5599              0.59         0.16         0.25
-Subq  6269              0.59         0.28         0.13
-Visce 5986              0.60         0.33         0.07
-Supra 5574              0.67         0.16         0.18</code></pre>
-<pre class="r"><code>get_ratios(&#39;State.labels&#39;, &#39;type&#39;)</code></pre>
-<pre><code>                      n brown white
-Progenitor branch 14353  0.49  0.51
-Lower branch       5476  0.33  0.67
-Upper branch       3599  0.66  0.34</code></pre>
-<pre class="r"><code>get_ratios(&#39;type&#39;, &#39;State.labels&#39;)</code></pre>
-<pre><code>          n Progenitor branch Lower branch Upper branch
-brown 11173              0.63         0.16         0.21
-white 12255              0.60         0.30         0.10</code></pre>
+<pre class="r"><code>states.depots &lt;- get_ratios(&#39;State.labels&#39;, &#39;depot&#39;)
+depots.states &lt;- get_ratios(&#39;depot&#39;, &#39;State.labels&#39;)
+
+#write.table(states.depots, &#39;../tables/tables_paper/supplementary_tables/10x-180831-ratios-branches-depots.tsv&#39;, sep=&#39;\t&#39;, quote=F, col.names=NA)
+#write.table(depots.states, &#39;../tables/tables_paper/supplementary_tables/10x-180831-ratios-depots-branches.tsv&#39;, sep=&#39;\t&#39;, quote=F, col.names=NA)
+
+states.depots</code></pre>
+<pre><code>      n Peri Subq Visce Supra
+P 14353 0.23 0.26  0.25  0.26
+L  5476 0.17 0.32  0.36  0.16
+U  3599 0.39 0.23  0.11  0.27</code></pre>
+<pre class="r"><code>depots.states</code></pre>
+<pre><code>         n    P    L    U
+Peri  5599 0.59 0.16 0.25
+Subq  6269 0.59 0.28 0.13
+Visce 5986 0.60 0.33 0.07
+Supra 5574 0.67 0.16 0.18</code></pre>
+<pre class="r"><code>states.types &lt;- get_ratios(&#39;State.labels&#39;, &#39;type&#39;)
+types.states &lt;- get_ratios(&#39;type&#39;, &#39;State.labels&#39;)
+
+#write.table(states.types, &#39;../tables/tables_paper/supplementary_tables/10x-180831-ratios-branches-types.tsv&#39;, sep=&#39;\t&#39;, quote=F, col.names=NA)
+#write.table(types.states, &#39;../tables/tables_paper/supplementary_tables/10x-180831-ratios-types-branches.tsv&#39;, sep=&#39;\t&#39;, quote=F, col.names=NA)
+
+states.types</code></pre>
+<pre><code>      n brown white
+P 14353  0.49  0.51
+L  5476  0.33  0.67
+U  3599  0.66  0.34</code></pre>
+<pre class="r"><code>types.states</code></pre>
+<pre><code>          n    P    L    U
+brown 11173 0.63 0.16 0.21
+white 12255 0.60 0.30 0.10</code></pre>
 </div>
 <div id="beam" class="section level1">
 <h1>BEAM</h1>
@@ -1411,8 +1270,8 @@ white 12255              0.60         0.30         0.10</code></pre>
 load(&#39;output/monocle/180831/BEAM_new&#39;)
 BEAM_res &lt;- BEAM_res[order(BEAM_res$qval),]
 BEAM_res &lt;- BEAM_res[,c(&quot;gene_short_name&quot;, &quot;pval&quot;, &quot;qval&quot;)]</code></pre>
-<pre class="r"><code>paste(&#39;Significant genes with q-val &lt; 0.01:&#39;, length(BEAM_res$qval[BEAM_res$qval &lt; 0.05]))</code></pre>
-<pre><code>[1] &quot;Significant genes with q-val &lt; 0.01: 8647&quot;</code></pre>
+<pre class="r"><code>paste(&#39;Significant genes with q-val &lt; 0.05:&#39;, length(BEAM_res$qval[BEAM_res$qval &lt; 0.05]))</code></pre>
+<pre><code>[1] &quot;Significant genes with q-val &lt; 0.05: 8647&quot;</code></pre>
 <pre class="r"><code>paste(&#39;Significant genes with q-val &lt; 0.01:&#39;, length(BEAM_res$qval[BEAM_res$qval &lt; 0.01]))</code></pre>
 <pre><code>[1] &quot;Significant genes with q-val &lt; 0.01: 7366&quot;</code></pre>
 <pre class="r"><code>paste(&#39;Significant genes with q-val &lt; 0.001:&#39;, length(BEAM_res$qval[BEAM_res$qval &lt; 0.001]))</code></pre>
@@ -1425,13 +1284,13 @@ BEAM_res &lt;- BEAM_res[,c(&quot;gene_short_name&quot;, &quot;pval&quot;, &quot;
 <pre><code>[1] &quot;Significant genes with q-val = 0: 271&quot;</code></pre>
 <p>Histograms of p-values and q-values</p>
 <pre class="r"><code>hist(BEAM_res$pval)</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
-Past versions of unnamed-chunk-8-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div id="fig-unnamed-chunk-13-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1450,18 +1309,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-8-1.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-8-1.png" target="_blank">221a47f</a>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/221a47f7076b256a5fba1d2b7de656f0984f62e2/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-13-1.png" target="_blank">221a47f</a>
 </td>
 <td>
 Pytrik Folkertsma
@@ -1475,13 +1323,13 @@ Pytrik Folkertsma
 </div>
 </div>
 <pre class="r"><code>hist(BEAM_res$qval)</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
-Past versions of unnamed-chunk-9-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
+Past versions of unnamed-chunk-14-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div id="fig-unnamed-chunk-14-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1500,7 +1348,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-9-1.png" target="_blank">b064e18</a>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/13994dfe714408529050e5fc74b1b70df712c83f/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-14-1.png" target="_blank">13994df</a>
 </td>
 <td>
 Pytrik Folkertsma
@@ -1535,212 +1383,7 @@ for (i in seq(0.0, 3, by=0.1)){
   values[toString(i)] &lt;- length(fc)
 }
 hist(all, breaks=20, probability = F)</code></pre>
-<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
-Past versions of unnamed-chunk-11-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-11-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b064e188886f5176f2cf5d3b38193c9e13cfc3f9/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-11-1.png" target="_blank">b064e18</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>df &lt;- data.frame(fold_change=names(values), num_genes=unlist(values))
-rownames(df) &lt;- NULL
-kable(df)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">fold_change</th>
-<th align="right">num_genes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">0</td>
-<td align="right">8647</td>
-</tr>
-<tr class="even">
-<td align="left">0.1</td>
-<td align="right">1857</td>
-</tr>
-<tr class="odd">
-<td align="left">0.2</td>
-<td align="right">791</td>
-</tr>
-<tr class="even">
-<td align="left">0.3</td>
-<td align="right">413</td>
-</tr>
-<tr class="odd">
-<td align="left">0.4</td>
-<td align="right">249</td>
-</tr>
-<tr class="even">
-<td align="left">0.5</td>
-<td align="right">148</td>
-</tr>
-<tr class="odd">
-<td align="left">0.6</td>
-<td align="right">93</td>
-</tr>
-<tr class="even">
-<td align="left">0.7</td>
-<td align="right">63</td>
-</tr>
-<tr class="odd">
-<td align="left">0.8</td>
-<td align="right">45</td>
-</tr>
-<tr class="even">
-<td align="left">0.9</td>
-<td align="right">33</td>
-</tr>
-<tr class="odd">
-<td align="left">1</td>
-<td align="right">27</td>
-</tr>
-<tr class="even">
-<td align="left">1.1</td>
-<td align="right">20</td>
-</tr>
-<tr class="odd">
-<td align="left">1.2</td>
-<td align="right">18</td>
-</tr>
-<tr class="even">
-<td align="left">1.3</td>
-<td align="right">16</td>
-</tr>
-<tr class="odd">
-<td align="left">1.4</td>
-<td align="right">11</td>
-</tr>
-<tr class="even">
-<td align="left">1.5</td>
-<td align="right">6</td>
-</tr>
-<tr class="odd">
-<td align="left">1.6</td>
-<td align="right">5</td>
-</tr>
-<tr class="even">
-<td align="left">1.7</td>
-<td align="right">5</td>
-</tr>
-<tr class="odd">
-<td align="left">1.8</td>
-<td align="right">5</td>
-</tr>
-<tr class="even">
-<td align="left">1.9</td>
-<td align="right">2</td>
-</tr>
-<tr class="odd">
-<td align="left">2</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">2.1</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">2.2</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">2.3</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">2.4</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">2.5</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left">2.6</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">2.7</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left">2.8</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left">2.9</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left">3</td>
-<td align="right">0</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="beam-heatmap" class="section level1">
-<h1>BEAM heatmap</h1>
-<p>Create heatmap of the significant genes with absolute average logFC &gt; 0.3.</p>
-<pre class="r"><code>#ran in terminal because of computation time
-#branched_5_0.3_2 &lt;- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, abs(avgLogFC_State2_State3) &gt; 0.3))],
-#                                         branch_point = 1,
-#                                         num_clusters = 5,
-#                                         cores = 10,
-#                                         show_rownames = T,
-#                                       return_heatmap = T,
-#                                       branch_labels = c(&quot;Upper branch&quot;, &quot;Lower branch&quot;),
-#                                       branch_colors = colors.states
-#                                       )</code></pre>
-<pre class="r"><code>load(&#39;output/monocle/180831/heatmaps&#39;)</code></pre>
-<p>You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.\</p>
-<pre class="r"><code>print_nGene &lt;- function(branched){
-  print(paste(&#39;Total number of genes:&#39;, length(branched$annotation_row$Cluster)))
-  for (i in 1:length(unique(branched$annotation_row$Cluster))){
-    cluster &lt;- rownames(branched$annotation_row)[branched$annotation_row$Cluster == i]
-    print(paste(&#39;Nr of genes in cluster &#39;, i, &#39;: &#39;, length(cluster), sep=&#39;&#39;))
-  }
-}</code></pre>
-<pre class="r"><code>for (name in names(heatmaps)){
-   cat(&#39;\n&#39;)  
-   cat(paste(&#39;BEAM heatmap:&#39;, name))
-   gridExtra::grid.arrange(heatmaps[[name]]$ph_res$gtable)
-   cat(print_nGene(heatmaps[[name]]))
-   cat(&#39;\n&#39;) 
-}</code></pre>
-<p>BEAM heatmap: heatmap_logFC0.3_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
 Past versions of unnamed-chunk-16-1.png
@@ -1800,670 +1443,321 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
-<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 249” [1] “Nr of genes in cluster 2: 95” [1] “Nr of genes in cluster 3: 69”</p>
-<p>BEAM heatmap: heatmap_logFC0.3_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-2.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-2">
-Past versions of unnamed-chunk-16-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
+<pre class="r"><code>df &lt;- data.frame(fold_change=names(values), num_genes=unlist(values))
+rownames(df) &lt;- NULL
+kable(df) %&gt;%
+  kable_styling(bootstrap_options = &quot;striped&quot;, full_width = F)</code></pre>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
-<th>
-Version
+<th style="text-align:left;">
+fold_change
 </th>
-<th>
-Author
-</th>
-<th>
-Date
+<th style="text-align:right;">
+num_genes
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-2.png" target="_blank">b3cc370</a>
+<td style="text-align:left;">
+0
 </td>
-<td>
-Pytrik Folkertsma
+<td style="text-align:right;">
+8647
 </td>
-<td>
-2019-04-04
+</tr>
+<tr>
+<td style="text-align:left;">
+0.1
+</td>
+<td style="text-align:right;">
+1857
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+0.2
+</td>
+<td style="text-align:right;">
+791
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+0.3
+</td>
+<td style="text-align:right;">
+413
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+0.4
+</td>
+<td style="text-align:right;">
+249
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+0.5
+</td>
+<td style="text-align:right;">
+148
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+0.6
+</td>
+<td style="text-align:right;">
+93
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+0.7
+</td>
+<td style="text-align:right;">
+63
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+0.8
+</td>
+<td style="text-align:right;">
+45
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+0.9
+</td>
+<td style="text-align:right;">
+33
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+27
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.1
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.2
+</td>
+<td style="text-align:right;">
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.3
+</td>
+<td style="text-align:right;">
+16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.4
+</td>
+<td style="text-align:right;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.5
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.6
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.7
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.8
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1.9
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.3
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.4
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.6
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.7
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.8
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2.9
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+0
 </td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 74” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 95” [1] “Nr of genes in cluster 4: 69”</p>
-<p>BEAM heatmap: heatmap_logFC0.3_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-3.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-3">
-Past versions of unnamed-chunk-16-3.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-3.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 74” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 58” [1] “Nr of genes in cluster 4: 69” [1] “Nr of genes in cluster 5: 37”</p>
-<p>BEAM heatmap: heatmap_logFC0.3_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-4.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-4">
-Past versions of unnamed-chunk-16-4.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-4.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 37” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 58” [1] “Nr of genes in cluster 4: 69” [1] “Nr of genes in cluster 5: 37” [1] “Nr of genes in cluster 6: 37”</p>
-<p>BEAM heatmap: heatmap_logFC0.3_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-5.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-5">
-Past versions of unnamed-chunk-16-5.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-5" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-5.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 37” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 58” [1] “Nr of genes in cluster 4: 69” [1] “Nr of genes in cluster 5: 26” [1] “Nr of genes in cluster 6: 11” [1] “Nr of genes in cluster 7: 37”</p>
-<p>BEAM heatmap: heatmap_logFC0.3_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-6.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-6">
-Past versions of unnamed-chunk-16-6.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-6" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-6.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 37” [1] “Nr of genes in cluster 2: 45” [1] “Nr of genes in cluster 3: 130” [1] “Nr of genes in cluster 4: 58” [1] “Nr of genes in cluster 5: 69” [1] “Nr of genes in cluster 6: 26” [1] “Nr of genes in cluster 7: 11” [1] “Nr of genes in cluster 8: 37”</p>
-<p>BEAM heatmap: heatmap_logFC0.4_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-7.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-7">
-Past versions of unnamed-chunk-16-7.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-7" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-7.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 150” [1] “Nr of genes in cluster 2: 53” [1] “Nr of genes in cluster 3: 46”</p>
-<p>BEAM heatmap: heatmap_logFC0.4_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-8.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-8">
-Past versions of unnamed-chunk-16-8.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-8" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-8.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 41” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 53” [1] “Nr of genes in cluster 4: 46”</p>
-<p>BEAM heatmap: heatmap_logFC0.4_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-9.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-9">
-Past versions of unnamed-chunk-16-9.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-9" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-9.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 41” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 46” [1] “Nr of genes in cluster 5: 28”</p>
-<p>BEAM heatmap: heatmap_logFC0.4_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-10.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-10">
-Past versions of unnamed-chunk-16-10.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-10" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-10.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 14” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 46” [1] “Nr of genes in cluster 5: 28” [1] “Nr of genes in cluster 6: 27”</p>
-<p>BEAM heatmap: heatmap_logFC0.4_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-11.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-11">
-Past versions of unnamed-chunk-16-11.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-11" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-11.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 14” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 26” [1] “Nr of genes in cluster 5: 28” [1] “Nr of genes in cluster 6: 20” [1] “Nr of genes in cluster 7: 27”</p>
-<p>BEAM heatmap: heatmap_logFC0.4_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-12.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-12">
-Past versions of unnamed-chunk-16-12.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-12" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-12.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 14” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 26” [1] “Nr of genes in cluster 5: 22” [1] “Nr of genes in cluster 6: 6” [1] “Nr of genes in cluster 7: 20” [1] “Nr of genes in cluster 8: 27”</p>
-<p>BEAM heatmap: heatmap_logFC0.5_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-13.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-13">
-Past versions of unnamed-chunk-16-13.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-13" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-13.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 85” [1] “Nr of genes in cluster 2: 35” [1] “Nr of genes in cluster 3: 28”</p>
-<p>BEAM heatmap: heatmap_logFC0.5_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-14.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-14">
-Past versions of unnamed-chunk-16-14.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-14" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-14.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 16” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 35” [1] “Nr of genes in cluster 4: 28”</p>
-<p>BEAM heatmap: heatmap_logFC0.5_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-15.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-15">
-Past versions of unnamed-chunk-16-15.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-15" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-15.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 16” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 28” [1] “Nr of genes in cluster 5: 15”</p>
-<p>BEAM heatmap: heatmap_logFC0.5_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-16.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-16">
-Past versions of unnamed-chunk-16-16.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-16" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-16.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 3” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 28” [1] “Nr of genes in cluster 5: 15” [1] “Nr of genes in cluster 6: 13”</p>
-<p>BEAM heatmap: heatmap_logFC0.5_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-17.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-17">
-Past versions of unnamed-chunk-16-17.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-17" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-17.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 3” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 14” [1] “Nr of genes in cluster 5: 15” [1] “Nr of genes in cluster 6: 14” [1] “Nr of genes in cluster 7: 13”</p>
-<p>BEAM heatmap: heatmap_logFC0.5_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-16-18.png" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-18">
-Past versions of unnamed-chunk-16-18.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-18" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/b3cc370fc68578487b623e1a8a08cdedb5e1e3f7/docs/figure/10x-180831-monocle.Rmd/unnamed-chunk-16-18.png" target="_blank">b3cc370</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-04
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 3” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 14” [1] “Nr of genes in cluster 5: 4” [1] “Nr of genes in cluster 6: 14” [1] “Nr of genes in cluster 7: 13” [1] “Nr of genes in cluster 8: 11”</p>
+<div id="beam-heatmap" class="section level1">
+<h1>BEAM heatmap</h1>
+<p>Create heatmap of the significant genes with absolute average logFC &gt; 0.3.</p>
+<pre class="r"><code>#branched_5_0.3_2 &lt;- plot_genes_branched_heatmap(cds[row.names(subset(BEAM_signficnat_res, abs(avgLogFC_State2_State3) &gt; 0.3))],
+#                                         branch_point = 1,
+#                                         num_clusters = 5,
+#                                         cores = 10,
+#                                         show_rownames = T,
+#                                       return_heatmap = T,
+#                                       branch_labels = c(&quot;Upper branch&quot;, &quot;Lower branch&quot;),
+#                                       branch_colors = colors.states
+#                                       )</code></pre>
+<pre class="r"><code>load(&#39;output/monocle/180831/heatmaps&#39;)</code></pre>
+<p>You can visualize changes for all the genes that are significantly branch dependent using a special type of heatmap. This heatmap shows changes in both lineages at the same time. It also requires that you choose a branch point to inspect. Columns are points in pseudotime, rows are genes, and the beginning of pseudotime is in the middle of the heatmap. As you read from the middle of the heatmap to the right, you are following one lineage through pseudotime. As you read left, the other. The genes are clustered hierarchically, so you can visualize modules of genes that have similar lineage-dependent expression patterns.\ Below heatmaps with different logFC thresholds and nClusters are shown. For the heatmap in the publication figure, genes were filtered on absolute logFC &gt; 0.3 between U and L branch and clustered in 6 groups.</p>
+<pre class="r"><code>print_nGene &lt;- function(branched){
+  print(paste(&#39;Total number of genes:&#39;, length(branched$annotation_row$Cluster)))
+  for (i in 1:length(unique(branched$annotation_row$Cluster))){
+    cluster &lt;- rownames(branched$annotation_row)[branched$annotation_row$Cluster == i]
+    print(paste(&#39;Nr of genes in cluster &#39;, i, &#39;: &#39;, length(cluster), sep=&#39;&#39;))
+  }
+}</code></pre>
+<pre class="r"><code>for (name in names(heatmaps)){
+   cat(&#39;\n&#39;)  
+   cat(paste(&#39;BEAM heatmap:&#39;, name))
+   gridExtra::grid.arrange(heatmaps[[name]]$ph_res$gtable)
+   cat(print_nGene(heatmaps[[name]]))
+   cat(&#39;\n&#39;) 
+}</code></pre>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-1.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 249” [1] “Nr of genes in cluster 2: 95” [1] “Nr of genes in cluster 3: 69”</p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-2.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 74” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 95” [1] “Nr of genes in cluster 4: 69”</p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-3.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 74” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 58” [1] “Nr of genes in cluster 4: 69” [1] “Nr of genes in cluster 5: 37”</p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-4.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 37” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 58” [1] “Nr of genes in cluster 4: 69” [1] “Nr of genes in cluster 5: 37” [1] “Nr of genes in cluster 6: 37”</p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-5.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 37” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 58” [1] “Nr of genes in cluster 4: 69” [1] “Nr of genes in cluster 5: 26” [1] “Nr of genes in cluster 6: 11” [1] “Nr of genes in cluster 7: 37”</p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-6.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 37” [1] “Nr of genes in cluster 2: 45” [1] “Nr of genes in cluster 3: 130” [1] “Nr of genes in cluster 4: 58” [1] “Nr of genes in cluster 5: 69” [1] “Nr of genes in cluster 6: 26” [1] “Nr of genes in cluster 7: 11” [1] “Nr of genes in cluster 8: 37”</p>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-7.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 150” [1] “Nr of genes in cluster 2: 53” [1] “Nr of genes in cluster 3: 46”</p>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-8.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 41” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 53” [1] “Nr of genes in cluster 4: 46”</p>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-9.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 41” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 46” [1] “Nr of genes in cluster 5: 28”</p>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-10.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 14” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 46” [1] “Nr of genes in cluster 5: 28” [1] “Nr of genes in cluster 6: 27”</p>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-11.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 14” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 26” [1] “Nr of genes in cluster 5: 28” [1] “Nr of genes in cluster 6: 20” [1] “Nr of genes in cluster 7: 27”</p>
+<p>BEAM heatmap: heatmap_logFC0.4_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-12.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 249” [1] “Nr of genes in cluster 1: 14” [1] “Nr of genes in cluster 2: 109” [1] “Nr of genes in cluster 3: 25” [1] “Nr of genes in cluster 4: 26” [1] “Nr of genes in cluster 5: 22” [1] “Nr of genes in cluster 6: 6” [1] “Nr of genes in cluster 7: 20” [1] “Nr of genes in cluster 8: 27”</p>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster3<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-13.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 85” [1] “Nr of genes in cluster 2: 35” [1] “Nr of genes in cluster 3: 28”</p>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster4<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-14.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 16” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 35” [1] “Nr of genes in cluster 4: 28”</p>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster5<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-15.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 16” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 28” [1] “Nr of genes in cluster 5: 15”</p>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster6<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-16.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 3” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 28” [1] “Nr of genes in cluster 5: 15” [1] “Nr of genes in cluster 6: 13”</p>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster7<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-17.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 3” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 14” [1] “Nr of genes in cluster 5: 15” [1] “Nr of genes in cluster 6: 14” [1] “Nr of genes in cluster 7: 13”</p>
+<p>BEAM heatmap: heatmap_logFC0.5_ncluster8<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-18.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 148” [1] “Nr of genes in cluster 1: 3” [1] “Nr of genes in cluster 2: 69” [1] “Nr of genes in cluster 3: 20” [1] “Nr of genes in cluster 4: 14” [1] “Nr of genes in cluster 5: 4” [1] “Nr of genes in cluster 6: 14” [1] “Nr of genes in cluster 7: 13” [1] “Nr of genes in cluster 8: 11”</p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster6_filtered_genes<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-19.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 37” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 58” [1] “Nr of genes in cluster 4: 69” [1] “Nr of genes in cluster 5: 37” [1] “Nr of genes in cluster 6: 37”</p>
+<p>BEAM heatmap: heatmap_logFC0.3_ncluster6_filtered_genes_OLD<img src="figure/10x-180831-monocle.Rmd/unnamed-chunk-21-20.png" width="576" style="display: block; margin: auto;" />[1] “Total number of genes: 413” [1] “Nr of genes in cluster 1: 37” [1] “Nr of genes in cluster 2: 175” [1] “Nr of genes in cluster 3: 58” [1] “Nr of genes in cluster 4: 69” [1] “Nr of genes in cluster 5: 37” [1] “Nr of genes in cluster 6: 37”</p>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -2492,10 +1786,11 @@ attached base packages:
  [8] datasets  methods   base     
 
 other attached packages:
- [1] knitr_1.22          pheatmap_1.0.12     monocle_2.8.0      
- [4] DDRTree_0.1.5       irlba_2.3.3         VGAM_1.1-1         
- [7] Biobase_2.42.0      BiocGenerics_0.28.0 Seurat_2.3.4       
-[10] Matrix_1.2-17       cowplot_0.9.4       ggplot2_3.1.0      
+ [1] kableExtra_1.1.0    dplyr_0.8.0.1       gtools_3.8.1       
+ [4] knitr_1.22          pheatmap_1.0.12     monocle_2.8.0      
+ [7] DDRTree_0.1.5       irlba_2.3.3         VGAM_1.1-1         
+[10] Biobase_2.42.0      BiocGenerics_0.28.0 Seurat_2.3.4       
+[13] Matrix_1.2-17       cowplot_0.9.4       ggplot2_3.1.0      
 
 loaded via a namespace (and not attached):
   [1] snow_0.4-3             backports_1.1.3        Hmisc_4.2-0           
@@ -2505,43 +1800,44 @@ loaded via a namespace (and not attached):
  [13] viridis_0.5.1          lars_1.2               gdata_2.18.0          
  [16] magrittr_1.5           checkmate_1.9.1        cluster_2.0.7-1       
  [19] mixtools_1.1.0         ROCR_1.0-7             limma_3.36.5          
- [22] matrixStats_0.54.0     R.utils_2.8.0          docopt_0.6.1          
- [25] colorspace_1.4-1       ggrepel_0.8.0          xfun_0.5              
- [28] dplyr_0.8.0.1          sparsesvd_0.1-4        crayon_1.3.4          
- [31] jsonlite_1.6           survival_2.43-3        zoo_1.8-5             
- [34] iterators_1.0.10       ape_5.3                glue_1.3.1            
- [37] gtable_0.3.0           kernlab_0.9-27         prabclus_2.2-7        
- [40] DEoptimR_1.0-8         scales_1.0.0           mvtnorm_1.0-10        
- [43] bibtex_0.4.2           Rcpp_1.0.1             metap_1.1             
- [46] dtw_1.20-1             viridisLite_0.3.0      htmlTable_1.13.1      
- [49] reticulate_1.11.1      foreign_0.8-71         bit_1.1-14            
- [52] proxy_0.4-23           mclust_5.4.3           SDMTools_1.1-221      
- [55] Formula_1.2-3          tsne_0.1-3             htmlwidgets_1.3       
- [58] httr_1.4.0             FNN_1.1.3              gplots_3.0.1.1        
- [61] RColorBrewer_1.1-2     fpc_2.1-11.1           acepack_1.4.1         
- [64] modeltools_0.2-22      ica_1.0-2              pkgconfig_2.0.2       
- [67] R.methodsS3_1.7.1      flexmix_2.3-15         nnet_7.3-12           
- [70] tidyselect_0.2.5       labeling_0.3           rlang_0.3.2           
- [73] reshape2_1.4.3         munsell_0.5.0          tools_3.5.3           
- [76] ggridges_0.5.1         evaluate_0.13          stringr_1.4.0         
- [79] yaml_2.2.0             npsurv_0.4-0           bit64_0.9-7           
- [82] fs_1.2.7               fitdistrplus_1.0-14    robustbase_0.93-4     
- [85] caTools_1.17.1.2       purrr_0.3.2            RANN_2.6.1            
- [88] pbapply_1.4-0          nlme_3.1-137           whisker_0.3-2         
- [91] slam_0.1-45            R.oo_1.22.0            hdf5r_1.1.1           
- [94] compiler_3.5.3         rstudioapi_0.10        png_0.1-7             
- [97] lsei_1.2-0             tibble_2.1.1           stringi_1.4.3         
-[100] highr_0.8              lattice_0.20-38        trimcluster_0.1-2.1   
-[103] HSMMSingleCell_0.114.0 pillar_1.3.1           combinat_0.0-8        
-[106] Rdpack_0.10-1          lmtest_0.9-36          data.table_1.12.0     
-[109] bitops_1.0-6           gbRd_0.4-11            R6_2.4.0              
-[112] latticeExtra_0.6-28    KernSmooth_2.23-15     gridExtra_2.3         
-[115] codetools_0.2-16       MASS_7.3-51.1          gtools_3.8.1          
-[118] assertthat_0.2.1       rprojroot_1.3-2        withr_2.1.2           
-[121] qlcMatrix_0.9.7        diptest_0.75-7         doSNOW_1.0.16         
-[124] grid_3.5.3             rpart_4.1-13           tidyr_0.8.3           
-[127] class_7.3-15           rmarkdown_1.12         segmented_0.5-3.0     
-[130] Rtsne_0.15             git2r_0.25.2           base64enc_0.1-3       </code></pre>
+ [22] readr_1.3.1            matrixStats_0.54.0     R.utils_2.8.0         
+ [25] docopt_0.6.1           colorspace_1.4-1       rvest_0.3.3           
+ [28] ggrepel_0.8.0          xfun_0.5               sparsesvd_0.1-4       
+ [31] crayon_1.3.4           jsonlite_1.6           survival_2.43-3       
+ [34] zoo_1.8-5              iterators_1.0.10       ape_5.3               
+ [37] glue_1.3.1             gtable_0.3.0           webshot_0.5.1         
+ [40] kernlab_0.9-27         prabclus_2.2-7         DEoptimR_1.0-8        
+ [43] scales_1.0.0           mvtnorm_1.0-10         bibtex_0.4.2          
+ [46] Rcpp_1.0.1             metap_1.1              dtw_1.20-1            
+ [49] viridisLite_0.3.0      htmlTable_1.13.1       reticulate_1.11.1     
+ [52] foreign_0.8-71         bit_1.1-14             proxy_0.4-23          
+ [55] mclust_5.4.3           SDMTools_1.1-221       Formula_1.2-3         
+ [58] tsne_0.1-3             htmlwidgets_1.3        httr_1.4.0            
+ [61] FNN_1.1.3              gplots_3.0.1.1         RColorBrewer_1.1-2    
+ [64] fpc_2.1-11.1           acepack_1.4.1          modeltools_0.2-22     
+ [67] ica_1.0-2              pkgconfig_2.0.2        R.methodsS3_1.7.1     
+ [70] flexmix_2.3-15         nnet_7.3-12            labeling_0.3          
+ [73] tidyselect_0.2.5       rlang_0.3.2            reshape2_1.4.3        
+ [76] munsell_0.5.0          tools_3.5.3            ggridges_0.5.1        
+ [79] evaluate_0.13          stringr_1.4.0          yaml_2.2.0            
+ [82] npsurv_0.4-0           bit64_0.9-7            fs_1.2.7              
+ [85] fitdistrplus_1.0-14    robustbase_0.93-4      caTools_1.17.1.2      
+ [88] purrr_0.3.2            RANN_2.6.1             pbapply_1.4-0         
+ [91] nlme_3.1-137           whisker_0.3-2          slam_0.1-45           
+ [94] R.oo_1.22.0            xml2_1.2.0             hdf5r_1.1.1           
+ [97] compiler_3.5.3         rstudioapi_0.10        png_0.1-7             
+[100] lsei_1.2-0             tibble_2.1.1           stringi_1.4.3         
+[103] highr_0.8              lattice_0.20-38        trimcluster_0.1-2.1   
+[106] HSMMSingleCell_0.114.0 pillar_1.3.1           combinat_0.0-8        
+[109] Rdpack_0.10-1          lmtest_0.9-36          data.table_1.12.0     
+[112] bitops_1.0-6           gbRd_0.4-11            R6_2.4.0              
+[115] latticeExtra_0.6-28    KernSmooth_2.23-15     gridExtra_2.3         
+[118] codetools_0.2-16       MASS_7.3-51.1          assertthat_0.2.1      
+[121] rprojroot_1.3-2        withr_2.1.2            qlcMatrix_0.9.7       
+[124] hms_0.4.2              diptest_0.75-7         doSNOW_1.0.16         
+[127] grid_3.5.3             rpart_4.1-13           tidyr_0.8.3           
+[130] class_7.3-15           rmarkdown_1.12         segmented_0.5-3.0     
+[133] Rtsne_0.15             git2r_0.25.2           base64enc_0.1-3       </code></pre>
 </div>
 </div>
 
