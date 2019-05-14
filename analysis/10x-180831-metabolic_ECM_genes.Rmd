@@ -31,7 +31,7 @@ kable(markers_metabolic) %>%
 
 Top 80 markers for metabolic branch sorted on logFC.
 
-```{r, fig.show='hide', results='hide'}
+```{r, fig.show='hide', results='hide', message=F}
 plots_metabolic <- FeaturePlot(seurobj, features.plot=as.vector(markers_metabolic$gene[1:80]), nCol=4, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
 
 plots_metabolic_edited <- list()
@@ -66,7 +66,7 @@ kable(markers_ecm) %>%
 
 Top 60 ECM branch genes sorted on logFC.
 
-```{r, fig.show='hide', results='hide'}
+```{r, fig.show='hide', results='hide', message=F}
 plots_ecm <- FeaturePlot(seurobj, features.plot=as.vector(markers_ecm$gene[1:80]), nCol=4, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
 
 plots_ecm_edited <- list()
