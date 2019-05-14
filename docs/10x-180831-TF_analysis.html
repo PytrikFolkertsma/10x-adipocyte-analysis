@@ -444,7 +444,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-04-17
+<strong>Last updated:</strong> 2019-05-14
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -523,18 +523,21 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree7fffd4e51a4eaffbc194e22020c22e22b4e4b752targetblank7fffd4ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/7fffd4e51a4eaffbc194e22020c22e22b4e4b752" target="_blank">7fffd4e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree51f4e37e933712c952b65bc8877bb32c6211a734targetblank51f4e37a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/51f4e37e933712c952b65bc8877bb32c6211a734" target="_blank">51f4e37</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree7fffd4e51a4eaffbc194e22020c22e22b4e4b752targetblank7fffd4ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree51f4e37e933712c952b65bc8877bb32c6211a734targetblank51f4e37a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    analysis/figure/
+    Ignored:    code/.Rhistory
     Ignored:    figures/
     Ignored:    output/bulk_analysis/
+    Ignored:    output/demuxlet/
     Ignored:    output/markergenes/
     Ignored:    output/monocle/
     Ignored:    output/seurat_objects/
@@ -543,30 +546,37 @@ Ignored files:
     Ignored:    tables/
 
 Untracked files:
+    Untracked:  .rstudio_old10/
+    Untracked:  10x-adipocyte-analysis-copy.Rproj
     Untracked:  analysis/.ipynb_checkpoints/velocyto_notebook_180831-checkpoint.ipynb
     Untracked:  analysis/10-180831-monocle-per-depot.Rmd
     Untracked:  analysis/10x-180831-BEAM-heatmap.Rmd
-    Untracked:  analysis/10x-180831-figures.Rmd
     Untracked:  analysis/10x-180831-pseudotime.Rmd
     Untracked:  code/BEAM-heatmaps.R
     Untracked:  code/BEAM_gsea.R
     Untracked:  code/colors.R
 
 Unstaged changes:
+    Deleted:    10x-adipocyte-analysis.Rproj
+    Modified:   analysis/10x-180504-DEGs-depots.Rmd
+    Modified:   analysis/10x-180504-alignment.Rmd
+    Modified:   analysis/10x-180504-depot-markers.Rmd
     Modified:   analysis/10x-180831-BATLAS.Rmd
     Modified:   analysis/10x-180831-beamGOplot.Rmd
     Modified:   analysis/10x-180831-colors.Rmd
+    Modified:   analysis/10x-180831-figures.Rmd
     Modified:   analysis/10x-180831-general-analysis.Rmd
-    Modified:   analysis/10x-180831-metabolic_ECM_genes.Rmd
-    Modified:   analysis/10x-180831-monocle.Rmd
     Modified:   analysis/10x-180831-supplementary_figures.Rmd
+    Modified:   analysis/velocyto_notebook_180504.ipynb
     Modified:   analysis/velocyto_notebook_180831.ipynb
     Deleted:    code/REMOVE/find-brown-sample-markers-180504-REMOVE.R
     Deleted:    code/REMOVE/find-white-sample-markers-180504-REMOVE.R
     Deleted:    code/REMOVE/get-genes-monocle-180831-REMOVE.R
     Modified:   code/compute-genelists-monocle-depots.R
+    Modified:   code/find-depot-markers-180504.R
     Modified:   code/find-markers.R
     Modified:   code/preprocess-data.R
+    Modified:   code/run-alignment.R
     Modified:   code/run-monocle.R
     Modified:   code/velocyto_preprocess.py
 
@@ -607,6 +617,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/51f4e37e933712c952b65bc8877bb32c6211a734/analysis/10x-180831-TF_analysis.Rmd" target="_blank">51f4e37</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-05-14
+</td>
+<td>
+Notebook cleanup
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/635f7493b55ca47055e2da5bd306141ca60e496c/docs/10x-180831-TF_analysis.html" target="_blank">635f749</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-04-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -701,35 +745,12 @@ TF analysis
 </div>
 <pre class="r"><code>library(data.table)
 library(readr)
-library(dplyr)</code></pre>
-<pre><code>
-Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:data.table&#39;:
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(Seurat)
 
-    between, first, last</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
-
-    filter, lag</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>library(knitr)
-library(kableExtra)</code></pre>
-<pre><code>
-Attaching package: &#39;kableExtra&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:dplyr&#39;:
-
-    group_rows</code></pre>
-<pre class="r"><code>library(Seurat)</code></pre>
-<pre><code>Loading required package: ggplot2</code></pre>
-<pre><code>Loading required package: cowplot</code></pre>
-<pre><code>
-Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
-
-    ggsave</code></pre>
-<pre><code>Loading required package: Matrix</code></pre>
-<pre class="r"><code>seurobj &lt;- readRDS(&#39;output/seurat_objects/180831/10x-180831&#39;)
+seurobj &lt;- readRDS(&#39;output/seurat_objects/180831/10x-180831&#39;)
 gene_annotations &lt;- fread(&#39;tables/tables_paper/all_tables/genes_biomart.txt&#39;, sep=&#39;\t&#39;, quote=&quot;&quot;, header=T)</code></pre>
 <pre class="r"><code>ids2symbols &lt;- read.table(&#39;tables/tables_paper/all_tables/10x-180831-geneids-genesymbols.tsv&#39;, header=T)</code></pre>
 <div id="beam-clusters" class="section level1">
@@ -1888,6 +1909,113 @@ Pytrik Folkertsma
 #  p &lt;- FeaturePlot(seurobj, features.plot=as.vector(combined$gene_short_name), nCol=2, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F, do.return = T)[[gene]]
 #  save_plot(paste(&#39;../figures/figures_paper/supplementary_figures/tf_analysis/BEAM_logFC0.3_ncluster6_413genes/&#39;, gene, &#39;.pdf&#39;, sep=&#39;&#39;), p, base_width=5, base_height=4)
 #}</code></pre>
+<p>LogFC &gt; 0</p>
+<pre class="r"><code>combined_upper_branch &lt;- combined[combined$avgLogFC_State2_State3 &gt; 0,]
+combined_lower_branch &lt;- combined[combined$avgLogFC_State2_State3 &lt; 0,]</code></pre>
+<pre class="r"><code>plots_upper &lt;- FeaturePlot(seurobj, features.plot=as.vector(combined_upper_branch$gene_short_name), nCol=4, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F, no.axes=T, do.return=T)</code></pre>
+<p><img src="figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-9-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plots_upper_edited &lt;- list()
+
+for (p in names(plots_upper)){
+  plots_upper_edited[[p]] &lt;- plots_upper[[p]] + scale_color_gradient(name=&#39;Expr.&#39;, low=&#39;gray&#39;, high=&#39;blue&#39;, guide=&#39;colorbar&#39;) + theme(legend.title=element_text(size=9), legend.text=element_text(size=9), legend.key.height = unit(0.6, &#39;cm&#39;), legend.key.width=unit(0.2, &#39;cm&#39;))
+}</code></pre>
+<pre><code>Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.</code></pre>
+<pre class="r"><code>grid_upper &lt;- plot_grid(plotlist=plots_upper_edited, ncol=4)
+#grid_lower
+#save_plot(&#39;figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_upper_branch.pdf&#39;, grid_upper, base_height=9.14, base_width=12)
+#save_plot(&#39;figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_upper_branch.png&#39;, grid_upper, base_height=9.14, base_width=12)</code></pre>
+<pre class="r"><code>plots_lower &lt;- FeaturePlot(seurobj, features.plot=as.vector(combined_lower_branch$gene_short_name), nCol=3, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F, no.axes=T, do.return=T)</code></pre>
+<p><img src="figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-10-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plots_lower_edited &lt;- list()
+
+for (p in names(plots_lower)){
+  plots_lower_edited[[p]] &lt;- plots_lower[[p]] + scale_color_gradient(name=&#39;Expr.&#39;, low=&#39;gray&#39;, high=&#39;blue&#39;, guide=&#39;colorbar&#39;) + theme(legend.title=element_text(size=9), legend.text=element_text(size=9), legend.key.height = unit(0.6, &#39;cm&#39;), legend.key.width=unit(0.2, &#39;cm&#39;))
+}</code></pre>
+<pre><code>Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.
+Scale for &#39;colour&#39; is already present. Adding another scale for
+&#39;colour&#39;, which will replace the existing scale.</code></pre>
+<pre class="r"><code>grid_lower &lt;- plot_grid(plotlist=plots_lower_edited, ncol=4)
+#grid_lower
+#save_plot(&#39;figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_lower_branch.pdf&#39;, grid_lower, base_height=16, base_width=12)
+#save_plot(&#39;figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_lower_branch.png&#39;, grid_lower, base_height=16, base_width=12)</code></pre>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

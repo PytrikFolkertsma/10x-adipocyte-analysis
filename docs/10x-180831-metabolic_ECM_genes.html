@@ -444,7 +444,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-05-07
+<strong>Last updated:</strong> 2019-05-14
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -523,19 +523,20 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree0271051cb79b66cb997d7ec43f8c11a6336a5ed9targetblank0271051a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/0271051cb79b66cb997d7ec43f8c11a6336a5ed9" target="_blank">0271051</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree51f4e37e933712c952b65bc8877bb32c6211a734targetblank51f4e37a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/51f4e37e933712c952b65bc8877bb32c6211a734" target="_blank">51f4e37</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree0271051cb79b66cb997d7ec43f8c11a6336a5ed9targetblank0271051a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree51f4e37e933712c952b65bc8877bb32c6211a734targetblank51f4e37a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    analysis/figure/
+    Ignored:    code/.Rhistory
     Ignored:    figures/
     Ignored:    output/bulk_analysis/
+    Ignored:    output/demuxlet/
     Ignored:    output/markergenes/
     Ignored:    output/monocle/
     Ignored:    output/seurat_objects/
@@ -547,24 +548,23 @@ Untracked files:
     Untracked:  .rstudio_old10/
     Untracked:  10x-adipocyte-analysis-copy.Rproj
     Untracked:  analysis/.ipynb_checkpoints/velocyto_notebook_180831-checkpoint.ipynb
-    Untracked:  analysis/.ipynb_checkpoints/velocyto_notebook_vlm53_perplexities-checkpoint.ipynb
     Untracked:  analysis/10-180831-monocle-per-depot.Rmd
     Untracked:  analysis/10x-180831-BEAM-heatmap.Rmd
-    Untracked:  analysis/velocyto_notebook_vlm53_perplexities.ipynb
+    Untracked:  analysis/10x-180831-pseudotime.Rmd
     Untracked:  code/BEAM-heatmaps.R
     Untracked:  code/BEAM_gsea.R
     Untracked:  code/colors.R
 
 Unstaged changes:
     Deleted:    10x-adipocyte-analysis.Rproj
+    Modified:   analysis/10x-180504-DEGs-depots.Rmd
+    Modified:   analysis/10x-180504-alignment.Rmd
     Modified:   analysis/10x-180504-depot-markers.Rmd
     Modified:   analysis/10x-180831-BATLAS.Rmd
-    Modified:   analysis/10x-180831-TF_analysis.Rmd
     Modified:   analysis/10x-180831-beamGOplot.Rmd
     Modified:   analysis/10x-180831-colors.Rmd
     Modified:   analysis/10x-180831-figures.Rmd
     Modified:   analysis/10x-180831-general-analysis.Rmd
-    Modified:   analysis/10x-180831-monocle.Rmd
     Modified:   analysis/10x-180831-supplementary_figures.Rmd
     Modified:   analysis/velocyto_notebook_180504.ipynb
     Modified:   analysis/velocyto_notebook_180831.ipynb
@@ -575,6 +575,7 @@ Unstaged changes:
     Modified:   code/find-depot-markers-180504.R
     Modified:   code/find-markers.R
     Modified:   code/preprocess-data.R
+    Modified:   code/run-alignment.R
     Modified:   code/run-monocle.R
     Modified:   code/velocyto_preprocess.py
 
@@ -615,6 +616,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/a85e249563a7fe02e37608953405382a300c0666/docs/10x-180831-metabolic_ECM_genes.html" target="_blank">a85e249</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-05-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -741,30 +759,11 @@ Metabolic and ECM genes
 </div>
 </div>
 </div>
-<pre class="r"><code>library(Seurat)</code></pre>
-<pre><code>Loading required package: ggplot2</code></pre>
-<pre><code>Loading required package: cowplot</code></pre>
-<pre><code>
-Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:ggplot2&#39;:
-
-    ggsave</code></pre>
-<pre><code>Loading required package: Matrix</code></pre>
-<pre class="r"><code>library(knitr)
+<pre class="r"><code>library(Seurat)
+library(knitr)
 library(kableExtra)
-library(dplyr)</code></pre>
-<pre><code>
-Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:kableExtra&#39;:
-
-    group_rows</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
-
-    filter, lag</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>seurobj &lt;- readRDS(&#39;output/seurat_objects/180831/10x-180831&#39;)
+library(dplyr)
+seurobj &lt;- readRDS(&#39;output/seurat_objects/180831/10x-180831&#39;)
 markers &lt;- read.table(&#39;output/markergenes/180831/markers_10x-180831_upperbranch_lowerbranch_negbinom.tsv&#39;, header=T)</code></pre>
 <div id="metabolic-genes" class="section level1">
 <h1>Metabolic genes</h1>
