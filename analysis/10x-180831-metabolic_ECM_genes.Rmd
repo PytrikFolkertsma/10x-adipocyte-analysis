@@ -11,7 +11,7 @@ output:
 
 
 
-```{r}
+```{r message=F}
 library(Seurat)
 library(knitr)
 library(kableExtra)
