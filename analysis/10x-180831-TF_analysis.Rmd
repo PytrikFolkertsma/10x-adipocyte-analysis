@@ -79,7 +79,7 @@ combined_upper_branch <- combined[combined$avgLogFC_State2_State3 > 0,]
 combined_lower_branch <- combined[combined$avgLogFC_State2_State3 < 0,]
 ```
 
-```{r, fig.height = 15, fig.width = 10, fig.align = "center"}
+```{r fig.show='hide', message=F}
 plots_upper <- FeaturePlot(seurobj, features.plot=as.vector(combined_upper_branch$gene_short_name), nCol=4, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
 
 plots_upper_edited <- list()
@@ -87,14 +87,17 @@ plots_upper_edited <- list()
 for (p in names(plots_upper)){
   plots_upper_edited[[p]] <- plots_upper[[p]] + scale_color_gradient(name='Expr.', low='gray', high='blue', guide='colorbar') + theme(legend.title=element_text(size=9), legend.text=element_text(size=9), legend.key.height = unit(0.6, 'cm'), legend.key.width=unit(0.2, 'cm'))
 }
-
 grid_upper <- plot_grid(plotlist=plots_upper_edited, ncol=4)
-#grid_lower
+```
+
+
+```{r fig.height = 15, fig.width = 10, fig.align = "center"}
+grid_upper
 #save_plot('figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_upper_branch.pdf', grid_upper, base_height=9.14, base_width=12)
 #save_plot('figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_upper_branch.png', grid_upper, base_height=9.14, base_width=12)
 ```
 
-```{r, fig.height = 23, fig.width = 10, fig.align = "center"}
+```{r fig.show='hide', message=F}
 plots_lower <- FeaturePlot(seurobj, features.plot=as.vector(combined_lower_branch$gene_short_name), nCol=3, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
 
 plots_lower_edited <- list()
@@ -102,9 +105,11 @@ plots_lower_edited <- list()
 for (p in names(plots_lower)){
   plots_lower_edited[[p]] <- plots_lower[[p]] + scale_color_gradient(name='Expr.', low='gray', high='blue', guide='colorbar') + theme(legend.title=element_text(size=9), legend.text=element_text(size=9), legend.key.height = unit(0.6, 'cm'), legend.key.width=unit(0.2, 'cm'))
 }
-
 grid_lower <- plot_grid(plotlist=plots_lower_edited, ncol=4)
-#grid_lower
+```
+
+```{r, fig.height = 23, fig.width = 10, fig.align = "center"}
+grid_lower
 #save_plot('figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_lower_branch.pdf', grid_lower, base_height=16, base_width=12)
 #save_plot('figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_lower_branch.png', grid_lower, base_height=16, base_width=12)
 ```
