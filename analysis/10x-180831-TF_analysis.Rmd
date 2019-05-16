@@ -61,10 +61,6 @@ kable(combined[c('gene_short_name', 'qval', 'avgLogFC_State2_State3', 'cluster',
 #write.table(combined, file='../tables/tables_paper/supplementary_tables/BEAM_logFC0.3_nclusters6/genelist_TFs.tsv', sep='\t', quote=F, row.names=F)
 ```
 
-```{r, fig.height = 80, fig.width = 10, fig.align = "center"}
-FeaturePlot(seurobj, features.plot=as.vector(combined$gene_short_name), nCol=2, cols.use=c('gray', 'blue'), no.legend=F)
-```
-
 ```{r}
 #for (gene in as.vector(combined$gene_short_name)){
 #  p <- FeaturePlot(seurobj, features.plot=as.vector(combined$gene_short_name), nCol=2, cols.use=c('gray', 'blue'), no.legend=F, do.return = T)[[gene]]
