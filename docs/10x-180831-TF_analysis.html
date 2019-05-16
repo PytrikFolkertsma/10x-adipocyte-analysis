@@ -523,10 +523,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree35913460a5ac10ec1b4c8ff4d6b6f81f56962f4ctargetblank3591346a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/35913460a5ac10ec1b4c8ff4d6b6f81f56962f4c" target="_blank">3591346</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreec0c497ad5c31c74b0fef9018251b30ef039d69e4targetblankc0c497aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/c0c497ad5c31c74b0fef9018251b30ef039d69e4" target="_blank">c0c497a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree35913460a5ac10ec1b4c8ff4d6b6f81f56962f4ctargetblank3591346a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreec0c497ad5c31c74b0fef9018251b30ef039d69e4targetblankc0c497aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -616,6 +616,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/c0c497ad5c31c74b0fef9018251b30ef039d69e4/analysis/10x-180831-TF_analysis.Rmd" target="_blank">c0c497a</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-05-16
+</td>
+<td>
+Notebook cleanup
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/0ee11843b7073653d369456945de54db7f26b1d4/docs/10x-180831-TF_analysis.html" target="_blank">0ee1184</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-05-16
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1899,45 +1933,6 @@ negative regulation of NF-kappaB transcription factor activity
 </table>
 <pre class="r"><code>#write.table(combined, file=&#39;../tables/tables_paper/all_tables/BEAM/heatmap_logFC0.3_ncluster6/genelist_TFs.tsv&#39;, sep=&#39;\t&#39;, quote=F, row.names=F)
 #write.table(combined, file=&#39;../tables/tables_paper/supplementary_tables/BEAM_logFC0.3_nclusters6/genelist_TFs.tsv&#39;, sep=&#39;\t&#39;, quote=F, row.names=F)</code></pre>
-<pre class="r"><code>FeaturePlot(seurobj, features.plot=as.vector(combined$gene_short_name), nCol=2, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F)</code></pre>
-<p><img src="figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-6-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
-Past versions of unnamed-chunk-6-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-6-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/a5d13d1d707ef29f1d87435fa044a91044ba0cde/docs/figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-6-1.png" target="_blank">a5d13d1</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2019-04-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <pre class="r"><code>#for (gene in as.vector(combined$gene_short_name)){
 #  p &lt;- FeaturePlot(seurobj, features.plot=as.vector(combined$gene_short_name), nCol=2, cols.use=c(&#39;gray&#39;, &#39;blue&#39;), no.legend=F, do.return = T)[[gene]]
 #  save_plot(paste(&#39;../figures/figures_paper/supplementary_figures/tf_analysis/BEAM_logFC0.3_ncluster6_413genes/&#39;, gene, &#39;.pdf&#39;, sep=&#39;&#39;), p, base_width=5, base_height=4)
@@ -1953,13 +1948,13 @@ for (p in names(plots_upper)){
 }
 grid_upper &lt;- plot_grid(plotlist=plots_upper_edited, ncol=4)</code></pre>
 <pre class="r"><code>grid_upper</code></pre>
-<p><img src="figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-10-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-9-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
-Past versions of unnamed-chunk-10-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div id="fig-unnamed-chunk-9-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1978,7 +1973,18 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/f7513442f7f89fa7878b971389875ed265900ed4/docs/figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">f751344</a>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/0ee11843b7073653d369456945de54db7f26b1d4/docs/figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-9-1.png" target="_blank">0ee1184</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-05-16
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/f7513442f7f89fa7878b971389875ed265900ed4/docs/figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-9-1.png" target="_blank">f751344</a>
 </td>
 <td>
 Pytrik Folkertsma
@@ -2001,7 +2007,44 @@ for (p in names(plots_lower)){
 }
 grid_lower &lt;- plot_grid(plotlist=plots_lower_edited, ncol=4)</code></pre>
 <pre class="r"><code>grid_lower</code></pre>
-<p><img src="figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-12-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-11-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/0ee11843b7073653d369456945de54db7f26b1d4/docs/figure/10x-180831-TF_analysis.Rmd/unnamed-chunk-11-1.png" target="_blank">0ee1184</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-05-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>#save_plot(&#39;figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_lower_branch.pdf&#39;, grid_lower, base_height=16, base_width=12)
 #save_plot(&#39;figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_lower_branch.png&#39;, grid_lower, base_height=16, base_width=12)</code></pre>
 <br> <br>
