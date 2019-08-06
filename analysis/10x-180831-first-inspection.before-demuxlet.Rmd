@@ -5,13 +5,14 @@ output: html_notebook
 
 ```{r results='hide', message=FALSE, warning=FALSE}
 library(Seurat)
-data <- readRDS('output/10x-180831-notcleaned')
+source('code/colors.R')
+data <- readRDS('output/seurat_objects/180831/10x-180831-beforeqc')
 ```
 
 TSNE plots of the data.
 
 ```{r}
-t1 <- TSNEPlot(data, group.by='timepoint', pt.size=0.1)
+t1 <- TSNEPlot(data, group.by='timepoint', pt.size=0.1, colors.use=colors.timepoints)
 ```
 
 ```{r}
@@ -19,7 +20,7 @@ t2 <- TSNEPlot(data, group.by='Phase', pt.size=0.1)
 ```
 
 ```{r}
-t3 <- FeaturePlot(data, features.plot=c('nUMI'), cols.use=c('gray', 'blue'), no.legend = F)
+t3 <- FeaturePlot(data, features.plot=c('nUMI'), cols.use=c('gray', 'blue'), no.legend = F, do.return=T)$nUMI
 ```
 
 ```{r}
@@ -47,19 +48,19 @@ Save the cleaned up Seurat object to run preprocessing again (new PCA, clusterin
 #saveRDS(data_cleaned, 'output/10x-180831')
 ```
 
-
-#Figures for report
+#Figures 
 
 ```{r fig1, fig.height = 9, fig.width = 12, fig.align = "center"}
 sfig <- plot_grid(
  t4,
  t1,
  t2,
- t3$nUMI,
+ t3,
  nrow=2, labels='auto'
 )
 
-#save_plot('plots/supplementary_figures/sfig_180831_bad-quality-cluster.pdf', sfig, base_width=12, base_height = 9)
+#save_plot('../figures/figures_paper/supplementary_figures/bad-quality-cluster/sfig_180831_bad-quality-cluster.pdf', sfig, base_width=12, base_height = 9)
+#save_plot('../figures/figures_paper/supplementary_figures/bad-quality-cluster/sfig_180831_bad-quality-cluster.png', sfig, base_width=12, base_height = 9)
 sfig
 ```
 

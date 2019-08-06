@@ -3,83 +3,119 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-
-
 ```{r}
-library(Seurat)
 library(knitr)
-library(ggplot2)
-require(scales)
+library(kableExtra)
+library(dplyr)
+library(tidyr)
+```
+
+
+```{r}
 seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
+batlas_results <- read.table('tables/tables_paper/supplementary_tables/BATLAS/BATLAS_branch_high_res.txt', sep='\t', header=T)
 ```
 
-Calculate averages for clusters from resolution 1.5:
 
-```{r, fig.height = 4, fig.width = 5, fig.align = "center"}
-p <- TSNEPlot(seurobj, group.by='res.1.5', do.label=T, pt.size=0.1)
+```{r}
+batlas_results['pseudotime_decile'] <- seurobj@meta.data$pseudotime_decile[match(batlas_results$sample, seurobj@meta.data$branch_high_res)]
+batlas_results['branch'] <- seurobj@meta.data$branch[match(batlas_results$sample, seurobj@meta.data$branch_high_res)]
+batlas_results <- batlas_results %>% mutate(block_branch = if_else(branch == 'Progenitor', 'Beginning', 'End'))
+batlas_results['brown_centered'] <- batlas_results$brown - 0.5
+batlas_results['ratio'] <- batlas_results$brown/batlas_results$white
+
+kable(batlas_results) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
+
+Option 1a. Y = brown_pct-0.5 . y-axis center to x=50%.
+
+```{r, fig.height = 6, fig.width = 8, fig.align = "center"}
+p <- ggplot(batlas_results, aes(x=as.factor(pseudotime_decile), y=brown_centered, fill=branch)) +
+  geom_col(position = position_dodge2(width=0.9, preserve='single')) +
+  labs(x="Pseudotime", fill="Branch", y=NULL) +
+  scale_fill_manual(values=colormap.branches) +
+  facet_grid(cols=vars(block_branch), switch='x') + 
+  scale_y_continuous(limits=c(-0.5, 0.5), breaks=seq(-0.5, 0.5, by=0.5), labels=c('100% white', '50/50', '100% brown')) +
+  theme(strip.background=element_blank(), axis.text.x=element_blank(), strip.placement='outside')
+
+save_plot('../figures/figures_paper/main_figures/figure3//BATLAS_results.pdf', p, base_height=5, base_width=8)
 p
 ```
 
-```{r, fig.height = 12, fig.width = 12, fig.align = "center"}
-v1 <- VlnPlot(seurobj, features.plot='percent.mito', point.size.use=-1, group.by='res.1.5')
-v1
-```
+Option 2. Brown-to-white ratio = %brown/%white.
 
-```{r, fig.height = 4, fig.width = 12, fig.align = "center"}
-v2 <- VlnPlot(seurobj, features.plot='percent.mito', point.size.use=-1, group.by='res.1.5', y.max=0.2)
-v2
-```
+```{r, fig.height = 5, fig.width = 8, fig.align = "center"}
+p <- ggplot(batlas_results, aes(x=as.factor(pseudotime_decile), y=ratio-1, fill=branch)) +
+  geom_col(position = position_dodge2(width=0.9, preserve='single')) +
+  labs(x="Pseudotime", y='Ratio brown/white', fill="Branch") +
+  scale_fill_manual(values=colormap.branches) +
+  facet_grid(cols=vars(block_branch), switch='x') + 
+  scale_y_continuous(labels = function(breaks) { breaks + 1}) +
+  theme(strip.background=element_blank(), strip.text.y=element_text(size=rel(0.2)), axis.text.x=element_blank(), strip.placement='outside')
 
+save_plot('../figures/figures_paper/supplementary_figures/batlas/BATLAS_results_ratios.pdf', p, base_height=5, base_width=8)
 
-```{r}
-save_plot(p, file='figures/figures_paper/supplementary_figures/batlas/10x-180831_tsne_res.1.5.pdf', base_width=5, base_height=4)
-save_plot(v1, file='figures/figures_paper/supplementary_figures/batlas/10x-180831_vlnplot_percent.mito_clustering.1.5.pdf', base_width=12, base_height=10)
-save_plot(v2, file='figures/figures_paper/supplementary_figures/batlas/10x-180831_vlnplot_percent.mito_clustering.1.5_y-cutoff-0.2.pdf', base_width=12, base_height=4)
-```
-
-```{r}
-#Average expression is calculated by: (mean(1expm(seurobj@data[gene, cluster])))
-#average.expression <- AverageExpression(SetAllIdent(seurobj, id='res.1.5'))
-```
-
-BATLAS results.
-
-```{r}
-batlas <- read.table('tables/tables_paper/supplementary_tables/BATLAS/BATLAS.txt', header=T, sep='\t')
-batlas$cluster <- as.character(batlas$cluster)
-kable(batlas)
-```
-
-```{r, fig.height = 6, fig.width = 12, fig.align = "center"}
-p <- ggplot(data=batlas, aes(x=cluster, y=brown)) +
-  geom_bar(stat="identity") +
-  ylab('Brown percentage estimate') +
-  coord_flip()
 p
 ```
 
-```{r}
-save_plot('figures/figures_paper/supplementary_figures/batlas/BATLAS_results.pdf', p, base_height=6, base_width=12)
-```
+Option 2 log scaled.
 
-BATLAS results log normalized.
+```{r, fig.height = 5, fig.width = 8, fig.align = "center"}
+p <- ggplot(batlas_results, aes(x=as.factor(pseudotime_decile), y=log2(ratio), fill=branch)) +
+  geom_col(position = position_dodge2(width=0.9, preserve='single')) +
+  labs(x="Pseudotime", y='log2 brown/white', fill="Branch") +
+  scale_fill_manual(values=colormap.branches) +
+  facet_grid(. ~ block_branch, switch='x') + 
+  theme(strip.background=element_blank(), strip.text.y=element_text(size=rel(0.2)), axis.text.x=element_blank(), strip.placement='outside', strip.text=element_text(hjust=c(0.5)))
 
-```{r}
-batlas <- read.table('tables/tables_paper/supplementary_tables/BATLAS/BATLAS_log_normalized.txt', header=T, sep='\t')
-batlas$cluster <- as.character(batlas$cluster)
-kable(batlas)
-```
+save_plot('../figures/figures_paper/supplementary_figures/batlas/BATLAS_results_ratios_logscaled.pdf', p, base_height=5, base_width=8)
 
-```{r, fig.height = 6, fig.width = 12, fig.align = "center"}
-p <- ggplot(data=batlas, aes(x=cluster, y=brown)) +
-  geom_bar(stat="identity") +
-  ylab('Brown percentage estimate') +
-  coord_flip()
 p
 ```
 
+Option 1b. Clusters. 
+
 ```{r}
-save_plot('figures/figures_paper/supplementary_figures/batlas/BATLAS_results_log-normalized.pdf', p, base_height=6, base_width=12)
+batlas_results_clusters <- read.table('tables/tables_paper/supplementary_tables/BATLAS/BATLAS.txt', sep='\t', header=T)
+batlas_results_clusters['brown_centered'] <- batlas_results_clusters$brown - 0.5
+batlas_results_clusters['color'] <- unlist(lapply(batlas_results_clusters$brown, function(x){
+  if (x > 0.5){
+    return('brown')
+  } else {
+    return('white')
+  }
+}))
+
+p <- ggplot(batlas_results_clusters, aes(x=as.factor(cluster), y=brown_centered, fill=color)) +
+  geom_col(position = position_dodge2(width=0.9, preserve='single')) +
+  labs(x="Cluster", fill="Branch", y=NULL) +
+  scale_fill_manual(values=c(brown='#6c4431', white='#d1a567')) +
+  scale_y_continuous(limits=c(-0.5, 0.5), breaks=seq(-0.5, 0.5, by=0.5), labels=c('100% white', '50/50', '100% brown')) + 
+  theme(legend.position = 'none') +
+ coord_flip()
+
+save_plot('../figures/figures_paper/supplementary_figures/batlas/BATLAS_results_clusters-res.1.5.pdf', p, base_height=5, base_width=8)
+
+p
 ```
 
+Without y-axis
+
+```{r}
+p <- ggplot(batlas_results_clusters, aes(x=as.factor(cluster), y=brown_centered, fill=color)) +
+  geom_col(position = position_dodge2(width=0.9, preserve='single')) +
+  geom_text(aes(x=as.factor(cluster), y=ifelse(brown > 0.5, -0.02, 0.02), label=cluster)) +
+  labs(x=NULL, fill="Branch", y=NULL) +
+  scale_fill_manual(values=c(brown='#6c4431', white='#d1a567')) +
+  scale_y_continuous(limits=c(-0.5, 0.5), breaks=seq(-0.5, 0.5, by=0.5), labels=c('100% white', '50/50', '100% brown')) + 
+  #facet_grid(rows=vars(block_branch), switch='x') + 
+  #scale_y_continuous(limits=c(-0.5, 0.5), breaks=seq(-0.5, 0.5, by=0.5), labels=c('100% white', '50/50', '100% brown')) +
+  theme(axis.text.y=element_blank(), axis.ticks.y=element_blank(), panel.border=element_blank(), axis.line.y=element_blank(), legend.position = 'none') +
+ coord_flip()
+
+save_plot('../figures/figures_paper/supplementary_figures/batlas/BATLAS_results_clusters-res.1.5_no-y-axis.pdf', p, base_height=5, base_width=8)
+
+p
+```
 

@@ -16,12 +16,14 @@ all10x <- readRDS('output/10x-180504')
 ```
 
 ```{r}
-brown_markers <- read.table('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/data/markergenes/180504/markers_10x-180504_brown', header=T)
+brown_markers <- read.table('../output/markergenes/180504/markers_10x-180504_brown', header=T)
+brown_markers <- brown_markers[which(brown_markers$pct.1 > 0.25 | brown_markers$pct.2 > 0.25),]
 brown_markers <- brown_markers[brown_markers$p_val_adj < 0.05,]
 brown_markers_pos <- brown_markers[brown_markers$avg_logFC > 0.25,]
 brown_markers_neg <- brown_markers[brown_markers$avg_logFC < -0.25,]
 #'../output/markergenes/180504/markers_10x-180504_brown'
-white_markers <- read.table('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/data/markergenes/180504/markers_10x-180504_white', header=T)
+white_markers <- read.table('../output/markergenes/180504/markers_10x-180504_white-samples', header=T)
+white_markers <- white_markers[which(white_markers$pct.1 > 0.25 | white_markers$pct.2 > 0.25),]
 white_markers <- white_markers[white_markers$p_val_adj < 0.05,]
 white_markers_pos <- white_markers[white_markers$avg_logFC > 0.25,]
 white_markers_neg <- white_markers[white_markers$avg_logFC < -0.25,]
@@ -40,21 +42,59 @@ getIntersectingGenes <- function(df, depot){
 
 ```{r}
 #Peri 
-peri_pos <- getIntersectingGenes(brown_markers_pos, 'Peri') #12
-peri_neg <- getIntersectingGenes(brown_markers_neg, 'Peri') #9
+peri_pos <- getIntersectingGenes(brown_markers_pos, 'Peri') #11
+peri_neg <- getIntersectingGenes(brown_markers_neg, 'Peri') #7
 
 #Supra
 supra_pos <- getIntersectingGenes(brown_markers_pos, 'Supra') #4
-supra_neg <- getIntersectingGenes(brown_markers_neg, 'Supra') #3
+supra_neg <- getIntersectingGenes(brown_markers_neg, 'Supra') #0
 
 #Visce
 visce_pos <- getIntersectingGenes(white_markers_pos, 'Visce') #1
-visce_neg <- getIntersectingGenes(white_markers_neg, 'Visce') #25
+visce_neg <- getIntersectingGenes(white_markers_neg, 'Visce') #18
 
 #Subq
 subq_pos <- getIntersectingGenes(white_markers_pos, 'Subq') #4
-subq_neg <- getIntersectingGenes(white_markers_neg, 'Subq') #7
+subq_neg <- getIntersectingGenes(white_markers_neg, 'Subq') #4
 ```
+
+Get table
+
+```{r}
+genes <- c(peri_pos, peri_neg, supra_pos, supra_neg, subq_pos, subq_neg, visce_pos, visce_neg)
+
+markers_depots <- read.table('../output/markergenes/180504/10x-180504markergenes-crossed-depots', header=T)
+
+markers_peri <- markers_depots[grepl('Peri', markers_depots$cluster),]
+markers_peri_filtered <- markers_peri[markers_peri$gene %in% c(peri_pos, peri_neg), ]
+markers_peri_filtered <- markers_peri_filtered[order(-markers_peri_filtered$avg_logFC),]
+
+markers_supra <- markers_depots[grepl('Supra', markers_depots$cluster),]
+markers_supra_filtered <- markers_supra[markers_supra$gene %in% c(supra_pos, supra_neg),]
+markers_supra_filtered <- markers_supra_filtered[order(-markers_supra_filtered$avg_logFC),]
+
+markers_subq <- markers_depots[grepl('Subq', markers_depots$cluster),]
+markers_subq_filtered <- markers_subq[markers_subq$gene %in% c(subq_pos, subq_neg),]
+markers_subq_filtered <- markers_subq_filtered[order(-markers_subq_filtered$avg_logFC),]
+
+markers_visce <- markers_depots[grepl('Visce', markers_depots$cluster),]
+markers_visce_filtered <- markers_visce[markers_visce$gene %in% c(visce_pos, visce_neg),]
+markers_visce_filtered <- markers_visce_filtered[order(-markers_visce_filtered$avg_logFC),]
+
+markers <- rbind(markers_peri_filtered, markers_supra_filtered, markers_subq_filtered, markers_visce_filtered)
+
+depots <- unlist(lapply(markers$cluster, function(x){
+  return(substr(as.character(x), 1, nchar(as.character(x))-6))
+}))
+
+markers$cluster <- depots
+names(markers)[1] <- 'depot'
+
+write.table(markers, '../output/markergenes/180504/markers_depots_sample-intersection.tsv', sep='\t', quote=F, row.names=F)
+write.table(markers, '../output/markergenes/180504/markers_depots_sample-intersection.tsv', sep='\t', quote=F, row.names=F)
+```
+
+
 
 #Perirenal
 

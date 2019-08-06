@@ -37,14 +37,14 @@ cds_res1.5 <- readRDS('output/monocle/180831/monocle_res1.5/10x-180831-monocle')
 plot_cell_trajectory(cds_res1.5, color_by='timepoint')
 ```
 
-#Dataset split into T1+T2+T3 and T4+T5, DE genes from clusters res0.5.
+#Dataset split into T1+T2+T3 and T4+T5, DE genes from clusters res0.5
 
 ```{r}
 cds_split_res0.5 <- readRDS('output/monocle/180831/monocle_T1T2T3_T4T5_res0.5/10x-180831-noreg-monocle')
 plot_cell_trajectory(cds_split_res0.5, color_by='timepoint')
 ```
 
-#Dataset split into T1+T2+T3 and T4+T5, DE genes from clusters res1.5 are used here.
+#Dataset split into T1+T2+T3 and T4+T5, DE genes from clusters res1.5
 
 ```{r}
 cds <- readRDS('output/monocle/180831/monocle_T1T2T3_T4T5_res1.5/10x-180831-monocle')
@@ -56,6 +56,28 @@ With doublets removed (used for all further analyses).
 ```{r}
 cds <- readRDS('output/monocle/180831/10x-180831-monocle-monocle_genelist_T1T2T3_T4T5_res.1.5')
 plot_cell_trajectory(cds, color_by='timepoint')
+```
+
+Feature selection strategy plots.
+
+```{r message=F, results='hide'}
+T1T2T3 <- readRDS('../output/seurat_objects/180831/10x-180831-T1T2T3')
+T4T5 <- readRDS('../output/seurat_objects/180831/10x-180831-T4T5')
+p <- plot_grid(
+  TSNEPlot(T1T2T3, group.by='timepoint', colors.use=colors.timepoints, pt.size=0.5),
+  TSNEPlot(T4T5, group.by='timepoint', colors.use=colors.timepoints, pt.size=0.5),
+  TSNEPlot(T1T2T3, group.by='res.1.5', pt.size=0.5),
+  TSNEPlot(T4T5, group.by='res.1.5', pt.size=0.5)
+)
+```
+
+```{r fig.width=12, fig.height=10}
+p
+```
+
+```{r}
+#save_plot('../figures/figures_paper/supplementary_figures/monocle-feature-selection/sfig_180831_feature_selection.pdf', p, base_width=12, base_height=10)
+#save_plot('../figures/figures_paper/supplementary_figures/monocle-feature-selection/tsne.pdf', TSNEPlot(seurobj, group.by='timepoint', pt.size=0.5, colors.use=colors.timepoints), base_width=6, base_height=5)
 ```
 
 

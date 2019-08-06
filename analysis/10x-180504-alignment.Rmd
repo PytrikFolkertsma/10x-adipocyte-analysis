@@ -16,8 +16,8 @@ Lading the datasets.
 
 ```{r}
 load('output/10x-180504-aligned-metageneplot') #contains biweight midcorrelation plots: p1 and p2
-all10x.aligned <- readRDS('output/10x-180504-aligned')
-all10x.aligned.ccregout <- readRDS('output/10x-180504-ccregout-aligned')
+all10x.aligned <- readRDS('../output/seurat_objects/180504/10x-180504-aligned')
+all10x.aligned.ccregout <- readRDS('../output/seurat_objects/180504/10x-180504-ccregout-aligned')
 all10x.aligned.discardedcells <- readRDS('output/10x-180504-cca-discardedcells')
 all10x.ccregout.aligned.discardedcells <- readRDS('output/10x-180504-ccregout-cca-discardedcells')
 ```
@@ -111,13 +111,14 @@ p_discarded.ccregout
 fig1 <- plot_grid(
   TSNEPlot(all10x.aligned, group.by='sample_name', pt.size=0.1),
   TSNEPlot(all10x.aligned, group.by='Phase', pt.size=0.1),
-  TSNEPlot(all10x.aligned.ccregout, group.by='depot', pt.size=0.1),
-  labels=c('a', 'b', 'c'), nrow=3
+  TSNEPlot(all10x.aligned.ccregout, group.by='depot', pt.size=0.1) ,
+  labels=c('a', 'b', 'c'), nrow=1
 )
-save_plot("plots/180504_alignment.pdf", fig1, base_width=6, base_height=12)
+save_plot("../figures/figures_thesis/180504_alignment_row.pdf", fig1, base_width=15, base_height=4)
+save_plot("../figures/figures_thesis/180504_alignment_row.png", fig1, base_width=15, base_height=4)
 ```
 
-```{r fig1, fig.height = 12, fig.width = 6, fig.align = "center"}
+```{r fig1, fig.height = 4, fig.width = 15, fig.align = "center"}
 fig1
 ```
 

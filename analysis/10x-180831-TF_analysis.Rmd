@@ -62,15 +62,6 @@ kable(combined[c('gene_short_name', 'qval', 'avgLogFC_State2_State3', 'cluster',
 ```
 
 ```{r}
-#for (gene in as.vector(combined$gene_short_name)){
-#  p <- FeaturePlot(seurobj, features.plot=as.vector(combined$gene_short_name), nCol=2, cols.use=c('gray', 'blue'), no.legend=F, do.return = T)[[gene]]
-#  save_plot(paste('../figures/figures_paper/supplementary_figures/tf_analysis/BEAM_logFC0.3_ncluster6_413genes/', gene, '.pdf', sep=''), p, base_width=5, base_height=4)
-#}
-```
-
-LogFC > 0
-
-```{r}
 combined_upper_branch <- combined[combined$avgLogFC_State2_State3 > 0,]
 combined_lower_branch <- combined[combined$avgLogFC_State2_State3 < 0,]
 ```
@@ -87,7 +78,7 @@ grid_upper <- plot_grid(plotlist=plots_upper_edited, ncol=4)
 ```
 
 
-```{r fig.height = 15, fig.width = 10, fig.align = "center"}
+```{r fig.height = 10, fig.width = 12, fig.align = "center"}
 grid_upper
 #save_plot('figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_upper_branch.pdf', grid_upper, base_height=9.14, base_width=12)
 #save_plot('figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_upper_branch.png', grid_upper, base_height=9.14, base_width=12)
@@ -104,7 +95,7 @@ for (p in names(plots_lower)){
 grid_lower <- plot_grid(plotlist=plots_lower_edited, ncol=4)
 ```
 
-```{r, fig.height = 23, fig.width = 10, fig.align = "center"}
+```{r, fig.height = 15, fig.width = 12, fig.align = "center"}
 grid_lower
 #save_plot('figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_lower_branch.pdf', grid_lower, base_height=16, base_width=12)
 #save_plot('figures/figures_paper/supplementary_figures/10_tf-analysis/TFs_lower_branch.png', grid_lower, base_height=16, base_width=12)

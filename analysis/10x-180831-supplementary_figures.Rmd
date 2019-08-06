@@ -12,10 +12,36 @@ output:
 library(Seurat)
 library(knitr)
 library(ggplot2)
+library(reshape2)
 require(scales)
 seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
 source('code/colors.R')
 ```
+
+#Barplot nCells
+
+```{r, fig.height = 4, fig.width = 7, fig.align = "center"}
+data <- seurobj@meta.data[c('depot', 'timepoint')] %>% group_by(depot,timepoint) %>% summarize(n=n()) 
+p <- ggplot(data, aes(x=timepoint, fill = depot)) + 
+  geom_bar(aes(y=n, fill=depot), stat="identity", position = "dodge") +
+  ylab('Number of cells') + 
+  scale_fill_manual(name='Depot', values=colors.depots)
+
+save_plot('../figures/figures_paper/supplementary_figures/barplot_ncells/barplot_ncells_grouped-timepoint.pdf', p, base_height=4, base_width=7)
+p
+```
+
+```{r, fig.height = 4, fig.width = 7, fig.align = "center"}
+p <- ggplot(data, aes(x=depot, fill = timepoint)) + 
+  geom_bar(aes(y=n, fill=timepoint), stat="identity", position = "dodge") +
+  ylab('Number of cells') + 
+  scale_fill_manual(name='Timepoint', values=colors.timepoints)
+
+save_plot('../figures/figures_paper/supplementary_figures/barplot_ncells/barplot_ncells_grouped-depot.pdf', p, base_height=4, base_width=7)
+p
+```
+
+
 
 #BATLAS
 
@@ -88,9 +114,26 @@ p
 save_plot('figures/figures_paper/supplementary_figures/batlas/BATLAS_results_log-normalized.pdf', p, base_height=6, base_width=12)
 ```
 
+Run BATLAS on Pseudotime deciles.
+
+```{r, fig.height = 10, fig.width = 12, fig.align = "center"}
+p <- TSNEPlot(seurobj, group.by='branch_high_res', do.label=T, pt.size=1)
+p
+```
+
+```{r}
+#average.expression <- AverageExpression(SetAllIdent(seurobj, id='branch_high_res'))
+```
+
+```{r}
+#gene_ids <- ids2symbols$ensembl_gene_id[match(rownames(average.expression), ids2symbols$gene_symbol)]
+#average.expression.filtered <- average.expression[which(!is.na(gene_ids)),]
+#gene_ids <- gene_ids[!is.na(gene_ids)]
+#rownames(average.expression.filtered) <- gene_ids
+write.table(average.expression.filtered, file='../tables/tables_paper/all_tables/10x-180831-branch_high_res.averages.tsv', sep='\t', col.names=NA, row.names=T, quote=F)
+```
 
 #PC analysis
-
 
 ```{r, fig.height = 18, fig.width = 12, fig.align = "center"}
 p1 <- FeaturePlot(seurobj, features.plot=c('PC1'), cols.use=c('gray', 'blue'), no.legend=F, do.return=T)[['PC1']]
@@ -156,5 +199,306 @@ pm <- FeaturePlot(seurobj, features.plot=c('percent.mito'), cols.use=c('gray', '
 
 ```{r}
 save_plot('figures/figures_paper/supplementary_figures/fto_analysis/percent.mito_featureplot_max.cutoff0.2.pdf', plots$percent.mito, base_width=6, base_height=4.5)
+```
+
+#Canonical adipogenesis markers
+
+```{r}
+genes <- c('PRDM16', 'CEBPA', 'CEBPB', 'CEBPD', 'EBF2', 'PPARG', 'STAT5A', 'KLF15', 'SREBF1', 'ADD1', 'KLF4', 'KLF5', 'FOS', 'JUN', 'IRX3', 'IRX5', 'FTO', 'DLK1', 'NRIP1', 'NR1H3', 'IRS1', 'ARID5B', 'PDGFRA', 'PDGFRB')
+
+plots_cm <- FeaturePlot(seurobj, features.plot=genes, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
+
+plots_cm_edited <- list()
+
+for (p in names(plots_cm)){
+  plots_cm_edited[[p]] <- plots_cm[[p]] + scale_color_gradient(name='Expr.', low='gray', high='blue', guide='colorbar') + theme(legend.title=element_text(size=9), legend.text=element_text(size=9), legend.key.height = unit(0.6, 'cm'), legend.key.width=unit(0.2, 'cm'))
+}
+
+grid <- plot_grid(plotlist=plots_cm_edited, ncol=4)
+
+save_plot('figures/figures_paper/supplementary_figures/canonical-adipogenesis-markers/canonical_adipogenesis_markers.pdf', grid, base_height=13.7, base_width=12)
+save_plot('figures/figures_paper/supplementary_figures/canonical-adipogenesis-markers/canonical_adipogenesis_markers.png', grid, base_height=13.7, base_width=12)
+```
+
+
+#Monocle on DE genes between brown and white
+
+```{r, fig.height = 10, fig.width = 12, fig.align = "center"}
+cds_type <- readRDS('../output/monocle/180831/monocle_type/10x-180831-monocle')
+
+pData(cds_type)['depot'] <- seurobj@meta.data$depot
+
+seurobj <- AddMetaData(seurobj, pData(cds_type)['State'])
+
+p1 <- plot_cell_trajectory(cds_type, color_by='timepoint') + geom_point(color='white', size=5) + geom_point(aes(colour=timepoint), alpha=0.1) + scale_color_manual(values=colors.timepoints) + theme_void() + theme(legend.position='right')
+
+p2 <- plot_cell_trajectory(cds_type, color_by='depot') + scale_color_manual(values=colors.depots, name = "depot") + theme(legend.position='bottom')
+
+p3 <- TSNEPlot(seurobj, group.by='State', pt.size=1, colors.use=c('#ebdc88', '#95c8bc', '#e0736b'), ncol=2, rel_heights=c(0.45, 0.55), no.axes=T)
+
+p4 <- TSNEPlot(seurobj, group.by='State.labels', pt.size=0.5, colors.use=colors.states.labels, ncol=2, rel_heights=c(0.45, 0.55), no.axes=F) + theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank())
+
+grid <- plot_grid(
+  p1,
+  p2,
+  p3,
+  p4
+)
+
+save_plot('figures/figures_paper/supplementary_figures/robustness_branching/trajectory_timepoint.pdf', p1, base_width=3.5, base_height=1.5)
+save_plot('figures/figures_paper/supplementary_figures/robustness_branching/trajectory_depot.pdf', p2, base_width=8, base_height=6)
+save_plot('../figures/figures_paper/supplementary_figures/robustness_branching/tsne_state_new.pdf', p3, base_width=6, base_height=5)
+save_plot('../figures/figures_paper/supplementary_figures/robustness_branching/tsne_branch_old.pdf', p4, base_width=3.5, base_height=2.9)
+
+grid
+```
+
+#UCP
+
+```{r, fig.height = 3.5, fig.width = 12, fig.align = "center"}
+plots <- FeaturePlot(seurobj, features.plot=c('UCP1', 'UCP2', 'UCP3'), nCol=3, cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
+
+plots_edited <- list()
+
+for (p in names(plots)){
+  plots_edited[[p]] <- plots[[p]] + scale_color_gradient(name='Expr.', low='gray', high='blue', guide='colorbar') + theme(legend.title=element_text(size=9), legend.text=element_text(size=9), legend.key.height = unit(0.6, 'cm'), legend.key.width=unit(0.2, 'cm'))
+}
+
+grid <- plot_grid(plotlist=plots_edited, ncol=3)
+
+save_plot('../figures/figures_paper/supplementary_figures/ucp/ucp.pdf', grid, base_height=3.5, base_width=12)
+save_plot('../figures/figures_paper/supplementary_figures/ucp/ucp.png', grid, base_height=3.5, base_width=12)
+
+grid
+```
+
+
+```{r fig.height = 7, fig.width = 12, fig.align = "center"}
+p <- plot_cell_trajectory(cds, color_by='State.labels', show_branch_points = F) + facet_wrap(~timepoint) + scale_color_manual(values=colors.states.labels)
+save_plot('../figures/figures_paper/supplementary_figures/monocle_branches_per_timepoint/monocle_branches_per_timepoint.pdf', p, base_width=12, base_height=7)
+p
+```
+
+#WGCNA
+
+```{r}
+metadata_cor <- read.table('../output/wgcna/wgcna-180831/tables/10x-180831_run1_all_metadata_rho.csv.gz', header=T, sep=',', row.names=1)
+```
+
+```{r fig.height=5, fig.width=20}
+corrplot(corr = t(as.matrix(metadata_cor)),
+             add = F,
+             addCoef.col = "black",
+             number.digits = 2L,
+             number.cex = 1,
+             tl.cex = 1.2,
+              tl.col = 'black',
+              tl.srt = 45,
+             cl.cex = 1,
+             method = "circle",
+             col=colorRampPalette(rev(brewer.pal(n = 11, name = "RdYlBu")), bias=1)(200),
+             is.corr=T,
+             #order = "hclust",
+             #hclust.method = hclustMethod,
+             title=NULL,#sprintf("%s eigenvector - metadata correlations", data_prefix),
+             #addCoef.col = F,
+             #p.mat = t(as.matrix(list_mod_metadata_corr_fdr[['SeuratProject']])),
+             sig.level = 5e-2
+         )
+```
+
+```{r}
+pdf('../figures/figures_paper/supplementary_figures/wgcna/10x-180831_SeuratProject_mod_corr_metadata_190516.pdf', w=20, h=5) 
+corrplot(corr = t(as.matrix(metadata_cor)),
+             add = F,
+             addCoef.col = "black",
+             number.digits = 2L,
+             number.cex = 1,
+             tl.cex = 1.2,
+              tl.col = 'black',
+              tl.srt = 45,
+             cl.cex = 1,
+             method = "circle",
+             col=colorRampPalette(rev(brewer.pal(n = 11, name = "RdYlBu")), bias=1)(200),
+             is.corr=T,
+             #order = "hclust",
+             #hclust.method = hclustMethod,
+             title=NULL,#sprintf("%s eigenvector - metadata correlations", data_prefix),
+             #addCoef.col = F,
+             #p.mat = t(as.matrix(list_mod_metadata_corr_fdr[['SeuratProject']])),
+             sig.level = 5e-2
+         )
+dev.off()
+```
+
+```{r fig.show='hide', message=F}
+plots <- FeaturePlot(seurobj, features.plot=c('SeuratProject__blue', 'SeuratProject__lightgreen', 'SeuratProject__mediumpurple', 'SeuratProject__sandybrown', 'SeuratProject__springgreen'), cols.use=c('gray', 'blue'), no.legend=F, no.axes=T, do.return=T)
+names(plots) <- c('Blue module', 'Lightgreen module', 'Mediumpurple module', 'Sandybrown module', 'Springgreen module')
+
+plots_edited <- list()
+
+for (p in names(plots)){
+  plots_edited[[p]] <- plots[[p]] + scale_color_gradient(name='Expr.', low='gray', high='blue', guide='colorbar') + theme(legend.title=element_text(size=9), legend.text=element_text(size=9), legend.key.height = unit(0.6, 'cm'), legend.key.width=unit(0.2, 'cm')) + ggtitle(p)
+}
+
+grid <- plot_grid(plotlist=plots_edited, ncol=3)
+
+```
+
+
+```{r fig.width=12, fig.height=7, fig.align='center'}
+grid
+```
+
+```{r}
+save_plot('../figures/figures_paper/supplementary_figures/wgcna/modules_featureplots.pdf', grid, base_height=7, base_width=12)
+save_plot('../figures/figures_paper/supplementary_figures/wgcna/modules_featureplots.png', grid, base_height=7, base_width=12)
+```
+
+#PCA
+
+```{r fig.show='hide', message=F}
+row1 <- plot_grid(
+  DimPlot(seurobj, reduction.use = 'pca', dim.1=1, dim.2=2, group.by='State.labels', cols.use=colors.states.labels, pt.size=0.5, do.return=T, no.axes=F),
+  FeaturePlot(seurobj, features.plot='pc2', cols.use=c('gray', 'blue'), do.return=T, no.axes=T)$pc2 + ggtitle('PC2 cell embeddings'),
+  TSNEPlot(seurobj, group.by='State.labels', pt.size=0.5, colors.use=colors.states.labels, no.axes=T), ncol=3, rel_widths=c(0.4, 0.3, 0.35)
+)
+
+row2 <- plot_grid(FeaturePlot(seurobj, reduction.use = 'tsne', features.plot='pc1', cols.use=c('gray', 'blue'), do.return=T, no.axes=T)$pc1 + ggtitle('PC1 cell embeddings'),
+  FeaturePlot(seurobj, reduction.use='tsne', features.plot='Pseudotime_stretched', cols.use=c('gray', 'blue'), do.return=T, no.axes=T)$Pseudotime_stretched + ggtitle('Pseudotime (stretched)')
+)
+
+p <- plot_grid(row1, row2, ncol=1, rel_heights = c(0.38, 0.62))
+```
+
+
+```{r fig.width=12, fig.height=10}
+p
+```
+
+```{r}
+save_plot('../figures/figures_paper/supplementary_figures/pc_analysis/pc_analysis.pdf', p, base_height=10, base_width=12)
+save_plot('../figures/figures_paper/supplementary_figures/pc_analysis/pc_analysis.png', p, base_height=10, base_width=12)
+```
+
+#Alignment
+
+```{r}
+aligned.timepoint <- readRDS('../output/seurat_objects/180831/10x-180831-aligned-timepoint')
+aligned.depot <- readRDS('../output/seurat_objects/180831/10x-180831-aligned-depot')
+```
+
+
+```{r fig.width=12, fig.height=8}
+plot_grid(
+  TSNEPlot(aligned.timepoint, group.by='timepoint', pt.size=0.5, colors.use=colors.timepoints) + theme(legend.position='bottom'),
+  TSNEPlot(aligned.timepoint, group.by='depot', pt.size=0.5, colors.use = colors.depots) + theme(legend.position='bottom'),
+  TSNEPlot(aligned.timepoint, group.by='State.labels', pt.size=0.5, colors.use = colors.states.labels)+ theme(legend.position='bottom'),
+  TSNEPlot(aligned.depot, group.by='timepoint', pt.size=0.5, colors.use=colors.timepoints) + theme(legend.position='bottom'),
+  TSNEPlot(aligned.depot, group.by='depot', pt.size=0.5, colors.use = colors.depots) + theme(legend.position='bottom'),
+  TSNEPlot(aligned.depot, group.by='State.labels', pt.size=0.5, colors.use = colors.states.labels) + theme(legend.position='bottom')
+)
+```
+
+```{r fig.width=12, fig.height=3}
+p <- plot_grid(
+  TSNEPlot(aligned.timepoint, group.by='timepoint', pt.size=0.5, colors.use=colors.timepoints) + theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), legend.position='right'),
+  TSNEPlot(aligned.timepoint, group.by='depot', pt.size=0.5, colors.use = colors.depots) + theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), legend.position='right'),
+  TSNEPlot(aligned.timepoint, group.by='State.labels', pt.size=0.5, colors.use = colors.states.labels) + theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), legend.position='right'), 
+  ncol=3
+)
+p
+```
+
+```{r}
+save_plot('../figures/figures_paper/supplementary_figures/alignment/10x-180831_aligned-timepoint.pdf', p, base_height=3, base_width=12)
+save_plot('../figures/figures_paper/supplementary_figures/alignment/10x-180831_aligned-timepoint.png', p, base_height=3, base_width=12)
+```
+
+#Pseudotime dynamics
+
+```{r}
+markers <- read.table('../output/markergenes/180831/markers_10x-180831_upperbranch_lowerbranch_negbinom.tsv', header=T)
+#get top 56 U and L branch genes.
+genes <- c(as.vector(markers[order(-markers$avg_logFC),'gene'][1:56]), as.vector(markers[order(markers$avg_logFC),'gene'][1:56]))
+```
+
+
+```{r}
+new_cds <- readRDS('../output/monocle/180831/10x-180831-monocle-monocle_genelist_T1T2T3_T4T5_res.1.5_duplicated-progenitor_stretched-pseudotime')
+#new cds contains duplicated progenitor cells (one assigned to each branch) and stretched Pseudotime
+
+df_pdata <- pData(new_cds)[c('original_cell_id', 'Branch', 'State.labels', 'Pseudotime')]
+
+#get expression values for every cell ID from the new cds
+genes_df <- as.matrix(t(seurobj@data[genes, df_pdata$original_cell_id]))
+
+#cbind the expression values with the relevant metadata
+df <- cbind(df_pdata, as.data.frame(genes_df))
+```
+
+```{r}
+plot_pseudotime <- function(gene){
+  p <- ggplot(df, aes_string(x='Pseudotime', y=paste('`', gene, '`', sep=''))) +
+    geom_point(shape = 21, colour = "black", size = 1, stroke = 0, alpha=0.2, aes(fill=State.labels), show.legend=F) +
+    geom_smooth(se = FALSE, aes(color=Branch), span=0.9, method='loess', size=2, show.legend=F)  + 
+    scale_color_manual(values=colors.pseudotime.lines) +
+    scale_fill_manual(values=colors.pseudotime.points) +
+    scale_y_continuous(minor_breaks=1) +
+    xlab('Pseudotime (stretched)') +
+    ggtitle(gene) +
+    ylab('Expression') +
+    theme(plot.title = element_text(size=30), legend.text=element_text(size=30), axis.text=element_text(size=15), axis.title=element_text(size=20), legend.title=element_text(size=30), legend.key.size=unit(1.5, 'cm'))
+  return(p)
+}
+```
+
+Pseudotime plots.
+
+```{r, fig.width=24, fig.height=24, fig.align = "center"}
+u1 <- lapply(genes[1:28], plot_pseudotime)
+u2 <- lapply(genes[29:56], plot_pseudotime)
+l1 <- lapply(genes[57:84], plot_pseudotime)
+l2 <- lapply(genes[85:112], plot_pseudotime)
+```
+
+```{r fig.width=24, fig.height=32, fig.align='center'}
+u1.plots <- plot_grid(plotlist=u1, ncol=4)
+u1.plots
+```
+
+```{r fig.width=24, fig.height=32, fig.align='center'}
+u2.plots <- plot_grid(plotlist=u2, ncol=4)
+u2.plots
+```
+
+```{r fig.width=24, fig.height=32, fig.align='center'}
+u2.plots <- plot_grid(plotlist=u2, ncol=4)
+u2.plots
+```
+
+
+```{r fig.width=24, fig.height=32, fig.align='center'}
+l1.plots <- plot_grid(plotlist=l1, ncol=4)
+l1.plots
+```
+
+
+```{r fig.width=24, fig.height=32, fig.align='center'}
+l2.plots <- plot_grid(plotlist=l2, ncol=4)
+l2.plots
+```
+
+```{r}
+save_plot('figures/figures_paper/supplementary_figures/pseudotime_dynamics/pseudotime_dynamics_upper_branch_1-28.pdf', u1.plots, base_height=32, base_width=24)
+save_plot('figures/figures_paper/supplementary_figures/pseudotime_dynamics/pseudotime_dynamics_upper_branch_29-56.pdf', u2.plots, base_height=32, base_width=24)
+save_plot('figures/figures_paper/supplementary_figures/pseudotime_dynamics/pseudotime_dynamics_lower_branch_1-28.pdf', l1.plots, base_height=32, base_width=24)
+save_plot('figures/figures_paper/supplementary_figures/pseudotime_dynamics/pseudotime_dynamics_lower_branch_29-56.pdf', l2.plots, base_height=32, base_width=24)
+
+save_plot('figures/figures_paper/supplementary_figures/pseudotime_dynamics/pseudotime_dynamics_upper_branch_1-28.png', u1.plots, base_height=32, base_width=24)
+save_plot('figures/figures_paper/supplementary_figures/pseudotime_dynamics/pseudotime_dynamics_upper_branch_29-56.png', u2.plots, base_height=32, base_width=24)
+save_plot('figures/figures_paper/supplementary_figures/pseudotime_dynamics/pseudotime_dynamics_lower_branch_1-28.png', l1.plots, base_height=32, base_width=24)
+save_plot('figures/figures_paper/supplementary_figures/pseudotime_dynamics/pseudotime_dynamics_lower_branch_29-56.png', l2.plots, base_height=32, base_width=24)
+
 ```
 

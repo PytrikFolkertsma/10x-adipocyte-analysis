@@ -1,0 +1,98 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+library(knitr)
+library(Seurat)
+```
+
+```{r}
+load('output/monocle/180831/heatmaps')
+seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
+```
+
+
+```{r, fig.height = 25, fig.width = 7, fig.align = "center"}
+gridExtra::grid.arrange(heatmaps[['heatmap_logFC0.3_ncluster6']]$ph_res$gtable)
+#grid::grid.draw(branched_5_rownames$ph_res)
+#display(branched_5_rownames$ph_res)
+```
+
+Select genes to show on heatmap. Genes cluster 2:
+
+```{r}
+BEAM2 <- read.table('tables/BEAM/heatmap_logFC0.3_ncluster6/genelist_cluster2.tsv', sep='\t', header=T)
+BEAM2 <- BEAM2[order(-BEAM2$avgLogFC_State2_State3),]
+kable(as.data.frame(BEAM2))
+```
+
+```{r, fig.height = 40, fig.width = 10, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=as.vector(BEAM2$gene_short_name[1:30]), nCol=3, cols.use=c('gray', 'blue'))
+```
+
+Genes cluster 6
+
+```{r}
+BEAM6 <- read.table('tables/BEAM/heatmap_logFC0.3_ncluster6/genelist_cluster6.tsv', sep='\t', header=T)
+BEAM6 <- BEAM6[order(-BEAM6$avgLogFC_State2_State3),]
+kable(as.data.frame(BEAM6))
+```
+
+```{r, fig.height = 40, fig.width = 10, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=as.vector(BEAM6$gene_short_name), nCol=3, cols.use=c('gray', 'blue'))
+```
+
+
+Genes cluster 3
+
+```{r}
+BEAM3 <- read.table('tables/BEAM/heatmap_logFC0.3_ncluster6/genelist_cluster3.tsv', sep='\t', header=T)
+BEAM3 <- BEAM3[order(BEAM3$avgLogFC_State2_State3),]
+kable(as.data.frame(BEAM3))
+```
+
+```{r, fig.height = 30, fig.width = 10, fig.align = "center"}
+FeaturePlot(seurobj, features.plot=as.vector(BEAM3$gene_short_name[1:30]), nCol=3, cols.use=c('gray', 'blue'))
+```
+
+
+```{r}
+#OSR2 = TF
+genes.cluster3 <- c('APOD', 'DCN', 'MGP', 'ZFP36', 'DPT', 'CD34', 'PLAC9')
+genes.cluster2 <- c('SCD', 'FABP5', 'G0S2', 'ADIPOQ', 'ADIRF', 'PLIN1', 'FASN', 'CIDEC', 'UCP2', 'FADS1', 'HEBP2', 'LIPE', 'CD36')
+genes.cluster6 <- c('MPC2', 'COX8A', 'ATP5B', 'FDPS', 'PDXK')
+genes.union <- c(genes.cluster3, genes.cluster2, genes.cluster6)
+```
+
+```{r}
+heatmaps[['heatmap_logFC0.3_ncluster6_filtered_genes']] <- heatmaps[['heatmap_logFC0.3_ncluster6']]
+
+genes <- heatmaps[['heatmap_logFC0.3_ncluster6_filtered_genes']]$ph_res$gtable$grobs[[3]][1]$label
+
+genes_filtered <- unlist(lapply(genes, function(x){
+  if(x %in% genes.union){
+    return(x)
+  } else {
+    return('')
+  }
+}))
+
+heatmaps[['heatmap_logFC0.3_ncluster6_filtered_genes']]$ph_res$gtable$grobs[[3]][1]$label <- genes_filtered
+```
+
+#Heatmap with filtered
+
+```{r fig4, fig.height = 8, fig.width = 7, fig.align = "center"}
+heatmap <- gridExtra::grid.arrange(heatmaps[['heatmap_logFC0.3_ncluster6_filtered_genes']]$ph_res$gtable)
+heatmap
+```
+
+```{r}
+save(heatmaps, file='output/monocle/180831/heatmaps')
+```
+
+

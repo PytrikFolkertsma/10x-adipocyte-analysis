@@ -4,8 +4,70 @@ output: html_notebook
 ---
 
 
+
 ```{r}
-plot(cars)
+library(Seurat)
+library(colorspace)
 ```
 
+```{r}
+seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
+```
+
+#Colors
+
+```{r fig1, fig.height=10, fig.width=10, fig.align="center"}
+hcl_palettes(plot = TRUE)
+```
+
+Timepoint colors
+
+```{r fig2, fig.height=10, fig.width=12, fig.align="center"}
+plot_grid(
+  TSNEPlot(seurobj, group.by='timepoint', pt.size=1, colors.use=rev(sequential_hcl(5, palette='TealGrn'))),
+  TSNEPlot(seurobj, group.by='timepoint', pt.size=1, colors.use=rev(sequential_hcl(5, palette='BluGrn'))),
+  TSNEPlot(seurobj, group.by='timepoint', pt.size=1, colors.use=rev(sequential_hcl(5, palette='Blue Yellow'))),
+  TSNEPlot(seurobj, group.by='timepoint', pt.size=1, colors.use=rev(sequential_hcl(5, palette='PurpOr')))
+)
+```
+
+Custom colors timepoints
+
+```{r fig3, fig.height=15, fig.width=12, fig.align="center"}
+plot_grid(
+  TSNEPlot(seurobj, group.by='timepoint', pt.size=1, colors.use=rev(c('#0263A1', '#008FB0', '#4CB6BC', '#8ED7CA', '#CBF1DE'))),
+  TSNEPlot(seurobj, group.by='timepoint', pt.size=1, colors.use=rev(c('#4847A1', '#0087BE', '#00BED1', '#3DEFDA', '#B0FFDF'))),
+  TSNEPlot(seurobj, group.by='timepoint', pt.size=1, colors.use=rev(c('#00589C','#008DA5', '#00B9A1', '#6DDD95', '#D7F797'))),
+  TSNEPlot(seurobj, group.by='timepoint', pt.size=1, colors.use=rev(c('#0077B5', '#00A7C3', '#00CAC2', '#42E0B4', '#8CE599'))),
+  TSNEPlot(seurobj, group.by='timepoint', pt.size=1, colors.use=rev(c('#005090','#007C98','#00A39B','#00C598','#86E094'))),
+   TSNEPlot(seurobj, group.by='timepoint', pt.size=1, colors.use=c('#f5eb82','#c8d29b','#bca986','#bf877f','#a8cec2')), ncol=2, labels=c('custom1', 'custom2', 'custom3', 'custom4', 'custom5', 'custom6')
+)
+```
+
+Depots
+
+```{r fig4, fig.height=5, fig.width=12, fig.align="center"}
+plot_grid(
+  TSNEPlot(seurobj, group.by='depot', pt.size=1, colors.use=c('#825c2a', '#ebd1ac', '#5c3724', '#eab476')),
+  TSNEPlot(seurobj, group.by='depot', pt.size=1, colors.use=c('#82643a', '#d1a567', '#6c4431', '#e3c78a')),
+  ncol=2
+)
+```
+
+
+#Monocle
+
+```{r}
+cds <- readRDS('output/monocle/180831/monocle_T1T2T3_T4T5_res1.5/10x-180831-monocle')
+```
+
+```{r fig5, fig.height=10, fig.width=12, fig.align="center"}
+plot_grid(
+  plot_cell_trajectory(cds, group.by='depot'),
+  plot_cell_trajectory(cds, group.by='depot'),
+  plot_cell_trajectory(cds, group.by='depot'),
+  plot_cell_trajectory(cds, group.by='depot'), 
+  ncol=2
+)
+```
 

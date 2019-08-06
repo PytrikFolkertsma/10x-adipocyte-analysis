@@ -12,8 +12,8 @@ output:
 ```{r}
 library(Seurat)
 library(dplyr)
-
-seurobj <- readRDS('output/10x-180831')
+source('code/colors.R')
+seurobj <- readRDS('output/seurat_objects/180831/10x-180831')
 ```
 
 #Quality control plots
@@ -148,6 +148,9 @@ fig <- plot_grid(
   labels='auto', nrow=1
 )
 
+#save_plot('../figures/figures_paper/supplementary_figures/pca/180831_pca_tsne.pdf', PCAPlot(seurobj, group.by='timepoint', cols.use=colors.timepoints, pt.size=0.1, do.return=T), base_width=6, base_height=5)
+#save_plot('../figures/figures_paper/supplementary_figures/pca/180831_pca_tsne.png', PCAPlot(seurobj, group.by='timepoint', cols.use=colors.timepoints, pt.size=0.1, do.return=T), base_width=6, base_height=5)
+
 #save_plot("../plots/180831_pca_tsne.pdf", fig, base_width=12, base_height=5)
 fig
 ```
@@ -167,12 +170,13 @@ sfig2
 
 ```{r fig12, fig.height = 3, fig.width = 12, fig.align = "center"}
 sfig3 <- plot_grid(
-  VlnPlot(seurobj, c("nGene"), group.by='timepoint', point.size.use=-1),
-  VlnPlot(seurobj, c("nUMI"), group.by='timepoint', point.size.use=-1),
-  VlnPlot(seurobj, c("percent.mito"), group.by='timepoint', point.size.use=-1),
+  VlnPlot(seurobj, c("nGene"), group.by='timepoint', point.size.use=-1, cols.use=colors.timepoints),
+  VlnPlot(seurobj, c("nUMI"), group.by='timepoint', point.size.use=-1, cols.use=colors.timepoints),
+  VlnPlot(seurobj, c("percent.mito"), group.by='timepoint', point.size.use=-1, cols.use=colors.timepoints),
   labels='auto', nrow=1
 )
-#save_plot("../plots/supplementary_figures/sfig_180831_ngene-numi-pm.pdf", sfig3, base_width=12, base_height=3)
+#save_plot("../figures/figures_paper/supplementary_figures/ngene-numi-pm/sfig_180831_ngene-numi-pm.pdf", sfig3, base_width=12, base_height=3)
+#save_plot("../figures/figures_paper/supplementary_figures/ngene-numi-pm/sfig_180831_ngene-numi-pm.png", sfig3, base_width=12, base_height=3)
 sfig3
 ```
 
@@ -185,7 +189,7 @@ sfig4 <- plot_grid(
   labels='auto', nrow=2
 )
 sfig4
-save_plot("../plots/supplementary_figures/sfig_180831_clusters.pdf", sfig4, base_width=12, base_height=9)
+#save_plot("../plots/supplementary_figures/sfig_180831_clusters.pdf", sfig4, base_width=12, base_height=9)
 ```
 
 ```{r}

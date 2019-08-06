@@ -11,14 +11,15 @@ output:
 
 ```{r}
 library(GOplot)
+library(ggplot2)
+library(ggrepel)
 ```
 
 
 
 ```{r}
 name <- 'heatmap_logFC0.3_ncluster6'
-folder <- paste('tables/BEAM/', name, sep='')
-gsea_files <- list.files(paste(folder, '/REVIGO_cleaned/', sep=''))
+folder <- paste('../tables/tables_paper/all_tables/BEAM/', name, sep='')
 
 clusters <- c(1,2,3,4,6)
 
@@ -28,7 +29,7 @@ genelist <- list()
 for (i in clusters){
   gsea_cluster <- read.table(paste(folder, '/REVIGO_cleaned/', 'REVIGO_cluster', i, '_cleaned.tsv', sep=''), header=T)
   gsea_cluster['cluster'] <- i
-  genes_cluster <- read.table(paste(folder, '/genelist_cluster', i, '.tsv', sep=''))
+  genes_cluster <- read.table(paste(folder, '/genelist_cluster', i, '.tsv', sep=''), header=T)
   gsea[[i]] <- gsea_cluster
   genelist[[i]] <- genes_cluster
 }
@@ -59,13 +60,73 @@ circ <- circle_dat(terms, genes)
 GOBar(circ)
 ```
 
-```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
+```{r, fig.height = 12, fig.width = 25, fig.align = "center"}
 GOBubble(circ, labels=8, ID=F)
 ```
 
-```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
-GOBubble(circ, labels=8, ID=F, display='mutliple')
+```{r}
+GOBubble_modified <- function(data, display, title, colour, labels, ID = T, table.legend = T, table.col = T, bg.col = F, zscore_threshold=0, ggrepel_linecol='black'){
+  zscore <- adj_pval <- category <- count <- id <- term <- NULL
+  if (missing(display)) display <- 'single'
+  if (missing(title)) title <- ''
+  if (missing(colour)) cols <- c("chartreuse4", "brown2", "cornflowerblue") else cols <- colour
+  if (missing(labels)) labels <- 5
+  if (bg.col == T & display == 'single') cat("Parameter bg.col will be ignored. To use the parameter change display to 'multiple'")
+  
+  colnames(data) <- tolower(colnames(data))
+  tmp_lab <- data.frame(cats = c('Biological Process', 'Cellular Component', 'Molecular Function'), 
+                        cat.abb = c('BP', 'CC', 'MF'),
+                        locy = c(match('BP', data$category), match('CC', data$category), match('MF', data$category)),
+                        cols = cols,
+                        stringsAsFactors = F)
+  tmp_lab <- tmp_lab[order(tmp_lab$locy),]
+  if(!'count'%in%colnames(data)){
+    rang <- c(5, 5)
+    data$count <- rep(1, dim(data)[1])
+  }else {rang <- c(1, 30)}
+  data$adj_pval <- -log(data$adj_pval, 10)
+  sub <- data[!duplicated(data$term), ]
+  g <- ggplot(sub, aes(zscore, adj_pval, fill = category, size = count))+
+    labs(title = title, x = 'z-score', y = '-log (adj p-value)')+
+    geom_point(shape = 21, col = 'black', alpha = 1 / 2)+ #add all bubbles
+    geom_hline(yintercept = 1.3, col = 'orange')+ #add threshold for p-value=0.05
+    scale_size(range = rang, guide = 'none')
+  
+  sub2 <- subset(sub, subset=sub$adj_pval >= labels)
+  sub2 <- subset(sub2, subset=abs(sub2$zscore) >= zscore_threshold)
+  
+  #if (!is.character(labels)) sub2 <- subset(sub, subset = sub$adj_pval >= labels) else sub2 <- subset(sub, sub$id%in%labels | sub$term%in%labels)
+  if (display == 'single'){
+    g <- g + scale_fill_manual('', values = tmp_lab$cols, labels = tmp_lab$cats)+
+      theme(legend.position = 'bottom')+
+      annotate ("text", x = 0, y = 1.8, label = "Threshold", colour = "orange", size = 4)
+    if (ID) g <- g+ geom_text_repel(data = sub2, aes(x = zscore, y = adj_pval, label = id), size = 5) else g <- g + geom_text_repel(data = sub2, aes(x = zscore, y = adj_pval, label = term), size = 4, segment.color = ggrepel_linecol)
+    if (table.legend){
+      if (table.col) table <- draw_table(sub2, par.order = tmp_lab) else table <- draw_table(sub2)
+      g <- g + theme(axis.text = element_text(size = 14), axis.line = element_line(colour = 'grey80'), axis.ticks = element_line(colour = 'grey80'), 
+                     axis.title = element_text(size = 14, face = 'bold'), panel.background = element_blank(), panel.grid.minor = element_blank(), 
+                     panel.grid.major = element_line(colour = 'grey80'), plot.background = element_blank()) 
+      graphics::par(mar = c(0.1, 0.1, 0.1, 0.1))
+      grid.arrange(g, table, ncol = 2)
+    }else{
+      g + theme(axis.text = element_text(size = 14), axis.line = element_line(colour = 'grey80'), axis.ticks = element_line(colour = 'grey80'), 
+                axis.title = element_text(size = 14, face = 'bold'), panel.background = element_blank(), panel.grid.minor = element_blank(), 
+                panel.grid.major = element_blank(), plot.background = element_blank())
+    }
+  }
+}
 ```
+
+```{r, fig.height = 9, fig.width = 15, fig.align = "center"}
+p <- GOBubble_modified(circ, labels=3, ID=F, table.legend = F, zscore_threshold=4.5, ggrepel_linecol='transparent')
+p
+```
+
+```{r}
+save_plot("../figures/figures_paper/all_figures/plots_BEAM_GO/180831_beamGO_all-terms.pd_labels3_zscore4.5.pdf", p, base_width=18, base_height=9)
+save_plot("../figures/figures_paper/main_figures/figure3/180831_beamGO_all-terms.pd_labels3_zscore4.5.pdf", p, base_width=18, base_height=9)
+```
+
 
 #Terms associated with metabolic branch
 
@@ -107,7 +168,7 @@ GOBar(circ_ecm)
 ```
 
 ```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
-GOBubble(circ_ecm, labels=2, ID=F)
+GOBubble(circ_ecm, labels=2, ID=F, table.legend=T)
 ```
 
 ```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
@@ -133,5 +194,29 @@ GOBubble(circ_upregulated, labels=2, ID=F)
 ```
 
 ```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
+GOBubble(circ_upregulated, labels=2, ID=F, table.legend = F)
+```
+
+```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
 GOBubble(circ_upregulated, labels=8, ID=F, display='mutliple')
 ```
+
+Relationship between genes and terms
+
+```{r}
+#process <- c('extracellular exosome', 'lipid metabolic process', 'purine-containing compound metabolic process', 'fatty acid derivative biosynthetic process')
+
+#genes_ordered <- genes[order(-abs(genes$logFC)),]
+#process <- gsea$revigo.description[gsea$cluster == 3]
+#chord <- chord_dat(circ_upregulated, genes_ordered)
+```
+
+
+```{r, fig.height = 12, fig.width = 20, fig.align = "center"}
+#GOHeat(chord, nlfc = 1)
+```
+
+```{r}
+
+```
+

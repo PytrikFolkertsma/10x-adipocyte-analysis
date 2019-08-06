@@ -1,0 +1,100 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r message=F}
+library(Seurat)
+library(monocle)
+library(dplyr)
+library(ggplot2)
+```
+
+Genes to plot
+
+```{r}
+genes <- c('ADIPOQ', 'MGP', 'UCP2', 'UCP1', 'DCN', 'APOD', 'IGF2', 'PPARG', 'PRDM16', 'EBF2', 'PDGFRA', 'PDGFRB', 'FABP5', 'FABP4', 'LEP', 'CEBPA', 'CEBPB', 'CEBPD', 'G0S2', 'FOS', 'FN1', 'KRT18', 'THBS1', 'PTX3', 'CFD', 'SAA1')
+```
+
+Load data
+
+```{r}
+new_cds <- readRDS('../output/monocle/180831/10x-180831-monocle-monocle_genelist_T1T2T3_T4T5_res.1.5_duplicated-progenitor_stretched-pseudotime')
+#new cds contains duplicated progenitor cells (one assigned to each branch) and stretched Pseudotime
+
+df_pdata <- pData(new_cds)[c('original_cell_id', 'Branch', 'State.labels', 'Pseudotime')]
+
+#get expression values for every cell ID from the new cds
+genes_df <- as.matrix(t(seurobj@data[genes, df_pdata$original_cell_id]))
+
+#cbind the expression values with the relevant metadata
+df <- cbind(df_pdata, as.data.frame(genes_df))
+```
+
+```{r}
+plot_pseudotime <- function(gene){
+  p <- ggplot(df, aes_string(x='Pseudotime', y=gene)) +
+    geom_point(shape = 21, colour = "black", size = 1, stroke = 0, alpha=0.2, aes(fill=State.labels), show.legend=F) +
+    geom_smooth(se = FALSE, aes(color=Branch), span=0.9, method='loess', size=2)  + 
+    scale_color_manual(values=colors.pseudotime.lines) +
+    scale_fill_manual(values=colors.pseudotime.points) +
+    scale_y_continuous(minor_breaks=1) +
+    xlab('Pseudotime (stretched)') +
+    ggtitle(gene) +
+    ylab('Expression') +
+    theme(plot.title = element_text(size=30), legend.text=element_text(size=30), axis.text=element_text(size=15), axis.title=element_text(size=20), legend.title=element_text(size=30), legend.key.size=unit(1.5, 'cm'))
+  return(p)
+}
+```
+
+Pseudotime plots.
+
+```{r, fig.width=24, fig.height=24, fig.align = "center"}
+#plots <- lapply(genes, plot_pseudotime)
+
+plot_grid(plotlist=plots, ncol=4)
+```
+
+Pseudotime plots T5 precursors
+
+```{r}
+genes <- c('CFD','FABP4','SAA1', 'APOE','MGP','GSN','GPX3','ADH1B','APOD','MT1X')
+genes2 <- c('KRT18', 'THBS1', 'PTX3', 'CTGF', 'SERPINE2', 'TAGLN', 'TM4SF1')
+
+df_pdata_T5 <- T5_precursors@meta.data[c('State.labels', 'Pseudotime_stretched')]
+genes_df_T5 <- as.matrix(t(T5_precursors@data[unique(c(genes, genes2)),]))
+df_T5 <- cbind(df_pdata_T5, as.data.frame(genes_df_T5))
+
+plot_pseudotime_T5 <- function(gene){
+  p <- ggplot(df_T5, aes_string(x='Pseudotime_stretched', y=gene)) +
+    geom_point(shape = 21, colour = "black", size = 1, stroke = 0, alpha=0.2, aes(fill=State.labels), show.legend=F) +
+    geom_smooth(se = FALSE, aes(color=State.labels), span=0.9, method='loess', size=2, show.legend=F)  + 
+    scale_color_manual(values=c('#ede5b6')) +
+    scale_fill_manual(values=colors.pseudotime.points) +
+    scale_y_continuous(minor_breaks=1) +
+    xlab('Pseudotime (stretched)') +
+    ggtitle(gene) +
+    ylab('Expression') +
+    theme(plot.title = element_text(size=30), legend.text=element_text(size=30), axis.text=element_text(size=15), axis.title=element_text(size=20), legend.title=element_text(size=30), legend.key.size=unit(1.5, 'cm'))
+  return(p)
+}
+```
+
+
+```{r fig.width=12, fig.height=16, fig.align='center'}
+plots <- lapply(genes, plot_pseudotime_T5)
+plot_grid(plotlist=plots, ncol=3)
+```
+
+```{r fig.width=12, fig.height=12, fig.align='center'}
+plots <- lapply(genes2, plot_pseudotime_T5)
+plot_grid(plotlist=plots, ncol=3)
+```
+
+FeaturePlots
+
+```{r fig.width=16, fig.height=25, fig.align='center'}
+FeaturePlot(seurobj, features.plot=c(genes, genes2), cols.use=c('gray', 'blue'), no.legend=F, nCol=3)
+```
+
