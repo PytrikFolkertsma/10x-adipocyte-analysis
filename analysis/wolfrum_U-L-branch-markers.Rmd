@@ -1,0 +1,61 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
+---
+
+
+```{r message=F}
+library(Seurat)
+library(cowplot)
+library(dplyr)
+library(tidyr)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+```
+
+```{r}
+wolfrum <- readRDS('/projects/timshel/sc-scheele_lab_adipose_fluidigm_c1/data-wolfrum/wolfrum.compute.seurat_obj.rds')
+markers <- read.table('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/markergenes/180831/markers_10x-180831_upperbranch_lowerbranch_negbinom.tsv', header=T)
+```
+
+#U branch marker genes all wolfrum data
+
+```{r}
+markers_u <- markers[markers$avg_logFC > 0,]
+markers_u <- markers_u[order(-markers_u$avg_logFC),]
+```
+
+Top 56 markers for U branch sorted on logFC.
+
+```{r, fig.show='hide', results='hide', message=F}
+plots <- FeaturePlot(wolfrum, features=as.vector(markers_u$gene[1:56]), combine = FALSE, pt.size=0.2, cols=c('gray', 'blue'))
+
+plots_edited <- list()
+
+for(i in 1:length(plots)) {
+  plots_edited[[i]] <- plots[[i]] + NoAxes()
+  save_plot(paste('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/all_data/U_branch/', as.vector(markers_u$gene[i]) ,'.pdf', sep=''), plots_edited[[i]], base_height=6, base_width=6)
+}
+
+grid_1 <- plot_grid(plotlist=plots_edited[1:28], ncol=4)
+grid_2 <- plot_grid(plotlist=plots_edited[29:56], ncol=4)
+
+save_plot('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/all_data/markers_upper_branch_1-28.pdf', grid_1, base_height=16, base_width=12)
+
+save_plot('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/all_data/markers_upper_branch_29-56.pdf', grid_2, base_height=16, base_width=12)
+```
+
+```{r, fig.height = 16, fig.width = 10, fig.align = "center"}
+grid_1
+```
+
+```{r, fig.height = 16, fig.width = 10, fig.align = "center"}
+grid_2
+```
+
