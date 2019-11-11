@@ -522,17 +522,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree403855e3f103f75da8ea405e4dad39161829bdf4targetblank403855ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/403855e3f103f75da8ea405e4dad39161829bdf4" target="_blank">403855e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree77918ba7d19c7f7d2f1f0f823620944b8df836a2targetblank77918baa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/77918ba7d19c7f7d2f1f0f823620944b8df836a2" target="_blank">77918ba</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree403855e3f103f75da8ea405e4dad39161829bdf4targetblank403855ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree77918ba7d19c7f7d2f1f0f823620944b8df836a2targetblank77918baa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    analysis/figure/
     Ignored:    code/.Rhistory
     Ignored:    figures/
     Ignored:    output/bulk_analysis/
@@ -551,6 +550,8 @@ Untracked files:
     Untracked:  analysis/.ipynb_checkpoints/10x-180831_harmony_palantir-checkpoint.ipynb
     Untracked:  analysis/.ipynb_checkpoints/velocyto_notebook_180831-checkpoint.ipynb
     Untracked:  analysis/paga/
+    Untracked:  analysis/velocyto/.ipynb_checkpoints/
+    Untracked:  analysis/velocyto/Untitled.ipynb
     Untracked:  analysis/wolfrum-scmap.Rmd
     Untracked:  analysis/wolfrum_analysis.Rmd
     Untracked:  analysis/wolfrum_cluster-markers.Rmd
@@ -578,7 +579,6 @@ Unstaged changes:
     Modified:   code/run-alignment.R
     Modified:   code/run-monocle.R
     Modified:   code/velocyto_preprocess.py
-    Deleted:    docs/.nojekyll
 
 </code></pre>
 <p>
@@ -622,6 +622,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/77918ba7d19c7f7d2f1f0f823620944b8df836a2/analysis/wolfrum_U-L-branch-markers.Rmd" target="_blank">77918ba</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-11
+</td>
+<td>
+U and L branch markers in wolfrum data
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/cf6e507c6f1121a4b06e0823153beadd66b0ec38/docs/wolfrum_U-L-branch-markers.html" target="_blank">cf6e507</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/403855e3f103f75da8ea405e4dad39161829bdf4/analysis/wolfrum_U-L-branch-markers.Rmd" target="_blank">403855e</a>
 </td>
 <td>
@@ -657,19 +691,19 @@ markers &lt;- read.table(&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/1
 
   for(i in 1:length(plots)) {
     plots_edited[[i]] &lt;- plots[[i]] + NoAxes()
-    save_plot(paste(dir, &#39;/&#39;, branch, &#39;/&#39;, as.vector(markergenes$gene[i]) ,&#39;.pdf&#39;, sep=&#39;&#39;), plots_edited[[i]], base_height=6, base_width=6)
+    #save_plot(paste(dir, &#39;/&#39;, branch, &#39;/&#39;, as.vector(markergenes$gene[i]) ,&#39;.pdf&#39;, sep=&#39;&#39;), plots_edited[[i]], base_height=6, base_width=6)
   }
   
-  grid_1 &lt;- plot_grid(plotlist=plots_edited[1:28], ncol=4)
-  grid_2 &lt;- plot_grid(plotlist=plots_edited[29:56], ncol=4)
+  grid_1 &lt;- plot_grid(plotlist=plots_edited[1:28], ncol=2)
+  grid_2 &lt;- plot_grid(plotlist=plots_edited[29:56], ncol=2)
   
   #pdf
-  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_1-28.pdf&#39;, sep=&#39;\t&#39;), grid_1, base_height=16, base_width=12)
-  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_29-56.pdf&#39;, sep=&#39;\t&#39;), grid_2, base_height=16, base_width=12)
+  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_1-28.pdf&#39;, sep=&#39;\t&#39;), grid_1, base_height=32, base_width=12)
+  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_29-56.pdf&#39;, sep=&#39;\t&#39;), grid_2, base_height=32, base_width=12)
   
   #png
-    save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_1-28.png&#39;, sep=&#39;\t&#39;), grid_1, base_height=16, base_width=12)
-  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_29-56.png&#39;, sep=&#39;\t&#39;), grid_2, base_height=16, base_width=12)
+    save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_1-28.png&#39;, sep=&#39;\t&#39;), grid_1, base_height=32, base_width=12)
+  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_29-56.png&#39;, sep=&#39;\t&#39;), grid_2, base_height=32, base_width=12)
   
   return(list(grid_1, grid_2))
 }</code></pre>
@@ -679,9 +713,83 @@ markers_u &lt;- markers_u[order(-markers_u$avg_logFC),]</code></pre>
 <p>Top 56 markers for U branch sorted on logFC.</p>
 <pre class="r"><code>grids &lt;- save_plots(wolfrum, markergenes=markers_u, dir=&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/all_data&#39;, branch=&#39;U_branch&#39;)</code></pre>
 <pre class="r"><code>grids[[1]]</code></pre>
-<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-6-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/cf6e507c6f1121a4b06e0823153beadd66b0ec38/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-6-1.png" target="_blank">cf6e507</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>grids[[2]]</code></pre>
-<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-7-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/cf6e507c6f1121a4b06e0823153beadd66b0ec38/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-7-1.png" target="_blank">cf6e507</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>#L branch marker genes all wolfrum data</p>
 <pre class="r"><code>markers_l &lt;- markers[markers$avg_logFC &lt; 0,]
 markers_l &lt;- markers_l[order(markers_l$avg_logFC),]</code></pre>
@@ -693,18 +801,166 @@ The following requested variables were not found: RP11-572C15.6, PPAP2B</code></
 as.vector(markergenes$gene[1:56]), : All cells have the same value (0) of
 IFITM1.</code></pre>
 <pre class="r"><code>grids[[1]]</code></pre>
-<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-10-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-10-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/cf6e507c6f1121a4b06e0823153beadd66b0ec38/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-10-1.png" target="_blank">cf6e507</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>grids[[2]]</code></pre>
-<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-11-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-11-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/cf6e507c6f1121a4b06e0823153beadd66b0ec38/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-11-1.png" target="_blank">cf6e507</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>#U branch markers for wolfrum preadipocyte subset</p>
 <pre class="r"><code>Idents(wolfrum) &lt;- wolfrum@meta.data$seurat_clusters
 wolfrum_subset &lt;- subset(wolfrum, idents=c(5,14,23,11,10,21,22))</code></pre>
 <p>Top 56 markers for U branch sorted on logFC.</p>
 <pre class="r"><code>grids &lt;- save_plots(wolfrum_subset, markergenes=markers_u, dir=&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/preadipocyte_subset&#39;, branch=&#39;U_branch&#39;)</code></pre>
 <pre class="r"><code>grids[[1]]</code></pre>
-<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-14-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-14-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
+Past versions of unnamed-chunk-14-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-14-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/cf6e507c6f1121a4b06e0823153beadd66b0ec38/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-14-1.png" target="_blank">cf6e507</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>grids[[2]]</code></pre>
-<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-15-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-15-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
+Past versions of unnamed-chunk-15-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-15-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/cf6e507c6f1121a4b06e0823153beadd66b0ec38/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-15-1.png" target="_blank">cf6e507</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>#L branch markers for wolfrum adipocyte subset</p>
 <p>Top 56 markers for L branch sorted on logFC.</p>
 <pre class="r"><code>grids &lt;- save_plots(wolfrum_subset, markergenes=markers_l, dir=&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/preadipocyte_subset&#39;, branch=&#39;L_branch&#39;)</code></pre>
@@ -714,9 +970,83 @@ The following requested variables were not found: RP11-572C15.6, PPAP2B</code></
 as.vector(markergenes$gene[1:56]), : All cells have the same value (0) of
 IFITM1.</code></pre>
 <pre class="r"><code>grids[[1]]</code></pre>
-<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-17-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-17-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
+Past versions of unnamed-chunk-17-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-17-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/cf6e507c6f1121a4b06e0823153beadd66b0ec38/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-17-1.png" target="_blank">cf6e507</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>grids[[2]]</code></pre>
-<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-18-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-18-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-1">
+Past versions of unnamed-chunk-18-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-18-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/cf6e507c6f1121a4b06e0823153beadd66b0ec38/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-18-1.png" target="_blank">cf6e507</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
