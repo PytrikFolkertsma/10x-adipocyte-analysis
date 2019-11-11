@@ -326,7 +326,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -335,7 +335,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -344,10 +344,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-05-13
+<strong>Last updated:</strong> 2019-11-11
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>10x-adipocyte-analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -363,31 +363,33 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreed28d2752465e8f4890b4c62b0f04c594ace7bd94targetblankd28d275a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/d28d2752465e8f4890b4c62b0f04c594ace7bd94" target="_blank">d28d275</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree76d18befaa9c19c39eedb1df17e8a1558de8e048targetblank76d18bea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/76d18befaa9c19c39eedb1df17e8a1558de8e048" target="_blank">76d18be</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreed28d2752465e8f4890b4c62b0f04c594ace7bd94targetblankd28d275a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree76d18befaa9c19c39eedb1df17e8a1558de8e048targetblank76d18bea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    code/.Rhistory
     Ignored:    figures/
     Ignored:    output/bulk_analysis/
     Ignored:    output/demuxlet/
+    Ignored:    output/harmony/
     Ignored:    output/markergenes/
     Ignored:    output/monocle/
     Ignored:    output/seurat_objects/
@@ -398,29 +400,29 @@ Ignored files:
 Untracked files:
     Untracked:  .rstudio_old10/
     Untracked:  10x-adipocyte-analysis-copy.Rproj
+    Untracked:  analysis/.ipynb_checkpoints/10x-180831_harmony_palantir-checkpoint.ipynb
     Untracked:  analysis/.ipynb_checkpoints/velocyto_notebook_180831-checkpoint.ipynb
-    Untracked:  analysis/10-180831-monocle-per-depot.Rmd
-    Untracked:  analysis/10x-180831-BEAM-heatmap.Rmd
-    Untracked:  analysis/10x-180831-pseudotime.Rmd
+    Untracked:  analysis/paga/
+    Untracked:  analysis/velocyto/.ipynb_checkpoints/
+    Untracked:  analysis/velocyto/Untitled.ipynb
+    Untracked:  analysis/wolfrum-scmap.Rmd
+    Untracked:  analysis/wolfrum_analysis.Rmd
+    Untracked:  analysis/wolfrum_cluster-markers.Rmd
     Untracked:  code/BEAM-heatmaps.R
     Untracked:  code/BEAM_gsea.R
+    Untracked:  code/__pycache__/
     Untracked:  code/colors.R
+    Untracked:  code/convert_raw_data_to_csv_harmony.R
+    Untracked:  code/harmony.py
+    Untracked:  code/test.csv
 
 Unstaged changes:
     Deleted:    10x-adipocyte-analysis.Rproj
-    Modified:   analysis/10x-180504-DEGs-depots.Rmd
-    Modified:   analysis/10x-180504-alignment.Rmd
-    Modified:   analysis/10x-180504-depot-markers.Rmd
-    Modified:   analysis/10x-180831-BATLAS.Rmd
-    Modified:   analysis/10x-180831-TF_analysis.Rmd
-    Modified:   analysis/10x-180831-beamGOplot.Rmd
-    Modified:   analysis/10x-180831-colors.Rmd
-    Modified:   analysis/10x-180831-demuxlet.Rmd
-    Modified:   analysis/10x-180831-figures.Rmd
-    Modified:   analysis/10x-180831-general-analysis.Rmd
-    Modified:   analysis/10x-180831-supplementary_figures.Rmd
-    Modified:   analysis/velocyto_notebook_180504.ipynb
-    Modified:   analysis/velocyto_notebook_180831.ipynb
+    Modified:   analysis/10x-180831-metabolic_ECM_genes.Rmd
+    Modified:   analysis/harmony/10x-180831_harmony_palantir.ipynb
+    Modified:   analysis/index.Rmd
+    Deleted:    analysis/velocyto_notebook_180504.ipynb
+    Deleted:    analysis/velocyto_notebook_180831.ipynb
     Deleted:    code/REMOVE/find-brown-sample-markers-180504-REMOVE.R
     Deleted:    code/REMOVE/find-white-sample-markers-180504-REMOVE.R
     Deleted:    code/REMOVE/get-genes-monocle-180831-REMOVE.R
@@ -428,6 +430,7 @@ Unstaged changes:
     Modified:   code/find-depot-markers-180504.R
     Modified:   code/find-markers.R
     Modified:   code/preprocess-data.R
+    Modified:   code/run-alignment.R
     Modified:   code/run-monocle.R
     Modified:   code/velocyto_preprocess.py
 
@@ -468,6 +471,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/76d18befaa9c19c39eedb1df17e8a1558de8e048/analysis/index.Rmd" target="_blank">76d18be</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-11
+</td>
+<td>
+wflow_publish(“analysis/index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/fb1d9ddd15a18f2d94a19fb00b0b78b146150feb/docs/index.html" target="_blank">fb1d9dd</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-05-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1796,6 +1833,12 @@ Velocyto analysis
 </li>
 <li>
 <a href="10x-180831-supplementary_figures.html">Supplementary figures</a>
+</li>
+</ol>
+<b>Wolfrum analysis:</b>
+<ol>
+<li>
+<a href="wolfrum_U-L-branch-markers.html">Branch marker genes</a>
 </li>
 </ol>
 
