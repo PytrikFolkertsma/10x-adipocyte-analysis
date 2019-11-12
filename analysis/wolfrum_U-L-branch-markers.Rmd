@@ -26,7 +26,7 @@ markers <- read.table('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adip
 
 
 ```{r}
-save_plots <- function(data, markergenes, dir, branch){
+plot_featureplots <- function(data, markergenes, dir, branch){
   plots <- FeaturePlot(data, features=as.vector(markergenes$gene[1:56]), combine = FALSE, pt.size=0.2, cols=c('gray', 'blue'))
 
   plots_edited <- list()
@@ -40,12 +40,12 @@ save_plots <- function(data, markergenes, dir, branch){
   grid_2 <- plot_grid(plotlist=plots_edited[29:56], ncol=2)
   
   #pdf
-  save_plot(paste(dir, 'markers_', branch, '_1-28.pdf', sep='\t'), grid_1, base_height=32, base_width=12)
-  save_plot(paste(dir, 'markers_', branch, '_29-56.pdf', sep='\t'), grid_2, base_height=32, base_width=12)
+  save_plot(paste(dir, 'markers_', branch, '_1-28.pdf', sep='\t'), grid_1, base_height=60, base_width=12)
+  save_plot(paste(dir, 'markers_', branch, '_29-56.pdf', sep='\t'), grid_2, base_height=60, base_width=12)
   
   #png
-    save_plot(paste(dir, 'markers_', branch, '_1-28.png', sep='\t'), grid_1, base_height=32, base_width=12)
-  save_plot(paste(dir, 'markers_', branch, '_29-56.png', sep='\t'), grid_2, base_height=32, base_width=12)
+    save_plot(paste(dir, 'markers_', branch, '_1-28.png', sep='\t'), grid_1, base_height=60, base_width=12)
+  save_plot(paste(dir, 'markers_', branch, '_29-56.png', sep='\t'), grid_2, base_height=60, base_width=12)
   
   return(list(grid_1, grid_2))
 }
@@ -62,14 +62,14 @@ markers_u <- markers_u[order(-markers_u$avg_logFC),]
 Top 56 markers for U branch sorted on logFC.
 
 ```{r, fig.show='hide', results='hide', message=F}
-grids <- save_plots(wolfrum, markergenes=markers_u, dir='/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/all_data', branch='U_branch')
+grids <- plot_featureplots(wolfrum, markergenes=markers_u, dir='/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/all_data', branch='U_branch')
 ```
 
-```{r, fig.height = 32, fig.width = 12, fig.align = "center"}
+```{r, fig.height = 50, fig.width = 10, fig.align = "center"}
 grids[[1]]
 ```
 
-```{r, fig.height = 32, fig.width = 12, fig.align = "center"}
+```{r, fig.height = 50, fig.width = 10, fig.align = "center"}
 grids[[2]]
 ```
 
@@ -83,35 +83,34 @@ markers_l <- markers_l[order(markers_l$avg_logFC),]
 Top 56 markers for L branch sorted on logFC.
 
 ```{r}
-grids <- save_plots(wolfrum, markergenes=markers_l, dir='/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/all_data', branch='L_branch')
+grids <- plot_featureplots(wolfrum, markergenes=markers_l, dir='/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/all_data', branch='L_branch')
 ```
 
-```{r, fig.height = 32, fig.width = 12, fig.align = "center"}
+```{r, fig.height = 50, fig.width = 10, fig.align = "center"}
 grids[[1]]
 ```
 
-```{r, fig.height = 32, fig.width = 12, fig.align = "center"}
+```{r, fig.height = 50, fig.width = 10, fig.align = "center"}
 grids[[2]]
 ```
 
 #U branch markers for wolfrum preadipocyte subset
 
 ```{r}
-Idents(wolfrum) <- wolfrum@meta.data$seurat_clusters
-wolfrum_subset <- subset(wolfrum, idents=c(5,14,23,11,10,21,22))
+wolfrum_subset <- readRDS('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/seurat_objects/wolfrum/wolfrum_subset.compute.seurat_obj.rds')
 ```
 
 Top 56 markers for U branch sorted on logFC.
 
 ```{r, fig.show='hide', results='hide', message=F}
-grids <- save_plots(wolfrum_subset, markergenes=markers_u, dir='/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/preadipocyte_subset', branch='U_branch')
+grids <- plot_featureplots(wolfrum_subset, markergenes=markers_u, dir='/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/preadipocyte_subset', branch='U_branch')
 ```
 
-```{r, fig.height = 32, fig.width = 12, fig.align = "center"}
+```{r, fig.height = 50, fig.width = 10, fig.align = "center"}
 grids[[1]]
 ```
 
-```{r, fig.height = 32, fig.width = 12, fig.align = "center"}
+```{r, fig.height = 50, fig.width = 10, fig.align = "center"}
 grids[[2]]
 ```
 
@@ -120,14 +119,14 @@ grids[[2]]
 Top 56 markers for L branch sorted on logFC.
 
 ```{r}
-grids <- save_plots(wolfrum_subset, markergenes=markers_l, dir='/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/preadipocyte_subset', branch='L_branch')
+grids <- plot_featureplots(wolfrum_subset, markergenes=markers_l, dir='/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/wolfrum/u_l_branch_markers/preadipocyte_subset', branch='L_branch')
 ```
 
-```{r, fig.height = 32, fig.width = 12, fig.align = "center"}
+```{r, fig.height = 50, fig.width = 10, fig.align = "center"}
 grids[[1]]
 ```
 
-```{r, fig.height = 32, fig.width = 12, fig.align = "center"}
+```{r, fig.height = 50, fig.width = 10, fig.align = "center"}
 grids[[2]]
 ```
 

@@ -34,5 +34,6 @@ output:
 <li>[Supplementary figures](10x-180831-supplementary_figures.html)</li>
 </ol>
 
-<b>Wolfrum analysis:</b>
+<b>Wolfrum analysis:</b><ol>
 <li>[Branch marker genes](wolfrum_U-L-branch-markers.html)</li>
+</ol>

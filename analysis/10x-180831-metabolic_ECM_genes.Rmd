@@ -8,9 +8,6 @@ output:
       smooth_scroll: true
 ---
 
-
-
-
 ```{r message=F}
 library(Seurat)
 library(knitr)
