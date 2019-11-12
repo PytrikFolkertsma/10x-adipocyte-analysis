@@ -522,10 +522,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreeb6a5a90a7c6dcdcf7d717a633ea7867d77dd34batargetblankb6a5a90a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/b6a5a90a7c6dcdcf7d717a633ea7867d77dd34ba" target="_blank">b6a5a90</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreecb1f113c9c045f80b32eedc16452497f4ec8e34ctargetblankcb1f113a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/cb1f113c9c045f80b32eedc16452497f4ec8e34c" target="_blank">cb1f113</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreeb6a5a90a7c6dcdcf7d717a633ea7867d77dd34batargetblankb6a5a90a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreecb1f113c9c045f80b32eedc16452497f4ec8e34ctargetblankcb1f113a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -561,6 +561,7 @@ Unstaged changes:
     Deleted:    10x-adipocyte-analysis.Rproj
     Deleted:    analysis/velocyto_notebook_180504.ipynb
     Deleted:    analysis/velocyto_notebook_180831.ipynb
+    Modified:   analysis/wolfrum-scmap.Rmd
     Modified:   analysis/wolfrum_analysis.Rmd
     Deleted:    code/REMOVE/find-brown-sample-markers-180504-REMOVE.R
     Deleted:    code/REMOVE/find-white-sample-markers-180504-REMOVE.R
@@ -610,6 +611,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/cb1f113c9c045f80b32eedc16452497f4ec8e34c/analysis/wolfrum_U-L-branch-markers.Rmd" target="_blank">cb1f113</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-12
+</td>
+<td>
+wflow_publish(c(“analysis/wolfrum_U-L-branch-markers.Rmd”))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/de58caf8b8150b7713cce9405c6700b973bb115a/docs/wolfrum_U-L-branch-markers.html" target="_blank">de58caf</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -718,19 +753,19 @@ markers &lt;- read.table(&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/1
 
   for(i in 1:length(plots)) {
     plots_edited[[i]] &lt;- plots[[i]] + NoAxes()
-    #save_plot(paste(dir, &#39;/&#39;, branch, &#39;/&#39;, as.vector(markergenes$gene[i]) ,&#39;.pdf&#39;, sep=&#39;&#39;), plots_edited[[i]], base_height=6, base_width=6)
+    save_plot(paste(dir, &#39;/&#39;, branch, &#39;/&#39;, as.vector(markergenes$gene[i]) ,&#39;.pdf&#39;, sep=&#39;&#39;), plots_edited[[i]], base_height=6, base_width=6)
   }
   
   grid_1 &lt;- plot_grid(plotlist=plots_edited[1:28], ncol=3)
   grid_2 &lt;- plot_grid(plotlist=plots_edited[29:56], ncol=3)
   
   #pdf
-  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_1-28.pdf&#39;, sep=&#39;&#39;), grid_1, base_height=40, base_width=9)
-  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_29-56.pdf&#39;, sep=&#39;&#39;), grid_2, base_height=40, base_width=9)
+  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_1-28.pdf&#39;, sep=&#39;&#39;), grid_1, base_height=25, base_width=9)
+  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_29-56.pdf&#39;, sep=&#39;&#39;), grid_2, base_height=25, base_width=9)
   
   #png
-    save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_1-28.png&#39;, sep=&#39;&#39;), grid_1, base_height=40, base_width=9)
-  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_29-56.png&#39;, sep=&#39;&#39;), grid_2, base_height=40, base_width=9)
+    save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_1-28.png&#39;, sep=&#39;&#39;), grid_1, base_height=25, base_width=9)
+  save_plot(paste(dir, &#39;markers_&#39;, branch, &#39;_29-56.png&#39;, sep=&#39;&#39;), grid_2, base_height=25, base_width=9)
   
   return(list(grid_1, grid_2))
 }</code></pre>
@@ -763,6 +798,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/de58caf8b8150b7713cce9405c6700b973bb115a/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-6-1.png" target="_blank">de58caf</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/6bd1632cddb40b8fbf3b7224abd49aac7bc4917b/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-6-1.png" target="_blank">6bd1632</a>
@@ -813,6 +859,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/de58caf8b8150b7713cce9405c6700b973bb115a/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-7-1.png" target="_blank">de58caf</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/6bd1632cddb40b8fbf3b7224abd49aac7bc4917b/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-7-1.png" target="_blank">6bd1632</a>
@@ -875,6 +932,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/de58caf8b8150b7713cce9405c6700b973bb115a/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-10-1.png" target="_blank">de58caf</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/6bd1632cddb40b8fbf3b7224abd49aac7bc4917b/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-10-1.png" target="_blank">6bd1632</a>
 </td>
 <td>
@@ -923,6 +991,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/de58caf8b8150b7713cce9405c6700b973bb115a/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-11-1.png" target="_blank">de58caf</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/6bd1632cddb40b8fbf3b7224abd49aac7bc4917b/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-11-1.png" target="_blank">6bd1632</a>
@@ -979,6 +1058,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/de58caf8b8150b7713cce9405c6700b973bb115a/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-14-1.png" target="_blank">de58caf</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/6bd1632cddb40b8fbf3b7224abd49aac7bc4917b/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-14-1.png" target="_blank">6bd1632</a>
 </td>
 <td>
@@ -1027,6 +1117,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/de58caf8b8150b7713cce9405c6700b973bb115a/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-15-1.png" target="_blank">de58caf</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/6bd1632cddb40b8fbf3b7224abd49aac7bc4917b/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-15-1.png" target="_blank">6bd1632</a>
@@ -1087,6 +1188,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/de58caf8b8150b7713cce9405c6700b973bb115a/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-17-1.png" target="_blank">de58caf</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/6bd1632cddb40b8fbf3b7224abd49aac7bc4917b/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-17-1.png" target="_blank">6bd1632</a>
 </td>
 <td>
@@ -1135,6 +1247,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/de58caf8b8150b7713cce9405c6700b973bb115a/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-18-1.png" target="_blank">de58caf</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/6bd1632cddb40b8fbf3b7224abd49aac7bc4917b/docs/figure/wolfrum_U-L-branch-markers.Rmd/unnamed-chunk-18-1.png" target="_blank">6bd1632</a>
