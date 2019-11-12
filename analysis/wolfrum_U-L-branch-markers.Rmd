@@ -97,7 +97,7 @@ grids[[2]]
 #U branch markers for wolfrum preadipocyte subset
 
 ```{r}
-wolfrum_subset <- readRDS('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/seurat_objects/wolfrum/wolfrum_subset.compute.seurat_obj.rds')
+wolfrum_subset <- readRDS('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/seurat_objects/wolfrum/wolfrum.preadipocyte_subset.rds')
 ```
 
 Top 56 markers for U branch sorted on logFC.
