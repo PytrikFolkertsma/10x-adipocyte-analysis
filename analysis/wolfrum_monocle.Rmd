@@ -1,0 +1,89 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(Seurat)
+library(monocle)
+library(cowplot)
+wolfrum.predicted_labels <- readRDS('output/seurat_objects/wolfrum/wolfrum.predicted_labels_180831.rds')
+```
+
+##Monocle wolfrum preadipocytes
+
+Ran Monocle on the Wolfrum subset with the same gene list that was used to build the 180831 trajectory. 
+
+```{r}
+monocle_results <- readRDS('output/monocle/wolfrum/wolfrum.preadipocyte_subset.rds-monocle-monocle_genelist_T1T2T3_T4T5_res.1.5')
+
+predictions <- wolfrum.predicted_labels@meta.data['predictions_pca.predicted.id']
+sorted_predictions <- predictions[rownames(pData(monocle_results)),]
+pData(monocle_results)['predicted_labels'] <- sorted_predictions
+```
+
+
+```{r, fig.height = 4, fig.width = 12, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(monocle_results, color_by='State'),
+  plot_cell_trajectory(monocle_results, color_by='predicted_labels')
+)
+```
+
+```{r}
+Idents(wolfrum.predicted_labels) <- wolfrum.predicted_labels$seurat_clusters
+preadipocyte_subset <- subset(wolfrum.predicted_labels, idents=c(5, 14, 23, 11, 10, 21, 22, 24))
+preadipocyte_subset <- AddMetaData(preadipocyte_subset, pData(monocle_results)['State'])
+```
+
+
+```{r}
+get_ratios <- function(data, col1, col2){
+  states <- unique(data@meta.data[,col1])
+  states <- states[!is.na(states)]
+  values <- unique(data@meta.data[,col2])
+  values <- values[!is.na(values)]
+  df <- as.data.frame(matrix(ncol=length(values)+1, nrow=length(states)))
+  colnames(df) <- c('n', values)
+  rownames(df) <- states
+  for (state in states){
+    n_state = length(which(data@meta.data[col1] == state))
+    df[state, 'n'] <- n_state
+    for (value in values){
+    	n_state_value <- length(which(data@meta.data[col1] == state & data@meta.data[col2] == value))
+	    perc_state_value <- n_state_value / n_state
+	    df[state, value] <- round(perc_state_value, 2)
+    }
+  }
+  return(df)
+}
+```
+
+```{r}
+states.prediction <- get_ratios(data=preadipocyte_subset, col1='State', col2='predictions_pca.predicted.id')
+states.prediction
+```
+
+```{r}
+states.prediction <- get_ratios(data=preadipocyte_subset, col2='State', col1='predictions_pca.predicted.id')
+states.prediction
+```
+
+##Monocle wolfrum preadipocytes integrated 180831
+
+```{r}
+monocle_integrated <- readRDS('output/monocle/wolfrum/wolfrum.preadipocyte_subset.180831.integrated.rds-monocle-monocle_genelist_T1T2T3_T4T5_res.1.5')
+```
+
+```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
+plot_grid(
+  plot_cell_trajectory(monocle_integrated, color_by='State'),
+  plot_cell_trajectory(monocle_integrated, color_by='State.names'),
+  plot_cell_trajectory(monocle_integrated, color_by='seurat_clusters')
+)
+```
+
+```{r}
+
+```
+
