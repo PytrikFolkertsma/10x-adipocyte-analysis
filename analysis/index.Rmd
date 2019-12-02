@@ -35,5 +35,7 @@ output:
 </ol>
 
 <b>Wolfrum analysis:</b><ol>
+<li>[General analyses](wolfrum_analysis.html)</li>
 <li>[Branch marker genes](wolfrum_U-L-branch-markers.html)</li>
+
 </ol>
