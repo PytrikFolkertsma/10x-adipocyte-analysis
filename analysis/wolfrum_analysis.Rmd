@@ -1,6 +1,11 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_float: 
+      smooth_scroll: true
 ---
 
 
@@ -22,7 +27,7 @@ data_180831 <- readRDS('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adi
 
 
 
-#Which clusters are adipocytes/preadipocytes?
+# Which clusters are adipocytes/preadipocytes?
 
 ```{r fig.height = 4, fig.width = 12, fig.align = "center"}
 plot_grid(
@@ -192,7 +197,7 @@ plot_grid(
 )
 ```
 
-#Seurat integration of Wolfrum and 10x-180831 data
+# Seurat integration of Wolfrum and 10x-180831 data
 
 ```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
 #anchors <- FindIntegrationAnchors(object.list = list(wolfrum, data_180831), dims = 1:20)
@@ -229,7 +234,7 @@ plot_grid(
 )
 ```
 
-#Predict cell types with Seurat's TransferData
+# Predict cell types with Seurat's TransferData
 
 ```{r}
 wolfrum.predicted_labels <- readRDS('output/seurat_objects/wolfrum/wolfrum.predicted_labels_180831.rds')
@@ -344,7 +349,7 @@ for (col in c('predictions_pca_project', 'predictions_pca', 'predictions_cca.'))
 ```
 
 
-#Figures
+# Figures
 
 ```{r, fig.height = 4, fig.width = 6, fig.align = "center"}
 
