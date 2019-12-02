@@ -22,7 +22,7 @@ data_180831 <- readRDS('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adi
 
 
 
-##Which clusters are adipocytes/preadipocytes?
+#Which clusters are adipocytes/preadipocytes?
 
 ```{r fig.height = 4, fig.width = 12, fig.align = "center"}
 plot_grid(
@@ -192,7 +192,7 @@ plot_grid(
 )
 ```
 
-##Seurat integration of Wolfrum and 10x-180831 data
+#Seurat integration of Wolfrum and 10x-180831 data
 
 ```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
 #anchors <- FindIntegrationAnchors(object.list = list(wolfrum, data_180831), dims = 1:20)
@@ -211,7 +211,7 @@ plot_grid(
 
 These results also confirm that the L branch is closest to cluster 11 and U is closest to the U branch.\\
 
-##Seurat integration of Wolfrum preadiopcyte subset and 10x-180831 data
+#Seurat integration of Wolfrum preadiopcyte subset and 10x-180831 data
 
 
 ```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
@@ -229,13 +229,13 @@ plot_grid(
 )
 ```
 
-##Predict cell types with Seurat's TransferData
+#Predict cell types with Seurat's TransferData
 
 ```{r}
 wolfrum.predicted_labels <- readRDS('output/seurat_objects/wolfrum/wolfrum.predicted_labels_180831.rds')
 ```
 
-Used pca, pca.project and cca as dimred for FindIntegrationAnchors and IntegrateData. \\
+Used pca, pca.project and cca as dimred for FindTransferAnchors and IntegrateData. \\
 
 Scores for P cells
 
@@ -289,6 +289,16 @@ for (col in c('predictions_pca_project', 'predictions_pca', 'predictions_cca.'))
 }
 ```
 
+Threshold for prediction = 0.5
+
+```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
+plot_grid(
+  UMAPPlot(wolfrum.predicted_labels, group.by='predictions_pca.predicted_label.0.5'),
+  UMAPPlot(wolfrum.predicted_labels, group.by='predictions_pca_project.predicted_label.0.5'),
+  UMAPPlot(wolfrum.predicted_labels, group.by='predictions_cca..predicted_label.0.5'), ncol=2
+)
+```
+
 Threshold for prediction = 0.7
 
 ```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
@@ -309,4 +319,238 @@ plot_grid(
 )
 ```
 
+Only show preadipocytes
+
+```{r}
+clusters <- c(24, 22, 11, 10, 23, 5, 14)
+
+adipocytes <- unlist(lapply(wolfrum.predicted_labels@meta.data$RNA_snn_res.0.8, function(x){
+  if (x %in% clusters){
+    return('preadipocyte')
+  } else {
+    return('non-preadipocyte')
+  }
+}))
+
+wolfrum.predicted_labels@meta.data['preadipocytes'] <- adipocytes
+
+for (col in c('predictions_pca_project', 'predictions_pca', 'predictions_cca.')){
+  for (t in c(0.5, 0.7, 0.9, 0.95, 0.99)){
+    preds <- assign_labels(col, t)
+    wolfrum.predicted_labels <- AddMetaData(wolfrum.predicted_labels, preds, col.name=paste(col, 'predicted_label', t, sep='.'))
+  }
+}
+
+```
+
+
+#Figures
+
+```{r, fig.height = 4, fig.width = 6, fig.align = "center"}
+
+labels <- unlist(lapply(wolfrum.predicted_labels@meta.data$predictions_pca.predicted_label.0.7, function(x){
+  if (is.na(x)){
+    return('Non-matching cells')
+  } else if(x == 'ECM'){
+    return('L')
+  } else if(x == 'Metabolic'){
+    return('U')
+  } else if (x == 'Progenitor'){
+    return('P')
+  }
+}))
+
+wolfrum.predicted_labels@meta.data['predictions_pca.predicted_label.0.7_labels'] <- labels
+
+wolfrum.predicted_labels@meta.data['predictions_pca.predicted_label.0.7_labels'] <- factor(wolfrum.predicted_labels@meta.data$predictions_pca.predicted_label.0.7_labels, levels = c("P", "L", "U", 'Non-matching cells'))
+```
+
+```{r, fig.height = 5, fig.width = 8, fig.align = "center"}
+colormap.branches <- c(
+  P="#ecdd83",
+  U="#e27268",
+  L="#93c8bc",
+  'Non-matching cells'='#7a7a7a')
+
+p_predictions <- UMAPPlot(wolfrum.predicted_labels, group.by='predictions_pca.predicted_label.0.7_labels', cols=colormap.branches, no.axes=T) + theme(legend.text=element_text(size=12), legend.key.height=unit(0.4, 'cm'), axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), plot.margin=grid::unit(c(0,0,0,0), "mm")) + labs(color='Seurat prediction') 
+p_predictions
+```
+
+```{r}
+#save_plot("figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_predicted-labels_180831.pdf", p_predictions, base_width=8, base_height=5)
+```
+
+```{r, fig.height = 5, fig.width = 6.5, fig.align = "center"}
+p_clusters <- UMAPPlot(wolfrum.predicted_labels, group.by='RNA_snn_res.0.8', label=T, no.axes=T, no.legend=T) + theme(legend.position = "none", axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), plot.margin=grid::unit(c(0,0,0,0), "mm"))
+p_clusters
+```
+
+```{r}
+#save_plot("figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_clusters.pdf", p_clusters, base_width=6, base_height=5)
+```
+
+
+```{r}
+#featureplots
+#widht=13
+#ucp2_fp <- featureplots_leg$UCP2 + scale_color_gradient(name='Expression', low='gray', #high='blue', guide='colorbar', limits=c(0,5)) + theme(plot.title=element_blank(), #legend.title=element_text(size=20), legend.text=element_text(size=20), legend.key.height = #unit(1.3, 'cm'))
+
+
+#dcn_fp <- featureplots_noleg$DCN + theme(plot.title=element_blank())
+
+adipoq <- FeaturePlot(wolfrum.predicted_labels, features='ADIPOQ') + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
+
+lipe <- FeaturePlot(wolfrum.predicted_labels, features='LIPE') + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
+
+apod <- FeaturePlot(wolfrum.predicted_labels, features='APOD') + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
+
+dcn <- FeaturePlot(wolfrum.predicted_labels, features='DCN') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5)) 
+
+```
+
+```{r, fig.height = 4, fig.width = 16, fig.align = "center"}
+g <- plot_grid(
+  adipoq, lipe, apod, dcn, ncol=4,  rel_widths=c(1, 1, 1, 1.3)
+)
+g
+```
+
+```{r}
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/featureplots.pdf", g, base_width=16, base_height=4)
+```
+
+EBF2 and LEP
+
+```{r}
+ebf2 <- FeaturePlot(wolfrum.predicted_labels, features='EBF2') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
+
+pparg <- FeaturePlot(wolfrum.predicted_labels, features='PPARG') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
+
+lep <- FeaturePlot(wolfrum.predicted_labels, features='LEP') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
+
+ucp1 <- FeaturePlot(wolfrum.predicted_labels, features='UCP1') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
+
+ebf2vln <- VlnPlot(wolfrum.predicted_labels, features='EBF2', group.by='RNA_snn_res.0.8', pt.size=-1) + NoLegend()
+
+lepvln <- VlnPlot(wolfrum.predicted_labels, features='LEP', group.by='RNA_snn_res.0.8', pt.size=0.1) + NoLegend()
+
+ucp1vln <- VlnPlot(wolfrum.predicted_labels, features='UCP1', group.by='RNA_snn_res.0.8', pt.size=0.1) + NoLegend()
+
+ppargvln <- VlnPlot(wolfrum.predicted_labels, features='PPARG', group.by='RNA_snn_res.0.8', pt.size=0.1) + NoLegend()
+
+```
+
+```{r}
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/ebf2.pdf", ebf2, base_width=5, base_height=4)
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/ebf2vln.pdf", ebf2vln, base_width=6, base_height=2)
+
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/pparg.pdf", pparg, base_width=5, base_height=4)
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/ppargvln.pdf", ppargvln, base_width=6, base_height=2)
+
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/ucp1.pdf", ucp1, base_width=5, base_height=4)
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/ucp1vln.pdf", ucp1vln, base_width=6, base_height=2)
+
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/lep.pdf", lep, base_width=5, base_height=4)
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/lepvln.pdf", lepvln, base_width=5, base_height=2)
+
+```
+
+
+```{r}
+UMAPPlot(wolfrum.predicted_labels, label=T, group.by='RNA_snn_res.0.8') 
+```
+
+```{r, fig.height = 6, fig.width = 12, fig.align = "center"}
+VlnPlot(wolfrum.predicted_labels, features=c('EBF2', 'PPARG'), group.by='RNA_snn_res.0.8', pt.size=-1, ncol=1)
+```
+
+
+```{r, fig.height = 6, fig.width = 6, fig.align = "center"}
+#EBF2 and PPARG
+#PPARG: 5, 14, 23
+#EBF2: 10, 11, 21, 23
+
+new_labels <- unlist(lapply(wolfrum.predicted_labels@meta.data$RNA_snn_res.0.8, function(x){
+  if (x %in% c(5, 14, 23, 10, 11, 21, 23)){
+    return(x)
+  } else {
+    return(NA)
+  }
+}))
+
+wolfrum.predicted_labels@meta.data['labels_clusters_preadipocytes'] <- new_labels
+p <- UMAPPlot(wolfrum.predicted_labels, group.by='labels_clusters_preadipocytes', label=T) + theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), plot.margin=grid::unit(c(0,0,0,0), "mm")) + NoLegend()
+p
+```
+
+```{r}
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_adipocyte_clusters2.pdf", p, base_width=6, base_height=5)
+```
+
+
+```{r, fig.height = 4, fig.width = 8.5, fig.align = "center"}
+ebf2 <- FeaturePlot(wolfrum.predicted_labels, features='EBF2', pt.size=0.5) + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
+
+pparg <- FeaturePlot(wolfrum.predicted_labels, features='PPARG', pt.size=0.5) + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=15), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5)) 
+
+g <- plot_grid(
+  ebf2, pparg, ncol=2, rel_widths = c(1, 1.3)
+)
+
+g
+```
+
+```{r}
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/EBF2_PPARG_ptsize0.5.pdf", g, base_width=8.5, base_height=4)
+```
+
+
+```{r, fig.height = 10, fig.width = 8, fig.align = "center"}
+plots <- VlnPlot(wolfrum.predicted_labels, features=c('ADIPOQ', 'LIPE', 'PLIN4', 'FABP4', 'ADIRF', 'APOD', 'MGP', 'DCN', 'CCDC80', 'PLAC9'), group.by='RNA_snn_res.0.8', pt.size=-1, combine=F)
+
+for (i in 1:length(plots)){
+  if (i == length(plots)){
+    plots[[i]] <- plots[[i]] + NoLegend() + 
+      theme(plot.title=element_blank(), 
+            axis.title.y=element_blank(), 
+            axis.line.x=element_blank(),
+            axis.text.x=element_text(angle=0, size=12),
+            plot.margin = unit(c(0, 0, 0, 0), "cm")) + 
+      labs(x='Cluster')
+  } else {
+    plots[[i]] <- plots[[i]] + NoLegend() + 
+      theme(plot.title=element_blank(), 
+            axis.title.y=element_blank(), 
+            axis.line.x=element_blank(),
+            axis.ticks.x=element_blank(),
+            axis.text.x=element_blank(),
+            axis.title.x=element_blank(),
+            plot.margin = unit(c(0, 0, 0, 0), "cm"))
+  }
+}
+
+vlnplts <- plot_grid(plotlist=plots, ncol=1, rel_heights=c(1,1,1,1,1,1,1,1,1,1.6))
+vlnplts
+```
+
+
+```{r}
+#save_plot("figures/figures_paper/main_figures/Figure_wolfrum/violinplots.pdf", p, base_width=6, base_height=8)
+```
+
+Supplementary figure
+
+```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
+integrated <- readRDS('output/seurat_objects/wolfrum/wolfrum.180831.integrated.rds')
+sfig <- plot_grid(
+  UMAPPlot(integrated, group.by='dataset'),
+  UMAPPlot(integrated, group.by='State.labels', cols=colormap.branches),
+  UMAPPlot(integrated, group.by='RNA_snn_res.0.8', label=T) + NoLegend(), ncol=2
+)
+sfig
+```
+
+```{r}
+#save_plot("figures/figures_paper/supplementary_figures/wolfrum/integration.wolfrum.180831.pdf", sfig, base_width=12, base_height=8)
+```
 
