@@ -1,0 +1,108 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r message=F}
+library(Seurat)
+library(dplyr)
+library(tibble)
+library(cowplot)
+```
+
+Data loading and processing
+
+```{r}
+file.data <- "/nfsdata/projects/timshel/sc-scheele_lab_adipose_fluidigm_c1/data-vijay/GSE129363_SVF_Normalised_Data.txt.gz"
+df.data <- read_tsv(file.data) %>% rename(gene=X1)# WORKS and parsed correctly. Warning message: Missing column names filled in: 'X1' [1] 
+df.data <- data.table::fread(file.data, nThread=24, showProgress=T)
+df.data <- df.data %>% column_to_rownames(var="V1")
+
+### Meta-data
+file.metadata <- "/nfsdata/projects/timshel/sc-scheele_lab_adipose_fluidigm_c1/data-vijay/GSE129363_cell_metadata.txt.gz"
+df.metadata <- read_tsv(file.metadata)
+df.metadata <- df.metadata %>% rename(cell_barcode=X1, diabetes=Condition, depot=Tissue, celltype=ClsID)
+# *TODO*: rename IA-->visc; SC-->subq
+df.metadata <- df.metadata %>% column_to_rownames(var="cell_barcode")
+
+### Create object
+vijay <- CreateSeuratObject(counts=df.data, meta.data=df.metadata, project="vijay") # Warning: Feature names cannot have underscores ('_'), replacing with dashes ('-')
+vijay[["RNA"]]@data <- vijay[["RNA"]]@counts # copy slot because data is already normalized
+# NB: do not perform further (log)normalization as this has already been done
+
+vijay <- ScaleData(vijay)
+vijay <- FindVariableFeatures(vijay)
+vijay <- RunPCA(vijay)
+ElbowPlot(vijay, reduction='pca')
+```
+
+```{r}
+vijay <- RunTSNE(vijay, dims=1:11)
+saveRDS(vijay, 'output/seurat_objects/vijay/vijay.rds')
+```
+
+#General exploratory analysis
+
+```{r fig.height = 10, fig.width = 12, fig.align = "center"}
+#plot cell types + overlayed with meta data
+plot_grid(
+ TSNEPlot(vijay, group.by='celltype', label=T), 
+ TSNEPlot(vijay, group.by='depot'),
+ TSNEPlot(vijay, group.by='diabetes')
+)
+```
+
+```{r fig.height = 5, fig.width = 12, fig.align = "center"}
+#plot cell types + overlayed with meta data
+plot_grid(
+ FeaturePlot(vijay, features='nFeature_RNA'), 
+ FeaturePlot(vijay, features='nCount_RNA')
+)
+```
+
+#U/L branch marker genes
+
+Plot the U and L branch marker genes. 
+
+```{r}
+data_180831 <- readRDS('output/seurat_objects/180831/10x-180831-S3')
+#DE genes between T1T2T3 and T4T5 in the 10x-180831 data.
+markers_u_l <- read.table('output/markergenes/180831/markers_10x-180831_upperbranch_lowerbranch_negbinom', sep='\t', header=T)
+markers_u <- markers_u_l[order(-markers_u_l$avg_logFC),]
+markers_l <- markers_u_l[order(markers_u_l$avg_logFC),]
+```
+
+How do these genes look in the 180831 data?
+
+```{r, fig.height = 12, fig.width = 12, fig.align = "center"}
+plots <- FeaturePlot(data_180831, features=c(as.vector(markers_u$gene)[1:10], as.vector(markers_l$gene)[1:10]), pt.size=1, combine=F)
+plot_grid(plotlist=plots, ncol=4)
+```
+
+And how are they expressed in the Vijay data?
+
+```{r}
+TSNEPlot(vijay, group.by='celltype', label=T)
+```
+
+
+```{r, fig.height = 50, fig.width = 12, fig.align = "center"}
+plots <- FeaturePlot(vijay, features=c(as.vector(markers_u$gene)[1:10], as.vector(markers_l$gene)[1:10]), pt.size=1, combine=F)
+plot_grid(plotlist=plots, ncol=2)
+```
+
+Some U branch markers are not expressed at all (SCD, PLIN4, GDP1). The other U branch markers are expressed in P2 (FABP4), in I1 and I3 and E1-E3. 
+
+#Seurat integration with 10x-180831 data
+
+```{r}
+
+```
+
+
+#Comparison with 10x-180831 data
+
+```{r}
+check marker genes from their paper in 10x-180831 data
+```
+
