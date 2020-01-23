@@ -64,6 +64,10 @@ Top 56 markers for U branch sorted on logFC.
 grids <- plot_featureplots(vijay, markergenes=markers_u, dir='/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/vijay/u_l_branch_markers/all_data/', branch='U_branch')
 ```
 
+```{r}
+TSNEPlot(vijay, features='celltype', label=T)
+```
+
 ```{r, fig.height = 25, fig.width = 9, fig.align = "center"}
 grids[[1]]
 ```
@@ -83,6 +87,10 @@ Top 56 markers for L branch sorted on logFC.
 
 ```{r}
 grids <- plot_featureplots(vijay, markergenes=markers_l, dir='/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/vijay/u_l_branch_markers/all_data', branch='L_branch')
+```
+
+```{r}
+TSNEPlot(vijay, features='celltype', label=T)
 ```
 
 ```{r, fig.height = 25, fig.width = 9, fig.align = "center"}
