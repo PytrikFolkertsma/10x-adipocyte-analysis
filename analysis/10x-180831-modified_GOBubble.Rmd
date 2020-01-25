@@ -1,0 +1,99 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(ggrepel)
+library(GOplot)
+```
+
+
+```{r}
+name <- 'heatmap_logFC0.3_ncluster6'
+folder <- paste('tables/tables_paper/all_tables/BEAM/', name, sep='')
+#clusters <- c(1,2,3,4,6)
+clusters <- c(2,6,3)
+gsea <- list()
+genelist <- list()
+
+for (i in clusters){
+  gsea_cluster <- read.table(paste(folder, '/REVIGO_cleaned/', 'REVIGO_cluster', i, '_cleaned.tsv', sep=''), header=T)
+  gsea_cluster['cluster'] <- i
+  genes_cluster <- read.table(paste(folder, '/genelist_cluster', i, '.tsv', sep=''), header=T)
+  gsea[[i]] <- gsea_cluster
+  genelist[[i]] <- genes_cluster
+}
+
+gsea <- do.call("rbind", gsea)
+genelist <- do.call("rbind", genelist)
+
+create_terms <- function(gsea){
+  return(data.frame(category=gsea$gsea.domain, ID=gsea$revigo.term_ID, term=gsea$revigo.description, adj_pval=gsea$gsea.p.value, genes=gsea$gsea.intersection, cluster=gsea$cluster))
+}
+
+create_genes <- function(genelist){
+  return(data.frame(ID=genelist$gene_short_name, logFC=genelist$avgLogFC_State2_State3))
+}
+```
+
+
+```{r}
+terms <- create_terms(gsea)
+genes <- create_genes(genelist)
+circ <- circle_dat(terms, genes)
+```
+
+
+```{r}
+GOBubble_modified <- function(data, display, title, colour, labels, ID = T, table.legend = T, table.col = T, bg.col = F, zscore_threshold=0, ggrepel_linecol='black', text_size_axes=20, text_size_axes_label=20, text_size=10, text_size_legend=7, text_size_threshold=10, legend_point_size=20){
+  zscore <- adj_pval <- category <- count <- id <- term <- NULL
+  if (missing(display)) display <- 'single'
+  if (missing(title)) title <- ''
+  if (missing(colour)) cols <- c("chartreuse4", "brown2", "cornflowerblue") else cols <- colour
+  if (missing(labels)) labels <- 5
+  if (bg.col == T & display == 'single') cat("Parameter bg.col will be ignored. To use the parameter change display to 'multiple'")
+  
+  colnames(data) <- tolower(colnames(data))
+  tmp_lab <- data.frame(cats = c('Biological Process', 'Cellular Component', 'Molecular Function'), 
+                        cat.abb = c('BP', 'CC', 'MF'),
+                        locy = c(match('BP', data$category), match('CC', data$category), match('MF', data$category)),
+                        cols = cols,
+                        stringsAsFactors = F)
+  tmp_lab <- tmp_lab[order(tmp_lab$locy),]
+  if(!'count'%in%colnames(data)){
+    rang <- c(5, 5)
+    data$count <- rep(1, dim(data)[1])
+  }else {rang <- c(1, 30)}
+  data$adj_pval <- -log(data$adj_pval, 10)
+  sub <- data[!duplicated(data$term), ]
+  g <- ggplot(sub, aes(zscore, adj_pval, fill = category, size = count))+
+    labs(title = title, x = 'z-score', y = '-log (adj p-value)')+
+    geom_point(shape = 21, col = 'black', alpha = 1 / 2)+ #add all bubbles
+    geom_hline(yintercept = 1.3, col = 'orange')+ #add threshold for p-value=0.05
+    scale_size(range = rang, guide = 'none') +
+    scale_y_continuous(limits=c(0,45))
+  
+  sub2 <- subset(sub, subset=sub$adj_pval >= labels)
+  sub2 <- subset(sub2, subset=abs(sub2$zscore) >= zscore_threshold)
+
+    g <- g + scale_fill_manual('', values = tmp_lab$cols, labels = tmp_lab$cats)+
+      theme(legend.position = 'right', legend.key.size = unit(1, 'cm'), legend.title=element_text(face='bold')) +
+      guides(fill = guide_legend(override.aes = list(size=legend_point_size)))
+      annotate ("text", x = 0.6, y = 2.2, label = "Threshold", colour = "orange", size = text_size_threshold)
+    g <- g + geom_text_repel(data = sub2, aes(x = zscore, y = adj_pval, label = term), size = text_size, segment.color = ggrepel_linecol)
+    g <-  g + 
+        theme(axis.text = element_text(size = text_size_axes), axis.line = element_line(colour = 'grey80'), axis.ticks = element_line(colour = 'grey80'), axis.title = element_text(size = text_size_axes_label, face = 'bold'), panel.background = element_blank(), panel.grid.minor = element_blank(), panel.grid.major = element_blank(), plot.background = element_blank(), legend.text=element_text(size=text_size_legend), legend.title=element_text(size=text_size_legend))
+ return(g)
+}
+```
+
+```{r, fig.height = 7, fig.width = 20, fig.align = "center"}
+p <- GOBubble_modified(circ, labels=2, ID=F, table.legend = F, zscore_threshold=4.5, ggrepel_linecol='transparent', text_size_axes=15, text_size_axes_label=15, text_size=4.5, text_size_legend=15, text_size_threshold=5, legend_point_size=15)
+p
+```
+
