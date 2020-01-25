@@ -8,47 +8,50 @@ library(Seurat)
 library(dplyr)
 library(tibble)
 library(cowplot)
+library(DT)
 ```
 
 Data loading and processing
 
 ```{r}
-file.data <- "/nfsdata/projects/timshel/sc-scheele_lab_adipose_fluidigm_c1/data-vijay/GSE129363_SVF_Normalised_Data.txt.gz"
-df.data <- read_tsv(file.data) %>% rename(gene=X1)# WORKS and parsed correctly. Warning message: Missing column names filled in: 'X1' [1] 
-df.data <- data.table::fread(file.data, nThread=24, showProgress=T)
-df.data <- df.data %>% column_to_rownames(var="V1")
-
-### Meta-data
-file.metadata <- "/nfsdata/projects/timshel/sc-scheele_lab_adipose_fluidigm_c1/data-vijay/GSE129363_cell_metadata.txt.gz"
-df.metadata <- read_tsv(file.metadata)
-df.metadata <- df.metadata %>% rename(cell_barcode=X1, diabetes=Condition, depot=Tissue, celltype=ClsID)
-# *TODO*: rename IA-->visc; SC-->subq
-df.metadata <- df.metadata %>% column_to_rownames(var="cell_barcode")
-
-### Create object
-vijay <- CreateSeuratObject(counts=df.data, meta.data=df.metadata, project="vijay") # Warning: Feature names cannot have underscores ('_'), replacing with dashes ('-')
-vijay[["RNA"]]@data <- vijay[["RNA"]]@counts # copy slot because data is already normalized
-# NB: do not perform further (log)normalization as this has already been done
-
-vijay <- ScaleData(vijay)
-vijay <- FindVariableFeatures(vijay)
-vijay <- RunPCA(vijay)
-ElbowPlot(vijay, reduction='pca')
+# file.data <- "/nfsdata/projects/timshel/sc-scheele_lab_adipose_fluidigm_c1/data-vijay/GSE129363_SVF_Normalised_Data.txt.gz"
+# df.data <- read_tsv(file.data) %>% rename(gene=X1)# WORKS and parsed correctly. Warning message: Missing column names filled in: 'X1' [1] 
+# df.data <- data.table::fread(file.data, nThread=24, showProgress=T)
+# df.data <- df.data %>% column_to_rownames(var="V1")
+# 
+# ### Meta-data
+# file.metadata <- "/nfsdata/projects/timshel/sc-scheele_lab_adipose_fluidigm_c1/data-vijay/GSE129363_cell_metadata.txt.gz"
+# df.metadata <- read_tsv(file.metadata)
+# df.metadata <- df.metadata %>% rename(cell_barcode=X1, diabetes=Condition, depot=Tissue, celltype=ClsID)
+# # *TODO*: rename IA-->visc; SC-->subq
+# df.metadata <- df.metadata %>% column_to_rownames(var="cell_barcode")
+# 
+# ### Create object
+# vijay <- CreateSeuratObject(counts=df.data, meta.data=df.metadata, project="vijay") # Warning: Feature names cannot have underscores ('_'), replacing with dashes ('-')
+# vijay[["RNA"]]@data <- vijay[["RNA"]]@counts # copy slot because data is already normalized
+# # NB: do not perform further (log)normalization as this has already been done
+# 
+# vijay <- ScaleData(vijay)
+# vijay <- FindVariableFeatures(vijay)
+# vijay <- RunPCA(vijay)
+# #ElbowPlot(vijay, reduction='pca')
+# vijay <- RunTSNE(vijay, dims=1:11)
+# vijay <- RunUMAP(vijay, dims=1:11)
+# saveRDS(vijay, 'output/seurat_objects/vijay/vijay.rds')
 ```
 
 ```{r}
-vijay <- RunTSNE(vijay, dims=1:11)
-saveRDS(vijay, 'output/seurat_objects/vijay/vijay.rds')
+vijay <- readRDS('output/seurat_objects/vijay/vijay.rds')
 ```
 
-#General exploratory analysis
+#Metadata plots
 
 ```{r fig.height = 10, fig.width = 12, fig.align = "center"}
 #plot cell types + overlayed with meta data
 plot_grid(
- TSNEPlot(vijay, group.by='celltype', label=T), 
- TSNEPlot(vijay, group.by='depot'),
- TSNEPlot(vijay, group.by='diabetes')
+ UMAPPlot(vijay, group.by='celltype', label=T), 
+ UMAPPlot(vijay, group.by='depot'),
+ UMAPPlot(vijay, group.by='diabetes')
 )
 ```
 
@@ -82,7 +85,7 @@ plot_grid(plotlist=plots, ncol=4)
 And how are they expressed in the Vijay data?
 
 ```{r}
-TSNEPlot(vijay, group.by='celltype', label=T)
+UMAPPlot(vijay, group.by='celltype', label=T)
 ```
 
 
@@ -91,18 +94,131 @@ plots <- FeaturePlot(vijay, features=c(as.vector(markers_u$gene)[1:10], as.vecto
 plot_grid(plotlist=plots, ncol=2)
 ```
 
-Some U branch markers are not expressed at all (SCD, PLIN4, GDP1). The other U branch markers are expressed in P2 (FABP4), in I1 and I3 and E1-E3. 
+Some U branch markers are not really expressed (SCD, PLIN4, GDP1, RBP4). Interestingly most U branch markers are also expressed in I1 and I3 and E1-E3. 
 
 #Seurat integration with 10x-180831 data
 
-```{r}
+```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
+#anchors <- FindIntegrationAnchors(object.list = list(vijay, data_180831), dims = 1:20)
+#integrated <- IntegrateData(anchorset = anchors, dims = 1:20)
+#integrated <- ScaleData(integrated, verbose = FALSE)
+#integrated <- RunPCA(integrated, npcs = 30, verbose = FALSE)
+#integrated <- RunUMAP(integrated, reduction = "pca", dims = 1:10)
+#integrated <- RunTSNE(integrated, reduction = "pca", dims = 1:10)
+#saveRDS(integrated, '/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/seurat_objects/vijay/vijay.180831.integrated.rds')
 
+integrated <- readRDS('output/seurat_objects/vijay/vijay.180831.integrated.rds')
+integrated@meta.data['dataset'] <- '10x-180831'
+integrated@meta.data[which(is.na(integrated@meta.data$branch)), 'dataset'] <- 'Vijay'
+
+plot_grid(
+  UMAPPlot(integrated, group.by='dataset'),
+  UMAPPlot(integrated, group.by='celltype', label=T),
+  UMAPPlot(integrated, group.by='branch'), ncol=2
+)
 ```
 
+Structural cells overlap with clusters P4, P5, P6, P2, P7. Metabolic cells overlap partly with P2 and P7 and also I3.  
 
-#Comparison with 10x-180831 data
+#Predict cell types from 10x-180831 data
 
 ```{r}
-check marker genes from their paper in 10x-180831 data
+#find anchors
+anchors <- FindTransferAnchors(reference = data_180831, query = vijay, dims = 1:20)
+anchors_cca <- FindTransferAnchors(reference = data_180831, query = vijay, dims = 1:20, reduction = 'cca')
+
+#transfer labels
+predictions_pca_project <- TransferData(anchors, data_180831$branch, dims = 1:20, weight.reduction='pcaproject')
+predictions_pca <- TransferData(anchors, data_180831$branch, dims=1:20, weight.reduction='pca')
+predictions_cca <- TransferData(anchors_cca, data_180831$branch, dims=1:20, weight.reduction='cca')
+
+#rename colnames
+names(predictions_pca_project) <- unlist(lapply(names(predictions_pca_project), function(x){return(paste('pca_project.', x, sep=''))}))
+names(predictions_pca) <- unlist(lapply(names(predictions_pca), function(x){return(paste('pca.', x, sep=''))}))
+names(predictions_cca) <- unlist(lapply(names(predictions_cca), function(x){return(paste('cca.', x, sep=''))}))
+
+vijay <- AddMetaData(vijay, metadata = predictions_pca_project)
+vijay <- AddMetaData(vijay, metadata = predictions_pca)
+vijay <- AddMetaData(vijay, metadata = predictions_cca)
 ```
+
+Scores
+
+```{r, fig.height = 30, fig.width = 12, fig.align = "center"}
+plot_grid(
+  UMAPPlot(vijay, group.by='celltype', label=T),
+  FeaturePlot(vijay, features='pca.prediction.score.Progenitor'),
+  FeaturePlot(vijay, features='pca_project.prediction.score.Progenitor'),
+  FeaturePlot(vijay, features='cca.prediction.score.Progenitor'),
+  FeaturePlot(vijay, features='pca.prediction.score.Metabolic'),
+  FeaturePlot(vijay, features='pca_project.prediction.score.Metabolic'),
+  FeaturePlot(vijay, features='cca.prediction.score.Metabolic'),
+  FeaturePlot(vijay, features='pca.prediction.score.ECM'),
+  FeaturePlot(vijay, features='pca_project.prediction.score.ECM'),
+  FeaturePlot(vijay, features='cca.prediction.score.ECM'),
+  UMAPPlot(vijay, group.by='pca.predicted.id'),
+  UMAPPlot(vijay, group.by='pca_project.predicted.id'),
+  UMAPPlot(vijay, group.by='cca.predicted.id'),
+  ncol=2
+)
+```
+
+Assign the labels if threshold is above 0.7 (same threshold as the wolfrum label transfer). 
+
+```{r}
+assign_labels <- function(colname, threshold=0.7){
+  pred_ids <- unlist(as.vector(apply(vijay@meta.data[,c(paste(colname,'.prediction.score.max', sep=''), paste(colname, '.predicted.id', sep=''))], 1, function(x){
+    if (x[[1]] < threshold){
+      return(NA)
+    } else{
+      return(x[[2]])
+    }
+  })))
+  return(pred_ids)
+}
+
+for (col in c('pca_project', 'pca', 'cca')){
+  for (t in c(0.5, 0.7, 0.9, 0.95, 0.99)){
+    preds <- assign_labels(col, t)
+    vijay <- AddMetaData(vijay, preds, col.name=paste(col, 'predicted_label', t, sep='.'))
+  }
+}
+```
+
+Threshold for prediction = 0.5
+
+```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
+plot_grid(
+  UMAPPlot(vijay, group.by='pca.predicted_label.0.5'),
+  UMAPPlot(vijay, group.by='pca_project.predicted_label.0.5'),
+  UMAPPlot(vijay, group.by='cca.predicted_label.0.5'), ncol=2
+)
+```
+
+Threshold for prediction = 0.7
+
+```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
+plot_grid(
+  UMAPPlot(vijay, group.by='pca.predicted_label.0.7'),
+  UMAPPlot(vijay, group.by='pca_project.predicted_label.0.7'),
+  UMAPPlot(vijay, group.by='cca.predicted_label.0.7'), ncol=2
+)
+```
+
+Threshold for prediction = 0.9
+
+```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
+plot_grid(
+  UMAPPlot(vijay, group.by='pca.predicted_label.0.9'),
+  UMAPPlot(vijay, group.by='pca_project.predicted_label.0.9'),
+  UMAPPlot(vijay, group.by='cca.predicted_label.0.9'), ncol=2
+)
+```
+
+I3 = adipose tissue macrophages (Vijay paper). Perhaps no metabolic preadipocytes because of maturation?
+
+```{r}
+UMAPPlot(vijay, group.by='celltype', label=T)
+```
+
 
