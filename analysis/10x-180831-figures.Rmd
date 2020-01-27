@@ -242,7 +242,6 @@ create_genes <- function(genelist){
 terms <- create_terms(gsea)
 genes <- create_genes(genelist)
 circ <- circle_dat(terms, genes)
-
 ```
 
 ```{r, fig.height = 7, fig.width = 20, fig.align = "center"}
