@@ -44,7 +44,7 @@ Data loading and processing
 vijay <- readRDS('output/seurat_objects/vijay/vijay.rds')
 ```
 
-#Metadata plots
+# Metadata plots
 
 ```{r fig.height = 10, fig.width = 12, fig.align = "center"}
 #plot cell types + overlayed with meta data
@@ -63,7 +63,7 @@ plot_grid(
 )
 ```
 
-#U/L branch marker genes
+# U/L branch marker genes
 
 Plot the U and L branch marker genes. 
 
@@ -96,7 +96,7 @@ plot_grid(plotlist=plots, ncol=2)
 
 Some U branch markers are not really expressed (SCD, PLIN4, GDP1, RBP4). Interestingly most U branch markers are also expressed in I1 and I3 and E1-E3. 
 
-#Seurat integration with 10x-180831 data
+# Seurat integration with 10x-180831 data
 
 ```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
 #anchors <- FindIntegrationAnchors(object.list = list(vijay, data_180831), dims = 1:20)
@@ -120,7 +120,7 @@ plot_grid(
 
 Structural cells overlap with clusters P4, P5, P6, P2, P7. Metabolic cells overlap partly with P2 and P7 and also I3.  
 
-#Predict cell types from 10x-180831 data
+# Predict cell types from 10x-180831 data
 
 ```{r}
 #find anchors

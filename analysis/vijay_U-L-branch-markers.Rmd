@@ -51,7 +51,7 @@ plot_featureplots <- function(data, markergenes, dir, branch){
 
 ```
 
-#U branch marker genes all vijay data
+# U branch marker genes all vijay data
 
 ```{r}
 markers_u <- markers[markers$avg_logFC > 0,]
@@ -76,7 +76,7 @@ grids[[1]]
 grids[[2]]
 ```
 
-#L branch marker genes all vijay data
+# L branch marker genes all vijay data
 
 ```{r}
 markers_l <- markers[markers$avg_logFC < 0,]
