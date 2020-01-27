@@ -443,7 +443,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-01-25
+<strong>Last updated:</strong> 2020-01-27
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -522,10 +522,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreee0afaf28284a547259d67fb898ad0158d0d0a2dbtargetblanke0afaf2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/e0afaf28284a547259d67fb898ad0158d0d0a2db" target="_blank">e0afaf2</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreefcdc606762be5de468862040b35cc92601904440targetblankfcdc606a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/fcdc606762be5de468862040b35cc92601904440" target="_blank">fcdc606</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreee0afaf28284a547259d67fb898ad0158d0d0a2dbtargetblanke0afaf2a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreefcdc606762be5de468862040b35cc92601904440targetblankfcdc606a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -549,7 +549,6 @@ Untracked files:
     Untracked:  10x-adipocyte-analysis-copy.Rproj
     Untracked:  analysis/.ipynb_checkpoints/10x-180831_harmony_palantir-checkpoint.ipynb
     Untracked:  analysis/.ipynb_checkpoints/velocyto_notebook_180831-checkpoint.ipynb
-    Untracked:  analysis/10x-180831-modified_GOBubble.Rmd
     Untracked:  code/BEAM-heatmaps.R
     Untracked:  code/BEAM_gsea.R
     Untracked:  code/__pycache__/
@@ -557,12 +556,10 @@ Untracked files:
     Untracked:  code/convert_raw_data_to_csv_harmony.R
     Untracked:  code/harmony.py
     Untracked:  code/test.csv
-    Untracked:  docs/figure/10x-180831-modified_GOBubble.Rmd/
 
 Unstaged changes:
     Deleted:    10x-adipocyte-analysis.Rproj
     Modified:   analysis/10x-180831-figures.Rmd
-    Modified:   analysis/index.Rmd
     Deleted:    analysis/velocyto_notebook_180504.ipynb
     Deleted:    analysis/velocyto_notebook_180831.ipynb
     Deleted:    code/REMOVE/find-brown-sample-markers-180504-REMOVE.R
@@ -618,6 +615,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/fcdc606762be5de468862040b35cc92601904440/analysis/vijay_analysis.Rmd" target="_blank">fcdc606</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-01-27
+</td>
+<td>
+vijay analysis notebooks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/20cfe73e6a1cd2cb8b1077687282d11cf1d4e8c7/docs/vijay_analysis.html" target="_blank">20cfe73</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-01-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/adae7b75a4e5a8fb17abde275b91edec245dc222/analysis/vijay_analysis.Rmd" target="_blank">adae7b7</a>
 </td>
 <td>
@@ -668,7 +699,8 @@ library(DT)</code></pre>
 # vijay &lt;- RunUMAP(vijay, dims=1:11)
 # saveRDS(vijay, &#39;output/seurat_objects/vijay/vijay.rds&#39;)</code></pre>
 <pre class="r"><code>vijay &lt;- readRDS(&#39;output/seurat_objects/vijay/vijay.rds&#39;)</code></pre>
-<p>#Metadata plots</p>
+<div id="metadata-plots" class="section level1">
+<h1>Metadata plots</h1>
 <pre class="r"><code>#plot cell types + overlayed with meta data
 plot_grid(
  UMAPPlot(vijay, group.by=&#39;celltype&#39;, label=T), 
@@ -682,7 +714,9 @@ plot_grid(
  FeaturePlot(vijay, features=&#39;nCount_RNA&#39;)
 )</code></pre>
 <p><img src="figure/vijay_analysis.Rmd/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>#U/L branch marker genes</p>
+</div>
+<div id="ul-branch-marker-genes" class="section level1">
+<h1>U/L branch marker genes</h1>
 <p>Plot the U and L branch marker genes.</p>
 <pre class="r"><code>data_180831 &lt;- readRDS(&#39;output/seurat_objects/180831/10x-180831-S3&#39;)
 #DE genes between T1T2T3 and T4T5 in the 10x-180831 data.
@@ -702,7 +736,9 @@ The following requested variables were not found: RP11-572C15.6</code></pre>
 <pre class="r"><code>plot_grid(plotlist=plots, ncol=2)</code></pre>
 <p><img src="figure/vijay_analysis.Rmd/unnamed-chunk-9-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>Some U branch markers are not really expressed (SCD, PLIN4, GDP1, RBP4). Interestingly most U branch markers are also expressed in I1 and I3 and E1-E3.</p>
-<p>#Seurat integration with 10x-180831 data</p>
+</div>
+<div id="seurat-integration-with-10x-180831-data" class="section level1">
+<h1>Seurat integration with 10x-180831 data</h1>
 <pre class="r"><code>#anchors &lt;- FindIntegrationAnchors(object.list = list(vijay, data_180831), dims = 1:20)
 #integrated &lt;- IntegrateData(anchorset = anchors, dims = 1:20)
 #integrated &lt;- ScaleData(integrated, verbose = FALSE)
@@ -722,7 +758,9 @@ plot_grid(
 )</code></pre>
 <p><img src="figure/vijay_analysis.Rmd/unnamed-chunk-10-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>Structural cells overlap with clusters P4, P5, P6, P2, P7. Metabolic cells overlap partly with P2 and P7 and also I3.</p>
-<p>#Predict cell types from 10x-180831 data</p>
+</div>
+<div id="predict-cell-types-from-10x-180831-data" class="section level1">
+<h1>Predict cell types from 10x-180831 data</h1>
 <pre class="r"><code>#find anchors
 anchors &lt;- FindTransferAnchors(reference = data_180831, query = vijay, dims = 1:20)</code></pre>
 <pre><code>Performing PCA on the provided reference using 583 features as input.</code></pre>
@@ -782,6 +820,43 @@ vijay &lt;- AddMetaData(vijay, metadata = predictions_cca)</code></pre>
   ncol=2
 )</code></pre>
 <p><img src="figure/vijay_analysis.Rmd/unnamed-chunk-12-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/20cfe73e6a1cd2cb8b1077687282d11cf1d4e8c7/docs/figure/vijay_analysis.Rmd/unnamed-chunk-12-1.png" target="_blank">20cfe73</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-01-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Assign the labels if threshold is above 0.7 (same threshold as the wolfrum label transfer).</p>
 <pre class="r"><code>assign_labels &lt;- function(colname, threshold=0.7){
   pred_ids &lt;- unlist(as.vector(apply(vijay@meta.data[,c(paste(colname,&#39;.prediction.score.max&#39;, sep=&#39;&#39;), paste(colname, &#39;.predicted.id&#39;, sep=&#39;&#39;))], 1, function(x){
@@ -807,6 +882,43 @@ for (col in c(&#39;pca_project&#39;, &#39;pca&#39;, &#39;cca&#39;)){
   UMAPPlot(vijay, group.by=&#39;cca.predicted_label.0.5&#39;), ncol=2
 )</code></pre>
 <p><img src="figure/vijay_analysis.Rmd/unnamed-chunk-14-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
+Past versions of unnamed-chunk-14-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-14-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/20cfe73e6a1cd2cb8b1077687282d11cf1d4e8c7/docs/figure/vijay_analysis.Rmd/unnamed-chunk-14-1.png" target="_blank">20cfe73</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-01-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Threshold for prediction = 0.7</p>
 <pre class="r"><code>plot_grid(
   UMAPPlot(vijay, group.by=&#39;pca.predicted_label.0.7&#39;),
@@ -814,6 +926,43 @@ for (col in c(&#39;pca_project&#39;, &#39;pca&#39;, &#39;cca&#39;)){
   UMAPPlot(vijay, group.by=&#39;cca.predicted_label.0.7&#39;), ncol=2
 )</code></pre>
 <p><img src="figure/vijay_analysis.Rmd/unnamed-chunk-15-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
+Past versions of unnamed-chunk-15-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-15-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/20cfe73e6a1cd2cb8b1077687282d11cf1d4e8c7/docs/figure/vijay_analysis.Rmd/unnamed-chunk-15-1.png" target="_blank">20cfe73</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-01-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Threshold for prediction = 0.9</p>
 <pre class="r"><code>plot_grid(
   UMAPPlot(vijay, group.by=&#39;pca.predicted_label.0.9&#39;),
@@ -821,9 +970,83 @@ for (col in c(&#39;pca_project&#39;, &#39;pca&#39;, &#39;cca&#39;)){
   UMAPPlot(vijay, group.by=&#39;cca.predicted_label.0.9&#39;), ncol=2
 )</code></pre>
 <p><img src="figure/vijay_analysis.Rmd/unnamed-chunk-16-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
+Past versions of unnamed-chunk-16-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/20cfe73e6a1cd2cb8b1077687282d11cf1d4e8c7/docs/figure/vijay_analysis.Rmd/unnamed-chunk-16-1.png" target="_blank">20cfe73</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-01-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>I3 = adipose tissue macrophages (Vijay paper). Perhaps no metabolic preadipocytes because of maturation?</p>
 <pre class="r"><code>UMAPPlot(vijay, group.by=&#39;celltype&#39;, label=T)</code></pre>
 <p><img src="figure/vijay_analysis.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
+Past versions of unnamed-chunk-17-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-17-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/20cfe73e6a1cd2cb8b1077687282d11cf1d4e8c7/docs/figure/vijay_analysis.Rmd/unnamed-chunk-17-1.png" target="_blank">20cfe73</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-01-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -888,6 +1111,7 @@ loaded via a namespace (and not attached):
 [91] rsvd_1.0.2          survival_2.43-3     viridisLite_0.3.0  
 [94] workflowr_1.2.0     cluster_2.1.0       globals_0.12.4     
 [97] fitdistrplus_1.0-14 ROCR_1.0-7         </code></pre>
+</div>
 </div>
 
 
