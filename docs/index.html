@@ -325,47 +325,42 @@ div.section {
 
 
 <p>
-<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report"
-  data-toggle="collapse" data-target="#workflowr-report">
-  
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
-
 <div id="workflowr-report" class="collapse">
 <ul class="nav nav-tabs">
-  <li class="active">
+<li class="active">
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
-  <li>
+<li>
 <a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
-  <li>
+<li>
 <a data-toggle="tab" href="#versions">Past versions</a>
 </li>
 </ul>
-
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
-  <p>
-<strong>Last updated:</strong> 2019-12-02
+<p>
+<strong>Last updated:</strong> 2020-01-27
 </p>
-  <p>
+<p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
-  <p>
+<p>
 <strong>Knit directory:</strong> <code>10x-adipocyte-analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
-  <p>
-  
+<p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
   href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.2.0). The <em>Report</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
 <div id="report" class="tab-pane fade">
-  <div class="panel-group" id="workflowr-checks">
-  <div class="panel panel-default">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
 <a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
@@ -373,7 +368,6 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-  
 <p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
@@ -381,17 +375,15 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreeab9bcabd8eed4edde9540384811895666e6db892targetblankab9bcaba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/ab9bcabd8eed4edde9540384811895666e6db892" target="_blank">ab9bcab</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree2764e108f7ff3ecddbe030c1833650b7e4578555targetblank2764e10a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/2764e108f7ff3ecddbe030c1833650b7e4578555" target="_blank">2764e10</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreeab9bcabd8eed4edde9540384811895666e6db892targetblankab9bcaba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistree2764e108f7ff3ecddbe030c1833650b7e4578555targetblank2764e10a" class="panel-collapse collapse">
 <div class="panel-body">
-  
-
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
- <pre><code>
+<pre><code>
 Ignored files:
     Ignored:    code/.Rhistory
     Ignored:    figures/
@@ -420,10 +412,9 @@ Untracked files:
 
 Unstaged changes:
     Deleted:    10x-adipocyte-analysis.Rproj
+    Modified:   analysis/10x-180831-figures.Rmd
     Deleted:    analysis/velocyto_notebook_180504.ipynb
     Deleted:    analysis/velocyto_notebook_180831.ipynb
-    Modified:   analysis/wolfrum-scmap.Rmd
-    Modified:   analysis/wolfrum_analysis.Rmd
     Deleted:    code/REMOVE/find-brown-sample-markers-180504-REMOVE.R
     Deleted:    code/REMOVE/find-white-sample-markers-180504-REMOVE.R
     Deleted:    code/REMOVE/get-genes-monocle-180831-REMOVE.R
@@ -435,10 +426,10 @@ Unstaged changes:
     Modified:   code/run-monocle.R
     Modified:   code/velocyto_preprocess.py
 
-</code></pre> <p>
+</code></pre>
+<p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
 </p>
-
 </div>
 </div>
 </div>
@@ -446,7 +437,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-  
+
 <p>
 These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
 </p>
@@ -472,6 +463,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/2764e108f7ff3ecddbe030c1833650b7e4578555/analysis/index.Rmd" target="_blank">2764e10</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-01-27
+</td>
+<td>
+wflow_publish(c(“analysis/index.Rmd”))
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/adae7b75a4e5a8fb17abde275b91edec245dc222/analysis/index.Rmd" target="_blank">adae7b7</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-01-23
+</td>
+<td>
+vijay analysis branch markers
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/94378926ce2471fb5ca1f7284c33cdcd252a9d41/docs/index.html" target="_blank">9437892</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2019-12-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1818,14 +1860,10 @@ Start workflowr project.
 </tbody>
 </table>
 </div>
-
 <hr>
 </div>
 </div>
 </div>
-
-
-
 <b>Notebooks for 10x-180504 analysis:</b>
 <ol>
 <li>
@@ -1849,7 +1887,6 @@ Start workflowr project.
 <a href="10x-180504-mixture-cluster.html">Mixture cluster</a>
 </li>
 </ol>
-
 <b>Notebooks for 10x-180831 analysis (before demuxlet):</b>
 <ol>
 <li>
@@ -1862,7 +1899,6 @@ Start workflowr project.
 <a href="10x-180831-monocle.before-demuxlet.html">Monocle analysis</a>
 </li>
 </ol>
-
 <b>Notebooks for 10x-180831 analysis:</b>
 <ol>
 <li>
@@ -1893,7 +1929,6 @@ Velocyto analysis
 <a href="10x-180831-supplementary_figures.html">Supplementary figures</a>
 </li>
 </ol>
-
 <b>Wolfrum analysis:</b>
 <ol>
 <li>
@@ -1902,7 +1937,15 @@ Velocyto analysis
 <li>
 <a href="wolfrum_U-L-branch-markers.html">Branch marker genes</a>
 </li>
-
+</ol>
+<b>Vijay analysis:</b>
+<ol>
+<li>
+<a href="vijay_analysis.html">General analyses</a>
+</li>
+<li>
+<a href="vijay_U-L-branch-markers.html">Branch marker genes</a>
+</li>
 </ol>
 
 
