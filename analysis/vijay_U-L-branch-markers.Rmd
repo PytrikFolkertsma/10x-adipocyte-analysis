@@ -21,7 +21,7 @@ library(dplyr)
 
 ```{r}
 vijay <- readRDS('output/seurat_objects/vijay/vijay.rds')
-markers <- read.table('/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/markergenes/180831/markers_10x-180831_upperbranch_lowerbranch_negbinom.tsv', header=T)
+markers <- read.table('output/markergenes/180831/markers_10x-180831_upperbranch_lowerbranch_negbinom.tsv', header=T)
 ```
 
 ```{r}
@@ -61,7 +61,7 @@ markers_u <- markers_u[order(-markers_u$avg_logFC),]
 Top 56 markers for U branch sorted on logFC.
 
 ```{r, fig.show='hide', results='hide', message=F}
-grids <- plot_featureplots(vijay, markergenes=markers_u, dir='/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/vijay/u_l_branch_markers/all_data/', branch='U_branch')
+grids <- plot_featureplots(vijay, markergenes=markers_u, dir='figures/figures_paper/supplementary_figures/vijay/u_l_branch_markers/all_data/', branch='U_branch')
 ```
 
 ```{r}
@@ -75,6 +75,11 @@ grids[[1]]
 ```{r, fig.height = 25, fig.width = 9, fig.align = "center"}
 grids[[2]]
 ```
+
+```{r, fig.height = 56, fig.width = 9, fig.align = "center"}
+VlnPlot(vijay, features=markers_u$gene, group.by='celltype', pt.size=-1, ncol=2)
+```
+
 
 # L branch marker genes all vijay data
 
@@ -99,4 +104,8 @@ grids[[1]]
 
 ```{r, fig.height = 25, fig.width = 9, fig.align = "center"}
 grids[[2]]
+```
+
+```{r, fig.height = 56, fig.width = 9, fig.align = "center"}
+VlnPlot(vijay, features=markers_l$gene, group.by='celltype', pt.size=-1, ncol=2)
 ```
