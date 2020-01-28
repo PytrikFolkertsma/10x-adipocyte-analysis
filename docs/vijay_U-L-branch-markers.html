@@ -443,7 +443,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-01-27
+<strong>Last updated:</strong> 2020-01-28
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -522,10 +522,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreefcdc606762be5de468862040b35cc92601904440targetblankfcdc606a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/fcdc606762be5de468862040b35cc92601904440" target="_blank">fcdc606</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreec5acb13cff61da608a48ab2abec3956e8e3d1dc7targetblankc5acb13a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/c5acb13cff61da608a48ab2abec3956e8e3d1dc7" target="_blank">c5acb13</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreefcdc606762be5de468862040b35cc92601904440targetblankfcdc606a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreec5acb13cff61da608a48ab2abec3956e8e3d1dc7targetblankc5acb13a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -559,9 +559,9 @@ Untracked files:
 
 Unstaged changes:
     Deleted:    10x-adipocyte-analysis.Rproj
-    Modified:   analysis/10x-180831-figures.Rmd
     Deleted:    analysis/velocyto_notebook_180504.ipynb
     Deleted:    analysis/velocyto_notebook_180831.ipynb
+    Modified:   analysis/vijay_analysis.Rmd
     Deleted:    code/REMOVE/find-brown-sample-markers-180504-REMOVE.R
     Deleted:    code/REMOVE/find-white-sample-markers-180504-REMOVE.R
     Deleted:    code/REMOVE/get-genes-monocle-180831-REMOVE.R
@@ -610,6 +610,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/c5acb13cff61da608a48ab2abec3956e8e3d1dc7/analysis/vijay_U-L-branch-markers.Rmd" target="_blank">c5acb13</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-01-28
+</td>
+<td>
+added violinplots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/pytrikfolkertsma/10x-adipocyte-analysis/154ebe302ecacd9d09f090523e17697570a1a055/docs/vijay_U-L-branch-markers.html" target="_blank">154ebe3</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-01-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -778,7 +812,7 @@ library(knitr)
 library(kableExtra)
 library(dplyr)</code></pre>
 <pre class="r"><code>vijay &lt;- readRDS(&#39;output/seurat_objects/vijay/vijay.rds&#39;)
-markers &lt;- read.table(&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/markergenes/180831/markers_10x-180831_upperbranch_lowerbranch_negbinom.tsv&#39;, header=T)</code></pre>
+markers &lt;- read.table(&#39;output/markergenes/180831/markers_10x-180831_upperbranch_lowerbranch_negbinom.tsv&#39;, header=T)</code></pre>
 <pre class="r"><code>plot_featureplots &lt;- function(data, markergenes, dir, branch){
   plots &lt;- FeaturePlot(data, features=as.vector(markergenes$gene[1:56]), combine = FALSE, pt.size=0.2, cols=c(&#39;gray&#39;, &#39;blue&#39;))
 
@@ -807,7 +841,7 @@ markers &lt;- read.table(&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/1
 <pre class="r"><code>markers_u &lt;- markers[markers$avg_logFC &gt; 0,]
 markers_u &lt;- markers_u[order(-markers_u$avg_logFC),]</code></pre>
 <p>Top 56 markers for U branch sorted on logFC.</p>
-<pre class="r"><code>grids &lt;- plot_featureplots(vijay, markergenes=markers_u, dir=&#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/figures/figures_paper/supplementary_figures/vijay/u_l_branch_markers/all_data/&#39;, branch=&#39;U_branch&#39;)</code></pre>
+<pre class="r"><code>grids &lt;- plot_featureplots(vijay, markergenes=markers_u, dir=&#39;figures/figures_paper/supplementary_figures/vijay/u_l_branch_markers/all_data/&#39;, branch=&#39;U_branch&#39;)</code></pre>
 <pre class="r"><code>UMAPPlot(vijay, group.by=&#39;celltype&#39;, label=T)</code></pre>
 <p><img src="figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -991,6 +1025,10 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
+<pre class="r"><code>VlnPlot(vijay, features=markers_u$gene, group.by=&#39;celltype&#39;, pt.size=-1, ncol=2)</code></pre>
+<pre><code>Warning in FetchData(object = object, vars = features, slot = slot): The
+following requested variables were not found: UQCR11.1, NDUFB8.1</code></pre>
+<p><img src="figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-9-1.png" width="864" style="display: block; margin: auto;" /></p>
 </div>
 <div id="l-branch-marker-genes-all-vijay-data" class="section level1">
 <h1>L branch marker genes all vijay data</h1>
@@ -1001,79 +1039,7 @@ markers_l &lt;- markers_l[order(markers_l$avg_logFC),]</code></pre>
 <pre><code>Warning in FetchData(object = object, vars = c(dims, &quot;ident&quot;, features), :
 The following requested variables were not found: RP11-572C15.6, PPAP2B</code></pre>
 <pre class="r"><code>UMAPPlot(vijay, group.by=&#39;celltype&#39;, label=T)</code></pre>
-<p><img src="figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
-Past versions of unnamed-chunk-11-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-11-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/059dac7613d99cc59f5c6267271e51ad2104252e/docs/figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-11-1.png" target="_blank">059dac7</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2020-01-25
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/225ae0cfbd73e54c4d8ad4b4638edd4a25f8ba72/docs/figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-11-1.png" target="_blank">225ae0c</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2020-01-24
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/f3a9239b5fb2321808d454234cd2d0fe50f2f31c/docs/figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-11-1.png" target="_blank">f3a9239</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2020-01-23
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/d411e511b9693b0dc6f3b983d027c688a29018f1/docs/figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-11-1.png" target="_blank">d411e51</a>
-</td>
-<td>
-Pytrik Folkertsma
-</td>
-<td>
-2020-01-23
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>grids[[1]]</code></pre>
-<p><img src="figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-12-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
 Past versions of unnamed-chunk-12-1.png
@@ -1122,7 +1088,7 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
-<pre class="r"><code>grids[[2]]</code></pre>
+<pre class="r"><code>grids[[1]]</code></pre>
 <p><img src="figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-13-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
@@ -1172,7 +1138,13 @@ Pytrik Folkertsma
 </table>
 </div>
 </div>
-<br> <br>
+<pre class="r"><code>grids[[2]]</code></pre>
+<p><img src="figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-14-1.png" width="864" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>VlnPlot(vijay, features=markers_l$gene, group.by=&#39;celltype&#39;, pt.size=-1, ncol=2)</code></pre>
+<pre><code>Warning in FetchData(object = object, vars = features, slot = slot):
+The following requested variables were not found: RP11-572C15.6, PPAP2B,
+MIR4435-1HG, TMEM59L, PPAP2A, MIR24-2, CTD-2369P2.2</code></pre>
+<img src="figure/vijay_U-L-branch-markers.Rmd/unnamed-chunk-15-1.png" width="864" style="display: block; margin: auto;" /> <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
