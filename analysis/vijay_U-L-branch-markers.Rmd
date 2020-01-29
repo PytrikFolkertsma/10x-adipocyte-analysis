@@ -76,8 +76,12 @@ grids[[1]]
 grids[[2]]
 ```
 
-```{r, fig.height = 56, fig.width = 9, fig.align = "center"}
-VlnPlot(vijay, features=markers_u$gene, group.by='celltype', pt.size=-1, ncol=2)
+```{r, fig.height = 84, fig.width = 9, fig.align = "center"}
+VlnPlot(vijay, features=markers_u$gene[1:28], group.by='celltype', pt.size=-1, ncol=2)
+```
+
+```{r, fig.height = 84, fig.width = 9, fig.align = "center"}
+VlnPlot(vijay, features=markers_u$gene[29:56], group.by='celltype', pt.size=-1, ncol=2)
 ```
 
 
@@ -106,6 +110,10 @@ grids[[1]]
 grids[[2]]
 ```
 
-```{r, fig.height = 56, fig.width = 9, fig.align = "center"}
-VlnPlot(vijay, features=markers_l$gene, group.by='celltype', pt.size=-1, ncol=2)
+```{r, fig.height = 84, fig.width = 9, fig.align = "center"}
+VlnPlot(vijay, features=markers_l$gene[1:28], group.by='celltype', pt.size=-1, ncol=2)
+```
+
+```{r, fig.height = 84, fig.width = 9, fig.align = "center"}
+VlnPlot(vijay, features=markers_l$gene[29:56], group.by='celltype', pt.size=-1, ncol=2)
 ```
