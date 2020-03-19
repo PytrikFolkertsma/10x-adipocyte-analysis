@@ -485,9 +485,9 @@ DimPlot(harmony, reduction='umap', group.by='branch_labels_integrated', cols=col
 
 # Figures
 
-```{r, fig.height = 25, fig.width = 25, fig.align = "center"}
-harmony_180831 <- DimPlot(harmony, reduction='umap', group.by='branch_labels_integrated', cols=colormap, pt.size=0.5) + NoAxes()
-harmony_180831_vf <- AugmentPlot(harmony_180831, width=25, height=25)
+```{r, fig.height = 5, fig.width = 7, fig.align = "center"}
+harmony_180831 <- DimPlot(harmony, reduction='umap', group.by='branch_labels_integrated', cols=colormap) + NoAxes()
+harmony_180831_vf <- AugmentPlot(harmony_180831, width=7, height=5)
 #save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_branch-labels.vf.pdf", harmony_180831_vf, base_width=5, base_height=5)
 #save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_branch-labels.pdf", harmony_180831, base_width=7, base_height=5)
 harmony_180831
@@ -702,7 +702,7 @@ g
 ```
 
 ```{r}
-#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/EBF2_PPARG_brown_violinplots.pdf", g, base_width=8.5, base_height=3)
+save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/EBF2_PPARG_brown_violinplots.pdf", g, base_width=8.5, base_height=3)
 ```
 
 
