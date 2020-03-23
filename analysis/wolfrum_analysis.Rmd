@@ -179,6 +179,8 @@ Clusters 22 shares most genes with the P branch. Cluster 23 most with the U bran
 UMAPPlot(wolfrum, group.by='seurat_clusters', label=T)
 ```
 
+#Preadipocyte subset
+
 ```{r}
 #Idents(wolfrum) <- wolfrum@meta.data$seurat_clusters
 #preadipocyte_subset <- subset(wolfrum, idents=c(5, 14, 23, 11, 10, 21, 22, 24))
@@ -199,376 +201,17 @@ plot_grid(
 )
 ```
 
-# Seurat integration
-
-## Integrating Wolfrum with 10x-180831 data
-
-```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
-#anchors <- FindIntegrationAnchors(object.list = list(wolfrum, data_180831), dims = 1:20)
-#integrated <- IntegrateData(anchorset = anchors, dims = 1:20)
-#saveRDS(integrated, '/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/seurat_objects/wolfrum/wolfrum.180831.integrated.rds')
-integrated <- readRDS('output/seurat_objects/wolfrum/wolfrum.180831.integrated.rds')
-integrated@meta.data['dataset'] <- '10x-180831'
-integrated@meta.data[which(is.na(integrated@meta.data$branch)), 'dataset'] <- 'Wolfrum'
-
-plot_grid(
-  UMAPPlot(integrated, group.by='dataset'),
-  UMAPPlot(integrated, group.by='seurat_clusters', label=T),
-  UMAPPlot(integrated, group.by='branch'), ncol=2
-)
-```
-
-These results also confirm that the L branch is closest to cluster 11 and U is closest to the U branch.
-
-## Predict cell types with Seurat's TransferData
-
-```{r}
-wolfrum.predicted_labels <- readRDS('output/seurat_objects/wolfrum/wolfrum.predicted_labels_180831.rds')
-```
-
-Used pca as dimred for FindTransferAnchors and IntegrateData. 
-
-```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
-plot_grid(
-  FeaturePlot(wolfrum.predicted_labels, features='predictions_pca.prediction.score.Progenitor'),
-  FeaturePlot(wolfrum.predicted_labels, features='predictions_pca.prediction.score.Metabolic'),
-  FeaturePlot(wolfrum.predicted_labels, features='predictions_pca.prediction.score.ECM'), ncol=2
-)
-```
-
-For all predictions, change predicted id to NA if max score is below a certain threshold. 
-
-```{r}
-assign_labels <- function(colname, threshold=0.5){
-  pred_ids <- unlist(as.vector(apply(wolfrum.predicted_labels@meta.data[,c(paste(colname,'.prediction.score.max', sep=''), paste(colname, '.predicted.id', sep=''))], 1, function(x){
-    if (x[[1]] < threshold){
-      return(NA)
-    } else{
-      return(x[[2]])
-    }
-  })))
-  return(pred_ids)
-}
-
-for (col in c('predictions_pca')){
-  for (t in c(0.5, 0.7, 0.9, 0.95, 0.99)){
-    preds <- assign_labels(col, t)
-    wolfrum.predicted_labels <- AddMetaData(wolfrum.predicted_labels, preds, col.name=paste(col, 'predicted_label', t, sep='.'))
-  }
-}
-```
-
-
-```{r, fig.height = 10, fig.width = 12, fig.align = "center"}
-plot_grid(
-  UMAPPlot(wolfrum.predicted_labels, group.by='predictions_pca.predicted_label.0.7') + ggtitle('threshold=0.7'),
-  UMAPPlot(wolfrum.predicted_labels, group.by='predictions_pca.predicted_label.0.9') + ggtitle('threshold=0.9'),
-  UMAPPlot(wolfrum.predicted_labels, group.by='predictions_pca.predicted_label.0.95') + ggtitle('threshold=0.95'),
-  UMAPPlot(wolfrum.predicted_labels, group.by='predictions_pca.predicted_label.0.99') + ggtitle('threshold=0.99'),
-  ncol=2
-)
-```
-
-Color predictions in integrated dataset
-
-```{r}
-integrated@meta.data['branch_labels_integrated'] <- wolfrum.predicted_labels@meta.data$predictions_pca.predicted_label.0.9[match(rownames(integrated@meta.data), rownames(wolfrum.predicted_labels@meta.data))]
-integrated@meta.data['branch_labels_integrated'] <- unlist(lapply(integrated@meta.data$branch_labels_integrated, function(x){
-  if (is.na(x)){
-    return('Non-matching cells')
-  } else {
-      if (x == 'Progenitor'){
-        return('Seurat predicted match to P')
-      } else if (x == 'Metabolic') {
-        return('Seurat predicted match to U')
-      } else if (x == 'ECM') {
-        return('Seurat predicted match to L')
-      } else {
-        return('Non-matching cells')
-      }
-  }
-}))
-
-integrated@meta.data$branch_labels_integrated[match(rownames(data_180831@meta.data), rownames(integrated@meta.data))] <- data_180831@meta.data$State.labels
-```
-
-```{r, fig.height = 5, fig.width = 7, fig.align = "center"}
-colormap <- c(
-  P='#ecdd83',
-  U='#e27268',
-  L='#93c8bc',
-  'Seurat predicted match to P'='#fc595d',
-  'Seurat predicted match to U'='#6789ce',
-  'Seurat predicted match to L'='#e295bc',
-  'Non-matching cells'='#b6b6b6'
-)
-
-integrated@meta.data$branch_labels_integrated <- factor(integrated@meta.data$branch_labels_integrated, levels = c('P', 'U', 'L', 'Seurat predicted match to P', 'Seurat predicted match to U', 'Seurat predicted match to L', 'Non-matching cells'))
-
-DimPlot(integrated, reduction='umap', group.by='branch_labels_integrated', cols=colormap) + NoAxes()
-```
-
-
-# Liger integration
-
-```{r}
-merge_wolfrum_180831_clusters <- function(object, cluster_col){
-  object@meta.data$filtered_clusters <- unlist(lapply(object@meta.data[cluster_col][[1]], function(x){
-  if (x %in% c(5, 14, 23, 11, 10, 24)){
-    return(x)
-  } else{
-    return(NA)
-  }
-}))
-  object@meta.data$filtered_clusters[which(object@meta.data$Dataset == '10x-180831')] <- object@meta.data$branch[which(object@meta.data$Dataset == '10x-180831')]
-  return(object)
-}
-```
-
-Whole dataset with default parameters
-
-```{r, fig.height = 10, fig.width = 12, fig.align = "center"}
-#data_180831 <- readRDS('output/seurat_objects/180831/10x-180831-S3')
-#wolfrum <- readRDS('output/seurat_objects/wolfrum/wolfrum.compute.seurat_obj.rds')
-#wolfrum@meta.data['Dataset'] <- 'Wolfrum'
-#data_180831@meta.data['Dataset'] <- '10x-180831'
-#data_combined <- merge(data_180831, wolfrum)
-#data_combined <- NormalizeData(data_combined)
-#data_combined <- FindVariableFeatures(data_combined)
-#data_combined <- ScaleData(data_combined, split.by = "Dataset", do.center = FALSE)
-#data_combined <- RunPCA(data_combined)
-#liger <- RunOptimizeALS(data_combined, k = 10, lambda = 5, split.by = "Dataset")
-#liger <- RunQuantileAlignSNF(liger, split.by = "Dataset")
-#liger <- RunUMAP(liger, dims = 1:ncol(liger[["iNMF"]]), reduction = "iNMF")
-#saveRDS(liger, '/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/liger/liger_10x-180831_wolfrum_k10_lambda_5')
-
-load('output/liger/liger_10x-180831_suggestK_suggestLambda')
-plot_grid(
-  UMAPPlot(liger, group.by='branch'),
-  UMAPPlot(liger, group.by='RNA_snn_res.0.8', label=T),
-  UMAPPlot(liger, group.by='Dataset'), ncol=2
-)
-```
-
-Running liger with the parameters from the tutorials doesn't generate good results. Run suggestK and suggestLambda to find the optimal k and lambda values. 
-
-```{r}
-#SUGGEST K
-#liger_object <- seuratToLiger(liger, combined.seurat=T, meta.var='Dataset', names='use-meta')
-#liger_object <- normalize(liger_object)
-#liger_object <- selectGenes(liger_object, var.thresh = 0.1)
-#liger_object <- scaleNotCenter(liger_object)
-#k <- suggestK(liger_object)
-# [1] "This operation may take several minutes depending on number of values being tested"
-# [1] "Preprocessing for rep 1: optimizing initial factorization with largest test k=50"
-#   |===============================================================================================| 100%
-# Finished in 49.14723 mins, 13 iterations.
-# Max iterations: 100.
-# Convergence loss: 8.459941e-05.
-# Best results with seed 1.
-# [1] "Progress now represents completed factorizations (out of total number of k values)"
-#   |===============================================================================================| 100%
-# 
-# Completed in: 7.32717330111398 hours
-
-#SUGGEST LAMBDA
-#lambda <- suggestLambda(liger_object, k=10)
-#[1] "This operation may take several minutes depending on number of values being tested"
-#[1] "Preprocessing for rep 1: optimizing initial factorization with smallest test lambda=0.25"
-#  |===========================================================================================================================================| 100%
-#Finished in 53.38226 mins, 19 iterations.
-#Max iterations: 100.
-#Convergence loss: 9.403044e-05.
-#Best results with seed 1.
-#[1] "Progress now represents completed factorizations (out of total number of lambda values)"
-#  |===========================================================================================================================================| 100%
-
-#Completed in: 10.6625985432996 hours
-```
-
-```{r, fig.height = 3, fig.width = 7, fig.align = "center"}
-plot_grid(
-  k, lambda, ncol=2
-)
-```
-
-K=10/15, lambda=10?
-
-```{r}
-liger_k10_lambda10 <- readRDS('output/liger/liger_10x-180831_wolfrum_k10_lambda_10')
-liger_k15_lambda10 <- readRDS('output/liger/liger_10x-180831_wolfrum_k15_lambda_10')
-liger_k10_lambda35 <- readRDS('output/liger/liger_10x-180831_wolfrum_k10_lambda_35')
-liger_k10_lambda5 <- readRDS('output/liger/liger_10x-180831_wolfrum_k10_lambda_5')
-```
-
-```{r, fig.height = 10, fig.width = 12, fig.align = "center"}
-liger_k10_lambda10 <- merge_wolfrum_180831_clusters(liger_k10_lambda10, 'RNA_snn_res.0.8')
-liger_k15_lambda10 <- merge_wolfrum_180831_clusters(liger_k15_lambda10, 'RNA_snn_res.0.8')
-liger_k10_lambda35 <- merge_wolfrum_180831_clusters(liger_k10_lambda35, 'RNA_snn_res.0.8')
-liger_k10_lambda5 <- merge_wolfrum_180831_clusters(liger_k10_lambda5, 'RNA_snn_res.0.8')
-
-plot_grid(
-  UMAPPlot(liger_k10_lambda10, group.by='filtered_clusters', label=T),
-  UMAPPlot(liger_k15_lambda10, group.by='filtered_clusters', label=T),
-  UMAPPlot(liger_k10_lambda35, group.by='filtered_clusters', label=T),
-  UMAPPlot(liger_k10_lambda5, group.by='filtered_clusters', label=T),
-  ncol=2
-)
-```
-
-# Harmony integration
-
-```{r}
-#harmony <- RunHarmony(data_combined, "Dataset", plot_convergence =TRUE)
-#harmony <- RunUMAP(harmony, reduction='harmony', dims=1:20)
-harmony <- readRDS('output/seurat_objects/wolfrum/wolfrum.180831.harmony_default_integration')
-```
-
-```{r, fig.height = 10, fig.width = 12, fig.align = "center"}
-plot_grid(
-  DimPlot(harmony, reduction='umap', group.by='Dataset'),
-  DimPlot(harmony, reduction='umap', group.by='RNA_snn_res.0.8', label=T),
-  DimPlot(harmony, reduction='umap', group.by='branch'), ncol=2
-)
-```
-
-```{r}
-harmony@meta.data['branch_labels_integrated'] <- wolfrum.predicted_labels@meta.data$predictions_pca.predicted_label.0.9[match(rownames(harmony@meta.data), rownames(wolfrum.predicted_labels@meta.data))]
-harmony@meta.data['branch_labels_integrated'] <- unlist(lapply(harmony@meta.data$branch_labels_integrated, function(x){
-  if (is.na(x)){
-    return('Non-matching cells')
-  } else {
-      if (x == 'Progenitor'){
-        return('Seurat predicted match to P')
-      } else if (x == 'Metabolic') {
-        return('Seurat predicted match to U')
-      } else if (x == 'ECM') {
-        return('Seurat predicted match to L')
-      } else {
-        return('Non-matching cells')
-      }
-  }
-}))
-
-harmony@meta.data$branch_labels_integrated[match(rownames(data_180831@meta.data), rownames(harmony@meta.data))] <- data_180831@meta.data$State.labels
-```
-
-
-```{r, fig.height = 5, fig.width = 7, fig.align = "center"}
-colormap <- c(
-  P='#ecdd83',
-  U='#e27268',
-  L='#93c8bc',
-  'Seurat predicted match to P'='#b7a333',
-  'Seurat predicted match to U'='#af4f48',
-  'Seurat predicted match to L'='#4f8579',
-  'Non-matching cells'='#b6b6b6'
-)
-# 
-# colormap <- c(
-#   P='#ecdd83',
-#   U='#e27268',
-#   L='#93c8bc',
-#   'Seurat predicted match to P'='#fc595d',
-#   'Seurat predicted match to U'='#6789ce',
-#   'Seurat predicted match to L'='#e295bc',
-#   'Non-matching cells'='#b6b6b6'
-# )
-
-harmony@meta.data$branch_labels_integrated <- factor(harmony@meta.data$branch_labels_integrated, levels = c('P', 'U', 'L', 'Seurat predicted match to P', 'Seurat predicted match to U', 'Seurat predicted match to L', 'Non-matching cells'))
-
-
-DimPlot(harmony, reduction='umap', group.by='branch_labels_integrated', cols=colormap) + NoAxes()
-```
-
-
 
 # Figures
 
-```{r, fig.height = 5, fig.width = 7, fig.align = "center"}
-harmony_180831 <- DimPlot(harmony, reduction='umap', group.by='branch_labels_integrated', cols=colormap) + NoAxes()
-harmony_180831_vf <- AugmentPlot(harmony_180831, width=7, height=5)
-#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_branch-labels.vf.pdf", harmony_180831_vf, base_width=5, base_height=5)
-#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_branch-labels.pdf", harmony_180831, base_width=7, base_height=5)
-harmony_180831
-```
-
-```{r, fig.height = 5, fig.width = 12, fig.align = "center"}
-harmony_180831_split_by_source <- DimPlot(harmony, reduction='umap', group.by='branch_labels_integrated', cols=colormap, split.by='Dataset') 
-harmony_180831_split_by_source_vf <- AugmentPlot(harmony_180831_split_by_source, width=12, height=5)
-#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_branch-labels.split-dataset.vf.pdf", harmony_180831_split_by_source_vf, base_width=9, base_height=5)
-#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_branch-labels.split-dataset.pdf", harmony_180831_split_by_source, base_width=12, base_height=5)
-harmony_180831_split_by_source
-```
-
-
-```{r, fig.height = 5, fig.width = 7, fig.align = "center"}
-harmony_180831 <- DimPlot(harmony, reduction='umap', group.by='Dataset') + NoAxes()
-harmony_180831_vf <- AugmentPlot(harmony_180831, width=7, height=5)
-#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_dataset.vf.pdf", harmony_180831_vf, base_width=5, base_height=5)
-#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_dataset.pdf", harmony_180831, base_width=7, base_height=5)
-harmony_180831
-```
-
-```{r, fig.height = 4, fig.width = 6, fig.align = "center"}
-
-labels <- unlist(lapply(wolfrum.predicted_labels@meta.data$predictions_pca.predicted_label.0.7, function(x){
-  if (is.na(x)){
-    return('Non-matching cells')
-  } else if(x == 'ECM'){
-    return('L')
-  } else if(x == 'Metabolic'){
-    return('U')
-  } else if (x == 'Progenitor'){
-    return('P')
-  }
-}))
-
-wolfrum.predicted_labels@meta.data['predictions_pca.predicted_label.0.7_labels'] <- labels
-
-wolfrum.predicted_labels@meta.data['predictions_pca.predicted_label.0.7_labels'] <- factor(wolfrum.predicted_labels@meta.data$predictions_pca.predicted_label.0.7_labels, levels = c("P", "L", "U", 'Non-matching cells'))
-```
-
-```{r, fig.height = 5, fig.width = 8, fig.align = "center"}
-colormap.branches <- c(
-  P="#ecdd83",
-  U="#e27268",
-  L="#93c8bc",
-  'Non-matching cells'='#7a7a7a')
-
-p_predictions <- UMAPPlot(wolfrum.predicted_labels, group.by='predictions_pca.predicted_label.0.7_labels', cols=colormap.branches) + NoAxes() + theme(legend.text=element_text(size=12), legend.key.height=unit(0.4, 'cm'), axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), plot.margin=grid::unit(c(0,0,0,0), "mm")) + labs(color='Seurat prediction')
-p_predictions
-```
-
 ```{r}
-#save_plot("figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_predicted-labels_180831.pdf", p_predictions, base_width=8, base_height=5)
-```
+adipoq <- FeaturePlot(wolfrum, features='ADIPOQ') + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
 
-```{r, fig.height = 5, fig.width = 6.5, fig.align = "center"}
-p_clusters <- UMAPPlot(wolfrum.predicted_labels, group.by='RNA_snn_res.0.8', label=T) + NoAxes() + theme(legend.position = "none", axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), plot.margin=grid::unit(c(0,0,0,0), "mm"))
-p_clusters
-```
+lipe <- FeaturePlot(wolfrum, features='LIPE') + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
 
-```{r}
-#save_plot("figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_clusters.pdf", p_clusters, base_width=6, base_height=5)
-```
+apod <- FeaturePlot(wolfrum, features='APOD') + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
 
-```{r}
-#featureplots
-#widht=13
-#ucp2_fp <- featureplots_leg$UCP2 + scale_color_gradient(name='Expression', low='gray', #high='blue', guide='colorbar', limits=c(0,5)) + theme(plot.title=element_blank(), #legend.title=element_text(size=20), legend.text=element_text(size=20), legend.key.height = #unit(1.3, 'cm'))
-
-
-#dcn_fp <- featureplots_noleg$DCN + theme(plot.title=element_blank())
-
-adipoq <- FeaturePlot(wolfrum.predicted_labels, features='ADIPOQ') + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
-
-lipe <- FeaturePlot(wolfrum.predicted_labels, features='LIPE') + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
-
-apod <- FeaturePlot(wolfrum.predicted_labels, features='APOD') + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
-
-dcn <- FeaturePlot(wolfrum.predicted_labels, features='DCN') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5)) 
-
+dcn <- FeaturePlot(wolfrum, features='DCN') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5)) 
 ```
 
 ```{r, fig.height = 4, fig.width = 16, fig.align = "center"}
@@ -579,28 +222,29 @@ g
 ```
 
 ```{r}
-#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/featureplots.pdf", g, base_width=16, base_height=4)
+save_plot("figures/figures_paper/main_figures/Figure_wolfrum/featureplots.pdf", g, base_width=16, base_height=4)
 ```
 
 EBF2 and LEP
 
-```{r}
-ebf2 <- FeaturePlot(wolfrum.predicted_labels, features='EBF2') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
+```{r, fig.height = 4, fig.width = 12, fig.align = "center"}
+ebf2 <- FeaturePlot(wolfrum, features='EBF2') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
 
-pparg <- FeaturePlot(wolfrum.predicted_labels, features='PPARG') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
+pparg <- FeaturePlot(wolfrum, features='PPARG') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
 
-lep <- FeaturePlot(wolfrum.predicted_labels, features='LEP') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
+lep <- FeaturePlot(wolfrum, features='LEP') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
 
-ucp1 <- FeaturePlot(wolfrum.predicted_labels, features='UCP1') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
+ucp1 <- FeaturePlot(wolfrum, features='UCP1') + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=20), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar') 
 
-ebf2vln <- VlnPlot(wolfrum.predicted_labels, features='EBF2', group.by='RNA_snn_res.0.8', pt.size=-1) + NoLegend()
+ebf2vln <- VlnPlot(wolfrum, features='EBF2', group.by='RNA_snn_res.0.8', pt.size=-1) + NoLegend()
 
-lepvln <- VlnPlot(wolfrum.predicted_labels, features='LEP', group.by='RNA_snn_res.0.8', pt.size=0.1) + NoLegend()
+lepvln <- VlnPlot(wolfrum, features='LEP', group.by='RNA_snn_res.0.8', pt.size=0.1) + NoLegend()
 
-ucp1vln <- VlnPlot(wolfrum.predicted_labels, features='UCP1', group.by='RNA_snn_res.0.8', pt.size=0.1) + NoLegend()
+ucp1vln <- VlnPlot(wolfrum, features='UCP1', group.by='RNA_snn_res.0.8', pt.size=0.1) + NoLegend()
 
-ppargvln <- VlnPlot(wolfrum.predicted_labels, features='PPARG', group.by='RNA_snn_res.0.8', pt.size=0.1) + NoLegend()
+ppargvln <- VlnPlot(wolfrum, features='PPARG', group.by='RNA_snn_res.0.8', pt.size=0.1) + NoLegend()
 
+plot_grid(ebf2vln, lepvln, ucp1vln, ppargvln, ncol=2)
 ```
 
 ```{r}
@@ -620,11 +264,11 @@ ppargvln <- VlnPlot(wolfrum.predicted_labels, features='PPARG', group.by='RNA_sn
 
 
 ```{r}
-UMAPPlot(wolfrum.predicted_labels, label=T, group.by='RNA_snn_res.0.8') 
+UMAPPlot(wolfrum, label=T, group.by='RNA_snn_res.0.8') 
 ```
 
 ```{r, fig.height = 6, fig.width = 12, fig.align = "center"}
-VlnPlot(wolfrum.predicted_labels, features=c('EBF2', 'PPARG'), group.by='RNA_snn_res.0.8', pt.size=-1, ncol=1)
+VlnPlot(wolfrum, features=c('EBF2', 'PPARG'), group.by='RNA_snn_res.0.8', pt.size=-1, ncol=1)
 ```
 
 
@@ -633,7 +277,7 @@ VlnPlot(wolfrum.predicted_labels, features=c('EBF2', 'PPARG'), group.by='RNA_snn
 #PPARG: 5, 14, 23
 #EBF2: 10, 11, 21, 23
 
-new_labels <- unlist(lapply(wolfrum.predicted_labels@meta.data$RNA_snn_res.0.8, function(x){
+new_labels <- unlist(lapply(wolfrum@meta.data$RNA_snn_res.0.8, function(x){
   if (x %in% c(5, 14, 23, 10, 11, 21, 23)){
     return(x)
   } else {
@@ -641,20 +285,20 @@ new_labels <- unlist(lapply(wolfrum.predicted_labels@meta.data$RNA_snn_res.0.8, 
   }
 }))
 
-wolfrum.predicted_labels@meta.data['labels_clusters_preadipocytes'] <- new_labels
-p <- UMAPPlot(wolfrum.predicted_labels, group.by='labels_clusters_preadipocytes', label=T) + theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), plot.margin=grid::unit(c(0,0,0,0), "mm")) + NoLegend()
+wolfrum@meta.data['labels_clusters_preadipocytes'] <- new_labels
+p <- UMAPPlot(wolfrum, group.by='labels_clusters_preadipocytes', label=T) + theme(axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), plot.margin=grid::unit(c(0,0,0,0), "mm")) + NoLegend()
 p
 ```
 
 ```{r}
-#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_adipocyte_clusters2.pdf", p, base_width=6, base_height=5)
+save_plot("figures/figures_paper/main_figures/Figure_wolfrum/UMAP_adipocyte_clusters2.pdf", p, base_width=6, base_height=5)
 ```
 
 
 ```{r, fig.height = 4, fig.width = 8.5, fig.align = "center"}
-ebf2 <- FeaturePlot(wolfrum.predicted_labels, features='EBF2', pt.size=0.5) + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
+ebf2 <- FeaturePlot(wolfrum, features='EBF2', pt.size=0.5) + NoLegend() + NoAxes() + theme(plot.title = element_text(size=20)) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5))
 
-pparg <- FeaturePlot(wolfrum.predicted_labels, features='PPARG', pt.size=0.5) + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=15), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5)) 
+pparg <- FeaturePlot(wolfrum, features='PPARG', pt.size=0.5) + NoAxes() + theme(plot.title = element_text(size=20), legend.text=element_text(size=15), legend.key.height = unit(1.3, 'cm')) + scale_color_gradient(name='Expression', low='gray', high='blue', guide='colorbar', limits=c(0,5)) 
 
 g <- plot_grid(
   ebf2, pparg, ncol=2, rel_widths = c(1, 1.3)
@@ -664,7 +308,7 @@ g
 ```
 
 ```{r}
-#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/EBF2_PPARG_ptsize0.5.pdf", g, base_width=8.5, base_height=4)
+save_plot("figures/figures_paper/main_figures/Figure_wolfrum/EBF2_PPARG_ptsize0.5.pdf", g, base_width=8.5, base_height=4)
 ```
 
 ```{r, fig.height = 4, fig.width = 8.5, fig.align = "center"}
@@ -683,96 +327,35 @@ g
 #save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/EBF2_PPARG_no-axes.pdf", g, base_width=8.5, base_height=4)
 ```
 
+```{r}
+data.180831.brown <- subset(data_180831, cells=rownames(data_180831@meta.data)[data_180831@meta.data$type == 'brown'])
+```
+
+
 ```{r, fig.height = 3, fig.width = 8.5, fig.align = "center"}
-#colors.states.labels <- c(
-#  P='#ecdd83',
-#  L='#93c8bc',
-#  U='#e27268')
+colors.states.labels <- c(
+  P='#ecdd83',
+  L='#93c8bc',
+  U='#e27268')
 
-#ebf2_vln_brown <- VlnPlot(data.180831.brown, features='EBF2', group.by='State.labels', pt.size=-1, cols=colors.states.labels) + NoLegend() + theme(axis.title = element_blank(), axis.text.x = element_text(angle = 0, size=15), plot.title = element_text(size=20), axis.text.y = element_text(size=15), plot.margin = unit(c(1.5,1.5,1.5,1.5), "lines"))  + scale_y_continuous(breaks=c(0, 1, 2))
+ebf2_vln_brown <- VlnPlot(data.180831.brown, features='EBF2', group.by='State.labels', pt.size=-1, cols=colors.states.labels) + NoLegend() + theme(axis.title = element_blank(), axis.text.x = element_text(angle = 0, size=15), plot.title = element_text(size=20), axis.text.y = element_text(size=15), plot.margin = unit(c(1.5,1.5,1.5,1.5), "lines"))  + scale_y_continuous(breaks=c(0, 1, 2))
 
-#pparg_vln_brown <- VlnPlot(data.180831.brown, features='PPARG', group.by='State.labels', pt.size=-1, cols=colors.states.labels) + NoLegend() + theme(axis.title = element_blank(), axis.text.x = element_text(angle = 0, size=15), plot.title = element_text(size=20), axis.text.y = element_text(size=15), plot.margin = unit(c(1.5,1.5,1.5,1.5), "lines")) + scale_y_continuous(breaks=c(0, 1, 2))
+pparg_vln_brown <- VlnPlot(data.180831.brown, features='PPARG', group.by='State.labels', pt.size=-1, cols=colors.states.labels) + NoLegend() + theme(axis.title = element_blank(), axis.text.x = element_text(angle = 0, size=15), plot.title = element_text(size=20), axis.text.y = element_text(size=15), plot.margin = unit(c(1.5,1.5,1.5,1.5), "lines")) + scale_y_continuous(breaks=c(0, 1, 2))
 
-#g <- plot_grid(
-#  pparg_vln_brown, ebf2_vln_brown, ncol=2
-#)
-
-#g
-
-```
-
-```{r}
-save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/EBF2_PPARG_brown_violinplots.pdf", g, base_width=8.5, base_height=3)
-```
-
-
-```{r, fig.height = 10, fig.width = 8.5, fig.align = "center"}
-# g <- plot_grid(
-#   VlnPlot(data.180831.brown.T4, features='EBF2', group.by='State.labels', pt.size=-1, cols=colors.states.labels) + NoLegend() + ggtitle('EBF2: Brown - T4'),
-#   VlnPlot(data.180831.brown.T5, features='EBF2', group.by='State.labels', pt.size=-1, cols=colors.states.labels) + NoLegend() + ggtitle('EBF2: Brown - T5'),
-#   VlnPlot(data.180831.brown.T4.peri, features='EBF2', group.by='State.labels', pt.size=-1, cols=colors.states.labels) + NoLegend() + ggtitle('EBF2: Peri - T4'),
-#   VlnPlot(data.180831.brown.T5.peri, features='EBF2', group.by='State.labels', pt.size=-1, cols=colors.states.labels) + NoLegend() + ggtitle('EBF2: Peri - T5'),
-#   VlnPlot(data.180831.brown.T4.supra, features='EBF2', group.by='State.labels', pt.size=-1, cols=colors.states.labels) + NoLegend() + ggtitle('EBF2: Supra - T4'),
-#   VlnPlot(data.180831.brown.T5.supra, features='EBF2', group.by='State.labels', pt.size=-1, cols=colors.states.labels) + NoLegend() + ggtitle('EBF2: Supra - T5'),
-#   ncol=2
-# )
-# 
-# g
-```
-
-```{r}
-# colors.deciles.gradient <- c(
-#         Progenitor_1 = '#ecdd83',
-#         Progenitor_2 = '#ecdd83',
-#         Progenitor_3 = '#ecdd83',
-#         Progenitor_4 = '#ecdd83',
-#         Progenitor_5 = '#ecdd83',
-#         Progenitor_6 = '#ecdd83',
-#         Progenitor_7 = '#ecdd83',
-#         Progenitor_8 = '#ecdd83',
-#         Progenitor_9 = '#ecdd83',
-#         Progenitor_10 = '#ecdd83',
-#         Metabolic_1 = '#e27268',
-#         Metabolic_2 = '#e27268',
-#         Metabolic_3 = '#e27268',
-#         Metabolic_4 = '#e27268',
-#         Metabolic_5 = '#e27268',
-#         Metabolic_6 = '#e27268',
-#         Metabolic_7 = '#e27268',
-#         Metabolic_8 = '#e27268',
-#         Metabolic_9 = '#e27268',
-#         Metabolic_10 = '#e27268',
-#         ECM_1 = '#93c8bc',
-#         ECM_2 = '#93c8bc',
-#         ECM_3 = '#93c8bc',
-#         ECM_4 = '#93c8bc',
-#         ECM_5 = '#93c8bc',
-#         ECM_6 = '#93c8bc',
-#         ECM_7 = '#93c8bc',
-#         ECM_8 = '#93c8bc',
-#         ECM_9 = '#93c8bc',
-#         ECM_10 = '#93c8bc'
-#)
-```
-
-```{r, fig.height = 10, fig.width = 8.5, fig.align = "center"}
-# g <- plot_grid(
-#   VlnPlot(data.180831.brown, features='EBF2', group.by='branch_high_res', pt.size=-1, cols=colors.deciles.gradient) + NoLegend() + ggtitle('EBF2: Brown'),
-#   VlnPlot(data.180831.peri, features='EBF2', group.by='branch_high_res', pt.size=-1, cols=colors.deciles.gradient) + NoLegend() + ggtitle('EBF2: Peri'),
-#   VlnPlot(data.180831.supra, features='EBF2', group.by='branch_high_res', pt.size=-1, cols=colors.deciles.gradient) + NoLegend() + ggtitle('EBF2: Supra'),
-#   ncol=1
-# )
+g <- plot_grid(
+  pparg_vln_brown, ebf2_vln_brown, ncol=2
+)
 
 g
+
 ```
 
 ```{r}
-#save_plot("figures/figures_paper/main_figures/Figure_wolfrum/ebf2_pseudotime_deciles.pdf", g, base_width=8.5, base_height=10)
+#save_plot("../figures/figures_paper/main_figures/Figure_wolfrum/EBF2_PPARG_brown_violinplots.pdf", g, base_width=8.5, base_height=3)
 ```
 
-
 ```{r, fig.height = 10, fig.width = 8, fig.align = "center"}
-plots <- VlnPlot(wolfrum.predicted_labels, features=c('ADIPOQ', 'LIPE', 'PLIN4', 'FABP4', 'ADIRF', 'APOD', 'MGP', 'DCN', 'CCDC80', 'PLAC9'), group.by='RNA_snn_res.0.8', pt.size=-1, combine=F)
+plots <- VlnPlot(wolfrum, features=c('ADIPOQ', 'LIPE', 'PLIN4', 'FABP4', 'ADIRF', 'APOD', 'MGP', 'DCN', 'CCDC80', 'PLAC9'), group.by='RNA_snn_res.0.8', pt.size=-1, combine=F)
 
 for (i in 1:length(plots)){
   if (i == length(plots)){
@@ -797,26 +380,5 @@ for (i in 1:length(plots)){
 
 vlnplts <- plot_grid(plotlist=plots, ncol=1, rel_heights=c(1,1,1,1,1,1,1,1,1,1.6))
 vlnplts
-```
-
-
-```{r}
-#save_plot("figures/figures_paper/main_figures/Figure_wolfrum/violinplots.pdf", p, base_width=6, base_height=8)
-```
-
-Supplementary figure
-
-```{r, fig.height = 8, fig.width = 12, fig.align = "center"}
-#integrated <- readRDS('output/seurat_objects/wolfrum/wolfrum.180831.integrated.rds')
-#sfig <- plot_grid(
-#  UMAPPlot(integrated, group.by='dataset'),
-#  UMAPPlot(integrated, group.by='State.labels', cols=colormap.branches),
-#  UMAPPlot(integrated, group.by='RNA_snn_res.0.8', label=T) + NoLegend(), ncol=2
-#)
-#sfig
-```
-
-```{r}
-#save_plot("figures/figures_paper/supplementary_figures/wolfrum/integration.wolfrum.180831.pdf", sfig, base_width=12, base_height=8)
 ```
 
