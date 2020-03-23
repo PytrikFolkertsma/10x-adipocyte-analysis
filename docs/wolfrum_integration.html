@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R Notebook</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">10x-adipocyte-analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="http://github.com/PytrikFolkertsma/10x-adipocyte-analysis">
+    <span class="fa fa-github"></span>
+     
+    Source
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Notebook</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-03-23
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>10x-adipocyte-analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div class="panel-group" id="workflowr-checks">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20181026code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20181026)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20181026code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20181026)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/seurat_objects/wolfrum/wolfrum.180831.integrated.rds
+</td>
+<td style="text-align:left;">
+output/seurat_objects/wolfrum/wolfrum.180831.integrated.rds
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreecfb1146d53b5368bf07959d0b45aeb2983587515targetblankcfb1146a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/tree/cfb1146d53b5368bf07959d0b45aeb2983587515" target="_blank">cfb1146</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcompytrikfolkertsma10xadipocyteanalysistreecfb1146d53b5368bf07959d0b45aeb2983587515targetblankcfb1146a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    analysis/figure/
+    Ignored:    code/.Rhistory
+    Ignored:    figures/
+    Ignored:    output/bulk_analysis/
+    Ignored:    output/demuxlet/
+    Ignored:    output/harmony/
+    Ignored:    output/liger/
+    Ignored:    output/markergenes/
+    Ignored:    output/monocle/
+    Ignored:    output/seurat_objects/
+    Ignored:    output/velocyto/
+    Ignored:    output/wgcna/
+    Ignored:    tables/
+
+Untracked files:
+    Untracked:  .rstudio_old10/
+    Untracked:  10x-adipocyte-analysis-copy.Rproj
+    Untracked:  analysis/.ipynb_checkpoints/10x-180831_harmony_palantir-checkpoint.ipynb
+    Untracked:  analysis/.ipynb_checkpoints/velocyto_notebook_180831-checkpoint.ipynb
+    Untracked:  analysis/wolfrum_integration.nb.html
+    Untracked:  analysis/wolfrum_liger.Rmd
+    Untracked:  analysis/wolfrum_liger.nb.html
+    Untracked:  code/BEAM-heatmaps.R
+    Untracked:  code/BEAM_gsea.R
+    Untracked:  code/__pycache__/
+    Untracked:  code/colors.R
+    Untracked:  code/convert_raw_data_to_csv_harmony.R
+    Untracked:  code/harmony.py
+    Untracked:  code/run_monocle_on_wolfrum180831.R
+    Untracked:  code/test.csv
+
+Unstaged changes:
+    Deleted:    10x-adipocyte-analysis.Rproj
+    Deleted:    analysis/velocyto_notebook_180504.ipynb
+    Deleted:    analysis/velocyto_notebook_180831.ipynb
+    Modified:   analysis/vijay_U-L-branch-markers.Rmd
+    Modified:   analysis/vijay_analysis.Rmd
+    Modified:   analysis/vijay_analysis.nb.html
+    Modified:   analysis/wolfrum-scmap.Rmd
+    Modified:   analysis/wolfrum_analysis.Rmd
+    Deleted:    code/REMOVE/find-brown-sample-markers-180504-REMOVE.R
+    Deleted:    code/REMOVE/find-white-sample-markers-180504-REMOVE.R
+    Deleted:    code/REMOVE/get-genes-monocle-180831-REMOVE.R
+    Modified:   code/compute-genelists-monocle-depots.R
+    Modified:   code/find-depot-markers-180504.R
+    Modified:   code/find-markers.R
+    Modified:   code/preprocess-data.R
+    Modified:   code/run-alignment.R
+    Modified:   code/run-monocle.R
+    Modified:   code/velocyto_preprocess.py
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/pytrikfolkertsma/10x-adipocyte-analysis/blob/cfb1146d53b5368bf07959d0b45aeb2983587515/analysis/wolfrum_integration.Rmd" target="_blank">cfb1146</a>
+</td>
+<td>
+Pytrik Folkertsma
+</td>
+<td>
+2020-03-23
+</td>
+<td>
+Moved integration to separate notebook
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>library(Seurat)
+library(SeuratWrappers)</code></pre>
+<pre><code>
+Attaching package: &#39;SeuratWrappers&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:Seurat&#39;:
+
+    ALRAChooseKPlot, RunALRA</code></pre>
+<pre class="r"><code>library(monocle)</code></pre>
+<pre><code>Loading required package: Matrix</code></pre>
+<pre><code>Loading required package: Biobase</code></pre>
+<pre><code>Loading required package: BiocGenerics</code></pre>
+<pre><code>Loading required package: parallel</code></pre>
+<pre><code>
+Attaching package: &#39;BiocGenerics&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:parallel&#39;:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB</code></pre>
+<pre><code>The following objects are masked from &#39;package:Matrix&#39;:
+
+    colMeans, colSums, rowMeans, rowSums, which</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    IQR, mad, sd, var, xtabs</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    anyDuplicated, append, as.data.frame, basename, cbind, colMeans,
+    colnames, colSums, dirname, do.call, duplicated, eval, evalq,
+    Filter, Find, get, grep, grepl, intersect, is.unsorted, lapply,
+    lengths, Map, mapply, match, mget, order, paste, pmax, pmax.int,
+    pmin, pmin.int, Position, rank, rbind, Reduce, rowMeans, rownames,
+    rowSums, sapply, setdiff, sort, table, tapply, union, unique,
+    unsplit, which, which.max, which.min</code></pre>
+<pre><code>Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    &#39;browseVignettes()&#39;. To cite Bioconductor, see
+    &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
+<pre><code>Loading required package: ggplot2</code></pre>
+<pre><code>Loading required package: VGAM</code></pre>
+<pre><code>Loading required package: stats4</code></pre>
+<pre><code>Loading required package: splines</code></pre>
+<pre><code>Loading required package: DDRTree</code></pre>
+<pre><code>Loading required package: irlba</code></pre>
+<pre class="r"><code>library(cowplot)</code></pre>
+<pre><code>
+********************************************************</code></pre>
+<pre><code>Note: As of version 1.0.0, cowplot does not change the</code></pre>
+<pre><code>  default ggplot2 theme anymore. To recover the previous</code></pre>
+<pre><code>  behavior, execute:
+  theme_set(theme_cowplot())</code></pre>
+<pre><code>********************************************************</code></pre>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>
+Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:Biobase&#39;:
+
+    combine</code></pre>
+<pre><code>The following objects are masked from &#39;package:BiocGenerics&#39;:
+
+    combine, intersect, setdiff, union</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(tidyr)</code></pre>
+<pre><code>
+Attaching package: &#39;tidyr&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:VGAM&#39;:
+
+    fill</code></pre>
+<pre><code>The following objects are masked from &#39;package:Matrix&#39;:
+
+    expand, pack, unpack</code></pre>
+<pre class="r"><code>library(knitr)
+library(kableExtra)</code></pre>
+<pre><code>
+Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:dplyr&#39;:
+
+    group_rows</code></pre>
+<pre class="r"><code>library(DT)</code></pre>
+<pre><code>
+Attaching package: &#39;DT&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:Seurat&#39;:
+
+    JS</code></pre>
+<pre class="r"><code>library(harmony)</code></pre>
+<pre><code>Loading required package: Rcpp</code></pre>
+<pre class="r"><code>data_180831 &lt;- readRDS(&#39;output/seurat_objects/180831/10x-180831-S3&#39;)</code></pre>
+<div id="seurat-integration" class="section level1">
+<h1>Seurat integration</h1>
+<div id="integrating-wolfrum-with-10x-180831-data" class="section level2">
+<h2>Integrating Wolfrum with 10x-180831 data</h2>
+<pre class="r"><code>#anchors &lt;- FindIntegrationAnchors(object.list = list(wolfrum, data_180831), dims = 1:20)
+#integrated &lt;- IntegrateData(anchorset = anchors, dims = 1:20)
+#saveRDS(integrated, &#39;/projects/pytrik/sc_adipose/analyze_10x_fluidigm/10x-adipocyte-analysis/output/seurat_objects/wolfrum/wolfrum.180831.integrated.rds&#39;)
+integrated &lt;- readRDS(&#39;output/seurat_objects/wolfrum/wolfrum.180831.integrated.rds&#39;)
+integrated@meta.data[&#39;dataset&#39;] &lt;- &#39;10x-180831&#39;
+integrated@meta.data[which(is.na(integrated@meta.data$branch)), &#39;dataset&#39;] &lt;- &#39;Wolfrum&#39;
+
+plot_grid(
+  UMAPPlot(integrated, group.by=&#39;dataset&#39;),
+  UMAPPlot(integrated, group.by=&#39;seurat_clusters&#39;, label=T),
+  UMAPPlot(integrated, group.by=&#39;branch&#39;), ncol=2
+)</code></pre>
+<pre><code>Warning: Using `as.character()` on a quosure is deprecated as of rlang 0.3.0.
+Please use `as_label()` or `as_name()` instead.
+This warning is displayed once per session.</code></pre>
+<p><img src="figure/wolfrum_integration.Rmd/unnamed-chunk-3-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>These results also confirm that the L branch is closest to cluster 11 and U is closest to the U branch.</p>
+</div>
+<div id="predict-cell-types-with-seurats-transferdata" class="section level2">
+<h2>Predict cell types with Seurat’s TransferData</h2>
+<pre class="r"><code>wolfrum.predicted_labels &lt;- readRDS(&#39;output/seurat_objects/wolfrum/wolfrum.predicted_labels_180831.rds&#39;)</code></pre>
+<p>Used pca as dimred for FindTransferAnchors and IntegrateData.</p>
+<pre class="r"><code>plot_grid(
+  FeaturePlot(wolfrum.predicted_labels, features=&#39;predictions_pca.prediction.score.Progenitor&#39;),
+  FeaturePlot(wolfrum.predicted_labels, features=&#39;predictions_pca.prediction.score.Metabolic&#39;),
+  FeaturePlot(wolfrum.predicted_labels, features=&#39;predictions_pca.prediction.score.ECM&#39;), ncol=2
+)</code></pre>
+<p><img src="figure/wolfrum_integration.Rmd/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>For all predictions, change predicted id to NA if max score is below a certain threshold.</p>
+<pre class="r"><code>assign_labels &lt;- function(colname, threshold=0.5){
+  pred_ids &lt;- unlist(as.vector(apply(wolfrum.predicted_labels@meta.data[,c(paste(colname,&#39;.prediction.score.max&#39;, sep=&#39;&#39;), paste(colname, &#39;.predicted.id&#39;, sep=&#39;&#39;))], 1, function(x){
+    if (x[[1]] &lt; threshold){
+      return(NA)
+    } else{
+      return(x[[2]])
+    }
+  })))
+  return(pred_ids)
+}
+
+for (col in c(&#39;predictions_pca&#39;)){
+  for (t in c(0.5, 0.7, 0.9, 0.95, 0.99)){
+    preds &lt;- assign_labels(col, t)
+    wolfrum.predicted_labels &lt;- AddMetaData(wolfrum.predicted_labels, preds, col.name=paste(col, &#39;predicted_label&#39;, t, sep=&#39;.&#39;))
+  }
+}</code></pre>
+<pre class="r"><code>plot_grid(
+  UMAPPlot(wolfrum.predicted_labels, group.by=&#39;predictions_pca.predicted_label.0.7&#39;) + ggtitle(&#39;threshold=0.7&#39;),
+  UMAPPlot(wolfrum.predicted_labels, group.by=&#39;predictions_pca.predicted_label.0.9&#39;) + ggtitle(&#39;threshold=0.9&#39;),
+  UMAPPlot(wolfrum.predicted_labels, group.by=&#39;predictions_pca.predicted_label.0.95&#39;) + ggtitle(&#39;threshold=0.95&#39;),
+  UMAPPlot(wolfrum.predicted_labels, group.by=&#39;predictions_pca.predicted_label.0.99&#39;) + ggtitle(&#39;threshold=0.99&#39;),
+  ncol=2
+)</code></pre>
+<p><img src="figure/wolfrum_integration.Rmd/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Color predictions in integrated dataset</p>
+<pre class="r"><code>integrated@meta.data[&#39;branch_labels_integrated&#39;] &lt;- wolfrum.predicted_labels@meta.data$predictions_pca.predicted_label.0.9[match(rownames(integrated@meta.data), rownames(wolfrum.predicted_labels@meta.data))]
+integrated@meta.data[&#39;branch_labels_integrated&#39;] &lt;- unlist(lapply(integrated@meta.data$branch_labels_integrated, function(x){
+  if (is.na(x)){
+    return(&#39;Non-matching cells&#39;)
+  } else {
+      if (x == &#39;Progenitor&#39;){
+        return(&#39;Seurat predicted match to P&#39;)
+      } else if (x == &#39;Metabolic&#39;) {
+        return(&#39;Seurat predicted match to U&#39;)
+      } else if (x == &#39;ECM&#39;) {
+        return(&#39;Seurat predicted match to L&#39;)
+      } else {
+        return(&#39;Non-matching cells&#39;)
+      }
+  }
+}))
+
+integrated@meta.data$branch_labels_integrated[match(rownames(data_180831@meta.data), rownames(integrated@meta.data))] &lt;- data_180831@meta.data$State.labels</code></pre>
+<pre class="r"><code>colormap &lt;- c(
+  P=&#39;#ecdd83&#39;,
+  U=&#39;#e27268&#39;,
+  L=&#39;#93c8bc&#39;,
+  &#39;Seurat predicted match to P&#39;=&#39;#b7a333&#39;,
+  &#39;Seurat predicted match to U&#39;=&#39;#af4f48&#39;,
+  &#39;Seurat predicted match to L&#39;=&#39;#4f8579&#39;,
+  &#39;Non-matching cells&#39;=&#39;#b6b6b6&#39;
+)
+
+
+integrated@meta.data$branch_labels_integrated &lt;- factor(integrated@meta.data$branch_labels_integrated, levels = c(&#39;P&#39;, &#39;U&#39;, &#39;L&#39;, &#39;Seurat predicted match to P&#39;, &#39;Seurat predicted match to U&#39;, &#39;Seurat predicted match to L&#39;, &#39;Non-matching cells&#39;))
+
+DimPlot(integrated, reduction=&#39;umap&#39;, group.by=&#39;branch_labels_integrated&#39;, cols=colormap) + NoAxes()</code></pre>
+<p><img src="figure/wolfrum_integration.Rmd/unnamed-chunk-9-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="harmony-integration" class="section level1">
+<h1>Harmony integration</h1>
+<pre class="r"><code>#harmony &lt;- RunHarmony(data_combined, &quot;Dataset&quot;, plot_convergence =TRUE)
+#harmony &lt;- RunUMAP(harmony, reduction=&#39;harmony&#39;, dims=1:20)
+harmony &lt;- readRDS(&#39;output/seurat_objects/wolfrum/wolfrum.180831.harmony_default_integration&#39;)</code></pre>
+<pre class="r"><code>plot_grid(
+  DimPlot(harmony, reduction=&#39;umap&#39;, group.by=&#39;Dataset&#39;),
+  DimPlot(harmony, reduction=&#39;umap&#39;, group.by=&#39;RNA_snn_res.0.8&#39;, label=T),
+  DimPlot(harmony, reduction=&#39;umap&#39;, group.by=&#39;branch&#39;), ncol=2
+)</code></pre>
+<p><img src="figure/wolfrum_integration.Rmd/unnamed-chunk-11-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>harmony@meta.data[&#39;branch_labels_integrated&#39;] &lt;- wolfrum.predicted_labels@meta.data$predictions_pca.predicted_label.0.9[match(rownames(harmony@meta.data), rownames(wolfrum.predicted_labels@meta.data))]
+harmony@meta.data[&#39;branch_labels_integrated&#39;] &lt;- unlist(lapply(harmony@meta.data$branch_labels_integrated, function(x){
+  if (is.na(x)){
+    return(&#39;Non-matching cells&#39;)
+  } else {
+      if (x == &#39;Progenitor&#39;){
+        return(&#39;Seurat predicted match to P&#39;)
+      } else if (x == &#39;Metabolic&#39;) {
+        return(&#39;Seurat predicted match to U&#39;)
+      } else if (x == &#39;ECM&#39;) {
+        return(&#39;Seurat predicted match to L&#39;)
+      } else {
+        return(&#39;Non-matching cells&#39;)
+      }
+  }
+}))
+
+harmony@meta.data$branch_labels_integrated[match(rownames(data_180831@meta.data), rownames(harmony@meta.data))] &lt;- data_180831@meta.data$State.labels</code></pre>
+<pre class="r"><code>colormap &lt;- c(
+  P=&#39;#ecdd83&#39;,
+  U=&#39;#e27268&#39;,
+  L=&#39;#93c8bc&#39;,
+  &#39;Seurat predicted match to P&#39;=&#39;#b7a333&#39;,
+  &#39;Seurat predicted match to U&#39;=&#39;#af4f48&#39;,
+  &#39;Seurat predicted match to L&#39;=&#39;#4f8579&#39;,
+  &#39;Non-matching cells&#39;=&#39;#b6b6b6&#39;
+)
+
+harmony@meta.data$branch_labels_integrated &lt;- factor(harmony@meta.data$branch_labels_integrated, levels = c(&#39;P&#39;, &#39;U&#39;, &#39;L&#39;, &#39;Seurat predicted match to P&#39;, &#39;Seurat predicted match to U&#39;, &#39;Seurat predicted match to L&#39;, &#39;Non-matching cells&#39;))
+
+DimPlot(harmony, reduction=&#39;umap&#39;, group.by=&#39;branch_labels_integrated&#39;, cols=colormap) + NoAxes()</code></pre>
+<p><img src="figure/wolfrum_integration.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>#Figures</p>
+<pre class="r"><code>harmony_180831 &lt;- DimPlot(harmony, reduction=&#39;umap&#39;, group.by=&#39;branch_labels_integrated&#39;, cols=colormap) + NoAxes()
+harmony_180831_vf &lt;- AugmentPlot(harmony_180831, width=7, height=5, dpi=500)
+#save_plot(&quot;../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_branch-labels.vf.pdf&quot;, harmony_180831_vf, base_width=5, base_height=5)
+#save_plot(&quot;../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_branch-labels.pdf&quot;, harmony_180831, base_width=7, base_height=5)
+harmony_180831</code></pre>
+<p><img src="figure/wolfrum_integration.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>harmony_180831_split_by_source &lt;- DimPlot(harmony, reduction=&#39;umap&#39;, group.by=&#39;branch_labels_integrated&#39;, cols=colormap, split.by=&#39;Dataset&#39;) 
+#harmony_180831_split_by_source_vf &lt;- lapply(X = harmony_180831_split_by_source, FUN = AugmentPlot)
+#save_plot(&quot;../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_branch-labels.split-dataset.pdf&quot;, harmony_180831_split_by_source, base_width=12, base_height=5)
+harmony_180831_split_by_source</code></pre>
+<p><img src="figure/wolfrum_integration.Rmd/unnamed-chunk-15-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>harmony_180831 &lt;- DimPlot(harmony, reduction=&#39;umap&#39;, group.by=&#39;Dataset&#39;) + NoAxes()
+harmony_180831_vf &lt;- AugmentPlot(harmony_180831, width=5, height=5, dpi=500)
+#save_plot(&quot;../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_dataset.vf.pdf&quot;, harmony_180831_vf, base_width=5, base_height=5)
+#save_plot(&quot;../figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_harmony_dataset.pdf&quot;, harmony_180831, base_width=7, base_height=5)
+harmony_180831</code></pre>
+<p><img src="figure/wolfrum_integration.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>labels &lt;- unlist(lapply(wolfrum.predicted_labels@meta.data$predictions_pca.predicted_label.0.7, function(x){
+  if (is.na(x)){
+    return(&#39;Non-matching cells&#39;)
+  } else if(x == &#39;ECM&#39;){
+    return(&#39;L&#39;)
+  } else if(x == &#39;Metabolic&#39;){
+    return(&#39;U&#39;)
+  } else if (x == &#39;Progenitor&#39;){
+    return(&#39;P&#39;)
+  }
+}))
+
+wolfrum.predicted_labels@meta.data[&#39;predictions_pca.predicted_label.0.7_labels&#39;] &lt;- labels
+
+wolfrum.predicted_labels@meta.data[&#39;predictions_pca.predicted_label.0.7_labels&#39;] &lt;- factor(wolfrum.predicted_labels@meta.data$predictions_pca.predicted_label.0.7_labels, levels = c(&quot;P&quot;, &quot;L&quot;, &quot;U&quot;, &#39;Non-matching cells&#39;))</code></pre>
+<pre class="r"><code>colormap.branches &lt;- c(
+  P=&quot;#ecdd83&quot;,
+  U=&quot;#e27268&quot;,
+  L=&quot;#93c8bc&quot;,
+  &#39;Non-matching cells&#39;=&#39;#7a7a7a&#39;)
+
+p_predictions &lt;- UMAPPlot(wolfrum.predicted_labels, group.by=&#39;predictions_pca.predicted_label.0.7_labels&#39;, cols=colormap.branches) + NoAxes() + theme(legend.text=element_text(size=12), legend.key.height=unit(0.4, &#39;cm&#39;), axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), plot.margin=grid::unit(c(0,0,0,0), &quot;mm&quot;)) + labs(color=&#39;Seurat prediction&#39;)
+p_predictions</code></pre>
+<p><img src="figure/wolfrum_integration.Rmd/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#save_plot(&quot;figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_predicted-labels_180831.pdf&quot;, p_predictions, base_width=8, base_height=5)</code></pre>
+<pre class="r"><code>p_clusters &lt;- UMAPPlot(wolfrum.predicted_labels, group.by=&#39;RNA_snn_res.0.8&#39;, label=T) + NoAxes() + theme(legend.position = &quot;none&quot;, axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), plot.margin=grid::unit(c(0,0,0,0), &quot;mm&quot;))
+p_clusters</code></pre>
+<p><img src="figure/wolfrum_integration.Rmd/unnamed-chunk-20-1.png" width="624" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#save_plot(&quot;figures/figures_paper/main_figures/Figure_wolfrum/UMAP_wolfrum_clusters.pdf&quot;, p_clusters, base_width=6, base_height=5)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.3 (2019-03-11)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Storage
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.3.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+ [1] splines   stats4    parallel  stats     graphics  grDevices utils    
+ [8] datasets  methods   base     
+
+other attached packages:
+ [1] harmony_1.0          Rcpp_1.0.3           DT_0.12             
+ [4] kableExtra_1.1.0     knitr_1.28           tidyr_1.0.2         
+ [7] dplyr_0.8.5          cowplot_1.0.0        monocle_2.10.1      
+[10] DDRTree_0.1.5        irlba_2.3.3          VGAM_1.1-2          
+[13] ggplot2_3.3.0        Biobase_2.42.0       BiocGenerics_0.28.0 
+[16] Matrix_1.2-18        SeuratWrappers_0.1.0 Seurat_3.1.4        
+[19] workflowr_1.6.0     
+
+loaded via a namespace (and not attached):
+  [1] backports_1.1.5      sn_1.5-5             plyr_1.8.6          
+  [4] igraph_1.2.4.2       lazyeval_0.2.2       densityClust_0.3    
+  [7] listenv_0.8.0        fastICA_1.2-2        TH.data_1.0-10      
+ [10] digest_0.6.25        htmltools_0.4.0      viridis_0.5.1       
+ [13] gdata_2.18.0         magrittr_1.5         cluster_2.1.0       
+ [16] ROCR_1.0-7           limma_3.38.3         remotes_2.1.1       
+ [19] readr_1.3.1          globals_0.12.5       RcppParallel_4.4.4  
+ [22] matrixStats_0.55.0   docopt_0.6.1         sandwich_2.5-1      
+ [25] colorspace_1.4-1     rvest_0.3.5          rappdirs_0.3.1      
+ [28] ggrepel_0.8.2        xfun_0.12            sparsesvd_0.2       
+ [31] crayon_1.3.4         jsonlite_1.6.1       survival_3.1-11     
+ [34] zoo_1.8-7            ape_5.3              glue_1.3.1          
+ [37] gtable_0.3.0         webshot_0.5.2        leiden_0.3.3        
+ [40] future.apply_1.4.0   scales_1.1.0         pheatmap_1.0.12     
+ [43] mvtnorm_1.1-0        bibtex_0.4.2.2       metap_1.3           
+ [46] plotrix_3.7-7        viridisLite_0.3.0    reticulate_1.14     
+ [49] rsvd_1.0.3           tsne_0.1-3           htmlwidgets_1.5.1   
+ [52] httr_1.4.1           FNN_1.1.3            gplots_3.0.3        
+ [55] RColorBrewer_1.1-2   TFisher_0.2.0        ica_1.0-2           
+ [58] farver_2.0.3         pkgconfig_2.0.3      uwot_0.1.5          
+ [61] labeling_0.3         tidyselect_1.0.0     rlang_0.4.5         
+ [64] reshape2_1.4.3       later_1.0.0          munsell_0.5.0       
+ [67] tools_3.5.3          ggridges_0.5.2       evaluate_0.14       
+ [70] stringr_1.4.0        yaml_2.2.1           npsurv_0.4-0        
+ [73] fs_1.3.2             fitdistrplus_1.0-14  caTools_1.17.1.2    
+ [76] purrr_0.3.3          RANN_2.6.1           pbapply_1.4-2       
+ [79] future_1.16.0        nlme_3.1-140         whisker_0.4         
+ [82] slam_0.1-47          xml2_1.2.2           rstudioapi_0.11     
+ [85] compiler_3.5.3       plotly_4.9.2         png_0.1-7           
+ [88] lsei_1.2-0           tibble_2.1.3         stringi_1.4.6       
+ [91] highr_0.8            lattice_0.20-38      HSMMSingleCell_1.2.0
+ [94] multtest_2.38.0      vctrs_0.2.4          mutoss_0.1-12       
+ [97] pillar_1.4.3         lifecycle_0.2.0      BiocManager_1.30.10 
+[100] combinat_0.0-8       Rdpack_0.11-1        lmtest_0.9-37       
+[103] RcppAnnoy_0.0.15     data.table_1.12.8    bitops_1.0-6        
+[106] gbRd_0.4-11          httpuv_1.5.2         patchwork_1.0.0.9000
+[109] R6_2.4.1             promises_1.1.0       KernSmooth_2.23-15  
+[112] gridExtra_2.3        codetools_0.2-16     MASS_7.3-51.4       
+[115] gtools_3.8.1         assertthat_0.2.1     rprojroot_1.3-2     
+[118] withr_2.1.2          qlcMatrix_0.9.7      sctransform_0.2.1   
+[121] mnormt_1.5-6         multcomp_1.4-12      hms_0.5.3           
+[124] grid_3.5.3           rmarkdown_2.1        Rtsne_0.15          
+[127] git2r_0.26.1         numDeriv_2016.8-1.1 </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
